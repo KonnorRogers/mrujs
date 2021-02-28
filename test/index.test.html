@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Demo</title>
+    <meta name="csrf-param" content="authenticity_token">
+    <meta name="csrf-token" content="1234">
+  </head>
+
+  <body>
+    <script type="module">
+      import { runTests } from '@web/test-runner-mocha';
+
+      runTests(async () => {
+        await import('./index.test.js');
+      });
+    </script>
+  </body>
+</html>

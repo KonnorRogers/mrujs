@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Demo</title>
+    <meta name="csrf-param" content="authenticity_token">
+    <meta name="csrf-token" content="1234">
+    <script type="module">
+      import mrujs from '../src/index.js';
+      mrujs.start();
+    </script>
+  </head>
+  <body>
+    <form
+      data-testid="GET-200"
+      method="GET"
+      action="/demo/index.html"
+      data-remote="true"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">GET 200</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" data-disable-with="Submitting..." />
+    </form>
+
+    <form data-testid="GET-404" method="GET" action="/get" data-remote="true">
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">GET 404</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form
+      data-testid="POST-200"
+      method="POST"
+      action="/demo/index.html"
+      data-remote="true"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">POST-200</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form data-testid="POST-404" method="POST" action="/post" data-remote="true">
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">POST-404</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form
+      data-testid="HEAD-200"
+      method="HEAD"
+      action="/demo/index.html"
+      data-remote="true"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">HEAD 200</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form
+      data-testid="HEAD-404"
+      method="HEAD"
+      action="/head"
+      data-remote="true"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">HEAD 404</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>

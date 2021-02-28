@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Demo</title>
+    <meta name="csrf-param" content="authenticity_token">
+    <meta name="csrf-token" content="1234">
+  </head>
+
+  <body>
+    <form
+      data-testid="REMOTE-DISABLED"
+      method="GET"
+      action="/demo/index.html"
+      data-remote="false"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">REMOTE DISABLED</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form
+      data-testid="GET-200"
+      method="GET"
+      action="/demo/index.html"
+      data-remote="true"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">GET 200</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <form data-testid="GET-404" method="GET" action="/404" data-remote="true">
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">GET 404</label>
+      <input type="text" name="user[name]" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <script type="module">
+      import { runTests } from '@web/test-runner-mocha';
+
+      runTests(async () => {
+        await import('./ajaxFormEvents.test.js');
+        await import('./ajaxFetchEvents.test.js');
+      });
+    </script>
+  </body>
+</html>
