@@ -1,0 +1,27 @@
+{
+  "include": ["./src", "./test"],
+  "exclude": ["./dist"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": ["es6", "dom", "dom.iterable"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2020",
+
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  }
+}
