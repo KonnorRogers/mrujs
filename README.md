@@ -3,6 +3,16 @@
 To provide a Rails-UJS alternative since Rails UJS is currently
 deprecated. Uses modern javascript instead of coffeescript.
 
+What does mrujs mean? 
+
+Modern Rails UJS.
+
+Will this repo support `.js.erb`
+
+No, it presents many security concerns and 
+I have no plans to support it, however, it *should* work if you set
+the `data-response` to equal `javascript`
+
 ## Getting Started
 
 1. Install `mrujs`
