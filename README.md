@@ -3,15 +3,17 @@
 To provide a Rails-UJS alternative since Rails UJS is currently
 deprecated. Uses modern javascript instead of coffeescript.
 
-What does mrujs mean? 
+
+## What does mrujs mean? 
 
 Modern Rails UJS.
 
-Will this repo support `.js.erb`
+## Does this support `.js.erb`
 
-No, it presents many security concerns and 
-I have no plans to support it, however, it *should* work if you set
-the `data-response` to equal `javascript`
+No. Rails 6.1+ requires a change in the content-security policy in relation to running
+arbitrary javascript scripts which means `.js.erb` is not supported. 
+`.js.erb` is a security concern, and also requires a lot of `nonce` code generation and checks to work properly.
+
 
 ## Getting Started
 
@@ -28,8 +30,8 @@ yarn add mrujs
 
 // ... other stuff
 
-import Mrujs from "../src/index.js";
-Mrujs.start();
+import { Mrujs } from "mrujs";
+window.mrujs = new Mrujs().start();
 ```
 
 3. Using on a form
@@ -48,8 +50,10 @@ Mrujs.start();
 If you would like to stop Mrujs, feel free to do the following:
 
 ```js
-mrujs.stop();
+window.mrujs.stop();
 ```
+
+This will remove all mutation observers and event listeners.
 
 ## Ajax
 
@@ -145,6 +149,7 @@ document.querySelector("form").addEventListener("ajax:before", (event) => {
 
 ```
 
+`ajax:send` is a special case and must be aborted.
 </details>
 
 ### Fetch
@@ -270,6 +275,7 @@ replacement)
 - [ ] - Allow the use of `data-confirm=""`
 - [ ] - Provide a confirm dialog for `data-confirm`
 - [ ] - Allow users to provide their own confirm function to `data-confirm`
+- [ ] - Allow `ajax:send` to be cancelled via abort controllers.
 
 <details>
 <summary> Example of `data-confirm` </summary>

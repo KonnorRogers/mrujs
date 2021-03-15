@@ -1,12 +1,17 @@
-import { playwrightLauncher } from '@web/test-runner-playwright';
+import { playwrightLauncher } from '@web/test-runner-playwright'
+import { esbuildPlugin } from '@web/dev-server-esbuild'
 
-export default /** @type {import('@web/test-runner').DevServerConfig} */ ({
+export default ({
   files: 'test/**/*.test.html',
   browsers: [
     playwrightLauncher({ product: 'chromium' }),
     playwrightLauncher({ product: 'webkit' }),
-    playwrightLauncher({ product: 'firefox' }),
+    playwrightLauncher({ product: 'firefox' })
   ],
   nodeResolve: true,
-  rootDir: "."
+  rootDir: '.',
+
+  plugins: [
+    esbuildPlugin({ ts: true })
+  ]
 })

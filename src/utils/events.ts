@@ -1,18 +1,20 @@
 export const EVENT_DEFAULTS = {
   bubbles: true,
-  cancelable: true,
-};
+  cancelable: true
+}
 
 /**
  * Thin wrapper around element.dispatchEvent and new CustomEvent
- * @param {string} name - The name of the event
- * @param {object} options - Any options you can pass to CustomEvent
  */
-export function dispatch(name, options = {}) {
-  this.dispatchEvent(new CustomEvent(name, options));
+export function dispatch (this: HTMLElement, name: string, options: CustomEventInit | undefined): void {
+  if (options == null) {
+    options = {}
+  }
+
+  this.dispatchEvent(new CustomEvent(name, options))
 }
 
-const prefix = 'ajax';
+const prefix = 'ajax'
 
 export const AJAX_EVENTS = {
   /**
@@ -51,7 +53,7 @@ export const AJAX_EVENTS = {
    * After any fetch request, regardless of outcome
    * Does not have any accessible data besides the event itself
    */
-  ajaxComplete: `${prefix}:complete`,
+  ajaxComplete: `${prefix}:complete`
 
   // NOT CURRENTLY IMPLEMENTED
   // /**
@@ -63,4 +65,4 @@ export const AJAX_EVENTS = {
   //  * if there are non-blank input:file fields in a form, aborts if stopped
   //  */
   // ajaxAbortedFile: `${prefix}:aborted:file`
-};
+}
