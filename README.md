@@ -3,11 +3,17 @@
 To provide a Rails-UJS alternative since Rails UJS is currently
 deprecated. Uses modern javascript instead of coffeescript.
 
+
+## What does mrujs mean? 
+
+Modern Rails UJS.
+
 ## Does this support `.js.erb`
 
-No. Rails 6.1+ requires a change in the content-security policy which
-means `.js.erb` is not supported. `.js.erb` is a security concern, and
-also requires a lot of `nonce` code generation to work properly.
+No. Rails 6.1+ requires a change in the content-security policy in relation to running
+arbitrary javascript scripts which means `.js.erb` is not supported. 
+`.js.erb` is a security concern, and also requires a lot of `nonce` code generation and checks to work properly.
+
 
 ## Getting Started
 
