@@ -18,7 +18,7 @@ describe('Csrf', () => {
     const authenticityInputs = document.querySelectorAll("form input[name='authenticity_token']")
     assert.equal(authenticityInputs.length, 2)
     authenticityInputs.forEach((el) => {
-      assert.equal(el.value, '1234')
+      assert.equal((el as HTMLInputElement).value, '1234')
     })
   })
 })

@@ -16,19 +16,19 @@ export class Csrf {
     }
   }
 
-  connect () {
+  connect (): void {
     // install the observer, then refresh.
     this.observer.observe(document, this.observerOptions)
     this.refresh()
   }
 
-  disconnect () {
+  disconnect (): void {
     this.observer.disconnect()
   }
 
   // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
-  refresh () {
-    if (this.token && this.param) {
+  refresh (): void {
+    if (this.token != null && this.param != null) {
       document
         .querySelectorAll(`form input[name="${this.param}"]`)
         .forEach(input => {
@@ -38,7 +38,7 @@ export class Csrf {
     }
   }
 
-  observerCallback (mutations: MutationRecord[]) {
+  observerCallback (mutations: MutationRecord[]): void {
     for (const mutation of mutations) {
       // If a new csrf-token is added, lets update the token and refresh all form elements.
       if (mutation.type === 'childList') {
@@ -67,23 +67,23 @@ export class Csrf {
 
   // Up-to-date Cross-Site Request Forgery token
   get token (): string {
-    const token = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
+    const token = document.querySelector('meta[name="csrf-token"]')
 
-    if (!token) {
+    if (token == null) {
       return ''
     }
 
-    return token.content
+    return (token as HTMLMetaElement).content
   }
 
   // URL param that must contain the CSRF token
   get param (): string {
-    const param = document.querySelector('meta[name="csrf-param"]') as HTMLMetaElement
+    const param = document.querySelector('meta[name="csrf-param"]')
 
-    if (!param) {
+    if (param == null) {
       return ''
     }
 
-    return param.content
+    return (param as HTMLMetaElement).content
   }
 }

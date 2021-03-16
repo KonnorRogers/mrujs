@@ -10,7 +10,7 @@ export interface ExtendedSubmitEvent extends CustomEvent {
  */
 export function findSubmitter (event: ExtendedSubmitEvent): HTMLInputElement | null {
   // Not supported by webkit
-  if (event.submitter) {
+  if (event.submitter instanceof HTMLElement) {
     return event.submitter
   }
 
@@ -28,7 +28,7 @@ export function findSubmitter (event: ExtendedSubmitEvent): HTMLInputElement | n
  * Disables whatever button submitted the form. Will change innerText to the
  *   value of data-disable-with
  */
-export function disableSubmitter (event: ExtendedSubmitEvent) {
+export function disableSubmitter (event: ExtendedSubmitEvent): void {
   const submitter = findSubmitter(event)
 
   // Fetches arent always fired by a form, lets account for this.
@@ -43,7 +43,7 @@ export function disableSubmitter (event: ExtendedSubmitEvent) {
 
   const disabledText = submitter.dataset.disableWith
 
-  if (disabledText) {
+  if (typeof disabledText === 'string') {
     submitter.innerText = disabledText
   }
 }
@@ -51,7 +51,7 @@ export function disableSubmitter (event: ExtendedSubmitEvent) {
 /**
  * Reenables whatever submitted the button and reverts the innerText.
  */
-export function enableSubmitter (event: ExtendedSubmitEvent) {
+export function enableSubmitter (event: ExtendedSubmitEvent): void {
   const submitter = findSubmitter(event)
   // Fetches arent always fire by a form, lets account for this.
   if (submitter == null) {
@@ -60,8 +60,9 @@ export function enableSubmitter (event: ExtendedSubmitEvent) {
 
   submitter.disabled = false
 
-  if (submitter.dataset.mrujsEnableWith) {
-    submitter.innerText = submitter.dataset.mrujsEnableWith
+  const enableWith = submitter.dataset.mrujsEnableWith
+  if (typeof enableWith === 'string') {
+    submitter.innerText = enableWith
   }
 
   submitter.dataset.mrujsEnabled = 'true'
