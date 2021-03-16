@@ -10,11 +10,11 @@ describe('Ajax Fetch', (): void => {
     sinon.restore()
   })
 
-  it('Should call native window.fetch', (): void => {
+  it('Should call native window.fetch', async (): Promise<void> => {
     const stub = sinon.stub(window, 'fetch')
 
     const mrujs = new Mrujs()
-    mrujs.fetch({ url: '/test' })
+    await mrujs.fetch({ url: '/test' })
     assert(stub.calledOnce)
   })
 
@@ -23,7 +23,7 @@ describe('Ajax Fetch', (): void => {
 
     const mrujs = new Mrujs().start()
 
-    mrujs.fetch({ url: '/test', dispatchEvents: true })
+    mrujs.fetch({ url: '/test', dispatchEvents: true }) as null
     events.forEach(event => {
       assertFired(event, doNothing)
     })
