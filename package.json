@@ -16,7 +16,7 @@
   "scripts": {
     "lint": "ts-standard",
     "fix": "ts-standard --fix",
-    "test": "tsc --noEmit && web-test-runner",
+    "test": "yarn fix && tsc --noEmit && web-test-runner",
     "test:watch": "web-test-runner --watch",
     "start": "tsc --noEmit && web-dev-server",
     "start:watch": "web-dev-server --watch",
