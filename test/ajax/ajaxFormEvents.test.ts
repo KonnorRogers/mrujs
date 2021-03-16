@@ -5,13 +5,13 @@ import { doNothing, assertFired, findByTestId } from '../helpers'
 import { ALWAYS_SENT_EVENTS } from './ajaxHelpers'
 import { Mrujs } from '../../src/index'
 
-describe('Ajax', () => {
-  afterEach(() => {
+describe('Ajax', (): void => {
+  afterEach((): void => {
     sinon.restore()
   })
 
-  describe('Remote Disabled Forms', () => {
-    it('Should not trigger any events', () => {
+  describe('Remote Disabled Forms', (): void => {
+    it('Should not trigger any events', (): void => {
       const events = ALWAYS_SENT_EVENTS
 
       const stub = sinon.stub(window, 'fetch')
@@ -26,11 +26,11 @@ describe('Ajax', () => {
     })
   })
 
-  describe('GET 200 Request', () => {
+  describe('GET 200 Request', (): void => {
     const events = [...ALWAYS_SENT_EVENTS, 'ajax:send']
     const submitButton = findByTestId('GET-200')?.querySelector("input[type='submit']") as HTMLInputElement | null
 
-    const submitGet200 = () => {
+    const submitGet200 = (): void => {
       window.mrujs = new Mrujs().start()
 
       const submitButton = findByTestId('GET-200')?.querySelector("input[type='text']") as HTMLInputElement | null
@@ -39,13 +39,13 @@ describe('Ajax', () => {
     }
 
     events.forEach(event => {
-      it(`Should fire an ${event} 200 GET requests`, () => {
+      it(`Should fire an ${event} 200 GET requests`, (): void => {
         assertFired(event, submitGet200)
       })
     })
 
-    it('Should disable the button on ajax request', () => {
-      const submitDisabled = () => assert.equal(submitButton?.disabled, true)
+    it('Should disable the button on ajax request', (): void => {
+      const submitDisabled = (): void => assert.equal(submitButton?.disabled, true)
 
       document.addEventListener('submit', submitDisabled)
       document.addEventListener('ajax:send', submitDisabled)
@@ -54,8 +54,8 @@ describe('Ajax', () => {
       document.removeEventListener('ajax:send', submitDisabled)
     })
 
-    it('Should reenable a button on ajax:complete', () => {
-      const submitEnabled = () => assert.equal(submitButton?.disabled, false)
+    it('Should reenable a button on ajax:complete', (): void => {
+      const submitEnabled = (): void => assert.equal(submitButton?.disabled, false)
 
       document.addEventListener('ajax:complete', submitEnabled)
       submitGet200()
@@ -63,10 +63,10 @@ describe('Ajax', () => {
     })
   })
 
-  describe('GET 404 Request', () => {
+  describe('GET 404 Request', (): void => {
     const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error']
 
-    const submitGet404 = () => {
+    const submitGet404 = (): void => {
       window.mrujs = new Mrujs().start()
       const inputEl = findByTestId('GET-404')?.querySelector("input[type='text']") as HTMLInputElement | null
       if (inputEl != null) {

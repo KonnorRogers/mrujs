@@ -21,7 +21,7 @@ export class Ajax {
 
   csrfToken: string
   submitter!: HTMLInputElement
-  element!: HTMLFormElement
+  element!: HTMLFormElement | null
 
   constructor () {
     this.csrfToken = new Csrf().token
@@ -85,9 +85,9 @@ export class Ajax {
    * Appropriate headers will be set for you but can be overriden.
    */
   fetch (request: ExtendedRequestInit): Promise<Response> | null {
-    if (!request.url) {
+    if (request.url == null) {
       throw new Error(
-        `Fetch called without a url. Aborting.\nObj given: ${request}`
+        `Fetch called without a url. Aborting.\nObj given: ${JSON.stringify(request)}`
       )
     }
 
@@ -115,7 +115,7 @@ export class Ajax {
    * @private
    * Triggers an ajax request from a form submit.
    */
-  _ajaxSubmit (event: ExtendedSubmitEvent): void {
+  async _ajaxSubmit (event: ExtendedSubmitEvent): void {
     // If it doesnt have remote="true"...forget about it!
     const target = event.target as HTMLFormElement
 
@@ -134,7 +134,7 @@ export class Ajax {
       this.submitter = submitter
     }
 
-    this.fetch({ ...this.request, dispatchEvents: true })
+    await this.fetch({ ...this.request, dispatchEvents: true })
   }
 
   /**
@@ -143,7 +143,7 @@ export class Ajax {
    * @fires ajax:send
    * The request can be found via `event.detail.request`
    */
-  _sendFetchRequest (event: CustomEvent) {
+  _sendFetchRequest (event: CustomEvent): void {
     if (event.defaultPrevented) {
       return
     }
@@ -152,9 +152,9 @@ export class Ajax {
 
     const { request } = event.detail
 
-    if (!request.url) {
+    if (request.url == null) {
       throw new Error(`Fetch attempted without a url. Aborting. \n
-                       Request attempted: ${request}`)
+                       Request attempted: ${JSON.stringify(request)}`)
     }
 
     this._dispatch(AJAX_EVENTS.ajaxSend, {
@@ -220,9 +220,15 @@ export class Ajax {
    * @private
    * dispatches a given event in the context of `this.element`
    */
-  _dispatch (event: string, options: CustomEventInit) {
+  _dispatch (event: string, options: CustomEventInit): void {
     const optionsWithDefaults = Object.assign(EVENT_DEFAULTS, options)
-    const dispatchOn = this.element || document
+
+    let dispatchOn = document
+
+    if (this.element != null) {
+      dispatchOn = this.element
+    }
+
     dispatch.call(dispatchOn, event, optionsWithDefaults)
   }
 
@@ -230,12 +236,15 @@ export class Ajax {
    * Headers to send to the request object
    */
   get headers (): Headers {
-    let { response } = this.element.dataset
+    let response = null
+    if (this.element != null) {
+      response = this.element.dataset.response
+    }
 
     let acceptHeader = Ajax.acceptHeaders.any
 
     // if null, just use any
-    if (response) {
+    if (response != null) {
       response = response.trim()
 
       if (Object.keys(Ajax.acceptHeaders).includes(response)) {
@@ -256,11 +265,11 @@ export class Ajax {
    * A request object to be passed to fetch
    */
   get request (): ExtendedRequestInit {
-    const requestOptions = {
+    const requestOptions: RequestInit = {
       method: this.method,
       headers: { ...this.headers },
       redirect: 'follow'
-    } as RequestInit
+    }
 
     const disallowedBodyRequests = ['get', 'head']
 
@@ -274,7 +283,7 @@ export class Ajax {
   /**
    * Serializes the formdata in of the form
    */
-  get formData () {
+  get formData (): FormData {
     return new FormData(this.element)
   }
 
@@ -282,12 +291,12 @@ export class Ajax {
    * Finds how to send the fetch request
    * POST, PUT, PATCH, etc
    */
-  get method () {
+  get method (): string {
     const { method } = this.element
 
-    if (!method) {
+    if (method == null) {
       throw new Error(
-        `${this.element} does not have a method attribute set. Aborting...`
+        `${this.element.tagName} does not have a method attribute set. Aborting...`
       )
     }
 
@@ -301,9 +310,9 @@ export class Ajax {
   get url (): string {
     const url = this.element.action
 
-    if (!url) {
+    if (url == null) {
       throw new Error(
-        `${this.element} does not have an "action" attribute set. Aborting...`
+        `${this.element.tagName} does not have an "action" attribute set. Aborting...`
       )
     }
 

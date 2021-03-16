@@ -29,7 +29,7 @@ export class Mrujs {
         .forEach(element => {
           const el = element as HTMLInputElement
           // Reenable any elements previously disabled
-          if (el.dataset['mrujs-disabled']) {
+          if (el.dataset['mrujs-disabled'] != null) {
             el.disabled = false
           }
         })
@@ -38,7 +38,7 @@ export class Mrujs {
         .querySelectorAll(SELECTORS.linkDisableSelector.selector)
         .forEach(element => {
           const el = element as HTMLInputElement
-          if (el.dataset['mrujs-disabled']) {
+          if (el.dataset['mrujs-disabled'] != null) {
             el.disabled = false
           }
         })
@@ -51,7 +51,7 @@ export class Mrujs {
   }
 
   // disconnect
-  stop () {
+  stop (): void {
     this.ajax.disconnect()
     this.csrf.disconnect()
   }
@@ -62,11 +62,11 @@ export class Mrujs {
    * it is required to have a {url:} defined.
    * @see Ajax#fetch
    */
-  fetch (request: ExtendedRequestInit) {
-    this.ajax.fetch(request)
+  fetch (request: ExtendedRequestInit): Promise<Response> | null {
+    return this.ajax.fetch(request)
   }
 
-  get csrfToken () {
+  get csrfToken (): string {
     return this.csrf.token
   }
 }

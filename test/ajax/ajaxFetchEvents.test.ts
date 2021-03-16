@@ -5,12 +5,12 @@ import { doNothing, assertFired } from '../helpers'
 import { ALWAYS_SENT_EVENTS } from './ajaxHelpers'
 import { Mrujs } from '../../src/index'
 
-describe('Ajax Fetch', () => {
-  afterEach(() => {
+describe('Ajax Fetch', (): void => {
+  afterEach((): void => {
     sinon.restore()
   })
 
-  it('Should call native window.fetch', () => {
+  it('Should call native window.fetch', (): void => {
     const stub = sinon.stub(window, 'fetch')
 
     const mrujs = new Mrujs()
@@ -18,7 +18,7 @@ describe('Ajax Fetch', () => {
     assert(stub.calledOnce)
   })
 
-  it('Should dispatch a fetch events and go through the full lifecycle', () => {
+  it('Should dispatch a fetch events and go through the full lifecycle', (): void => {
     const events = [...ALWAYS_SENT_EVENTS, 'ajax:send']
 
     const mrujs = new Mrujs().start()
