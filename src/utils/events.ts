@@ -6,7 +6,7 @@ export const EVENT_DEFAULTS = {
 /**
  * Thin wrapper around element.dispatchEvent and new CustomEvent
  */
-export function dispatch (this: HTMLElement, name: string, options: CustomEventInit | undefined): void {
+export function dispatch (this: Node, name: string, options: CustomEventInit | undefined): void {
   if (options == null) {
     options = {}
   }

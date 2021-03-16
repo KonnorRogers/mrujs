@@ -115,7 +115,7 @@ export class Ajax {
    * @private
    * Triggers an ajax request from a form submit.
    */
-  async _ajaxSubmit (event: ExtendedSubmitEvent): void {
+  _ajaxSubmit (event: ExtendedSubmitEvent): void {
     // If it doesnt have remote="true"...forget about it!
     const target = event.target as HTMLFormElement
 
@@ -134,7 +134,7 @@ export class Ajax {
       this.submitter = submitter
     }
 
-    await this.fetch({ ...this.request, dispatchEvents: true })
+    this.fetch({ ...this.request, dispatchEvents: true }) as null
   }
 
   /**
@@ -223,7 +223,7 @@ export class Ajax {
   _dispatch (event: string, options: CustomEventInit): void {
     const optionsWithDefaults = Object.assign(EVENT_DEFAULTS, options)
 
-    let dispatchOn = document
+    let dispatchOn: Node = document
 
     if (this.element != null) {
       dispatchOn = this.element
@@ -283,7 +283,11 @@ export class Ajax {
   /**
    * Serializes the formdata in of the form
    */
-  get formData (): FormData {
+  get formData (): FormData | null {
+    if (this.element == null) {
+      return null
+    }
+
     return new FormData(this.element)
   }
 
@@ -292,11 +296,11 @@ export class Ajax {
    * POST, PUT, PATCH, etc
    */
   get method (): string {
-    const { method } = this.element
+    const method = this.element?.method
 
     if (method == null) {
       throw new Error(
-        `${this.element.tagName} does not have a method attribute set. Aborting...`
+        `${JSON.stringify(this.element)} does not have a method attribute set. Aborting...`
       )
     }
 
@@ -308,11 +312,11 @@ export class Ajax {
    * Throws an error of action="" is not defined on an element.
    */
   get url (): string {
-    const url = this.element.action
+    const url = this.element?.action
 
     if (url == null) {
       throw new Error(
-        `${this.element.tagName} does not have an "action" attribute set. Aborting...`
+        `${JSON.stringify(this.element)} does not have an "action" attribute set. Aborting...`
       )
     }
 
