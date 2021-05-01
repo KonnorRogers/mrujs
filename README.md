@@ -4,14 +4,14 @@ To provide a Rails-UJS alternative since Rails UJS is currently
 deprecated. Uses modern javascript instead of coffeescript.
 
 
-## What does mrujs mean? 
+## What does mrujs mean?
 
 Modern Rails UJS.
 
 ## Does this support `.js.erb`
 
 No. Rails 6.1+ requires a change in the content-security policy in relation to running
-arbitrary javascript scripts which means `.js.erb` is not supported. 
+arbitrary javascript scripts which means `.js.erb` is not supported.
 `.js.erb` is a security concern, and also requires a lot of `nonce` code generation and checks to work properly.
 
 
@@ -36,13 +36,20 @@ window.mrujs = new Mrujs().start();
 
 3. Using on a form
 
+If using Turbo, make sure to set Turbo to false.
+
 ```erb
-<%= form_with scope: Model, data: {remote: "true"} do |form| %>
+<%= form_with scope: Model, data: {remote: "true", turbo: "false"} do |form| %>
   <%= form.label :name %>
   <%= form.text_field :name %>
 
   <%= form.submit "Submit", data-disable-with: "Submitting..." %>
 <%= end %>
+
+<form action="/" method="post" data-remote="true" data-turbo="false">
+  <input id="foo" name="foo">
+  <input type="submit" value="Submit">
+</form>
 ```
 
 4. Stopping Mrujs
@@ -149,7 +156,8 @@ document.querySelector("form").addEventListener("ajax:before", (event) => {
 
 ```
 
-`ajax:send` is a special case and must be aborted.
+`ajax:send` is a special case and must be aborted with an abort
+controller.
 </details>
 
 ### Fetch
@@ -222,7 +230,7 @@ heres all you have to do to include the CSRF-Token.
 ```js
 import Mrujs from "mrujs"
 
-Mrujs.start()
+window.mrujs = new Mrujs().start()
 window.fetch("url", {
   headers: {
     "X-CSRF-TOKEN": window.mrujs.csrfToken
@@ -246,7 +254,6 @@ json.
   html: 'text/html',
   xml: 'application/xml, text/xml',
   json: 'application/json, text/javascript',
-  script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'
 ```
 
 The above are all predefined for you
