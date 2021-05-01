@@ -228,7 +228,7 @@ Maybe you dont like my fetch wrapper, thats fine! To use native fetch
 heres all you have to do to include the CSRF-Token.
 
 ```js
-import Mrujs from "mrujs"
+import { Mrujs } from "mrujs"
 
 window.mrujs = new Mrujs().start()
 window.fetch("url", {
