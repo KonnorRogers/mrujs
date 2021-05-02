@@ -14,6 +14,13 @@ No. Rails 6.1+ requires a change in the content-security policy in relation to r
 arbitrary javascript scripts which means `.js.erb` is not supported.
 `.js.erb` is a security concern, and also requires a lot of `nonce` code generation and checks to work properly.
 
+## What can it do right now?
+
+In it current state, Mrujs is a native fetch wrapper and
+a form wrapper that can marshal an HTML / JSON / XML / any response 
+you want and can be listened for via event listeners. For 
+a list of things to be implemented in the future, checkout
+the [Roadmap](#roadmap) below.
 
 ## Getting Started
 
