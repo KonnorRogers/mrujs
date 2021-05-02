@@ -16,7 +16,7 @@ arbitrary javascript scripts which means `.js.erb` is not supported.
 
 ## What can it do right now?
 
-In it current state, Mrujs is a native fetch wrapper and
+In it's current state, Mrujs is a native fetch wrapper and
 a form wrapper that can marshal an HTML / JSON / XML / any response 
 you want and can be listened for via event listeners. For 
 a list of things to be implemented in the future, checkout
