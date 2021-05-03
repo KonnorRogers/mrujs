@@ -7,4 +7,7 @@ declare global {
   }
 }
 
+const mrujs = new Mrujs()
+
 export { Mrujs }
+export default mrujs
