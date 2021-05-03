@@ -20,7 +20,7 @@
     "test:watch": "web-test-runner --watch",
     "start": "tsc -p tsconfig-dev.json && web-dev-server",
     "start:watch": "web-dev-server --watch",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "build:watch": "yarn build --watch"
   },
   "devDependencies": {
