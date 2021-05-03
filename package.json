@@ -16,9 +16,9 @@
   "scripts": {
     "lint": "ts-standard",
     "fix": "ts-standard --fix",
-    "test": "yarn fix && tsc --noEmit && web-test-runner",
+    "test": "yarn fix && tsc -p tsconfig-dev.json && web-test-runner",
     "test:watch": "web-test-runner --watch",
-    "start": "tsc --noEmit && web-dev-server",
+    "start": "tsc -p tsconfig-dev.json && web-dev-server",
     "start:watch": "web-dev-server --watch",
     "build": "microbundle",
     "build:watch": "yarn build watch"
