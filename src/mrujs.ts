@@ -1,3 +1,6 @@
+// Currently only import the safari submit event polyfill.
+import './polyfills'
+
 import { Ajax, ExtendedRequestInit } from './ajax'
 import { Csrf } from './csrf'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
