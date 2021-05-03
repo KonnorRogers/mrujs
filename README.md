@@ -17,8 +17,8 @@ arbitrary javascript scripts which means `.js.erb` is not supported.
 ## What can it do right now?
 
 In it's current state, Mrujs is a native fetch wrapper and
-a form wrapper that can marshal an HTML / JSON / XML / any response 
-you want and can be listened for via event listeners. For 
+a form wrapper that can marshal an HTML / JSON / XML / any response
+you want and can be listened for via event listeners. For
 a list of things to be implemented in the future, checkout
 the [Roadmap](#roadmap) below.
 
@@ -30,15 +30,15 @@ the [Roadmap](#roadmap) below.
 yarn add mrujs
 ```
 
-2. Go to your Webpacker entrypoint and import `Mrujs` and start it up.
+2. Go to your Webpacker entrypoint and import `mrujs` and start it up.
 
 ```js
 // app/javascript/packs/application.js
 
 // ... other stuff
 
-import { Mrujs } from "mrujs";
-window.mrujs = new Mrujs().start();
+import mrujs from "mrujs";
+window.mrujs = mrujs.start();
 ```
 
 3. Using on a form
@@ -235,9 +235,9 @@ Maybe you dont like my fetch wrapper, thats fine! To use native fetch
 heres all you have to do to include the CSRF-Token.
 
 ```js
-import { Mrujs } from "mrujs"
+import mrujs from "mrujs"
 
-window.mrujs = new Mrujs().start()
+window.mrujs =  mrujs.start()
 window.fetch("url", {
   headers: {
     "X-CSRF-TOKEN": window.mrujs.csrfToken

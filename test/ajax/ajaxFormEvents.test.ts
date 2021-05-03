@@ -3,7 +3,7 @@ import sinon from 'sinon'
 
 import { doNothing, assertFired, findByTestId } from '../helpers'
 import { ALWAYS_SENT_EVENTS } from './ajaxHelpers'
-import { Mrujs } from '../../src/index'
+import mrujs from '../../src/index'
 
 describe('Ajax', (): void => {
   afterEach((): void => {
@@ -16,7 +16,7 @@ describe('Ajax', (): void => {
 
       const stub = sinon.stub(window, 'fetch')
 
-      window.mrujs = new Mrujs().start()
+      window.mrujs = mrujs.start()
 
       events.forEach(event => {
         assertFired(event, doNothing)
@@ -31,7 +31,7 @@ describe('Ajax', (): void => {
     const submitButton = findByTestId('GET-200')?.querySelector("input[type='submit']") as HTMLInputElement | null
 
     const submitGet200 = (): void => {
-      window.mrujs = new Mrujs().start()
+      window.mrujs = mrujs.start()
 
       const submitButton = findByTestId('GET-200')?.querySelector("input[type='text']") as HTMLInputElement | null
 
@@ -67,7 +67,7 @@ describe('Ajax', (): void => {
     const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error']
 
     const submitGet404 = (): void => {
-      window.mrujs = new Mrujs().start()
+      window.mrujs = mrujs.start()
       const inputEl = findByTestId('GET-404')?.querySelector("input[type='text']") as HTMLInputElement | null
       if (inputEl != null) {
         inputEl.value = '1234'
