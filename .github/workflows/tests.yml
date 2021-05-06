@@ -1,7 +1,7 @@
 name: Actions
 on: [push, pull_request]
 jobs:
-  test:
+  js-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,3 +36,43 @@ jobs:
         run: |
           yarn lint
           yarn test
+
+  ruby-test:
+    runs-on: ubuntu-latest
+
+    services:
+      chrome:
+        image: browserless/chrome:1.31-chrome-stable
+        ports: ["3000:3000"]
+        options: -e CONNECTION_TIMEOUT=600000
+
+    env:
+      CI: true
+      CHROME_URL: http://localhost:3000
+      RAILS_ENV: test
+
+    strategy:
+      matrix:
+        ruby: ['2.6', '2.7', '3.0']
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+
+    - name: Tests
+      run: |
+        bundle exec rake test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+        bundler-cache: true
+
+    - name: lint
+      run: bundle exec standardrb ./lib ./test/ruby
+

@@ -1,5 +1,5 @@
 import { assert } from '@esm-bundle/chai'
-import { Csrf } from '../../src/csrf.js'
+import { Csrf } from '../../../src/csrf.js'
 
 describe('Csrf', () => {
   it('Should properly set the authenticity token value in the form', () => {
