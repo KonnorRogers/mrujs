@@ -3,7 +3,7 @@ import sinon from 'sinon'
 
 import { doNothing, assertFired } from '../helpers'
 import { ALWAYS_SENT_EVENTS } from './ajaxHelpers'
-import mrujs from '../../src/index'
+import mrujs from '../../../src/index'
 
 describe('Ajax Fetch', (): void => {
   afterEach((): void => {

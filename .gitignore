@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+tags/
+
+test/ruby/dummy/public/assets
+test/ruby/dummy/tmp/restart.txt
+test/ruby/dummy/tmp/cache
+pkg
