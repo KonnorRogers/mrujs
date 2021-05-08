@@ -23,7 +23,7 @@
     "build": "rm -rf dist && tsc",
     "build:watch": "yarn build --watch",
     "changelog": "standard-changelog",
-    "deploy": "yarn changelog && git add -A && git commit -m 'chore: update changelog' && git push && yarn version"
+    "deploy": "yarn changelog && yarn publish && git add -A && git commit -m 'chore: update changelog' && git push"
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
