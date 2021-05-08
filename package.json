@@ -21,7 +21,8 @@
     "start": "tsc -p tsconfig-dev.json && web-dev-server",
     "start:watch": "web-dev-server --watch",
     "build": "rm -rf dist && tsc",
-    "build:watch": "yarn build --watch"
+    "build:watch": "yarn build --watch",
+    "changelog": "standard-changelog"
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
@@ -31,8 +32,8 @@
     "@web/dev-server-esbuild": "^0.2.11",
     "@web/test-runner": "^0.12.15",
     "@web/test-runner-playwright": "^0.8.4",
-    "conventional-changelog-cli": "^2.1.1",
     "sinon": "^9.2.4",
+    "standard-changelog": "^2.0.27",
     "ts-standard": "^10.0.0",
     "typescript": "^4.2.3"
   },
