@@ -34,6 +34,7 @@ export class Method {
   handle (event: Event): void {
     event.preventDefault()
     event.stopPropagation()
+    event.stopImmediatePropagation()
 
     const link = event.target as HTMLAnchorElement
     const method = link.getAttribute('data-method')
@@ -64,6 +65,7 @@ export class Method {
     form.style.display = 'none'
 
     document.body.appendChild(form)
+    console.log(form)
     const submitBtn = form.querySelector('[type="submit"]') as HTMLInputElement
     submitBtn.click()
   }
