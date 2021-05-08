@@ -125,6 +125,7 @@ export class Ajax {
 
     // Prevent default submit behavior
     event.preventDefault()
+    event.stopPropagation()
 
     this.element = target
 

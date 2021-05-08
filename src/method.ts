@@ -32,6 +32,9 @@ export class Method {
    *   <a href="/users/5" data-method="delete" rel="nofollow">Delete</a>
    */
   handle (event: Event): void {
+    event.preventDefault()
+    event.stopPropagation()
+
     const link = event.target as HTMLAnchorElement
     const method = link.getAttribute('data-method')
 
