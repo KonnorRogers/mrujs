@@ -349,3 +349,22 @@ yarn start
 yarn test
 ```
 
+## Rails
+
+There is also a Rails gem / dummy server attached.
+
+### Installation
+
+`bundle install`
+
+### Starting
+
+`bundle exec rails server`
+
+### Tests
+
+`bundle exec rake test`
+
+## Gem usage
+
+...Coming soon
