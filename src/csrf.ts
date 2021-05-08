@@ -1,4 +1,5 @@
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/csrf.coffee
+import { OBSERVER_OPTIONS } from './utils/observer'
 
 export class Csrf {
   observer: MutationObserver
@@ -7,13 +8,7 @@ export class Csrf {
   constructor () {
     this.observer = new MutationObserver(this.observerCallback)
 
-    this.observerOptions = {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['content'],
-      attributeOldValue: false
-    }
+    this.observerOptions = OBSERVER_OPTIONS
   }
 
   connect (): void {

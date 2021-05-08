@@ -1,3 +1,5 @@
+import { SELECTORS } from './utils/dom'
+
 export const ALLOWABLE_METHODS = [
   'get',
   'head',
@@ -9,11 +11,15 @@ export const ALLOWABLE_METHODS = [
 
 export class Method {
   connect (): void {
-
+    this.allLinks.forEach((link) => {
+      link.addEventListener('click', this.handle)
+    })
   }
 
   disconnect (): void {
-
+    this.allLinks.forEach((link) => {
+      link.removeEventListener('click', this.handle)
+    })
   }
 
   /**
@@ -57,5 +63,9 @@ export class Method {
     document.body.appendChild(form)
     const submitBtn = form.querySelector('[type="submit"]') as HTMLInputElement
     submitBtn.click()
+  }
+
+  get allLinks (): NodeList {
+    return document.querySelectorAll(SELECTORS.linkClickSelector.selector)
   }
 }

@@ -61,6 +61,7 @@ export class Mrujs {
   stop (): void {
     this.ajax.disconnect()
     this.csrf.disconnect()
+    this.method.disconnect()
   }
 
   /**
