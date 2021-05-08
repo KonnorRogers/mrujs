@@ -39,6 +39,9 @@ yarn add mrujs
 
 import mrujs from "mrujs";
 window.mrujs = mrujs.start();
+
+// If you want it to work like Rails ujs.
+window.mrujs = window.Rails = mrujs.start()
 ```
 
 3. Using on a form
@@ -282,9 +285,25 @@ Example:
 </form>
 ```
 
+## Anchor methods
+
+Sometimes you want to add additional methods to your links. Heres how to
+do that:
+
+```html
+<a data-method="delete" href="/logout">
+```
+
+This will create a form, append it to the body, and then submit the form
+with a hidden value with the method value set to "delete" so the server
+knows to perform a delete.
+
 ## Roadmap
 
-- [ ] - Alias `window.Rails` to `window.mrujs` (Allows drop in
+- [x] - add support for `data-method="<REQUEST_TYPE>"` for non-forms
+it.
+- [x] - `data-response='type'` for forms.
+- [x] - Alias `window.Rails` to `window.mrujs` (Allows drop in
 replacement)
 - [ ] - Allow the use of `data-confirm=""`
 - [ ] - Provide a confirm dialog for `data-confirm`
@@ -316,11 +335,8 @@ sure you want to logout?" data-use-alert="true">
 
 </details>
 
-- [ ] - add support for `data-method="<REQUEST_TYPE>"` for non-forms
-- [ ] - Asset pipeline, if someone would like to add support im open to
-it.
-- [x] - `data-response='type'` for forms.
 - [ ] - Other UJS features deemed necessary.
+- [ ] - Asset pipeline, if someone would like to add support im open to
 
 ## Developing locally
 

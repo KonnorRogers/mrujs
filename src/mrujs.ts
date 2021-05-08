@@ -3,6 +3,7 @@ import './polyfills'
 
 import { Ajax, ExtendedRequestInit } from './ajax'
 import { Csrf } from './csrf'
+import { Method } from './method'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
 import { SELECTORS } from './utils/dom'
 
@@ -10,17 +11,27 @@ export class Mrujs {
   config: Record<string, unknown>
   csrf: Csrf
   ajax: Ajax
+  method: Method
+  connected: boolean
 
   constructor (config = {}) {
     this.config = config
     this.csrf = new Csrf()
     this.ajax = new Ajax()
+    this.method = new Method()
+    this.connected = false
   }
 
   // connect
   start (): Mrujs {
+    // Dont start twice!
+    if (window.mrujs?.connected === true) {
+      return window.mrujs
+    }
+
     this.csrf.connect()
     this.ajax.connect()
+    this.method.connect()
 
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
@@ -50,6 +61,7 @@ export class Mrujs {
     document.addEventListener('submit', disableSubmitter as EventListener)
     document.addEventListener('ajax:complete', enableSubmitter as EventListener)
 
+    this.connected = true
     return this
   }
 
@@ -57,6 +69,7 @@ export class Mrujs {
   stop (): void {
     this.ajax.disconnect()
     this.csrf.disconnect()
+    this.method.disconnect()
   }
 
   /**
@@ -71,5 +84,9 @@ export class Mrujs {
 
   get csrfToken (): string {
     return this.csrf.token
+  }
+
+  get csrfParam (): string {
+    return this.csrf.param
   }
 }
