@@ -349,3 +349,28 @@ yarn start
 yarn test
 ```
 
+## Rails
+
+There is also a Rails gem / dummy server attached.
+
+### Installation
+
+Top level:
+
+`bundle install`
+
+### Starting
+
+Must be run within the `test/ruby/dummy` directory.
+
+`cd test/ruby/dummy && bundle exec rails server`
+
+### Tests
+
+From any where _outside_ of the `test/ruby/dummy` directory:
+
+`bundle exec rake test`
+
+## Gem usage
+
+...Coming soon
