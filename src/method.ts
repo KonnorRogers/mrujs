@@ -65,7 +65,6 @@ export class Method {
     form.style.display = 'none'
 
     document.body.appendChild(form)
-    console.log(form)
     const submitBtn = form.querySelector('[type="submit"]') as HTMLInputElement
     submitBtn.click()
   }

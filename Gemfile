@@ -4,16 +4,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in mrujs_rails.gemspec.
 gemspec
 
-group :development do
-  gem "puma"
-  gem "sqlite3"
-end
-
-group :test do
-  gem "capybara"
-  gem "cuprite"
-  gem "evil_systems"
-end
+gem "puma"
+gem "sqlite3"
+gem 'webpacker'
+gem "capybara"
+gem "cuprite"
+gem "evil_systems"
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
