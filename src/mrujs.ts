@@ -13,6 +13,7 @@ export class Mrujs {
   ajax: Ajax
   method: Method
   connected: boolean
+  connectors: (Ajax | Csrf | Method)[]
 
   constructor (config = {}) {
     this.config = config
@@ -20,6 +21,12 @@ export class Mrujs {
     this.ajax = new Ajax()
     this.method = new Method()
     this.connected = false
+
+    this.connectors = [
+      this.csrf,
+      this.ajax,
+      this.method
+    ]
   }
 
   // connect
@@ -31,17 +38,12 @@ export class Mrujs {
       return window.mrujs
     }
 
-    this.csrf.connect()
-    this.ajax.connect()
-    this.method.connect()
+
+    this.connect()
 
     document.addEventListener('DOMContentLoaded', () => {
-      this.csrf.disconnect()
-      this.ajax.disconnect()
-      this.method.disconnect()
-      this.csrf.connect()
-      this.ajax.connect()
-      this.method.connect()
+      this.disconnect()
+      this.connect()
     })
 
     // This event works the same as the load event, except that it fires every
@@ -78,8 +80,18 @@ export class Mrujs {
 
   // disconnect
   stop (): void {
-    this.ajax.disconnect()
+    this.disconnect()
+  }
+
+  connect (): void {
+    this.csrf.connect()
+    this.ajax.connect()
+    this.method.connect()
+  }
+
+  disconnect(): void {
     this.csrf.disconnect()
+    this.ajax.disconnect()
     this.method.disconnect()
   }
 

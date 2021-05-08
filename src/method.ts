@@ -11,10 +11,7 @@ export const ALLOWABLE_METHODS = [
 
 export class Method {
   connect (): void {
-    console.log('connecting method')
     this.allLinks.forEach((link: HTMLAnchorElement) => {
-      console.log(link)
-      console.log(this)
       link.addEventListener('click', this.handle)
     })
   }
