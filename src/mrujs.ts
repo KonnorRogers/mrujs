@@ -12,16 +12,23 @@ export class Mrujs {
   csrf: Csrf
   ajax: Ajax
   method: Method
+  connected: boolean
 
   constructor (config = {}) {
     this.config = config
     this.csrf = new Csrf()
     this.ajax = new Ajax()
     this.method = new Method()
+    this.connected = false
   }
 
   // connect
   start (): Mrujs {
+    // Dont start twice!
+    if (window.mrujs?.connected === true) {
+      return window.mrujs
+    }
+
     this.csrf.connect()
     this.ajax.connect()
     this.method.connect()
@@ -54,6 +61,7 @@ export class Mrujs {
     document.addEventListener('submit', disableSubmitter as EventListener)
     document.addEventListener('ajax:complete', enableSubmitter as EventListener)
 
+    this.connected = true
     return this
   }
 
