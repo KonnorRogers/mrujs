@@ -38,10 +38,13 @@ yarn add mrujs
 // ... other stuff
 
 import mrujs from "mrujs";
-window.mrujs = mrujs.start();
+mrujs.start();
 
 // If you want it to work like Rails ujs.
-window.mrujs = window.Rails = mrujs.start()
+import Rails from "mrujs";
+Rails.start()
+
+// mrujs is available globally as window.Rails or window.mrujs
 ```
 
 3. Using on a form

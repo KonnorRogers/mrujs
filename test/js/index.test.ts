@@ -3,7 +3,7 @@ import mrujs, { Mrujs } from '../../src/index'
 
 describe('index', () => {
   it('Should set a top level mrujs on the window', () => {
-    window.mrujs = mrujs.start()
+    mrujs.start()
     assert(window.mrujs instanceof Mrujs)
   })
 

@@ -11,13 +11,16 @@ export const ALLOWABLE_METHODS = [
 
 export class Method {
   connect (): void {
-    this.allLinks.forEach((link) => {
+    console.log('connecting method')
+    this.allLinks.forEach((link: HTMLAnchorElement) => {
+      console.log(link)
+      console.log(this)
       link.addEventListener('click', this.handle)
     })
   }
 
   disconnect (): void {
-    this.allLinks.forEach((link) => {
+    this.allLinks.forEach((link: HTMLAnchorElement) => {
       link.removeEventListener('click', this.handle)
     })
   }
@@ -42,6 +45,7 @@ export class Method {
     if (method == null) return
     if (!ALLOWABLE_METHODS.includes(method.toLowerCase())) return
 
+    console.log('building href')
     const href = link.getAttribute('href')
 
     if (href == null) return
@@ -55,6 +59,7 @@ export class Method {
     if (csrfToken != null && csrfParam != null) {
       // Must trigger submit by click on a button, else "submit" event handler won't work!
       // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit
+      formContent += `<input type="hidden" name="${csrfParam}" value="${csrfToken}" />`
       formContent += '<input type="submit" />'
     }
 
@@ -69,7 +74,7 @@ export class Method {
     submitBtn.click()
   }
 
-  get allLinks (): NodeList {
-    return document.querySelectorAll(SELECTORS.linkClickSelector.selector)
+  get allLinks (): HTMLAnchorElement[] {
+    return Array.from(document.querySelectorAll(SELECTORS.linkClickSelector.selector))
   }
 }

@@ -24,14 +24,25 @@ export class Mrujs {
 
   // connect
   start (): Mrujs {
+    window.Rails = window.mrujs = this
+
     // Dont start twice!
-    if (window.mrujs?.connected === true) {
+    if (window.mrujs?.connected) {
       return window.mrujs
     }
 
     this.csrf.connect()
     this.ajax.connect()
     this.method.connect()
+
+    document.addEventListener('DOMContentLoaded', () => {
+      this.csrf.disconnect()
+      this.ajax.disconnect()
+      this.method.disconnect()
+      this.csrf.connect()
+      this.ajax.connect()
+      this.method.connect()
+    })
 
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
