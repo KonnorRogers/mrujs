@@ -42,7 +42,6 @@ export class Method {
     if (method == null) return
     if (!ALLOWABLE_METHODS.includes(method.toLowerCase())) return
 
-    console.log('building href')
     const href = link.getAttribute('href')
 
     if (href == null) return
