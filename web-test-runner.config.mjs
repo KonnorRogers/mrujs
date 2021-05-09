@@ -5,7 +5,7 @@ export default ({
   files: 'test/**/*.test.html',
   browsers: [
     playwrightLauncher({ product: 'chromium' }),
-    playwrightLauncher({ product: 'webkit' }),
+    playwrightLauncher({ product: 'webkit' })
   ],
   nodeResolve: true,
   rootDir: '.',
