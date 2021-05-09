@@ -5,16 +5,16 @@ import { Utils } from './utils'
 type AcceptHeadersKey = '*' | 'any' | 'text' | 'html' | 'xml' | 'json'
 
 enum FormEnctype {
-  urlEncoded = "application/x-www-form-urlencoded",
-  multipart  = "multipart/form-data",
-  plain      = "text/plain"
+  urlEncoded = 'application/x-www-form-urlencoded',
+  multipart = 'multipart/form-data',
+  plain = 'text/plain'
 }
 
-function formEnctypeFromString(encoding: string): FormEnctype {
-  switch(encoding.toLowerCase()) {
+function formEnctypeFromString (encoding: string): FormEnctype {
+  switch (encoding.toLowerCase()) {
     case FormEnctype.multipart: return FormEnctype.multipart
-    case FormEnctype.plain:     return FormEnctype.plain
-    default:                    return FormEnctype.urlEncoded
+    case FormEnctype.plain: return FormEnctype.plain
+    default: return FormEnctype.urlEncoded
   }
 }
 
@@ -269,14 +269,14 @@ export class Ajax {
 
     const headers = {
       Accept: acceptHeader,
-      "X-CSRF-Token": "",
+      'X-CSRF-Token': ''
     }
 
     if (this.method.toLowerCase() !== 'get') {
       const token = Utils.getCookieValue(Utils.getMetaContent('csrf-param')) ?? Utils.getMetaContent('csrf-token')
 
       if (token != null) {
-        headers["X-CSRF-Token"] = token
+        headers['X-CSRF-Token'] = token
       }
     }
 
@@ -289,7 +289,7 @@ export class Ajax {
   get request (): ExtendedRequestInit {
     const requestOptions: RequestInit = {
       method: this.method,
-      headers: {...this.headers },
+      headers: { ...this.headers },
       redirect: 'follow',
       credentials: 'include'
     }
@@ -298,9 +298,8 @@ export class Ajax {
       if (this.element != null) {
         requestOptions.body = this.body
       }
-
     } else {
-      this.url = this.mergeFormDataEntries(this.url, [ ...this.body.entries() ])
+      this.url = this.mergeFormDataEntries(this.url, [...this.body.entries()])
     }
 
     return { ...requestOptions, url: this.url.href }
@@ -349,41 +348,41 @@ export class Ajax {
     this.url = val
   }
 
-  get body(): URLSearchParams | FormData{
-    if (this.enctype == FormEnctype.urlEncoded || (this.method.toLowerCase() == "get")) {
+  get body (): URLSearchParams | FormData {
+    if (this.enctype === FormEnctype.urlEncoded || (this.method.toLowerCase() === 'get')) {
       return new URLSearchParams(this.formDataToStrings)
     } else {
       return this.formData
     }
   }
 
-  buildFormData(): FormData {
+  buildFormData (): FormData {
     const formData = new FormData(this.element as HTMLFormElement)
-    const name = this.submitter?.getAttribute("name")
-    const value = this.submitter?.getAttribute("value")
+    const name = this.submitter?.getAttribute('name')
+    const value = this.submitter?.getAttribute('value')
 
-    if (name && value != null && formData.get(name) != value) {
+    if (name != null && value != null && formData.get(name) !== value) {
       formData.append(name, value)
     }
 
     return formData
   }
 
-  get formDataToStrings(): [string, string][] | undefined {
-    return [ ...this.formData ].reduce((entries, [ name, value ]) => {
-      return entries.concat(typeof value == "string" ? [[ name, value ]] : [])
-    }, [] as [string, string][])
+  get formDataToStrings (): Array<[string, string]> | undefined {
+    return [...this.formData].reduce<Array<[string, string]>>((entries, [name, value]) => {
+      return entries.concat(typeof value === 'string' ? [[name, value]] : [])
+    }, [])
   }
 
-  get enctype(): FormEnctype {
-    const elementEncType = (this.element as HTMLFormElement).enctype as string
-    return formEnctypeFromString(this.submitter?.getAttribute("formenctype") || elementEncType)
+  get enctype (): FormEnctype {
+    const elementEncType = (this.element as HTMLFormElement).enctype
+    return formEnctypeFromString(this.submitter?.getAttribute('formenctype') ?? elementEncType)
   }
 
-  mergeFormDataEntries(url: URL, entries: [string, FormDataEntryValue][]): URL {
+  mergeFormDataEntries (url: URL, entries: Array<[string, FormDataEntryValue]>): URL {
     const currentSearchParams = new URLSearchParams(url.search)
 
-    for (const [ name, value ] of entries) {
+    for (const [name, value] of entries) {
       if (value instanceof File) continue
 
       if (currentSearchParams.has(name)) {
