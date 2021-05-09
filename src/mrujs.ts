@@ -13,7 +13,7 @@ export class Mrujs {
   ajax: Ajax
   method: Method
   connected: boolean
-  connectors: (Ajax | Csrf | Method)[]
+  connectors: Array<Ajax | Csrf | Method>
 
   constructor (config = {}) {
     this.config = config
@@ -38,11 +38,7 @@ export class Mrujs {
       return window.mrujs
     }
 
-
-    this.connect()
-
     document.addEventListener('DOMContentLoaded', () => {
-      this.disconnect()
       this.connect()
     })
 
@@ -89,7 +85,7 @@ export class Mrujs {
     this.method.connect()
   }
 
-  disconnect(): void {
+  disconnect (): void {
     this.csrf.disconnect()
     this.ajax.disconnect()
     this.method.disconnect()
@@ -105,11 +101,11 @@ export class Mrujs {
     return this.ajax.fetch(request)
   }
 
-  get csrfToken (): string {
+  get csrfToken (): string | null {
     return this.csrf.token
   }
 
-  get csrfParam (): string {
+  get csrfParam (): string | null {
     return this.csrf.param
   }
 }

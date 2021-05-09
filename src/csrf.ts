@@ -1,5 +1,6 @@
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/csrf.coffee
 import { OBSERVER_OPTIONS } from './utils/observer'
+import { Utils } from './utils'
 
 export class Csrf {
   observer: MutationObserver
@@ -28,7 +29,7 @@ export class Csrf {
         .querySelectorAll(`form input[name="${this.param}"]`)
         .forEach(input => {
           const inputEl = input as HTMLInputElement
-          inputEl.value = this.token
+          inputEl.value = this.token as string
         })
     }
   }
@@ -61,24 +62,12 @@ export class Csrf {
   }
 
   // Up-to-date Cross-Site Request Forgery token
-  get token (): string {
-    const token = document.querySelector('meta[name="csrf-token"]')
-
-    if (token == null) {
-      return ''
-    }
-
-    return (token as HTMLMetaElement).content
+  get token (): string | null {
+    return Utils.getMetaContent('csrf-token')
   }
 
   // URL param that must contain the CSRF token
-  get param (): string {
-    const param = document.querySelector('meta[name="csrf-param"]')
-
-    if (param == null) {
-      return ''
-    }
-
-    return (param as HTMLMetaElement).content
+  get param (): string | null {
+    return Utils.getMetaContent('csrf-param')
   }
 }

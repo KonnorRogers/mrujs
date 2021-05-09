@@ -1,8 +1,22 @@
 import { dispatch, EVENT_DEFAULTS, AJAX_EVENTS } from './utils/events'
 import { findSubmitter, ExtendedSubmitEvent } from './submitToggle'
-import { Csrf } from './csrf'
+import { Utils } from './utils'
 
 type AcceptHeadersKey = '*' | 'any' | 'text' | 'html' | 'xml' | 'json'
+
+enum FormEnctype {
+  urlEncoded = "application/x-www-form-urlencoded",
+  multipart  = "multipart/form-data",
+  plain      = "text/plain"
+}
+
+function formEnctypeFromString(encoding: string): FormEnctype {
+  switch(encoding.toLowerCase()) {
+    case FormEnctype.multipart: return FormEnctype.multipart
+    case FormEnctype.plain:     return FormEnctype.plain
+    default:                    return FormEnctype.urlEncoded
+  }
+}
 
 export interface ExtendedRequestInit extends RequestInit {
   url?: string
@@ -19,13 +33,8 @@ export class Ajax {
     json: 'application/json, text/javascript'
   }
 
-  csrfToken: string
   submitter!: HTMLInputElement
   element!: HTMLFormElement | null
-
-  constructor () {
-    this.csrfToken = new Csrf().token
-  }
 
   connect (): void {
     // Picks up the submit event
@@ -51,12 +60,15 @@ export class Ajax {
   }
 
   disconnect (): void {
+    // Picks up the submit event
     document.removeEventListener('submit', this._ajaxSubmit.bind(this) as EventListener)
 
+    // Dispatchs an `ajax:before` event, which then triggers a fetch request
     document.removeEventListener(
       AJAX_EVENTS.ajaxBefore,
       this._sendFetchRequest.bind(this) as EventListener)
 
+    // Listen for all 3 possible response and then send out a complete event
     document.removeEventListener(
       AJAX_EVENTS.ajaxSuccess,
       this._dispatchComplete.bind(this) as EventListener)
@@ -125,7 +137,6 @@ export class Ajax {
 
     // Prevent default submit behavior
     event.preventDefault()
-    event.stopPropagation()
 
     this.element = target
 
@@ -236,7 +247,7 @@ export class Ajax {
   /**
    * Headers to send to the request object
    */
-  get headers (): Headers {
+  get headers (): HeadersInit {
     let response = null
     if (this.element != null) {
       response = this.element.dataset.response
@@ -256,10 +267,20 @@ export class Ajax {
       }
     }
 
-    return new Headers({
+    const headers = {
       Accept: acceptHeader,
-      'X-CSRF-TOKEN': this.csrfToken
-    })
+      "X-CSRF-Token": "",
+    }
+
+    if (this.method.toLowerCase() !== 'get') {
+      const token = Utils.getCookieValue(Utils.getMetaContent('csrf-param')) ?? Utils.getMetaContent('csrf-token')
+
+      if (token != null) {
+        headers["X-CSRF-Token"] = token
+      }
+    }
+
+    return headers
   }
 
   /**
@@ -268,28 +289,28 @@ export class Ajax {
   get request (): ExtendedRequestInit {
     const requestOptions: RequestInit = {
       method: this.method,
-      headers: { ...this.headers },
-      redirect: 'follow'
+      headers: {...this.headers },
+      redirect: 'follow',
+      credentials: 'include'
     }
 
-    const disallowedBodyRequests = ['get', 'head']
+    if (this.method.toLowerCase() !== 'get') {
+      if (this.element != null) {
+        requestOptions.body = this.body
+      }
 
-    if (!disallowedBodyRequests.includes(this.method.toLowerCase())) {
-      requestOptions.body = JSON.stringify(this.formData)
+    } else {
+      this.url = this.mergeFormDataEntries(this.url, [ ...this.body.entries() ])
     }
 
-    return { ...requestOptions, url: this.url }
+    return { ...requestOptions, url: this.url.href }
   }
 
   /**
    * Serializes the formdata in of the form
    */
-  get formData (): FormData | null {
-    if (this.element == null) {
-      return null
-    }
-
-    return new FormData(this.element)
+  get formData (): FormData {
+    return this.buildFormData()
   }
 
   /**
@@ -312,13 +333,65 @@ export class Ajax {
    * URL to send to. Is pulled from action=""
    * Throws an error of action="" is not defined on an element.
    */
-  get url (): string {
+  get url (): URL {
     const url = this.element?.action
 
     if (url == null) {
       throw new Error(
         `${JSON.stringify(this.element)} does not have an "action" attribute set. Aborting...`
       )
+    }
+
+    return new URL(url)
+  }
+
+  set url (val: URL) {
+    this.url = val
+  }
+
+  get body(): URLSearchParams | FormData{
+    if (this.enctype == FormEnctype.urlEncoded || (this.method.toLowerCase() == "get")) {
+      return new URLSearchParams(this.formDataToStrings)
+    } else {
+      return this.formData
+    }
+  }
+
+  buildFormData(): FormData {
+    const formData = new FormData(this.element as HTMLFormElement)
+    const name = this.submitter?.getAttribute("name")
+    const value = this.submitter?.getAttribute("value")
+
+    if (name && value != null && formData.get(name) != value) {
+      formData.append(name, value)
+    }
+
+    return formData
+  }
+
+  get formDataToStrings(): [string, string][] | undefined {
+    return [ ...this.formData ].reduce((entries, [ name, value ]) => {
+      return entries.concat(typeof value == "string" ? [[ name, value ]] : [])
+    }, [] as [string, string][])
+  }
+
+  get enctype(): FormEnctype {
+    const elementEncType = (this.element as HTMLFormElement).enctype as string
+    return formEnctypeFromString(this.submitter?.getAttribute("formenctype") || elementEncType)
+  }
+
+  mergeFormDataEntries(url: URL, entries: [string, FormDataEntryValue][]): URL {
+    const currentSearchParams = new URLSearchParams(url.search)
+
+    for (const [ name, value ] of entries) {
+      if (value instanceof File) continue
+
+      if (currentSearchParams.has(name)) {
+        currentSearchParams.delete(name)
+        url.searchParams.set(name, value)
+      } else {
+        url.searchParams.append(name, value)
+      }
     }
 
     return url

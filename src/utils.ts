@@ -1,7 +1,9 @@
 export const Utils = {
   isSignificantClick,
-  isInsignificantClick
+  isInsignificantClick,
   // handleEnterKey
+  getMetaContent,
+  getCookieValue
 }
 
 function isSignificantClick (event: MouseEvent): boolean {
@@ -39,3 +41,21 @@ function isInsignificantClick (event: MouseEvent): boolean {
 
 //   event.stopImmediatePropagation
 // }
+
+function getCookieValue (cookieName: string | null): string | null {
+  if (cookieName != null) {
+    const cookies = document.cookie.trim() !== '' ? document.cookie.split('; ') : []
+    const cookie = cookies.find((cookie) => cookie.startsWith(cookieName))
+    if (cookie != null) {
+      const value = cookie.split('=').slice(1).join('=')
+      return (value.trim() !== '' ? decodeURIComponent(value) : null)
+    }
+  }
+
+  return null
+}
+
+function getMetaContent (str: string): string | null {
+  const element: HTMLMetaElement | null = document.querySelector(`meta[name="${str}"]`)
+  return element?.content ?? null
+}
