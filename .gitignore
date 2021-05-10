@@ -108,4 +108,6 @@ test/ruby/dummy/public/assets
 test/ruby/dummy/public/packs
 test/ruby/dummy/tmp/restart.txt
 test/ruby/dummy/tmp/cache
+test/ruby/dummy/tmp
+!test/ruby/dummy/tmp/.keep
 pkg

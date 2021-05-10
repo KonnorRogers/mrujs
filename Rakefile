@@ -18,3 +18,7 @@ end
 task default: :test
 
 require "standard/rake"
+
+task :test_precompile => :environment do
+  system("cd test/ruby/dummy && bundle exec rails assets:precompile")
+end

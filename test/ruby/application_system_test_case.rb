@@ -4,7 +4,8 @@ require "capybara"
 require "capybara/cuprite"
 require "evil_systems"
 
-EvilSystems.initial_setup
+puts Dir.pwd
+EvilSystems.initial_setup(task: "mrujs:test_precompile")
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :cuprite
