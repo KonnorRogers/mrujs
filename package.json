@@ -1,6 +1,6 @@
 {
   "name": "mrujs",
-  "version": "0.1.0-beta.6",
+  "version": "0.1.0-beta.7",
   "description": "UJS for modern javascript. mrujs stands for Modern Rails UJS",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
+    "@rails/webpacker": "5.3.0",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
     "@web/dev-server": "^0.1.8",
@@ -37,10 +38,9 @@
     "standard-changelog": "^2.0.27",
     "ts-standard": "^10.0.0",
     "typescript": "^4.2.3",
-    "webpack-dev-server": "^3.11.2",
-    "@rails/webpacker": "5.3.0",
     "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2"
   },
   "ts-standard": {
     "ignore": [
