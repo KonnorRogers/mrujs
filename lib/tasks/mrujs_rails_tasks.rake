@@ -5,7 +5,7 @@
 
 # Used for internal testing
 namespace :mrujs do
-  task :test_precompile => :environment do
+  task test_precompile: :environment do
     system("cd test/ruby/dummy && bundle exec rails assets:precompile")
   end
 end
