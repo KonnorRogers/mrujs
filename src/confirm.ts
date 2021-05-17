@@ -1,10 +1,6 @@
 import { EVENT_DEFAULTS, dispatch, stopEverything } from './utils/events'
 import { SELECTORS } from './utils/dom'
-
-interface IQuery {
-  event: 'click' | 'change' | 'submit'
-  selectors: string[]
-}
+import { IQuery } from './types'
 
 export class Confirm {
   /*
@@ -60,10 +56,10 @@ export class Confirm {
 
     const element = event.target as HTMLElement
     const message = element.dataset.confirm
-    console.log("ELEMENT: ", element)
-    console.log("MESSAGE: ", message)
+    console.log('ELEMENT: ', element)
+    console.log('MESSAGE: ', message)
 
-    if (!message) {
+    if (message == null) {
       return
     }
 
@@ -71,14 +67,14 @@ export class Confirm {
 
     // dispatch.call(element, 'confirm', EVENT_DEFAULTS)
 
-    console.log("CONFIRMING")
+    console.log('CONFIRMING')
     try {
       answer = window?.mrujs?.confirm(message) as boolean
     } catch (e) {
       console.warn('there was an error with mrujs.confirm')
     }
 
-    if (answer === true) {
+    if (answer) {
       dispatch.call(element, 'confirm:complete', { detail: { ...EVENT_DEFAULTS, answer } })
       return
     }

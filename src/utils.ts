@@ -1,13 +1,13 @@
+import { stopEverything } from './utils/events'
+
 export const Utils = {
-  isSignificantClick,
-  isInsignificantClick,
-  // handleEnterKey
   getMetaContent,
-  getCookieValue
+  getCookieValue,
+  preventInsignificantClick
 }
 
-function isSignificantClick (event: MouseEvent): boolean {
-  return !(
+function isInsignificantClick (event: MouseEvent): boolean {
+  return (
     ((event.target != null) && (event.target as HTMLElement).isContentEditable) ||
       event.defaultPrevented ||
       event.button > 0 || // Only left clicks!
@@ -18,29 +18,15 @@ function isSignificantClick (event: MouseEvent): boolean {
   )
 }
 
-function isInsignificantClick (event: MouseEvent): boolean {
-  return !isSignificantClick(event)
+function isSignificantClick (event: MouseEvent): boolean {
+  return !isInsignificantClick(event)
 }
 
-// function handleEnterKey(event: KeyboardEvent): void {
-//   if (event.key !== "Enter") return
+function preventInsignificantClick (event: MouseEvent): void {
+  if (isSignificantClick(event)) return
 
-//   if (event.altKey === true) {
-//     // new Tab
-//     return
-//   }
-
-//   if (event.shiftKey === true) {
-//     // new Window
-//     return
-//   }
-// }
-
-// function preventInsignificantClick (event: MouseEvent): void {
-//   if (isSignificantClick(event)) return
-
-//   event.stopImmediatePropagation
-// }
+  stopEverything(event)
+}
 
 function getCookieValue (cookieName: string | null): string | null {
   if (cookieName != null) {

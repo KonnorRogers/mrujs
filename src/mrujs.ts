@@ -5,31 +5,28 @@ import { Ajax, ExtendedRequestInit } from './ajax'
 import { Csrf } from './csrf'
 import { Method } from './method'
 import { Confirm } from './confirm'
+import { ClickHandler } from './clickHandler'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
 import { SELECTORS } from './utils/dom'
 
 export class Mrujs {
   config: Record<string, unknown>
+  clickHandler: ClickHandler
   csrf: Csrf
   ajax: Ajax
   method: Method
   confirmClass: Confirm
   connected: boolean
-  connectors: Array<Ajax | Csrf | Method>
 
   constructor (config = {}) {
     this.config = config
+    this.clickHandler = new ClickHandler()
     this.csrf = new Csrf()
     this.ajax = new Ajax()
     this.method = new Method()
     this.confirmClass = new Confirm()
-    this.connected = false
 
-    this.connectors = [
-      this.csrf,
-      this.ajax,
-      this.method
-    ]
+    this.connected = false
   }
 
   // connect
@@ -84,6 +81,7 @@ export class Mrujs {
 
   connect (): void {
     this.csrf.connect()
+    this.clickHandler.connect()
     this.confirmClass.connect()
     this.method.connect()
     this.ajax.connect()
@@ -91,6 +89,7 @@ export class Mrujs {
 
   disconnect (): void {
     this.csrf.disconnect()
+    this.clickHandler.disconnect()
     this.confirmClass.disconnect()
     this.method.disconnect()
     this.ajax.disconnect()

@@ -14,7 +14,7 @@ export function dispatch (this: Node, name: string, options: CustomEventInit | u
   this.dispatchEvent(new CustomEvent(name, options))
 }
 
-export function stopEverything(event: Event | CustomEvent) {
+export function stopEverything (event: Event | CustomEvent): void {
   event.stopPropagation()
   event.stopImmediatePropagation()
   event.preventDefault()
