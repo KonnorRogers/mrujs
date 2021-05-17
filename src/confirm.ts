@@ -1,13 +1,13 @@
-import { EVENT_DEFAULTS, dispatch } from "./utils/events";
+import { EVENT_DEFAULTS, dispatch, stopEverything } from './utils/events'
 import { SELECTORS } from './utils/dom'
 
 interface IQuery {
-  event: "click" | "change" | "submit"
+  event: 'click' | 'change' | 'submit'
   selectors: string[]
 }
 
 export class Confirm {
-  /**
+  /*
    * An array of queries to run on the document. Each object has an event, and then a queries array.
    */
   static get queries (): IQuery[] {
@@ -45,7 +45,7 @@ export class Confirm {
     })
   }
 
-  disconnect () {
+  disconnect (): void {
     Confirm.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
@@ -55,28 +55,34 @@ export class Confirm {
     })
   }
 
-  handleConfirm (event: CustomEvent) {
-    if (event.target == null) return
+  handleConfirm (event: CustomEvent): void {
+    if (event.target == null) return // false
 
     const element = event.target as HTMLElement
-    const message = element.getAttribute('data-confirm')
+    const message = element.dataset.confirm
+    console.log("ELEMENT: ", element)
+    console.log("MESSAGE: ", message)
 
     if (!message) {
-      return true
+      return
     }
 
     let answer = false
 
-    dispatch.call(element, 'confirm', EVENT_DEFAULTS)
+    // dispatch.call(element, 'confirm', EVENT_DEFAULTS)
 
+    console.log("CONFIRMING")
     try {
       answer = window?.mrujs?.confirm(message) as boolean
-    } catch(e) {
-      console.warn("there was an error with mrujs.confirm")
+    } catch (e) {
+      console.warn('there was an error with mrujs.confirm')
     }
 
-    const callback = dispatch.call(element, 'confirm:complete', {detail: {...EVENT_DEFAULTS, answer}})
+    if (answer === true) {
+      dispatch.call(element, 'confirm:complete', { detail: { ...EVENT_DEFAULTS, answer } })
+      return
+    }
 
-    return (answer && callback)
+    stopEverything(event)
   }
 }
