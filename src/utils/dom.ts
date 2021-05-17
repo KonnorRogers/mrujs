@@ -5,7 +5,7 @@ const m =
   Element.prototype.matches ??
   Element.prototype.webkitMatchesSelector
 
-interface SelectorInterface {
+export interface SelectorInterface {
   selector: string
   exclude?: string
 }

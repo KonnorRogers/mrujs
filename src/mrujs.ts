@@ -4,6 +4,7 @@ import './polyfills'
 import { Ajax, ExtendedRequestInit } from './ajax'
 import { Csrf } from './csrf'
 import { Method } from './method'
+import { Confirm } from './confirm'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
 import { SELECTORS } from './utils/dom'
 
@@ -12,6 +13,7 @@ export class Mrujs {
   csrf: Csrf
   ajax: Ajax
   method: Method
+  confirmClass: Confirm
   connected: boolean
   connectors: Array<Ajax | Csrf | Method>
 
@@ -20,6 +22,7 @@ export class Mrujs {
     this.csrf = new Csrf()
     this.ajax = new Ajax()
     this.method = new Method()
+    this.confirmClass = new Confirm()
     this.connected = false
 
     this.connectors = [
@@ -81,14 +84,23 @@ export class Mrujs {
 
   connect (): void {
     this.csrf.connect()
-    this.ajax.connect()
+    this.confirmClass.connect()
     this.method.connect()
+    this.ajax.connect()
   }
 
   disconnect (): void {
     this.csrf.disconnect()
-    this.ajax.disconnect()
+    this.confirmClass.disconnect()
     this.method.disconnect()
+    this.ajax.disconnect()
+  }
+
+  /**
+   * Can be overridden with a custom confirm message
+   */
+  confirm (message: string): boolean {
+    return window.confirm(message)
   }
 
   /**
