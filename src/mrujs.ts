@@ -17,6 +17,7 @@ export class Mrujs {
   method: Method
   confirmClass: Confirm
   connected: boolean
+  __connect__!: Function
 
   constructor (config = {}) {
     this.config = config
@@ -38,37 +39,23 @@ export class Mrujs {
       return window.mrujs
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      this.connect()
-    })
+    // this.connect()
+
+    this.__connect__ = this.connect.bind(this)
+    document.addEventListener('DOMContentLoaded', this.__connect__ as EventListener)
 
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
     // See https://github.com/rails/jquery-ujs/issues/357
     // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
-    window.addEventListener('pageshow', () => {
-      document
-        .querySelectorAll(SELECTORS.formEnableSelector.selector)
-        .forEach(element => {
-          const el = element as HTMLInputElement
-          // Reenable any elements previously disabled
-          if (el.dataset['mrujs-disabled'] != null) {
-            el.disabled = false
-          }
-        })
+    window.addEventListener('pageshow', this.reenableDisabledElements)
 
-      document
-        .querySelectorAll(SELECTORS.linkDisableSelector.selector)
-        .forEach(element => {
-          const el = element as HTMLInputElement
-          if (el.dataset['mrujs-disabled'] != null) {
-            el.disabled = false
-          }
-        })
-    })
-
+    // This may need to be rethought to align with UJS
     document.addEventListener('submit', disableSubmitter as EventListener)
     document.addEventListener('ajax:complete', enableSubmitter as EventListener)
+    // end
+
+    document.addEventListener('ajax:complete', this.turbolinksRedirect as EventListener)
 
     this.connected = true
     return this
@@ -93,6 +80,12 @@ export class Mrujs {
     this.confirmClass.disconnect()
     this.method.disconnect()
     this.ajax.disconnect()
+
+    window.removeEventListener('pageshow', this.reenableDisabledElements)
+    document.removeEventListener('DOMContentLoaded', this.__connect__ as EventListener)
+    document.removeEventListener('submit', disableSubmitter as EventListener)
+    document.removeEventListener('ajax:complete', enableSubmitter as EventListener)
+    document.removeEventListener('ajax:complete', this.turbolinksRedirect as EventListener)
   }
 
   /**
@@ -118,5 +111,44 @@ export class Mrujs {
 
   get csrfParam (): string | null {
     return this.csrf.param
+  }
+
+  turbolinksRedirect (event: CustomEvent): void {
+    if (window.Turbolinks == null) return
+
+    const response = event.detail.response
+
+    if (response == null) return
+
+    const headers = response.headers
+
+    const action = headers.get('TURBOLINKS-REDIRECT-ACTION')
+    const location = headers.get('TURBOLINKS-REDIRECT-LOCATION')
+
+    if (action == null || location == null) return
+
+    window.Turbolinks.clearCache()
+    window.Turbolinks.visit(location, action)
+  }
+
+  reenableDisabledElements (): void {
+    document
+      .querySelectorAll(SELECTORS.formEnableSelector.selector)
+      .forEach(element => {
+        const el = element as HTMLInputElement
+        // Reenable any elements previously disabled
+        if (el.dataset['mrujs-disabled'] != null) {
+          el.disabled = false
+        }
+      })
+
+    document
+      .querySelectorAll(SELECTORS.linkDisableSelector.selector)
+      .forEach(element => {
+        const el = element as HTMLInputElement
+        if (el.dataset['mrujs-disabled'] != null) {
+          el.disabled = false
+        }
+      })
   }
 }

@@ -36,50 +36,58 @@ export class Ajax {
   submitter!: HTMLInputElement
   element!: HTMLFormElement | null
 
+  __ajaxSubmit__!: Function
+  __sendFetchRequest__!: Function
+  __dispatchComplete__!: Function
+
   connect (): void {
+    this.__ajaxSubmit__ = this._ajaxSubmit.bind(this)
+    this.__sendFetchRequest__ = this._sendFetchRequest.bind(this)
+    this.__dispatchComplete__ = this._dispatchComplete.bind(this)
+
     // Picks up the submit event
-    document.addEventListener('submit', this._ajaxSubmit.bind(this) as EventListener)
+    document.addEventListener('submit', this.__ajaxSubmit__ as EventListener)
 
     // Dispatchs an `ajax:before` event, which then triggers a fetch request
     document.addEventListener(
       AJAX_EVENTS.ajaxBefore,
-      this._sendFetchRequest.bind(this) as EventListener)
+      this.__sendFetchRequest__ as EventListener)
 
     // Listen for all 3 possible response and then send out a complete event
     document.addEventListener(
       AJAX_EVENTS.ajaxSuccess,
-      this._dispatchComplete.bind(this) as EventListener)
+      this.__dispatchComplete__ as EventListener)
 
     document.addEventListener(
       AJAX_EVENTS.ajaxResponseError,
-      this._dispatchComplete.bind(this) as EventListener)
+      this.__dispatchComplete__ as EventListener)
 
     document.addEventListener(
       AJAX_EVENTS.ajaxError,
-      this._dispatchComplete.bind(this) as EventListener)
+      this.__dispatchComplete__ as EventListener)
   }
 
   disconnect (): void {
     // Picks up the submit event
-    document.removeEventListener('submit', this._ajaxSubmit.bind(this) as EventListener)
+    document.removeEventListener('submit', this.__ajaxSubmit__ as EventListener)
 
     // Dispatchs an `ajax:before` event, which then triggers a fetch request
     document.removeEventListener(
       AJAX_EVENTS.ajaxBefore,
-      this._sendFetchRequest.bind(this) as EventListener)
+      this.__sendFetchRequest__ as EventListener)
 
     // Listen for all 3 possible response and then send out a complete event
     document.removeEventListener(
       AJAX_EVENTS.ajaxSuccess,
-      this._dispatchComplete.bind(this) as EventListener)
+      this.__dispatchComplete__ as EventListener)
 
     document.removeEventListener(
       AJAX_EVENTS.ajaxResponseError,
-      this._dispatchComplete.bind(this) as EventListener)
+      this.__dispatchComplete__ as EventListener)
 
     document.removeEventListener(
       AJAX_EVENTS.ajaxError,
-      this._dispatchComplete.bind(this) as EventListener)
+      this.__dispatchComplete__ as EventListener)
   }
 
   /**
@@ -224,7 +232,11 @@ export class Ajax {
     }
 
     this._dispatch(AJAX_EVENTS.ajaxComplete, {
-      detail: { submitter: this.submitter }
+      detail: {
+        response: event.detail.response,
+        error: event.detail.error,
+        submitter: this.submitter
+      }
     })
   }
 

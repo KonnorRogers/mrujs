@@ -5,6 +5,7 @@ declare global {
   interface Window {
     mrujs?: Mrujs
     Rails?: Mrujs
+    Turbolinks?: any
   }
 }
 
