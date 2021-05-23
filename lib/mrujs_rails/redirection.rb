@@ -24,8 +24,8 @@ module MrujsRails
       action = action.to_s
       visit_action = action == "advance" ? action : "replace"
 
-      response.content_type =
-        response.headers["X-Xhr-Redirect"] = location
+      response.content_type = Mime[:turbolinks]
+      response.headers["X-Xhr-Redirect"] = location
       response.headers["TURBOLINKS-REDIRECT-ACTION"] = visit_action
       response.headers["TURBOLINKS-REDIRECT-LOCATION"] = location
     end
