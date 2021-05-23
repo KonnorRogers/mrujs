@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    mrujs_rails (0.1.0.pre.beta.10)
-      rails (~> 6.1.3, >= 6.1.3.2)
+    mrujs_rails (0.1.0.pre.beta.11)
+      rails (>= 5.2, <= 7)
 
 GEM
   remote: https://rubygems.org/
