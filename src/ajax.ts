@@ -283,6 +283,7 @@ export class Ajax {
 
     const headers = {
       Accept: acceptHeader,
+      'X-Requested-With': 'XMLHttpRequest',
       'X-CSRF-Token': ''
     }
 
