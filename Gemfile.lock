@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mrujs_rails (0.1.0.pre.beta.15)
+    mrujs_rails (0.1.0.pre.beta.16)
       rails (>= 5.2, <= 7)
 
 GEM
