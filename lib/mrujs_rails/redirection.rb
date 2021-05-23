@@ -7,10 +7,10 @@ module MrujsRails
     end
 
     def redirect_to(url = {}, options = {})
-      turbolinks = options.delete(:turbolinks)
+      # turbolinks = options.delete(:turbolinks)
 
       super.tap do
-        if turbolinks != false && request.xhr? && !request.get?
+        if request.xhr? && !request.get?
           visit_location_with_turbolinks(location, turbolinks)
         elsif request.headers["Turbolinks-Referrer"]
           store_turbolinks_location_in_session(location)
