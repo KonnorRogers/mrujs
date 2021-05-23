@@ -193,6 +193,7 @@ export class Ajax {
    *   You can find the response in `event.detail.response`
    */
   _dispatchResponse (response: Response): void {
+    console.log("RESPONSE: ", response)
     if (response.ok) {
       this._dispatch(AJAX_EVENTS.ajaxSuccess, {
         detail: { response, submitter: this.submitter }
@@ -231,6 +232,7 @@ export class Ajax {
       return
     }
 
+    console.log("COMPLETE EVENT", event)
     this._dispatch(AJAX_EVENTS.ajaxComplete, {
       detail: {
         response: event.detail.response,
