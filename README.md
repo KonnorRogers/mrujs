@@ -129,7 +129,8 @@ const AJAX_EVENTS = {
 
   /**
    * After any fetch request, regardless of outcome
-   * Does not have any accessible data besides the event itself
+   * `event.detail.response`
+   * `event.detail.error` if any found
    */
   ajaxComplete: `ajax:complete`,
 

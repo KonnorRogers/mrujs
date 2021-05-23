@@ -3,6 +3,8 @@ import { SELECTORS } from './utils/dom'
 import { IQuery } from './types'
 
 export class Confirm {
+  __handleConfirm__!: Function
+
   /*
    * An array of queries to run on the document. Each object has an event, and then a queries array.
    */
@@ -32,10 +34,12 @@ export class Confirm {
   }
 
   connect (): void {
+    this.__handleConfirm__ = this.handleConfirm.bind(this)
+
     Confirm.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
-          element.addEventListener(obj.event, this.handleConfirm.bind(this) as EventListener)
+          element.addEventListener(obj.event, this.__handleConfirm__ as EventListener)
         })
       })
     })
@@ -45,7 +49,7 @@ export class Confirm {
     Confirm.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
-          element.removeEventListener(obj.event, this.handleConfirm.bind(this) as EventListener)
+          element.removeEventListener(obj.event, this.__handleConfirm__ as EventListener)
         })
       })
     })
