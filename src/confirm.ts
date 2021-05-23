@@ -60,8 +60,6 @@ export class Confirm {
 
     const element = event.target as HTMLElement
     const message = element.dataset.confirm
-    console.log('ELEMENT: ', element)
-    console.log('MESSAGE: ', message)
 
     if (message == null) {
       return
@@ -69,9 +67,6 @@ export class Confirm {
 
     let answer = false
 
-    // dispatch.call(element, 'confirm', EVENT_DEFAULTS)
-
-    console.log('CONFIRMING')
     try {
       answer = window?.mrujs?.confirm(message) as boolean
     } catch (e) {
