@@ -55,8 +55,6 @@ export class Mrujs {
     document.addEventListener('ajax:complete', enableSubmitter as EventListener)
     // end
 
-    document.addEventListener('ajax:complete', this.turbolinksRedirect as EventListener)
-
     this.connected = true
     return this
   }
@@ -85,7 +83,6 @@ export class Mrujs {
     document.removeEventListener('DOMContentLoaded', this.__connect__ as EventListener)
     document.removeEventListener('submit', disableSubmitter as EventListener)
     document.removeEventListener('ajax:complete', enableSubmitter as EventListener)
-    document.removeEventListener('ajax:complete', this.turbolinksRedirect as EventListener)
   }
 
   /**
@@ -111,24 +108,6 @@ export class Mrujs {
 
   get csrfParam (): string | null {
     return this.csrf.param
-  }
-
-  turbolinksRedirect (event: CustomEvent): void {
-    if (window.Turbolinks == null) return
-
-    const response = event.detail.response
-
-    if (response == null) return
-
-    const headers = response.headers
-
-    const action = headers.get('TURBOLINKS-REDIRECT-ACTION')
-    const location = headers.get('TURBOLINKS-REDIRECT-LOCATION')
-
-    if (action == null || location == null) return
-
-    window.Turbolinks.clearCache()
-    window.Turbolinks.visit(location, action)
   }
 
   reenableDisabledElements (): void {
