@@ -11,6 +11,7 @@ export class TurbolinksAdapter {
   }
 
   turbolinksVisit(event: CustomEvent) {
+    console.log("turbolinks in this ish")
     if (!window.Turbolinks.supported) return
 
     const response = event.detail.response
