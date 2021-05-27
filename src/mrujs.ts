@@ -2,21 +2,24 @@
 import './polyfills'
 
 import { Ajax, ExtendedRequestInit } from './ajax'
-import { Csrf } from './csrf'
-import { Method } from './method'
-import { Confirm } from './confirm'
 import { ClickHandler } from './clickHandler'
+import { Csrf } from './csrf'
+import { Confirm } from './confirm'
+import { Method } from './method'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
+import { TurbolinksAdapter } from './turbolinksAdapter'
 import { SELECTORS } from './utils/dom'
 
 export class Mrujs {
-  config: Record<string, unknown>
-  clickHandler: ClickHandler
-  csrf: Csrf
   ajax: Ajax
-  method: Method
-  confirmClass: Confirm
+  clickHandler: ClickHandler
   connected: boolean
+  config: Record<string, unknown>
+  confirmClass: Confirm
+  csrf: Csrf
+  method: Method
+  turbolinksAdapter: TurbolinksAdapter
+
   __connect__!: Function
 
   constructor (config = {}) {
@@ -24,6 +27,7 @@ export class Mrujs {
     this.clickHandler = new ClickHandler()
     this.csrf = new Csrf()
     this.ajax = new Ajax()
+    this.turbolinksAdapter = new TurbolinksAdapter()
     this.method = new Method()
     this.confirmClass = new Confirm()
 
@@ -70,6 +74,7 @@ export class Mrujs {
     this.confirmClass.connect()
     this.method.connect()
     this.ajax.connect()
+    this.turbolinksAdapter.connect()
   }
 
   disconnect (): void {
@@ -78,6 +83,7 @@ export class Mrujs {
     this.confirmClass.disconnect()
     this.method.disconnect()
     this.ajax.disconnect()
+    this.turbolinksAdapter.disconnect()
 
     window.removeEventListener('pageshow', this.reenableDisabledElements)
     document.removeEventListener('DOMContentLoaded', this.__connect__ as EventListener)
