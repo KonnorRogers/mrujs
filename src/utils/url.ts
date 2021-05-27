@@ -1,20 +1,20 @@
 export type Locatable = URL | string
 
-export function expandUrl(locatable: Locatable) {
+export function expandUrl (locatable: Locatable): URL {
   return new URL(locatable.toString(), document.baseURI)
 }
 
-export function getAnchor(url: URL) {
+export function getAnchor (url: URL): string {
   let anchorMatch
-  if (url.hash) {
+  if (url.hash != null && url.hash !== '') {
     return url.hash.slice(1)
-  } else if (anchorMatch = url.href.match(/#(.*)$/)) {
+  } else if ((anchorMatch = url.href.match(/#(.*)$/)) != null) {
     return anchorMatch[1]
   } else {
-    return ""
+    return ''
   }
 }
 
-export function urlsAreEqual(left: string, right: string) {
-  return expandUrl(left).href == expandUrl(right).href
+export function urlsAreEqual (left: string, right: string): boolean {
+  return expandUrl(left).href === expandUrl(right).href
 }

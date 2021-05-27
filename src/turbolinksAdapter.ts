@@ -1,31 +1,30 @@
 export class TurbolinksAdapter {
   __turbolinksVisit__!: Function
 
-  connect () {
+  connect (): void {
     this.__turbolinksVisit__ = this.turbolinksVisit.bind(this)
-    document.addEventListener("ajax:complete", this.__turbolinksVisit__ as EventListener)
+    document.addEventListener('ajax:complete', this.__turbolinksVisit__ as EventListener)
   }
 
-  disconnect () {
-    document.removeEventListener("ajax:complete", this.__turbolinksVisit__ as EventListener)
+  disconnect (): void {
+    document.removeEventListener('ajax:complete', this.__turbolinksVisit__ as EventListener)
   }
 
-  turbolinksVisit(event: CustomEvent) {
-    console.log("turbolinks in this ish")
-    if (!window.Turbolinks.supported) return
+  turbolinksVisit (event: CustomEvent): void {
+    if (window.Turbolinks.supported !== true) return
 
     const response = event.detail.response
 
     if (response == null) return
 
-    let action = "advance"
+    const action = 'advance'
 
-    if (!response.redirected) {
-      action = "replace"
-    }
+    // TODO: When should we actually use replace other than when specified??
+    // if (response.redirected != true) {
+    //   action = 'replace'
+    // }
 
     window.Turbolinks.clearCache()
-    window.Turbolinks.visit(location, action)
+    window.Turbolinks.visit(location, { action })
   }
 }
-
