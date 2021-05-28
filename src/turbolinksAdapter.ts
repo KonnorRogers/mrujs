@@ -17,13 +17,12 @@ export class TurbolinksAdapter {
     const response = event.detail.response
 
     if (response == null) return
+    if (response.redirected != true) return
 
     const action = 'advance'
 
     // TODO: When should we actually use replace other than when specified??
-    // if (response.redirected != true) {
     //   action = 'replace'
-    // }
 
     window.Turbolinks.clearCache()
     window.Turbolinks.visit(location, { action })
