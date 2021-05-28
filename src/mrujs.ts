@@ -20,7 +20,7 @@ export class Mrujs {
   method: Method
   turbolinksAdapter: TurbolinksAdapter
 
-  __connect__!: Function
+  __restart__!: Function
 
   constructor (config = {}) {
     this.config = config
@@ -43,10 +43,37 @@ export class Mrujs {
       return window.mrujs
     }
 
-    // this.connect()
+    this.restart()
 
-    this.__connect__ = this.connect.bind(this)
-    document.addEventListener('DOMContentLoaded', this.__connect__ as EventListener)
+    // Allows us to actually remove the function
+    this.__restart__ = this.restart.bind(this)
+
+    document.addEventListener('DOMContentLoaded', this.__restart__ as EventListener)
+    document.addEventListener('turbolinks:load', this.__restart__ as EventListener)
+
+    return this
+  }
+
+  // disconnect and remove the DOMContentLoaded event listener
+  stop (): void {
+    this.disconnect()
+    document.removeEventListener('DOMContentLoaded', this.__restart__ as EventListener)
+    document.removeEventListener('turbolinks:load', this.__restart__ as EventListener)
+  }
+
+  restart (): void {
+    this.disconnect()
+    this.connect()
+  }
+
+  connect (): void {
+    console.log('MRUJS: Connecting')
+    this.csrf.connect()
+    this.clickHandler.connect()
+    this.confirmClass.connect()
+    this.method.connect()
+    this.ajax.connect()
+    this.turbolinksAdapter.connect()
 
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
@@ -60,24 +87,10 @@ export class Mrujs {
     // end
 
     this.connected = true
-    return this
-  }
-
-  // disconnect
-  stop (): void {
-    this.disconnect()
-  }
-
-  connect (): void {
-    this.csrf.connect()
-    this.clickHandler.connect()
-    this.confirmClass.connect()
-    this.method.connect()
-    this.ajax.connect()
-    this.turbolinksAdapter.connect()
   }
 
   disconnect (): void {
+    console.log('MRUJS: disconnecting')
     this.csrf.disconnect()
     this.clickHandler.disconnect()
     this.confirmClass.disconnect()
@@ -86,9 +99,10 @@ export class Mrujs {
     this.turbolinksAdapter.disconnect()
 
     window.removeEventListener('pageshow', this.reenableDisabledElements)
-    document.removeEventListener('DOMContentLoaded', this.__connect__ as EventListener)
     document.removeEventListener('submit', disableSubmitter as EventListener)
     document.removeEventListener('ajax:complete', enableSubmitter as EventListener)
+
+    this.connected = false
   }
 
   /**

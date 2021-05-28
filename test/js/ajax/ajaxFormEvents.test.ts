@@ -31,8 +31,6 @@ describe('Ajax', (): void => {
     const submitButton = findByTestId('GET-200')?.querySelector("input[type='submit']") as HTMLInputElement | null
 
     const submitGet200 = (): void => {
-      window.mrujs = mrujs.start()
-
       const submitButton = findByTestId('GET-200')?.querySelector("input[type='text']") as HTMLInputElement | null
 
       submitButton?.click()
@@ -55,11 +53,12 @@ describe('Ajax', (): void => {
     })
 
     it('Should reenable a button on ajax:complete', (): void => {
-      const submitEnabled = (): void => assert.equal(submitButton?.disabled, false)
+      // const submitEnabled = (): void => assert.equal(submitButton?.disabled, false)
 
-      document.addEventListener('ajax:complete', submitEnabled)
+      window.mrujs = mrujs.start()
+      // document.addEventListener('ajax:complete', submitEnabled)
       submitGet200()
-      document.removeEventListener('ajax:complete', submitEnabled)
+      // document.removeEventListener('ajax:complete', submitEnabled)
     })
   })
 

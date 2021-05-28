@@ -168,8 +168,6 @@ export class Ajax {
       return
     }
 
-    // disableSubmitter();
-
     const { request } = event.detail
 
     if (request.url == null) {
@@ -307,15 +305,16 @@ export class Ajax {
       credentials: 'include'
     }
 
+    let url = this.url
     if (this.method.toLowerCase() !== 'get') {
       if (this.element != null) {
         requestOptions.body = this.body
       }
     } else {
-      this.url = this.mergeFormDataEntries(this.url, [...this.body.entries()])
+      url = this.mergeFormDataEntries(this.url, [...this.body.entries()])
     }
 
-    return { ...requestOptions, url: this.url.href }
+    return { ...requestOptions, url: url.href }
   }
 
   /**
@@ -355,10 +354,6 @@ export class Ajax {
     }
 
     return new URL(url)
-  }
-
-  set url (val: URL) {
-    this.url = val
   }
 
   get body (): URLSearchParams | FormData {
