@@ -7,6 +7,7 @@ gem 'webpacker'
 gem "capybara"
 gem "cuprite"
 gem "evil_systems"
+gem "standardrb"
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
