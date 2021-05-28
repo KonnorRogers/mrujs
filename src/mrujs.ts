@@ -67,7 +67,7 @@ export class Mrujs {
   }
 
   connect (): void {
-    console.log('MRUJS: Connecting')
+    // console.log('MRUJS: Connecting')
     this.csrf.connect()
     this.clickHandler.connect()
     this.confirmClass.connect()
@@ -90,7 +90,7 @@ export class Mrujs {
   }
 
   disconnect (): void {
-    console.log('MRUJS: disconnecting')
+    // console.log('MRUJS: disconnecting')
     this.csrf.disconnect()
     this.clickHandler.disconnect()
     this.confirmClass.disconnect()

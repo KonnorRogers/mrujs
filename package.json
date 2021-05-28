@@ -47,5 +47,8 @@
       "dist"
     ],
     "project": "./tsconfig-dev.json"
+  },
+  "dependencies": {
+    "morphdom": "^2.6.1"
   }
 }
