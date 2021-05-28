@@ -80,5 +80,5 @@ jobs:
         bundler-cache: true
 
     - name: lint
-      run: bundle exec standardrb ./lib ./test/ruby
+      run: bundle exec standardrb ./test/ruby
 
