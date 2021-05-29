@@ -34,16 +34,26 @@ export class NavigationAdapter {
 
     const fetchResponse = new FetchResponse(response)
 
-    // If we get redirected, use Turbolinks
-    if (fetchResponse.redirected) {
-      const location = fetchResponse.location
-      const action = this.determineAction(event)
-      this.turbolinksVisit({ location, action })
+    // Only render responses on html responses.
+    if (!fetchResponse.isHtml) return
+
+    if (fetchResponse.succeeded && !fetchResponse.redirected) {
+      console.error('Successful form submissions must redirect')
       return
     }
 
+    // If we get redirected, use Turbolinks
+    // This needs to be reworked to not trigger 2 HTML responses or find a
+    // way to not refetch a page.
+    // if (response.redirected) {
+    //   const location = fetchResponse.location
+    //   const action = this.determineAction(event)
+    //   this.turbolinksVisit({ location, action })
+    //   return
+    // }
+
     // Use morphdom to dom diff the response if the response is HTML.
-    this.morphResponse(response)
+    this.morphResponse(fetchResponse)
   }
 
   turbolinksVisit ({ location, action }: VisitInit): void {
@@ -67,6 +77,8 @@ export class NavigationAdapter {
         // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
         // @ts-expect-error pushState accepts URL | string, but TS complains about URL.
         window.history.pushState({}, '', response.location)
+
+        // This is only needed until we start using mutationObservers.
         window?.mrujs?.restart()
       })
       .catch((error: Error) => {

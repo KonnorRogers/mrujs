@@ -56,8 +56,9 @@ export class Method {
       // Must trigger submit by click on a button, else "submit" event handler won't work!
       // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit
       formContent += `<input type="hidden" name="${csrfParam}" value="${csrfToken}" />`
-      formContent += '<input type="submit" />'
     }
+
+    formContent += '<input type="submit" />'
 
     form.method = 'post'
     form.action = href
@@ -66,6 +67,7 @@ export class Method {
     form.style.display = 'none'
 
     document.body.appendChild(form)
+
     const submitBtn = form.querySelector('[type="submit"]') as HTMLInputElement
     submitBtn.click()
   }

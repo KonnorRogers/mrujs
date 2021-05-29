@@ -1,0 +1,15 @@
+<%= form_with(id: "normal-form", model: post) do |form| %>
+  <%= render partial: "posts/form_body", locals: {form: form, post: post} %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= form_with(id: "ajax-form", model: post, local: false) do |form| %>
+  <%= render partial: "posts/form_body", locals: {form: form, post: post} %>
+
+  <div class="actions">
+    <%= form.submit nil, {"data-disable-with" => "Submitting..."} %>
+  </div>
+<% end %>
