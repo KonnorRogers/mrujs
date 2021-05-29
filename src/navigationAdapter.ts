@@ -54,9 +54,9 @@ export class NavigationAdapter {
     window.Turbolinks.visit(location, { action })
   }
 
-  morphResponse (response: FetchResponse): boolean {
+  morphResponse (response: FetchResponse): void {
     // Dont pass go if its not HTML.
-    if (!response.isHtml) return false
+    if (!response.isHtml) return
 
     response.responseHtml
       .then((html: string) => {
@@ -72,8 +72,6 @@ export class NavigationAdapter {
       .catch((error: Error) => {
         console.error(error)
       })
-
-    return true
   }
 
   determineAction (event: CustomEvent): VisitAction {
