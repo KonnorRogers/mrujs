@@ -6,8 +6,8 @@ import { ClickHandler } from './clickHandler'
 import { Csrf } from './csrf'
 import { Confirm } from './confirm'
 import { Method } from './method'
+import { NavigationAdapter } from './navigationAdapter'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
-import { TurbolinksAdapter } from './turbolinksAdapter'
 import { SELECTORS } from './utils/dom'
 
 export class Mrujs {
@@ -18,7 +18,7 @@ export class Mrujs {
   confirmClass: Confirm
   csrf: Csrf
   method: Method
-  turbolinksAdapter: TurbolinksAdapter
+  navigationAdapter: NavigationAdapter
 
   __restart__!: Function
 
@@ -27,7 +27,7 @@ export class Mrujs {
     this.clickHandler = new ClickHandler()
     this.csrf = new Csrf()
     this.ajax = new Ajax()
-    this.turbolinksAdapter = new TurbolinksAdapter()
+    this.navigationAdapter = new NavigationAdapter()
     this.method = new Method()
     this.confirmClass = new Confirm()
 
@@ -67,13 +67,12 @@ export class Mrujs {
   }
 
   connect (): void {
-    console.log('MRUJS: Connecting')
     this.csrf.connect()
     this.clickHandler.connect()
     this.confirmClass.connect()
     this.method.connect()
     this.ajax.connect()
-    this.turbolinksAdapter.connect()
+    this.navigationAdapter.connect()
 
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
@@ -90,13 +89,12 @@ export class Mrujs {
   }
 
   disconnect (): void {
-    console.log('MRUJS: disconnecting')
     this.csrf.disconnect()
     this.clickHandler.disconnect()
     this.confirmClass.disconnect()
     this.method.disconnect()
     this.ajax.disconnect()
-    this.turbolinksAdapter.disconnect()
+    this.navigationAdapter.disconnect()
 
     window.removeEventListener('pageshow', this.reenableDisabledElements)
     document.removeEventListener('submit', disableSubmitter as EventListener)

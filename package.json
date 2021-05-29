@@ -25,6 +25,9 @@
     "changelog": "standard-changelog",
     "deploy": "yarn changelog && yarn publish && git add . && git commit -m 'chore: update changelog' && git push"
   },
+  "dependencies": {
+    "morphdom": ">=2.6.0 <3.0.0"
+  },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
     "@rails/webpacker": "5.3.0",
