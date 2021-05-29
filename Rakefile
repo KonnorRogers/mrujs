@@ -1,7 +1,14 @@
 require "bundler/setup"
 
-require "standard/rake"
-
 task :test do
-  system("cd test/ruby/dummy && bundle exec rails test:all")
+  Dir.chdir("test/rails/dummy") { system("bundle exec rails test:all") }
+end
+
+namespace :ci do
+  task :test do
+    Dir.chdir("test/rails/dummy") do
+      system("bundle exec rails db:prepare")
+      system("bundle exec rails test:all")
+    end
+  end
 end
