@@ -14,8 +14,8 @@
     "dist/*"
   ],
   "scripts": {
-    "lint": "ts-standard",
-    "fix": "ts-standard --fix",
+    "lint": "ts-standard src/ test/js ",
+    "fix": "ts-standard src/ test/js --fix",
     "test": "yarn fix && tsc -p tsconfig-dev.json && web-test-runner",
     "test:watch": "web-test-runner --watch",
     "start": "tsc -p tsconfig-dev.json && web-dev-server",
