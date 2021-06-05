@@ -81,10 +81,10 @@ jobs:
 
     - name: Install via yarn
       run: |
-        yarn install --frozen-lockfile
+        yarn install
         yarn build
         cd test/rails/dummy
-        yarn install --frozen-lockfile
+        yarn install
         cd -
 
     - name: Tests
