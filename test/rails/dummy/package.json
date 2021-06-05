@@ -2,7 +2,7 @@
   "name": "dummy",
   "private": true,
   "dependencies": {
-    "mrujs": "file:../../../dist",
+    "mrujs": "file:../../..",
     "@rails/ujs": "*",
     "@rails/activestorage": "^6.0.0",
     "@rails/webpacker": "5.4.0",
