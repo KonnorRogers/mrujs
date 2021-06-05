@@ -258,28 +258,27 @@ export class Ajax {
    * Headers to send to the request object
    */
   get headers (): HeadersInit {
-    let response = null
+    let responseType = null
+
     if (this.element != null) {
-      response = this.element.dataset.response
+      responseType = this.element.dataset.type
     }
 
     let acceptHeader = Ajax.acceptHeaders.any
 
     // if null, just use any
-    if (response != null) {
-      response = response.trim()
+    if (responseType != null) {
+      responseType = responseType.trim()
 
-      if (Object.keys(Ajax.acceptHeaders).includes(response)) {
-        const res = response as AcceptHeadersKey
-        acceptHeader = Ajax.acceptHeaders[res]
+      if (Object.keys(Ajax.acceptHeaders).includes(responseType)) {
+        acceptHeader = Ajax.acceptHeaders[responseType as AcceptHeadersKey]
       } else {
-        acceptHeader = response
+        acceptHeader = responseType
       }
     }
 
     const headers = {
       Accept: acceptHeader,
-      'X-Requested-With': 'XMLHttpRequest',
       'X-CSRF-Token': ''
     }
 
@@ -302,7 +301,7 @@ export class Ajax {
       method: this.method,
       headers: { ...this.headers },
       redirect: 'follow',
-      credentials: 'include'
+      credentials: 'same-origin'
     }
 
     let url = this.url

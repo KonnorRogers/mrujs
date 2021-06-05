@@ -46,15 +46,8 @@ jobs:
   ruby-test:
     runs-on: ubuntu-latest
 
-    services:
-      chrome:
-        image: browserless/chrome:1.31-chrome-stable
-        ports: ["3000:3000"]
-        options: -e CONNECTION_TIMEOUT=600000
-
     env:
       CI: true
-      CHROME_URL: http://localhost:3000
       RAILS_ENV: test
 
     strategy:
@@ -88,9 +81,10 @@ jobs:
 
     - name: Install via yarn
       run: |
-        yarn install --frozen-lockfile
+        yarn install
+        yarn build
         cd test/rails/dummy
-        yarn install --frozen-lockfile
+        yarn install
         cd -
 
     - name: Tests

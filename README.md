@@ -3,7 +3,6 @@
 To provide a Rails-UJS alternative since Rails UJS is currently
 deprecated. Uses modern javascript instead of coffeescript.
 
-
 ## What does mrujs mean?
 
 Modern Rails UJS.
@@ -255,11 +254,11 @@ window.fetch("url", {
 ### Remote forms
 
 Remote forms can also negotiate the proper `Accept` headers. To do so,
-set the `data-response='json'` to tell the server you can only accept
+set the `data-type='json'` to tell the server you can only accept
 json.
 
 <details>
-<summary> List of predefined `data-response` values </summary>
+<summary> List of predefined `data-type` values </summary>
 
 ```js
   '*': '*/*',
@@ -277,12 +276,15 @@ Example:
 
 ```html
 <!-- Sends a `application/json` and `text/javascript` accept header. -->
-<form data-remote="true" data-response="json">
-</form>
+<form data-remote="true" data-type="json"></form>
 
 <!-- Sends an XML accept header -->
-<form data-remote="true" data-response="application/xml">
-</form>
+<form data-remote="true" data-type="application/xml"></form>
+
+<!--- Shorthand -->
+
+<form data-remote="true" data-type="xml"></form>
+
 
 <!-- Sends a default '*/*' Accept header. -->
 <form data-remote="true">
@@ -306,41 +308,15 @@ knows to perform a delete.
 
 - [x] - add support for `data-method="<REQUEST_TYPE>"` for non-forms
 it.
-- [x] - `data-response='type'` for forms.
+- [x] - `data-type='type'` for forms.
 - [x] - Alias `window.Rails` to `window.mrujs` (Allows drop in
 replacement)
-- [ ] - Allow the use of `data-confirm=""`
-- [ ] - Provide a confirm dialog for `data-confirm`
-- [ ] - Allow users to provide their own confirm function to `data-confirm`
+- [x] - Allow the use of `data-confirm=""`
+- [x] - Provide a confirm dialog for `data-confirm`
+- [x] - Allow users to provide their own confirm function to `data-confirm`
 - [ ] - Allow `ajax:send` to be cancelled via abort controllers.
-
-<details>
-<summary> Example of `data-confirm` </summary>
-
-```html
-<!-- Uses user provided HTML -->
-<a href="blah" data-method="delete" data-confirm="<p>Are you
-sure?</p>">
-  Logout
-</a>
-
-<!-- Uses a web component modal -->
-<a href="/blah" data-method="delete" data-confirm="Are you
-sure you want to logout?">
-  Logout
-</a>
-
-<!-- Uses a regular alert -->
-<a href="/blah" data-method="delete" data-confirm="Are you
-sure you want to logout?" data-use-alert="true">
-  Logout
-</a>
-```
-
-</details>
-
-- [ ] - Other UJS features deemed necessary.
 - [ ] - Asset pipeline, if someone would like to add support im open to
+it
 
 ## Developing locally
 
@@ -371,7 +347,7 @@ yarn test
 
 ## Rails
 
-There is also a Rails gem / dummy server attached.
+There is also a Rails dummy app attached in this repo for testing.
 
 ### Installation
 
@@ -391,6 +367,8 @@ From any where _outside_ of the `test/ruby/dummy` directory:
 
 `bundle exec rake test`
 
-## Gem usage
+## Known Issues
 
-...Coming soon
+If you are using the `Turbolinks` gem, you can safely disable it. Having
+it enabled means forms / ajax requests will not properly work as
+intended.

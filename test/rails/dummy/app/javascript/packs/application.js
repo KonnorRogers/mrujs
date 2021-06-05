@@ -3,9 +3,10 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import Rails from "mrujs"
-import Turbolinks from "turbolinks"
-import * as ActiveStorage from "@rails/activestorage"
+import Rails from 'mrujs'
+// import Rails from "@rails/ujs"
+import Turbolinks from 'turbolinks'
+import * as ActiveStorage from '@rails/activestorage'
 
 Rails.start()
 Turbolinks.start()
