@@ -1,4 +1,4 @@
-import { EVENT_DEFAULTS, dispatch, stopEverything } from './utils/events'
+import { dispatch, stopEverything } from './utils/events'
 import { SELECTORS } from './utils/dom'
 import { IQuery } from './types'
 
