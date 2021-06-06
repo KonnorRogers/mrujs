@@ -297,11 +297,14 @@ export class Ajax {
    * A request object to be passed to fetch
    */
   get request (): ExtendedRequestInit {
+    const abortController = new AbortController()
+
     const requestOptions: RequestInit = {
       method: this.method,
       headers: { ...this.headers },
       redirect: 'follow',
-      credentials: 'same-origin'
+      credentials: 'same-origin',
+      signal: abortController.signal
     }
 
     let url = this.url

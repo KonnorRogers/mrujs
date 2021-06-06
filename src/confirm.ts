@@ -1,4 +1,4 @@
-import { EVENT_DEFAULTS, dispatch, stopEverything } from './utils/events'
+import { dispatch, stopEverything } from './utils/events'
 import { SELECTORS } from './utils/dom'
 import { IQuery } from './types'
 
@@ -74,7 +74,7 @@ export class Confirm {
     }
 
     if (answer) {
-      dispatch.call(element, 'confirm:complete', { detail: { ...EVENT_DEFAULTS, answer } })
+      dispatch.call(element, 'confirm:complete', { detail: { answer } })
       return
     }
 
