@@ -6,12 +6,10 @@ export const EVENT_DEFAULTS = {
 /**
  * Thin wrapper around element.dispatchEvent and new CustomEvent
  */
-export function dispatch (this: Node, name: string, options: CustomEventInit | undefined): void {
-  if (options == null) {
-    options = {}
-  }
-
-  this.dispatchEvent(new CustomEvent(name, options))
+export function dispatch (this: Node, name: string, options: CustomEventInit = {}): CustomEvent {
+  const event = new CustomEvent(name, { ...EVENT_DEFAULTS, ...options })
+  this.dispatchEvent(event)
+  return event
 }
 
 export function stopEverything (event: Event | CustomEvent): void {

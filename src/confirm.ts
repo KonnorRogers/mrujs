@@ -74,7 +74,7 @@ export class Confirm {
     }
 
     if (answer) {
-      dispatch.call(element, 'confirm:complete', { detail: { ...EVENT_DEFAULTS, answer } })
+      dispatch.call(element, 'confirm:complete', { detail: { answer } })
       return
     }
 
