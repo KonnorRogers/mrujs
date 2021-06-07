@@ -4,6 +4,8 @@ export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
 export interface FetchRequestHeaders { [header: string]: string }
 export type FetchMethodString = 'get' | 'put' | 'post' | 'patch' | 'delete'
 
+export type RequestInfo = Request | string | URL
+
 export class FetchRequest {
   abortController = new AbortController()
   body?: FetchRequestBody
@@ -51,7 +53,7 @@ export class FetchRequest {
   setMethodHeadersAndBody (input: Request): void {
     this.method = input.method.toLowerCase() as FetchMethodString
     this.headers = { ...this.defaultHeaders, ...input.headers }
-    this.body = (input.body != null) || new URLSearchParams()
+    this.body = input.body == null ? new URLSearchParams() : input.body
   }
 
   get defaultRequestOptions (): RequestInit {
