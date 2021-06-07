@@ -2,73 +2,63 @@ import { FetchResponse } from "./fetchResponse"
 import { dispatch } from "../utils/events"
 import { expandUrl, Locateable } from '../utils/url'
 
-export type FetchRequestBody = FormData | URLSearchParams
+export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
 export type FetchRequestHeaders = { [header: string]: string }
+export type FetchMethodString = "get" | "put" | "post" | "patch" | "delete"
 
 export class FetchRequest {
-  readonly method: FetchMethod
-  readonly headers: FetchRequestHeaders
-  readonly url: URL
-  readonly body?: FetchRequestBody
-  readonly abortController = new AbortController()
+  abortController = new AbortController()
+  body?: FetchRequestBody
+  headers!: Headers
+  method!: FetchMethodString
+  request: Request
+  url: URL
 
-  constructor(url: Locateable, { method, body = new URLSearchParams() }: RequestInit) {
-    this.url = expandUrl(request.url)
-    this.method = verifyMethod(method)
-    this.headers = { ...this.defaultHeaders, ...headers }
+  constructor(input: Request & Locateable, options: RequestInit = {}) {
+    this.url = expandUrl(input.url || input)
 
-    if (this.isGetRequest) {
-      this.url = mergeFormDataEntries(this.url, [ ...body.entries() ])
+    // if we're given a Request, set the method, headers and body first, then we
+    // merge with the defaultRequestOptions and clone the instance of Request
+    if (input instanceof Request) {
+      this.setMethodHeadersAndBody(input)
+      this.request = new Request({ ...this.defaultRequestOptions, ...input as Request })
     } else {
-      this.body = body
-      this.url = location
+      // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
+      this.request = new Request(this.url, {...this.defaultRequestOptions, ...options})
+      this.setMethodHeadersAndBody(this.request)
     }
+
+    this.modifyUrl()
   }
 
   get params(): URLSearchParams {
     return this.url.searchParams
   }
 
-  get entries() {
-    return this.body ? Array.from(this.body.entries()) : []
+  get entries(): [string, FormDataEntryValue][] {
+    return this.body instanceof URLSearchParams ? Array.from(this.body.entries()) : []
   }
 
   cancel() {
     this.abortController.abort()
   }
 
-  async perform(): Promise<FetchResponse> {
-    const { fetchOptions } = this
-    this.delegate.prepareHeadersForRequest?.(this.headers, this)
-    dispatch("turbo:before-fetch-request", { detail: { fetchOptions } })
-    try {
-      this.delegate.requestStarted(this)
-      const response = await fetch(this.url.href, fetchOptions)
-      return await this.receive(response)
-    } catch (error) {
-      this.delegate.requestErrored(this, error)
-      throw error
-    } finally {
-      this.delegate.requestFinished(this)
-    }
+  modifyUrl(): void {
+    if (!this.isGetRequest) return
+
+    // Append params to the Url.
+    this.url = mergeFormDataEntries(this.url, this.entries)
   }
 
-  async receive(response: Response): Promise<FetchResponse> {
-    const fetchResponse = new FetchResponse(response)
-    const event = dispatch("turbo:before-fetch-response", { cancelable: true, detail: { fetchResponse } })
-    if (event.defaultPrevented) {
-      this.delegate.requestPreventedHandlingResponse(this, fetchResponse)
-    } else if (fetchResponse.succeeded) {
-      this.delegate.requestSucceededWithResponse(this, fetchResponse)
-    } else {
-      this.delegate.requestFailedWithResponse(this, fetchResponse)
-    }
-    return fetchResponse
+  setMethodHeadersAndBody(input: Request): void {
+    this.method = input.method.toLowerCase() as FetchMethodString
+    this.headers = { ...this.defaultHeaders, ...input.headers }
+    this.body = input.body || new URLSearchParams()
   }
 
-  get fetchOptions(): RequestInit {
+  get defaultRequestOptions(): RequestInit {
     return {
-      method: FetchMethod[this.method].toUpperCase(),
+      method: this.method.toUpperCase(),
       credentials: "same-origin",
       headers: this.headers,
       redirect: "follow",
@@ -79,12 +69,12 @@ export class FetchRequest {
 
   get defaultHeaders() {
     return {
-      "Accept": "text/html, application/xhtml+xml"
+      "Accept": "*/*"
     }
   }
 
   get isGetRequest() {
-    return this.method == FetchMethod.get
+    return this.method == "get"
   }
 
   get abortSignal() {
