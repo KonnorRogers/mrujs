@@ -35,7 +35,7 @@ export class NavigationAdapter {
     // Only render responses on html responses.
     if (response.isHtml === false) return
 
-    if (response.succeeded === true && response.redirected === false) {
+    if (response.succeeded === true && response.redirected !== true) {
       console.error('Successful form submissions must redirect')
       return
     }
@@ -43,21 +43,25 @@ export class NavigationAdapter {
     // If we get redirected, use Turbolinks
     // This needs to be reworked to not trigger 2 HTML responses or find a
     // way to not refetch a page.
-    // if (response.redirected) {
-    //   const location = fetchResponse.location
-    //   const action = this.determineAction(event)
-    //   this.turbolinksVisit({ location, action })
-    //   return
-    // }
+    if (response.redirected && this.useTurbolinks) {
+      const location = response.response.location
+      const action = this.determineAction(event)
+      this.turbolinksVisit({ location, action })
+      return
+    }
 
     // Use morphdom to dom diff the response if the response is HTML.
     this.morphResponse(response)
   }
 
-  turbolinksVisit ({ location, action }: VisitInit): void {
-    if (window.Turbolinks == null) return
-    if (window.Turbolinks.supported !== true) return
+  get useTurbolinks (): boolean {
+    if (window.Turbolinks == null) return false
+    if (window.Turbolinks.supported !== true) return false
 
+    return true
+  }
+
+  turbolinksVisit ({ location, action }: VisitInit): void {
     window.Turbolinks.clearCache()
     window.Turbolinks.visit(location, { action })
   }
