@@ -28,6 +28,12 @@ export const AJAX_EVENTS = {
   ajaxBefore: `${prefix}:before`,
 
   /**
+   * Just prior to sending the fetch request
+   * @TODO not currently implemented
+   */
+  ajaxBeforeSend: `${prefix}:beforeSend`,
+
+  /**
    * When the fetch request is sent. You can view whats being sent via:
    * `event.detail.formData`
    */
@@ -40,14 +46,18 @@ export const AJAX_EVENTS = {
   ajaxResponseError: `${prefix}:response:error`,
 
   /**
+   * Catches errors with requests such as Network errors.
+   */
+  ajaxRequestError: `${prefix}:request:error`,
+
+  /**
    * When a >= 200 and <= 299 response is returned
    * You can view the full response via: `event.detail.response`
    */
   ajaxSuccess: `${prefix}:success`,
 
   /**
-   * When an actual error is raised. This doesnt include 404, 500,
-   * errors, just like native fetch.
+   * A unified event to catch both Response and Request errors.
    * You can view the error via: `event.detail.error`
    * This will also generate an error in your console.log
    */

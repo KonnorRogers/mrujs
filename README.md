@@ -205,14 +205,6 @@ window.fetch("/url", { ... })
 window.mrujs.fetch({url: "/url", ...})
   .then((response) => ...)
   .catch((error) => ...)
-
-// If you would prefer, you can also listen to the above ajax events.
-// `mrujs.fetch({url: "/url", dispatchEvents: true})` fires all the above listed ajax events, `ajax:before`, `ajax:send`, etc
-
-// mrujs fetch with events
-
-window.mrujs.fetch({url: "url", method: "POST", dispatchEvents: true})
-window.addEventListener("ajax:success", (event) => doStuff(event.detail.response))
 ```
 
 To *receive* a `json` response, make sure to set the `Accept` header to

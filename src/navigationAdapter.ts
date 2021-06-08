@@ -32,12 +32,10 @@ export class NavigationAdapter {
 
     if (response == null) return
 
-    const fetchResponse = new FetchResponse(response)
-
     // Only render responses on html responses.
-    if (!fetchResponse.isHtml) return
+    if (response.isHtml === false) return
 
-    if (fetchResponse.succeeded && !fetchResponse.redirected) {
+    if (response.succeeded === true && response.redirected === true) {
       console.error('Successful form submissions must redirect')
       return
     }
@@ -53,7 +51,7 @@ export class NavigationAdapter {
     // }
 
     // Use morphdom to dom diff the response if the response is HTML.
-    this.morphResponse(fetchResponse)
+    this.morphResponse(response)
   }
 
   turbolinksVisit ({ location, action }: VisitInit): void {
