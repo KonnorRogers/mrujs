@@ -1,3 +1,17 @@
+# [0.3.0-beta.2](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.1...v0.3.0-beta.2) (2021-06-08)
+
+### Fixes
+
+* Fix raising errors on forms that don't redirect on success.
+
+# [0.3.0-beta.1](https://github.com/ParamagicDev/mrujs/compare/v0.2.1...v0.3.0-beta.1) (2021-06-08)
+
+### Features
+
+* refactor fetch ([#32](https://github.com/ParamagicDev/mrujs/issues/32)) ([d69c1f0](https://github.com/ParamagicDev/mrujs/commit/d69c1f0708e24439a58257c91d2ad719752bd686))
+
+
+
 # [0.2.0](https://github.com/ParamagicDev/mrujs/compare/v0.1.2...v0.2.0) (2021-06-05)
 
 ### Deprecation Warning
