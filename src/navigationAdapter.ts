@@ -35,7 +35,7 @@ export class NavigationAdapter {
     // Only render responses on html responses.
     if (response.isHtml === false) return
 
-    if (response.succeeded === true && response.redirected === true) {
+    if (response.succeeded === true && response.redirected === false) {
       console.error('Successful form submissions must redirect')
       return
     }
