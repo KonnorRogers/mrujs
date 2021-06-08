@@ -1,11 +1,7 @@
-import { expandUrl, Locateable } from '../utils/url'
-import { Utils } from '../utils'
+import { mergeHeaders, expandUrl, Locateable } from '../utils/url'
 
 export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
 
-export interface FetchRequestHeaders {
-  [header: string]: string
-}
 export type FetchMethodString = 'get' | 'put' | 'post' | 'patch' | 'delete'
 
 export type RequestInfo = Request | string | URL
@@ -22,7 +18,7 @@ export class FetchRequest {
   abortController = new AbortController()
   request: Request
 
-  headers!: Headers
+  headers: Headers
   method!: FetchMethodString
   url!: URL
 
@@ -32,15 +28,24 @@ export class FetchRequest {
     // if we're given a Request, set the method, headers and body first, then we
     // merge with the defaultRequestOptions and clone the instance of Request
     if (input instanceof Request) {
-      this.setMethodHeadersAndBody(input)
+      this.setMethodAndBody(input)
       this.modifyUrl(input.url)
-      this.request = new Request({ ...this.defaultRequestOptions, ...input })
+      this.headers = mergeHeaders(this.defaultHeaders, input.headers)
+      const mergedOptions = { ...this.defaultRequestOptions, ...input }
+      mergedOptions.headers = this.headers
+      this.request = new Request(mergedOptions)
     } else {
-      this.setMethodHeadersAndBody(options)
+      this.setMethodAndBody(options)
       this.modifyUrl(input)
+      this.headers = mergeHeaders(this.defaultHeaders, new Headers(options.headers))
+      const mergedOptions = { ...this.defaultRequestOptions, ...options }
+      mergedOptions.headers = this.headers
+
       // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
-      this.request = new Request(this.url, { ...this.defaultRequestOptions, ...options })
+      this.request = new Request(this.url, mergedOptions)
     }
+
+    this.headers = this.request.headers
   }
 
   get params (): URLSearchParams {
@@ -64,10 +69,8 @@ export class FetchRequest {
     this.url = mergeFormDataEntries(this.url, this.entries)
   }
 
-  setMethodHeadersAndBody (input: Request | RequestInit): void {
+  setMethodAndBody (input: Request | RequestInit): void {
     this.method = (input.method?.toLowerCase() ?? 'get') as FetchMethodString
-
-    this.headers = { ...this.defaultHeaders, ...(input.headers as Headers) }
 
     if (this.isGetRequest) return
 
@@ -77,21 +80,21 @@ export class FetchRequest {
   get defaultRequestOptions (): RequestInit {
     return {
       method: this.method,
-      credentials: 'same-origin',
       headers: this.headers,
+      credentials: 'same-origin',
       redirect: 'follow',
       body: this.body,
       signal: this.abortSignal
     }
   }
 
-  get defaultHeaders (): FetchRequestHeaders {
-    const headers: FetchRequestHeaders = { Accept: '*/*' }
+  get defaultHeaders (): Headers {
+    const headers: Headers = new Headers({ Accept: '*/*' })
 
     const token = this.csrfToken
 
     if (token != null) {
-      headers['X-CSRF-TOKEN'] = token
+      headers.set('X-CSRF-TOKEN', token)
     }
 
     return headers
@@ -100,7 +103,7 @@ export class FetchRequest {
   get csrfToken (): string | undefined {
     if (this.isGetRequest) return
 
-    const token = Utils.getCookieValue(Utils.getMetaContent('csrf-param')) ?? Utils.getMetaContent('csrf-token')
+    const token = window.mrujs?.csrfToken
 
     if (token == null) return
 

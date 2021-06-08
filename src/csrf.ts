@@ -63,7 +63,7 @@ export class Csrf {
 
   // Up-to-date Cross-Site Request Forgery token
   get token (): string | null {
-    return Utils.getMetaContent('csrf-token')
+    return Utils.getCookieValue(Utils.getMetaContent('csrf-param')) ?? Utils.getMetaContent('csrf-token')
   }
 
   // URL param that must contain the CSRF token

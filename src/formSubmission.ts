@@ -36,7 +36,6 @@ export class FormSubmission {
   submitter: Submitter | undefined
   element: HTMLFormElement
   fetchRequest: FetchRequest
-  request: Request
 
   constructor (element: HTMLFormElement, submitter?: Submitter) {
     this.element = element
@@ -45,17 +44,24 @@ export class FormSubmission {
       this.submitter = submitter
     }
 
-    this.fetchRequest = new FetchRequest(this.url, {
+    const options: RequestInit = {
+      method: this.method,
       headers: this.headers
-    })
+    }
 
-    this.request = this.fetchRequest.request
+    if (this.isGetRequest === false) options.body = this.body
+
+    this.fetchRequest = new FetchRequest(this.url, options)
+  }
+
+  get request (): Request {
+    return this.fetchRequest.request
   }
 
   /**
    * Headers to send to the request object
    */
-  get headers (): HeadersInit {
+  get headers (): Headers {
     let responseType = null
 
     if (this.element != null) {
@@ -64,7 +70,7 @@ export class FormSubmission {
 
     let acceptHeader = FormSubmission.acceptHeaders.any
 
-    const headers = { Accept: acceptHeader }
+    const headers = new Headers({ Accept: acceptHeader })
 
     // if null, just use any
     if (responseType == null) {
@@ -79,7 +85,7 @@ export class FormSubmission {
       acceptHeader = responseType
     }
 
-    headers.Accept = acceptHeader
+    headers.set("Accept", acceptHeader)
 
     return headers
   }

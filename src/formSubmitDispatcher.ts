@@ -43,10 +43,11 @@ export class FormSubmitDispatcher {
     event.preventDefault()
 
     const submitter = findSubmitter(event)
-    const request = new FormSubmission(target, submitter)
+    const { fetchRequest } = new FormSubmission(target, submitter)
+
 
     dispatch.call(target, AJAX_EVENTS.ajaxBefore, {
-      detail: { request: request, submitter: submitter }
+      detail: { request: fetchRequest, submitter }
     })
   }
 
