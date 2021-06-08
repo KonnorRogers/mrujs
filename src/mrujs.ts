@@ -1,17 +1,20 @@
 // Currently only import the safari submit event polyfill.
 import './polyfills'
 
-import { Ajax, ExtendedRequestInit } from './ajax'
+import { FormSubmitDispatcher } from './formSubmitDispatcher'
 import { ClickHandler } from './clickHandler'
 import { Csrf } from './csrf'
 import { Confirm } from './confirm'
 import { Method } from './method'
 import { NavigationAdapter } from './navigationAdapter'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
+
+import { FetchRequest } from './http/fetchRequest'
 import { SELECTORS } from './utils/dom'
+import { Locateable } from './utils/url'
 
 export class Mrujs {
-  ajax: Ajax
+  formSubmitDispatcher: FormSubmitDispatcher
   clickHandler: ClickHandler
   connected: boolean
   config: Record<string, unknown>
@@ -26,7 +29,7 @@ export class Mrujs {
     this.config = config
     this.clickHandler = new ClickHandler()
     this.csrf = new Csrf()
-    this.ajax = new Ajax()
+    this.formSubmitDispatcher = new FormSubmitDispatcher()
     this.navigationAdapter = new NavigationAdapter()
     this.method = new Method()
     this.confirmClass = new Confirm()
@@ -71,7 +74,7 @@ export class Mrujs {
     this.clickHandler.connect()
     this.confirmClass.connect()
     this.method.connect()
-    this.ajax.connect()
+    this.formSubmitDispatcher.connect()
     this.navigationAdapter.connect()
 
     // This event works the same as the load event, except that it fires every
@@ -93,7 +96,7 @@ export class Mrujs {
     this.clickHandler.disconnect()
     this.confirmClass.disconnect()
     this.method.disconnect()
-    this.ajax.disconnect()
+    this.formSubmitDispatcher.disconnect()
     this.navigationAdapter.disconnect()
 
     window.removeEventListener('pageshow', this.reenableDisabledElements)
@@ -116,8 +119,9 @@ export class Mrujs {
    * it is required to have a {url:} defined.
    * @see Ajax#fetch
    */
-  fetch (request: ExtendedRequestInit): Promise<Response> | null {
-    return this.ajax.fetch(request)
+  async fetch (input: Request | Locateable, options: RequestInit = {}): Promise<Response> {
+    const fetchRequest = new FetchRequest(input, options)
+    return await window.fetch(fetchRequest.request)
   }
 
   get csrfToken (): string | null {

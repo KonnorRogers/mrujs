@@ -1,27 +1,19 @@
+import { Submitter } from './types'
+
 export interface ExtendedSubmitEvent extends CustomEvent {
-  submitter: HTMLInputElement
+  submitter: Submitter
   detail: {
-    submitter?: HTMLInputElement
+    submitter?: Submitter
   }
 }
 
-/**
- * Find who submitted an event
- */
-export function findSubmitter (event: ExtendedSubmitEvent): HTMLInputElement | null {
+export function findSubmitter (event: ExtendedSubmitEvent): Submitter | undefined {
   // Not supported by webkit
   if (event.submitter instanceof HTMLElement) {
     return event.submitter
   }
 
-  // This comes from our custom events
-  if ((event?.detail?.submitter) != null) {
-    return event.detail.submitter
-  }
-
-  // Webkit fallback
-  const submitter = event?.target as HTMLElement
-  return submitter.querySelector("input[type='submit']") as HTMLInputElement
+  return event.detail.submitter
 }
 
 /**
@@ -31,7 +23,6 @@ export function findSubmitter (event: ExtendedSubmitEvent): HTMLInputElement | n
 export function disableSubmitter (event: ExtendedSubmitEvent): void {
   const submitter = findSubmitter(event)
 
-  // Fetches arent always fired by a form, lets account for this.
   if (submitter == null) {
     return
   }
@@ -43,9 +34,9 @@ export function disableSubmitter (event: ExtendedSubmitEvent): void {
 
   const disabledText = submitter.dataset.disableWith
 
-  if (typeof disabledText === 'string') {
-    submitter.innerText = disabledText
-  }
+  if (disabledText == null) return
+
+  submitter.innerText = disabledText
 }
 
 /**

@@ -7,6 +7,7 @@ export class FetchResponse {
 
   constructor (response: Response) {
     this.response = response
+    console.log(this.response)
   }
 
   get succeeded (): boolean {

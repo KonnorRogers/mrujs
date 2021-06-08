@@ -1,7 +1,7 @@
-export type Locatable = URL | string
+export type Locateable = URL | string
 
-export function expandUrl (locatable: Locatable): URL {
-  return new URL(locatable.toString(), document.baseURI)
+export function expandUrl (locateable: Locateable): URL {
+  return new URL(locateable.toString(), document.baseURI)
 }
 
 export function getAnchor (url: URL): string {
