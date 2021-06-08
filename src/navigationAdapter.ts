@@ -43,7 +43,7 @@ export class NavigationAdapter {
     // If we get redirected, use Turbolinks
     // This needs to be reworked to not trigger 2 HTML responses or find a
     // way to not refetch a page.
-    if (response.redirected && this.useTurbolinks) {
+    if (response.redirected === true && this.useTurbolinks) {
       const location = response.response.location
       const action = this.determineAction(event)
       this.turbolinksVisit({ location, action })

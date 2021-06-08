@@ -45,7 +45,6 @@ export class FormSubmitDispatcher {
     const submitter = findSubmitter(event)
     const { fetchRequest } = new FormSubmission(target, submitter)
 
-
     dispatch.call(target, AJAX_EVENTS.ajaxBefore, {
       detail: { request: fetchRequest, submitter }
     })

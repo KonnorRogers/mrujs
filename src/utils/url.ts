@@ -19,7 +19,6 @@ export function urlsAreEqual (left: string, right: string): boolean {
   return expandUrl(left).href === expandUrl(right).href
 }
 
-
 export interface ObjectHeaders {
   [header: string]: string
 }

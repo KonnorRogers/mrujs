@@ -49,7 +49,7 @@ export class FormSubmission {
       headers: this.headers
     }
 
-    if (this.isGetRequest === false) options.body = this.body
+    if (!this.isGetRequest) options.body = this.body
 
     this.fetchRequest = new FetchRequest(this.url, options)
   }
@@ -85,7 +85,7 @@ export class FormSubmission {
       acceptHeader = responseType
     }
 
-    headers.set("Accept", acceptHeader)
+    headers.set('Accept', acceptHeader)
 
     return headers
   }
