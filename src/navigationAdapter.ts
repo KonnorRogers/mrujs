@@ -75,7 +75,7 @@ export class NavigationAdapter {
           window.Turbolinks.controller.cache.put(location, snapshot)
           action = 'restore'
           window.Turbolinks.visit(location, { action })
-        })
+        }).catch((error) => console.error(error))
         return
       }
 
