@@ -1,8 +1,7 @@
 import { AJAX_EVENTS, dispatch } from './utils/events'
 import { findSubmitter, ExtendedSubmitEvent } from './submitToggle'
-import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
-import { Submitter, AddOrRemoveListeners, AjaxEventDetail } from './types'
+import { AddOrRemoveListeners, AjaxEventDetail } from './types'
 import { FormSubmission } from './formSubmission'
 
 export class FormSubmitDispatcher {
@@ -44,10 +43,9 @@ export class FormSubmitDispatcher {
 
     const submitter = findSubmitter(event)
     const { fetchRequest, request } = new FormSubmission(element, submitter)
+    const detail: AjaxEventDetail = { element, fetchRequest, request, submitter }
 
-    dispatch.call(element, AJAX_EVENTS.ajaxBefore, {
-      detail: { element, fetchRequest, request, submitter } as AjaxEventDetail
-    })
+    dispatch.call(element, AJAX_EVENTS.ajaxBefore, { detail })
   }
 
   /**
@@ -101,8 +99,8 @@ export class FormSubmitDispatcher {
    * @fires `ajax:response:error` or `ajax:success` depending on if the response succeeded.
    * properties: { request, response, submitter } = event.detail
    */
-  dispatchResponse ({element, fetchRequest, request, fetchResponse, response, submitter}: AjaxEventDetail): void {
-    if (fetchResponse?.succeeded) {
+  dispatchResponse ({ element, fetchRequest, request, fetchResponse, response, submitter }: AjaxEventDetail): void {
+    if (fetchResponse?.succeeded === true) {
       dispatch.call(element, AJAX_EVENTS.ajaxSuccess, {
         detail: { element, fetchRequest, request, fetchResponse, response, submitter }
       })
@@ -120,7 +118,7 @@ export class FormSubmitDispatcher {
    * @fires `ajax:request:error`
    * properties: `{ request, error, submitter } = event.detail`
    */
-  dispatchRequestError ({element, fetchRequest, request, error, submitter}: AjaxEventDetail ): void {
+  dispatchRequestError ({ element, fetchRequest, request, error, submitter }: AjaxEventDetail): void {
     dispatch.call(element, AJAX_EVENTS.ajaxRequestError, {
       detail: { element, fetchRequest, request, error, submitter }
     })

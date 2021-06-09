@@ -50,7 +50,6 @@ export class NavigationAdapter {
       return
     }
 
-
     // Use morphdom to dom diff the response if the response is HTML.
     this.morphResponse(response)
   }

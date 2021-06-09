@@ -15,6 +15,6 @@ export interface AjaxEventDetail {
   request: Request
   fetchResponse?: FetchResponse
   response?: Response
-  submitter?: FetchResponse
+  submitter?: Submitter
   error?: Error
 }

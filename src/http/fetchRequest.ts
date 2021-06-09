@@ -91,7 +91,7 @@ export class FetchRequest {
   get defaultHeaders (): Headers {
     const headers: Headers = new Headers({
       Accept: '*/*',
-      "X-REQUESTED-WITH": "XmlHttpRequest"
+      'X-REQUESTED-WITH': 'XmlHttpRequest'
     })
 
     const token = this.csrfToken
