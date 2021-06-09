@@ -12,11 +12,6 @@ const ALLOWABLE_ACTIONS = [
 
 type VisitAction = 'advance' | 'replace' | 'restore'
 
-interface VisitInit {
-  location: URL | string
-  action: VisitAction
-}
-
 export class NavigationAdapter {
   private readonly __navigateViaEvent__: Function
 
@@ -72,7 +67,19 @@ export class NavigationAdapter {
     }
 
     if (response.succeeded && this.useTurbolinks) {
-      this.turbolinksVisit({ location, action })
+      window.Turbolinks.clearCache()
+
+      if (response.isHtml) {
+        response.responseHtml.then((html) => {
+          const snapshot = window.Turbolinks.Snapshot.wrap(html)
+          window.Turbolinks.controller.cache.put(location, snapshot)
+          action = 'restore'
+          window.Turbolinks.visit(location, { action })
+        }).catch((error) => console.error(error))
+        return
+      }
+
+      window.Turbolinks.visit(location, { action })
       return
     }
 
@@ -85,11 +92,6 @@ export class NavigationAdapter {
     if (window.Turbolinks.supported !== true) return false
 
     return true
-  }
-
-  turbolinksVisit ({ location, action }: VisitInit): void {
-    window.Turbolinks.clearCache()
-    window.Turbolinks.visit(location, { action })
   }
 
   morphResponse (response: FetchResponse): void {

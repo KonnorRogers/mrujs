@@ -1,6 +1,6 @@
 {
   "name": "mrujs",
-  "version": "0.3.0-beta.7",
+  "version": "0.3.0-beta.8",
   "description": "UJS for modern javascript. mrujs stands for Modern Rails UJS",
   "source": "src/index.ts",
   "main": "dist/index.js",
