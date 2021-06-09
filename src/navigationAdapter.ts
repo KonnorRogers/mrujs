@@ -72,7 +72,20 @@ export class NavigationAdapter {
     }
 
     if (response.succeeded && this.useTurbolinks) {
-      this.turbolinksVisit({ location, action })
+      window.Turbolinks.clearCache()
+
+      if (response.isHtml) {
+        (async function () {
+          const html = await response.responseHtml
+          const snapshot = window.Turbolinks.Snapshot.wrap(html)
+          window.Turbolinks.controller.cache.put(location, snapshot)
+          action = 'restore'
+          window.Turbolinks.visit(location, { action })
+        })()
+        return
+      }
+
+      window.Turbolinks.visit(location, { action })
       return
     }
 
@@ -85,11 +98,6 @@ export class NavigationAdapter {
     if (window.Turbolinks.supported !== true) return false
 
     return true
-  }
-
-  turbolinksVisit ({ location, action }: VisitInit): void {
-    window.Turbolinks.clearCache()
-    window.Turbolinks.visit(location, { action })
   }
 
   morphResponse (response: FetchResponse): void {
