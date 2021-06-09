@@ -1,4 +1,6 @@
 import { Mrujs } from './mrujs'
+import { FetchRequest } from './http/fetchRequest'
+import { FetchResponse } from './http/fetchResponse'
 
 // This is required for typescript checking in tests
 declare global {
@@ -12,4 +14,5 @@ declare global {
 const mrujs = new Mrujs()
 
 export { Mrujs }
+export { FetchRequest, FetchResponse }
 export default mrujs

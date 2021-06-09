@@ -4,6 +4,7 @@ import { expandUrl } from '../utils/url'
 // https://github.com/hotwired/turbo/blob/main/src/http/fetch_response.ts
 export class FetchResponse {
   readonly response: Response
+  private __responseHtml__!: Promise<string>
 
   constructor (response: Response) {
     this.response = response
@@ -51,7 +52,9 @@ export class FetchResponse {
 
   get responseHtml (): Promise<string> {
     if (this.isHtml) {
-      return this.response.text()
+      if (this.__responseHtml__ != null) return this.__responseHtml__
+
+      return (this.__responseHtml__ = this.response.text())
     } else {
       return Promise.reject(this.response)
     }
