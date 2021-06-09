@@ -1,4 +1,6 @@
 import { SELECTORS } from './utils/dom'
+import { FetchRequest } from './http/fetchRequest'
+import { FetchResponse } from './http/fetchResponse'
 
 export const ALLOWABLE_METHODS = [
   'get',
@@ -11,7 +13,7 @@ export const ALLOWABLE_METHODS = [
 
 export class Method {
   connect (): void {
-    this.allLinks.forEach((link: HTMLAnchorElement) => {
+    this.allLinks.forEach((link: HTMLAnchorElement): void => {
       link.addEventListener('click', this.handle)
     })
   }
@@ -36,40 +38,24 @@ export class Method {
     event.stopPropagation()
     event.stopImmediatePropagation()
 
-    const link = event.target as HTMLAnchorElement
-    const method = link.getAttribute('data-method')
+    const element = event.target as HTMLAnchorElement
+    let method = element.getAttribute('data-method') ?? 'get'
 
-    if (method == null) return
-    if (!ALLOWABLE_METHODS.includes(method.toLowerCase())) return
+    if (!ALLOWABLE_METHODS.includes(method.toLowerCase())) {
+      method = 'get'
+    }
 
-    const href = link.getAttribute('href')
+    const href = element.getAttribute('href')
 
     if (href == null) return
 
-    const csrfToken = window?.mrujs?.csrfToken
-    const csrfParam = window?.mrujs?.csrfParam
+    const fetchRequest = new FetchRequest(href, { method })
+    const { request } = fetchRequest
 
-    const form = document.createElement('form')
-    let formContent = `<input name='_method' value='${method}' type='hidden' />`
-
-    if (csrfToken != null && csrfParam != null) {
-      // Must trigger submit by click on a button, else "submit" event handler won't work!
-      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit
-      formContent += `<input type="hidden" name="${csrfParam}" value="${csrfToken}" />`
-    }
-
-    formContent += '<input type="submit" />'
-
-    form.method = 'post'
-    form.action = href
-    form.target = link.target
-    form.innerHTML = formContent
-    form.style.display = 'none'
-
-    document.body.appendChild(form)
-
-    const submitBtn = form.querySelector('[type="submit"]') as HTMLInputElement
-    submitBtn.click()
+    fetch(request).then((response) => {
+      const fetchResponse = new FetchResponse(response)
+      window.mrujs?.navigationAdapter.navigate(fetchResponse, element, fetchRequest)
+    }).catch((error) => console.error(error))
   }
 
   get allLinks (): HTMLAnchorElement[] {

@@ -1,5 +1,7 @@
+import { expandUrl } from './utils/url'
 import morphdom from 'morphdom'
 
+import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
 
 const ALLOWABLE_ACTIONS = [
@@ -16,36 +18,60 @@ interface VisitInit {
 }
 
 export class NavigationAdapter {
-  private __navigate__!: Function
+  private readonly __navigateViaEvent__: Function
+
+  constructor () {
+    this.__navigateViaEvent__ = this.navigateViaEvent.bind(this)
+  }
 
   connect (): void {
-    this.__navigate__ = this.navigate.bind(this)
-    document.addEventListener('ajax:complete', this.__navigate__ as EventListener)
+    document.addEventListener('ajax:complete', this.__navigateViaEvent__ as EventListener)
   }
 
   disconnect (): void {
-    document.removeEventListener('ajax:complete', this.__navigate__ as EventListener)
+    document.removeEventListener('ajax:complete', this.__navigateViaEvent__ as EventListener)
   }
 
-  navigate (event: CustomEvent): void {
+  /**
+   * Currently, this only fires on successful form submissions.
+   */
+  navigateViaEvent (event: CustomEvent): void {
     const response = event.detail.fetchResponse
-
     if (response == null) return
 
-    // // Only render responses on html responses.
+    // Only render responses on html responses.
     if (response.isHtml === false) return
 
-    if (response.succeeded === true && response.redirected !== true) {
+    if (response.succeeded === true && response.redirected === false) {
       console.error('Successful form submissions must redirect')
       return
     }
 
+    const element = event.target as HTMLElement
+
+    this.navigate(response, element)
+  }
+
+  /**
+   * This is a manual navigation triggered by something like `method: :delete`
+   */
+  navigate (response: FetchResponse, element: HTMLElement, request?: FetchRequest, action?: VisitAction): void {
     // If we get redirected, use Turbolinks
     // This needs to be reworked to not trigger 2 HTML responses or find a
     // way to not refetch a page.
-    if (response.redirected === true && this.useTurbolinks) {
-      const location = response.location
-      const action = this.determineAction(event)
+    action = action ?? this.determineAction(element)
+
+    let location = expandUrl(window.location.href)
+
+    if (request?.isGetRequest === true) {
+      location = request.url
+    }
+
+    if (response.redirected) {
+      location = response.location
+    }
+
+    if (response.succeeded && this.useTurbolinks) {
       this.turbolinksVisit({ location, action })
       return
     }
@@ -88,8 +114,8 @@ export class NavigationAdapter {
       })
   }
 
-  determineAction (event: CustomEvent): VisitAction {
-    let action = (event.target as HTMLElement).dataset.turbolinksAction
+  determineAction (element: HTMLElement): VisitAction {
+    let action = element.dataset.turbolinksAction
 
     if (action == null || !ALLOWABLE_ACTIONS.includes(action)) {
       action = 'advance'
