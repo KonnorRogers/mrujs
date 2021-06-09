@@ -28,11 +28,11 @@ export class NavigationAdapter {
   }
 
   navigate (event: CustomEvent): void {
-    const response = event.detail.response
+    const response = event.detail.fetchResponse
 
     if (response == null) return
 
-    // Only render responses on html responses.
+    // // Only render responses on html responses.
     if (response.isHtml === false) return
 
     if (response.succeeded === true && response.redirected !== true) {
@@ -44,11 +44,12 @@ export class NavigationAdapter {
     // This needs to be reworked to not trigger 2 HTML responses or find a
     // way to not refetch a page.
     if (response.redirected === true && this.useTurbolinks) {
-      const location = response.response.location
+      const location = response.location
       const action = this.determineAction(event)
       this.turbolinksVisit({ location, action })
       return
     }
+
 
     // Use morphdom to dom diff the response if the response is HTML.
     this.morphResponse(response)

@@ -2,7 +2,7 @@ import { AJAX_EVENTS, dispatch } from './utils/events'
 import { findSubmitter, ExtendedSubmitEvent } from './submitToggle'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
-import { Submitter, AddOrRemoveListeners } from './types'
+import { Submitter, AddOrRemoveListeners, AjaxEventDetail } from './types'
 import { FormSubmission } from './formSubmission'
 
 export class FormSubmitDispatcher {
@@ -36,17 +36,17 @@ export class FormSubmitDispatcher {
    */
   startFormSubmission (event: ExtendedSubmitEvent): void {
     // If it doesnt have remote="true"...forget about it!
-    const target = this.findTarget(event)
+    const element = this.findTarget(event)
 
-    if (target.dataset.remote !== 'true') return
+    if (element.dataset.remote !== 'true') return
 
     event.preventDefault()
 
     const submitter = findSubmitter(event)
-    const { fetchRequest } = new FormSubmission(target, submitter)
+    const { fetchRequest, request } = new FormSubmission(element, submitter)
 
-    dispatch.call(target, AJAX_EVENTS.ajaxBefore, {
-      detail: { request: fetchRequest, submitter }
+    dispatch.call(element, AJAX_EVENTS.ajaxBefore, {
+      detail: { element, fetchRequest, request, submitter } as AjaxEventDetail
     })
   }
 
@@ -58,24 +58,24 @@ export class FormSubmitDispatcher {
   startFetchRequest (event: CustomEvent): void {
     if (event.defaultPrevented) return
 
-    const { request, submitter } = event.detail
+    const { element, fetchRequest, request, submitter }: AjaxEventDetail = event.detail
 
-    dispatch.call(this.findTarget(event), AJAX_EVENTS.ajaxBeforeSend, {
-      detail: { request, submitter }
+    dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
+      detail: { element, fetchRequest, request, submitter }
     })
   }
 
   async sendFetchRequest (event: CustomEvent): Promise<void> {
     if (event.defaultPrevented) return
 
-    const target = this.findTarget(event)
-    const { request, submitter } = event.detail
+    const { request } = event.detail
 
     try {
-      const response = new FetchResponse(await window.fetch(request.request))
-      this.dispatchResponse(target, request, response, submitter)
+      const fetchResponse = new FetchResponse(await window.fetch(request))
+      const { response } = fetchResponse
+      this.dispatchResponse({ ...event.detail, fetchResponse, response })
     } catch (error) {
-      this.dispatchRequestError(target, request, error, submitter)
+      this.dispatchRequestError({ ...event.detail, error })
     }
   }
 
@@ -91,15 +91,8 @@ export class FormSubmitDispatcher {
   dispatchComplete (event: CustomEvent): void {
     if (event.defaultPrevented) return
 
-    const { request, response, error, submitter } = event.detail
-
     dispatch.call(this.findTarget(event), AJAX_EVENTS.ajaxComplete, {
-      detail: {
-        request,
-        response,
-        error,
-        submitter
-      }
+      detail: { ...event.detail }
     })
   }
 
@@ -108,17 +101,17 @@ export class FormSubmitDispatcher {
    * @fires `ajax:response:error` or `ajax:success` depending on if the response succeeded.
    * properties: { request, response, submitter } = event.detail
    */
-  dispatchResponse (target: HTMLFormElement, request: FetchRequest, response: FetchResponse, submitter: Submitter): void {
-    if (response.succeeded) {
-      dispatch.call(target, AJAX_EVENTS.ajaxSuccess, {
-        detail: { request, response, submitter }
+  dispatchResponse ({element, fetchRequest, request, fetchResponse, response, submitter}: AjaxEventDetail): void {
+    if (fetchResponse?.succeeded) {
+      dispatch.call(element, AJAX_EVENTS.ajaxSuccess, {
+        detail: { element, fetchRequest, request, fetchResponse, response, submitter }
       })
       return
     }
 
     // Response errors, >= 400 responses
-    dispatch.call(target, AJAX_EVENTS.ajaxResponseError, {
-      detail: { request, response, submitter }
+    dispatch.call(element, AJAX_EVENTS.ajaxResponseError, {
+      detail: { element, fetchRequest, request, fetchResponse, response, submitter }
     })
   }
 
@@ -127,9 +120,9 @@ export class FormSubmitDispatcher {
    * @fires `ajax:request:error`
    * properties: `{ request, error, submitter } = event.detail`
    */
-  dispatchRequestError (target: HTMLFormElement, request: FetchRequest, error: string, submitter: Submitter): void {
-    dispatch.call(target, AJAX_EVENTS.ajaxRequestError, {
-      detail: { request, error, submitter }
+  dispatchRequestError ({element, fetchRequest, request, error, submitter}: AjaxEventDetail ): void {
+    dispatch.call(element, AJAX_EVENTS.ajaxRequestError, {
+      detail: { element, fetchRequest, request, error, submitter }
     })
   }
 
@@ -140,13 +133,10 @@ export class FormSubmitDispatcher {
   dispatchError (event: CustomEvent): void {
     if (event.defaultPrevented) return
 
+    const { element, fetchRequest, request, fetchResponse, response, submitter } = event.detail
+
     dispatch.call(this.findTarget(event), AJAX_EVENTS.ajaxError, {
-      detail: {
-        request: event.detail.request,
-        response: event.detail.response,
-        error: event.detail.error,
-        submitter: event.detail.submitter
-      }
+      detail: { element, fetchRequest, request, fetchResponse, response, submitter }
     })
   }
 
