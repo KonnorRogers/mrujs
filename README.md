@@ -140,6 +140,15 @@ const AJAX_EVENTS = {
 ```
 
 </details>
+  
+
+<details>
+  <summary> Diagram of Ajax form submissions </summary>
+  
+  <img width="632" alt="Screen Shot 2021-06-10 at 3 23 02 AM" src="https://user-images.githubusercontent.com/26425882/121482581-47675400-c99b-11eb-9a72-79a09c33ad34.png">
+
+  [mrujs-remote-form-event-diagram.pdf](https://github.com/ParamagicDev/mrujs/files/6629160/mrujs-remote-form-event-diagram.pdf)
+</details>
 
 #### Cancelling Events
 
