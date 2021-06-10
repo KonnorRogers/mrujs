@@ -1,3 +1,7 @@
+# [0.3.0-beta.8](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.7...v0.3.0-beta.8) (2021-06-10)
+
+
+
 # [0.3.0-beta.8](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.7...v0.3.0-beta.8) (2021-06-09)
 
 
