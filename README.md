@@ -95,7 +95,6 @@ ajax:response:error
 ajax:error # => will catch both request and response errors.
 ajax:success # => will only fire if no errors
 ajax:complete
-}
 ```
 
 * Diagram of Ajax form submissions
