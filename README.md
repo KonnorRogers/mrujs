@@ -1,7 +1,7 @@
 # Purpose
 
-To provide a Rails-UJS alternative since Rails UJS is currently
-deprecated. Uses modern javascript instead of coffeescript.
+To provide an upgrade path for those looking to retain the features of
+UJS, but use a currently maintained library written in Typescript.
 
 ## What does mrujs mean?
 
@@ -15,11 +15,9 @@ arbitrary javascript scripts which means `.js.erb` is not supported.
 
 ## What can it do right now?
 
-In it's current state, Mrujs is a native fetch wrapper and
-a form wrapper that can marshal an HTML / JSON / XML / any response
-you want and can be listened for via event listeners. For
-a list of things to be implemented in the future, checkout
-the [Roadmap](#roadmap) below.
+In it's current state, Mrujs is has about 95% feature parity with UJS.
+The goal of Mrujs is to be a drop-in replacement for UJS, but this is
+not possible in all cases.
 
 ## Getting Started
 
@@ -86,56 +84,20 @@ stopped via `event.stopImmediatePropagation()`. I also allowed events to
 be preventable. IE: `event.preventDefault()` on an ajax event will cause
 it to stop running.
 
-A `fetch` request or `data-remote="true"` form will emit the following events:
+A form with `data-remote="true"` form will emit the following events:
 
 <details>
 <summary>List of AJAX events</summary>
 
-```js
-const AJAX_EVENTS = {
-  /**
-   * Before the ajax event gets sent.
-   * You can view what data will be sent via: `event.detail.request`
-   */
-  ajaxBefore: `ajax:before`,
-
-  /**
-   * When the fetch request is sent. You can view whats being sent via:
-   * `event.detail.request`
-   */
-  ajaxSend: `ajax:send`,
-
-  /**
-   * When a response error occurs. IE: 400, 404, 422, 500, etc (any status code not between 200 - 299)
-   * The response error can be viewed via: `event.detail.response`
-   */
-  ajaxResponseError: `ajax:response:error`,
-
-   /**
-    * When a >= 200 and <= 299 response is returned
-    * You can view the full response via: `event.detail.response`
-    */
-  ajaxSuccess: `ajax:success`,
-
-  /**
-   * When an actual error is raised. This doesnt include 404, 500,
-   * errors, just like native fetch.
-   * You can view the error via: `event.detail.error`
-   * This will also generate an error in your console.log
-   */
-  ajaxError: `ajax:error`,
-
-
-  /**
-   * After any fetch request, regardless of outcome
-   * `event.detail.response`
-   * `event.detail.error` if any found
-   */
-  ajaxComplete: `ajax:complete`,
-
-  // NOT CURRENTLY IMPLEMENTED from ujs
-  `ajax:aborted:required`
-  `ajax:aborted:file`
+```console
+ajax:before
+ajax:beforeSend
+ajax:send
+ajax:request:error
+ajax:response:error
+ajax:error # => will catch both request and response errors.
+ajax:success # => will only fire if no errors
+ajax:complete
 }
 ```
 
@@ -152,8 +114,8 @@ const AJAX_EVENTS = {
 
 #### Cancelling Events
 
-<details>
-<summary> How to cancel AJAX events </summary>
+Cancelling Ajax events is fairly straightforward with only 1 edge case
+with `ajax:send`.
 
 You can cancel events at anytime simply by calling `event.preventDefault()` or
 `event.stopImmediatePropagation()`:
@@ -161,60 +123,42 @@ You can cancel events at anytime simply by calling `event.preventDefault()` or
 Example:
 
 ```js
+// Should just work...
 document.querySelector("form").addEventListener("ajax:before", (event) => {
   event.preventDefault();
 })
 
-
-document.querySelector("form").addEventListener("ajax:before", (event) => {
-  event.stopImmediatePropagation();
-})
-
-// For extra certainty
+// For extra certainty that no others events get sent.
 document.querySelector("form").addEventListener("ajax:before", (event) => {
   event.preventDefault();
   event.stopImmediatePropagation();
 })
-
 ```
 
 `ajax:send` is a special case and must be aborted with an abort
-controller.
+controller. To do so, you would do the following:
+
+```js
+document.querySelector("form").addEventListener("ajax:send", (event) => {
+  event.detail.fetchRequest.cancel()
+})
+```
 </details>
 
 ### Fetch
 
 Fetch is called like you would expect. Except it will also prefill the
-`X-CSRF-TOKEN` for you. The difference between
-`window.fetch` and `mrujs.fetch` is that the first argument for the url
-is positional in `window.fetch`, but in `mrujs.fetch` it is required as part of the object.
+`X-CSRF-TOKEN`, add an `AbortController`, and provide a few other
+niceties for you.
 
-`mrujs.fetch` can also leverage the events listed above for Ajax and
-fire the `ajax:<lifecycle>` events if `dispatchEvents === true`. When
-called this way, `mrujs.fetch` will not return a promise. Instead you
-should listen for `ajax:success` and then parse the response from
-`event.detail.response`.
+`mrujs.fetch` accepts the exact same interface as `window.fetch` so
+there is no new syntax to learn.
 
-```js
-document.addEventListener("ajax:success", (event) => {
-  // equivalent to fetch().then((response) => response)
-  event.detail.response
-})
-```
+`mrujs.fetch` should not be used with cross domain fetches. Cross-domain
+fetches should be called via `window.fetch` with proper options attached
+to it.
 
 #### Examples
-
-```js
-// Native Fetch
-window.fetch("/url", { ... })
-  .then((response) => ...)
-  .catch((error) => ...)
-
-// mrujs fetch
-window.mrujs.fetch({url: "/url", ...})
-  .then((response) => ...)
-  .catch((error) => ...)
-```
 
 To *receive* a `json` response, make sure to set the `Accept` header to
 `"application/json"` like so:
@@ -236,30 +180,13 @@ window.mrujs.fetch({
 }).then(response => {}).catch(error => {})
 ```
 
-#### Using native fetch
-
-Maybe you dont like my fetch wrapper, thats fine! To use native fetch
-heres all you have to do to include the CSRF-Token.
-
-```js
-import mrujs from "mrujs"
-
-window.mrujs =  mrujs.start()
-window.fetch("url", {
-  headers: {
-    "X-CSRF-TOKEN": window.mrujs.csrfToken
-  }
-})
-```
-
 ### Remote forms
 
 Remote forms can also negotiate the proper `Accept` headers. To do so,
 set the `data-type='json'` to tell the server you can only accept
 json.
 
-<details>
-<summary> List of predefined `data-type` values </summary>
+Mrujs defined a number of predefined `data-type` 's for you.
 
 ```js
   '*': '*/*',
@@ -270,26 +197,28 @@ json.
   json: 'application/json, text/javascript',
 ```
 
-The above are all predefined for you
-</details>
+This means you can pass a `data-type="*"`, `data-type="text"`,
+`data-type="xml"`, and so on as long as it matches with that key. If
+you need a custom Accept header, you will have to simply do it yourself
+like so:
 
-Example:
+`<form data-type="application/xml, text/xml">`
+
+Examples:
 
 ```html
-<!-- Sends a `application/json` and `text/javascript` accept header. -->
+<!-- Sends a `"application/json, text/javascript"` Accept header. -->
 <form data-remote="true" data-type="json"></form>
 
 <!-- Sends an XML accept header -->
 <form data-remote="true" data-type="application/xml"></form>
 
 <!--- Shorthand -->
-
 <form data-remote="true" data-type="xml"></form>
 
 
 <!-- Sends a default '*/*' Accept header. -->
-<form data-remote="true">
-</form>
+<form data-remote="true"></form>
 ```
 
 ## Anchor methods
@@ -301,9 +230,8 @@ do that:
 <a data-method="delete" href="/logout">
 ```
 
-This will create a form, append it to the body, and then submit the form
-with a hidden value with the method value set to "delete" so the server
-knows to perform a delete.
+This will create a `fetch` request and then navigate to the new page if
+redirected, or refresh the current page is no redirect found.
 
 ## Roadmap
 
@@ -315,7 +243,7 @@ replacement)
 - [x] - Allow the use of `data-confirm=""`
 - [x] - Provide a confirm dialog for `data-confirm`
 - [x] - Allow users to provide their own confirm function to `data-confirm`
-- [ ] - Allow `ajax:send` to be cancelled via abort controllers.
+- [x] - Allow `ajax:send` to be cancelled via abort controllers.
 - [ ] - Asset pipeline, if someone would like to add support im open to
 it
 
