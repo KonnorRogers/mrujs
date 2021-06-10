@@ -86,9 +86,6 @@ it to stop running.
 
 A form with `data-remote="true"` form will emit the following events:
 
-<details>
-<summary>List of AJAX events</summary>
-
 ```console
 ajax:before
 ajax:beforeSend
@@ -100,8 +97,6 @@ ajax:success # => will only fire if no errors
 ajax:complete
 }
 ```
-
-</details>
 
 * Diagram of Ajax form submissions
 
