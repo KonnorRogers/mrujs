@@ -15,6 +15,9 @@ import { SELECTORS } from './utils/dom'
 import { Locateable } from './utils/url'
 
 export class Mrujs {
+  static FetchRequest = FetchRequest.constructor
+  static FetchResponse = FetchResponse.constructor
+
   formSubmitDispatcher: FormSubmitDispatcher
   clickHandler: ClickHandler
   connected: boolean
@@ -152,13 +155,5 @@ export class Mrujs {
           el.disabled = false
         }
       })
-  }
-
-  fetchRequest (input: Locateable | Request, options?: RequestInit): FetchRequest {
-    return new FetchRequest(input, options)
-  }
-
-  fetchResponse (response: Response): FetchResponse {
-    return new FetchResponse(response)
   }
 }
