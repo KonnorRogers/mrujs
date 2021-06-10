@@ -10,6 +10,7 @@ import { NavigationAdapter } from './navigationAdapter'
 import { enableSubmitter, disableSubmitter } from './submitToggle'
 
 import { FetchRequest } from './http/fetchRequest'
+import { FetchResponse } from './http/fetchResponse'
 import { SELECTORS } from './utils/dom'
 import { Locateable } from './utils/url'
 
@@ -151,5 +152,13 @@ export class Mrujs {
           el.disabled = false
         }
       })
+  }
+
+  fetchRequest (input: Locateable | Request, options?: RequestInit): FetchRequest {
+    return new FetchRequest(input, options)
+  }
+
+  fetchResponse (response: Response): FetchResponse {
+    return new FetchResponse(response)
   }
 }
