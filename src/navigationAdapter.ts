@@ -1,4 +1,4 @@
-import { expandUrl } from './utils/url'
+import { expandUrl, Locateable } from './utils/url'
 import morphdom from 'morphdom'
 
 import { FetchRequest } from './http/fetchRequest'
@@ -58,33 +58,25 @@ export class NavigationAdapter {
 
     let location = expandUrl(window.location.href)
 
-    if (request?.isGetRequest === true) {
-      location = request.url
-    }
+    if (request?.isGetRequest === true) location = request.url
+    if (response.redirected) location = response.location
 
-    if (response.redirected) {
-      location = response.location
-    }
-
-    if (response.succeeded && this.useTurbolinks) {
-      window.Turbolinks.clearCache()
-
-      if (response.isHtml) {
-        response.responseHtml.then((html) => {
-          const snapshot = window.Turbolinks.Snapshot.wrap(html)
-          window.Turbolinks.controller.cache.put(location, snapshot)
-          action = 'restore'
-          window.Turbolinks.visit(location, { action })
-        }).catch((error) => console.error(error))
-        return
-      }
-
-      window.Turbolinks.visit(location, { action })
+    if (response.failed) {
+      // Use morphdom to dom diff the response if the response is HTML.
+      this.morphResponse(response)
       return
     }
 
-    // Use morphdom to dom diff the response if the response is HTML.
-    this.morphResponse(response)
+    if (!this.useTurbolinks) return
+
+    window.Turbolinks.clearCache()
+
+    if (response.isHtml) {
+      this.navigateToResponse(response, location, action)
+      return
+    }
+
+    window.Turbolinks.visit(location, { action })
   }
 
   get useTurbolinks (): boolean {
@@ -92,6 +84,15 @@ export class NavigationAdapter {
     if (window.Turbolinks.supported !== true) return false
 
     return true
+  }
+
+  navigateToResponse (response: FetchResponse, location: Locateable, action: VisitAction): void {
+    response.responseHtml.then((html) => {
+      const snapshot = window.Turbolinks.Snapshot.wrap(html)
+      window.Turbolinks.controller.cache.put(location, snapshot)
+      action = 'restore'
+      window.Turbolinks.visit(location, { action })
+    }).catch((error) => console.error(error))
   }
 
   morphResponse (response: FetchResponse): void {
