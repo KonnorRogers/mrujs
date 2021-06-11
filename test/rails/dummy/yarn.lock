@@ -4172,7 +4172,7 @@ move-concurrently@^1.0.1:
     run-queue "^1.0.3"
 
 "mrujs@file:../../..":
-  version "0.2.0"
+  version "0.3.0-beta.10"
   dependencies:
     morphdom ">=2.6.0 <3.0.0"
 

@@ -1,27 +1,19 @@
-import { formDataToStrings, buildFormElementFormData, formEnctypeFromString, FormEncType } from './utils/form'
+import { formDataToStrings, FormEncType } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
-import { Submitter } from './types'
 import { FetchRequest } from './http/fetchRequest'
 
 /**
- * This class handles FormSubmissions on forms that use data-remote="true"
- * This class should not be interacted with directly and instead is merely meant for
- * connecting to the DOM.
- */
-export class FormSubmission {
-  submitter: Submitter | undefined
-  element: HTMLFormElement
+ * This class handles LinkSubmissions (<a data-remote"true">)
+  */
+export class LinkSubmission {
+  element: HTMLAnchorElement
   fetchRequest: FetchRequest
 
-  constructor (element: HTMLFormElement, submitter?: Submitter) {
+  constructor (element: HTMLAnchorElement) {
     this.element = element
 
-    if (submitter != null) {
-      this.submitter = submitter
-    }
-
     const options: RequestInit = {
-      method: this.method,
+      method: this.maskMethod,
       headers: this.headers
     }
 
@@ -57,7 +49,9 @@ export class FormSubmission {
    * Returns properly built FormData
    */
   get formData (): FormData {
-    return buildFormElementFormData(this.element, this.submitter)
+    const formData = new FormData()
+    formData.append('_method', this.method)
+    return formData
   }
 
   /**
@@ -65,12 +59,19 @@ export class FormSubmission {
    * get, post, put, patch, etc
    */
   get method (): string {
-    const method = this.submitter?.getAttribute('formmethod') ?? this.element.getAttribute('method') ?? 'get'
+    const method = this.element.dataset.method ?? 'get'
     return method.toLowerCase()
   }
 
-  get action (): string {
-    return this.submitter?.getAttribute('formaction') ?? this.element.action
+  /**
+   * If its a get request, leave it, everything else is masked as a POST.
+   */
+  get maskMethod (): string {
+    return this.isGetRequest ? 'get' : 'post'
+  }
+
+  get href (): string {
+    return this.element.href
   }
 
   /**
@@ -78,7 +79,7 @@ export class FormSubmission {
    * Throws an error of action="" is not defined on an element.
    */
   get url (): URL {
-    return new URL(this.action)
+    return new URL(this.href)
   }
 
   get body (): URLSearchParams | FormData {
@@ -94,7 +95,6 @@ export class FormSubmission {
   }
 
   get enctype (): FormEncType {
-    const elementEncType = (this.element).enctype
-    return formEnctypeFromString(this.submitter?.getAttribute('formenctype') ?? elementEncType)
+    return FormEncType.urlEncoded
   }
 }

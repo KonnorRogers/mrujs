@@ -1,15 +1,7 @@
+import { stopEverything } from './utils/events'
 import { SELECTORS } from './utils/dom'
-import { FetchRequest } from './http/fetchRequest'
+import { LinkSubmission } from './linkSubmission'
 import { FetchResponse } from './http/fetchResponse'
-
-export const ALLOWABLE_METHODS = [
-  'get',
-  'head',
-  'post',
-  'put',
-  'delete',
-  'patch'
-]
 
 export class Method {
   connect (): void {
@@ -34,26 +26,18 @@ export class Method {
    *   <a href="/users/5" data-method="delete" rel="nofollow">Delete</a>
    */
   handle (event: Event): void {
-    event.preventDefault()
-    event.stopPropagation()
-    event.stopImmediatePropagation()
+    stopEverything(event)
 
     const element = event.target as HTMLAnchorElement
-    let method = element.getAttribute('data-method') ?? 'get'
 
-    if (!ALLOWABLE_METHODS.includes(method.toLowerCase())) {
-      method = 'get'
-    }
-
-    const href = element.getAttribute('href')
-
-    if (href == null) return
-
-    const fetchRequest = new FetchRequest(href, { method })
-    const { request } = fetchRequest
+    const linkSubmission = new LinkSubmission(element)
+    const { fetchRequest, request } = linkSubmission
 
     fetch(request).then((response) => {
       const fetchResponse = new FetchResponse(response)
+
+      if (fetchRequest.isGetRequest) return
+
       window.mrujs?.navigationAdapter.navigate(fetchResponse, element, fetchRequest)
     }).catch((error) => console.error(error))
   }
