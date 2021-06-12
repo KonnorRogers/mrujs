@@ -52,18 +52,18 @@ describe('Ajax', (): void => {
       document.removeEventListener('ajax:send', submitDisabled)
     })
 
-    it('Should reenable a button on ajax:complete', (): void => {
-      // const submitEnabled = (): void => assert.equal(submitButton?.disabled, false)
+    // it('Should reenable a button on ajax:complete', (): void => {
+    //   // const submitEnabled = (): void => assert.equal(submitButton?.disabled, false)
 
-      window.mrujs = mrujs.start()
-      // document.addEventListener('ajax:complete', submitEnabled)
-      submitGet200()
-      // document.removeEventListener('ajax:complete', submitEnabled)
-    })
+    //   window.mrujs = mrujs.start()
+    //   // document.addEventListener('ajax:complete', submitEnabled)
+    //   submitGet200()
+    //   // document.removeEventListener('ajax:complete', submitEnabled)
+    // })
   })
 
   describe('GET 404 Request', (): void => {
-    const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error']
+    const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error', 'ajax:error']
 
     const submitGet404 = (): void => {
       window.mrujs = mrujs.start()
@@ -80,4 +80,20 @@ describe('Ajax', (): void => {
       })
     })
   })
+
+  // This doesnt work due to some issue with chromium / webkit and hijacking link clicks...
+  // describe('Ajax data-method links', () => {
+  //   const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error', 'ajax:error']
+
+  //   const getLink = (): void => {
+  //     window.mrujs = mrujs.start();
+  //     (findByTestId('get-link') as HTMLAnchorElement).click()
+  //   }
+
+  //   events.forEach((event) => {
+  //     it(`Should fire an ${event} for link GET requests`, () => {
+  //       assertFired(event, getLink)
+  //     })
+  //   })
+  // })
 })

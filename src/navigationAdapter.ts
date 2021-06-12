@@ -31,26 +31,27 @@ export class NavigationAdapter {
    * Currently, this only fires on successful form submissions.
    */
   navigateViaEvent (event: CustomEvent): void {
-    const response = event.detail.fetchResponse
-    if (response == null) return
+    const { element, fetchResponse, fetchRequest } = event.detail
+    if (fetchResponse == null) return
 
-    // Only render responses on html responses.
-    if (response.isHtml === false) return
+    // Only render / navigate responses on html responses.
+    if (fetchResponse.isHtml === false) return
 
-    if (response.succeeded === true && response.redirected === false) {
+    if (element instanceof HTMLFormElement && fetchResponse.succeeded === true && fetchResponse.redirected === false) {
       console.error('Successful form submissions must redirect')
       return
     }
 
-    const element = event.target as HTMLElement
+    // Dont navigate on <a data-method="get"> for links.
+    if (element instanceof HTMLAnchorElement && fetchRequest.isGetRequest === true) return
 
-    this.navigate(response, element)
+    this.navigate(fetchResponse, element, fetchRequest)
   }
 
   /**
    * This is a manual navigation triggered by something like `method: :delete`
    */
-  navigate (response: FetchResponse, element: HTMLElement, request?: FetchRequest, action?: VisitAction): void {
+  navigate (response: FetchResponse, element: HTMLElement, request: FetchRequest, action?: VisitAction): void {
     // If we get redirected, use Turbolinks
     // This needs to be reworked to not trigger 2 HTML responses or find a
     // way to not refetch a page.
@@ -58,7 +59,7 @@ export class NavigationAdapter {
 
     let location = expandUrl(window.location.href)
 
-    if (request?.isGetRequest === true) location = request.url
+    if (request?.isGetRequest) location = request.url
     if (response.redirected) location = response.location
 
     if (response.failed) {

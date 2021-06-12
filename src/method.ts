@@ -1,8 +1,10 @@
-import { stopEverything } from './utils/events'
+import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
 import { SELECTORS } from './utils/dom'
 import { LinkSubmission } from './linkSubmission'
-import { FetchResponse } from './http/fetchResponse'
 
+/**
+ * Handles `data-method="method" submissions.`
+ */
 export class Method {
   connect (): void {
     this.allLinks.forEach((link: HTMLAnchorElement): void => {
@@ -29,17 +31,19 @@ export class Method {
     stopEverything(event)
 
     const element = event.target as HTMLAnchorElement
+    const submitter = element
 
     const linkSubmission = new LinkSubmission(element)
+
     const { fetchRequest, request } = linkSubmission
 
-    fetch(request).then((response) => {
-      const fetchResponse = new FetchResponse(response)
-
-      if (fetchRequest.isGetRequest) return
-
-      window.mrujs?.navigationAdapter.navigate(fetchResponse, element, fetchRequest)
-    }).catch((error) => console.error(error))
+    /**
+     * Send it through the event chain. use ajax:beforeSend because submit auto
+     * populates fields that we dont want.
+     */
+    dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
+      detail: { element, fetchRequest, request, submitter }
+    })
   }
 
   get allLinks (): HTMLAnchorElement[] {
