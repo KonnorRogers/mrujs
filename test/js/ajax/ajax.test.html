@@ -38,11 +38,13 @@
       <input type="submit" value="Submit" />
     </form>
 
+    <a data-testid="get-link" method="get" href="/">Delete link</a>
+
     <script type="module">
       import { runTests } from '@web/test-runner-mocha';
 
       runTests(async () => {
-        await import('./ajaxFormEvents.test');
+        await import('./ajaxEvents.test');
         await import('./ajaxFetch.test');
       });
     </script>
