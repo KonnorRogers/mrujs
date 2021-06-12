@@ -1,3 +1,12 @@
+# [0.3.0-beta.11](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.9...v0.3.0-beta.11) (2021-06-12)
+
+
+### Bug Fixes
+
+* data-remote link submissions ([#37](https://github.com/ParamagicDev/mrujs/issues/37)) ([33698c1](https://github.com/ParamagicDev/mrujs/commit/33698c1b3dd31d9388a65a7cf726419e146653b8))
+
+
+
 # [0.3.0-beta.10](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.9...v0.3.0-beta.10) (2021-06-11)
 
 
