@@ -16,7 +16,7 @@ describe('Ajax', (): void => {
 
       const stub = sinon.stub(window, 'fetch')
 
-      window.mrujs = mrujs.start()
+      mrujs.start()
 
       events.forEach(event => {
         assertFired(event, doNothing)
@@ -38,6 +38,7 @@ describe('Ajax', (): void => {
 
     events.forEach(event => {
       it(`Should fire an ${event} 200 GET requests`, (): void => {
+        mrujs.start()
         assertFired(event, submitGet200)
       })
     })
@@ -66,7 +67,6 @@ describe('Ajax', (): void => {
     const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error', 'ajax:error']
 
     const submitGet404 = (): void => {
-      window.mrujs = mrujs.start()
       const inputEl = findByTestId('GET-404')?.querySelector("input[type='text']") as HTMLInputElement | null
       if (inputEl != null) {
         inputEl.value = '1234'
@@ -76,8 +76,34 @@ describe('Ajax', (): void => {
 
     events.forEach(event => {
       it(`Should fire an ${event} for 404 GET requests`, () => {
+        mrujs.start()
         assertFired(event, submitGet404)
       })
+    })
+  })
+
+  describe('Firing ajax:stopped', () => {
+    const event = 'ajax:stopped'
+
+    const submitGet200 = (): void => {
+      const submitButton = findByTestId('GET-200')?.querySelector("input[type='text']") as HTMLInputElement | null
+      submitButton?.click()
+    }
+
+    it('should fire on event.preventDefault()', () => {
+      mrujs.start()
+      const preventDefault = (event: CustomEvent): void => event.preventDefault()
+      document.addEventListener('ajax:before', preventDefault as EventListener)
+      assertFired(event, submitGet200)
+      document.removeEventListener('ajax:before', preventDefault as EventListener)
+    })
+
+    it('should fire on event.detail.fetchRequest.cancel()', () => {
+      mrujs.start()
+      const preventDefault = (event: CustomEvent): void => event.preventDefault()
+      document.addEventListener('ajax:before', preventDefault as EventListener)
+      assertFired(event, submitGet200)
+      document.removeEventListener('ajax:before', preventDefault as EventListener)
     })
   })
 

@@ -54,7 +54,10 @@ export class FormSubmitDispatcher {
    * The request can be found via `event.detail.request`
    */
   startFetchRequest (event: CustomEvent): void {
-    if (event.defaultPrevented) return
+    if (event.defaultPrevented) {
+      this.dispatchStopped(event)
+      return
+    }
 
     const { element, fetchRequest, request, submitter }: AjaxEventDetail = event.detail
 
@@ -64,7 +67,10 @@ export class FormSubmitDispatcher {
   }
 
   async sendFetchRequest (event: CustomEvent): Promise<void> {
-    if (event.defaultPrevented) return
+    if (event.defaultPrevented) {
+      this.dispatchStopped(event)
+      return
+    }
 
     const { request } = event.detail
 
@@ -87,7 +93,10 @@ export class FormSubmitDispatcher {
    * { response, request?, error?, submitter } = detail
    */
   dispatchComplete (event: CustomEvent): void {
-    if (event.defaultPrevented) return
+    if (event.defaultPrevented) {
+      this.dispatchStopped(event)
+      return
+    }
 
     dispatch.call(this.findTarget(event), AJAX_EVENTS.ajaxComplete, {
       detail: { ...event.detail }
@@ -129,12 +138,23 @@ export class FormSubmitDispatcher {
    * { response, request?, error?, submitter } = event.detail
    */
   dispatchError (event: CustomEvent): void {
-    if (event.defaultPrevented) return
+    if (event.defaultPrevented) {
+      this.dispatchStopped(event)
+      return
+    }
 
     const { element, fetchRequest, request, fetchResponse, response, submitter } = event.detail
 
     dispatch.call(this.findTarget(event), AJAX_EVENTS.ajaxError, {
       detail: { element, fetchRequest, request, fetchResponse, response, submitter }
+    })
+  }
+
+  // This is only for when event.defaultPrevented() is called.
+  // if a user calls `event.detail.submission.cancel()`, that will be triggered separately.
+  dispatchStopped (event: CustomEvent): void {
+    dispatch.call(this.findTarget(event), AJAX_EVENTS.ajaxStopped, {
+      detail: { ...event.detail }
     })
   }
 

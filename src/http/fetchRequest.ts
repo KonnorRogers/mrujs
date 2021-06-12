@@ -1,3 +1,4 @@
+import { AJAX_EVENTS, dispatch, stopEverything } from '../utils/events'
 import { mergeHeaders, expandUrl, Locateable } from '../utils/url'
 
 export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
@@ -56,8 +57,19 @@ export class FetchRequest {
     return this.body instanceof URLSearchParams ? Array.from(this.body.entries()) : []
   }
 
-  cancel (): void {
+  cancel (event?: CustomEvent): void {
     this.abortController.abort()
+
+    // trigger event dispatching if an event gets passed in.
+    if (event != null) {
+      stopEverything(event)
+
+      const { element } = event.detail
+
+      dispatch.call(element, AJAX_EVENTS.ajaxStopped, {
+        detail: { ...event.detail }
+      })
+    }
   }
 
   modifyUrl (url: Locateable): void {
