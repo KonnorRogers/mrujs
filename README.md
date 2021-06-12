@@ -84,7 +84,7 @@ stopped via `event.stopImmediatePropagation()`. I also allowed events to
 be preventable. IE: `event.preventDefault()` on an ajax event will cause
 it to stop running.
 
-A form with `data-remote="true"` form will emit the following events:
+A form or link with `data-remote="true"` form will emit the following events:
 
 ```console
 ajax:before
@@ -102,6 +102,12 @@ ajax:complete
 <img width="632" alt="Screen Shot 2021-06-10 at 3 23 02 AM" src="https://user-images.githubusercontent.com/26425882/121482581-47675400-c99b-11eb-9a72-79a09c33ad34.png">
 
 [mrujs-remote-form-event-diagram.pdf](https://github.com/ParamagicDev/mrujs/files/6629160/mrujs-remote-form-event-diagram.pdf)
+
+#### Note about remote / ajax links
+
+`<a href="/" data-method="delete" data-remote="true">` does not go
+through the `submit` event, it skips to `ajax:before`, this is due to
+how submit events are intercepted.
 
 #### Cancelling Events
 
