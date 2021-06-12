@@ -75,10 +75,12 @@ export class Mrujs {
 
   connect (): void {
     this.csrf.connect()
+    document.addEventListener('submit', disableSubmitter as EventListener)
     this.clickHandler.connect()
     this.confirmClass.connect()
     this.method.connect()
     this.formSubmitDispatcher.connect()
+    document.addEventListener('ajax:complete', enableSubmitter as EventListener)
     this.navigationAdapter.connect()
 
     // This event works the same as the load event, except that it fires every
@@ -86,11 +88,6 @@ export class Mrujs {
     // See https://github.com/rails/jquery-ujs/issues/357
     // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
     window.addEventListener('pageshow', this.reenableDisabledElements)
-
-    // This may need to be rethought to align with UJS
-    document.addEventListener('submit', disableSubmitter as EventListener)
-    document.addEventListener('ajax:complete', enableSubmitter as EventListener)
-    // end
 
     this.connected = true
   }

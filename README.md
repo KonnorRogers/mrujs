@@ -95,6 +95,7 @@ ajax:response:error
 ajax:error # => will catch both request and response errors.
 ajax:success # => will only fire if no errors
 ajax:complete
+ajax:stopped # => when event.preventDefault() is called or event.detail.fetchRequest.cancel(event) is called.
 ```
 
 * Diagram of Ajax form submissions
@@ -102,6 +103,18 @@ ajax:complete
 <img width="632" alt="Screen Shot 2021-06-10 at 3 23 02 AM" src="https://user-images.githubusercontent.com/26425882/121482581-47675400-c99b-11eb-9a72-79a09c33ad34.png">
 
 [mrujs-remote-form-event-diagram.pdf](https://github.com/ParamagicDev/mrujs/files/6629160/mrujs-remote-form-event-diagram.pdf)
+
+### All properties available on event.detail
+
+```js
+element // => either form or link element that initiated request
+fetchRequest // => FetchRequest (wrapper around Request)
+request // => Request
+fetchResponse // => FetchResponse (wrapper around Response)
+response // => Response
+submitter // => The button clicked to initiate the submit. Button / Link element
+submission // => Either FormSubmission or LinkSubmission.
+```
 
 #### Note about remote / ajax links
 
@@ -114,21 +127,13 @@ how submit events are intercepted.
 Cancelling Ajax events is fairly straightforward with only 1 edge case
 with `ajax:send`.
 
-You can cancel events at anytime simply by calling `event.preventDefault()` or
-`event.stopImmediatePropagation()`:
+You can cancel events at anytime simply by calling `event.preventDefault()`.
 
 Example:
 
 ```js
-// Should just work...
 document.querySelector("form").addEventListener("ajax:before", (event) => {
   event.preventDefault();
-})
-
-// For extra certainty that no others events get sent.
-document.querySelector("form").addEventListener("ajax:before", (event) => {
-  event.preventDefault();
-  event.stopImmediatePropagation();
 })
 ```
 
@@ -137,7 +142,8 @@ controller. To do so, you would do the following:
 
 ```js
 document.querySelector("form").addEventListener("ajax:send", (event) => {
-  event.detail.fetchRequest.cancel()
+  event.detail.fetchRequest.cancel(event)
+  // => If event is not passed in, it wont fire a `ajax:stopped` event.
 })
 ```
 </details>

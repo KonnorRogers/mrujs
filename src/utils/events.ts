@@ -67,7 +67,9 @@ export const AJAX_EVENTS = {
    * After any fetch request, regardless of outcome
    * Does not have any accessible data besides the event itself
    */
-  ajaxComplete: `${prefix}:complete`
+  ajaxComplete: `${prefix}:complete`,
+
+  ajaxStopped: `${prefix}:stopped`
 
   // NOT CURRENTLY IMPLEMENTED
   // /**
