@@ -1,9 +1,8 @@
 # [0.3.0-beta.14](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.12...v0.3.0-beta.14) (2021-06-13)
 
+### Bug Fixes
 
-
-# [0.3.0-beta.14](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.12...v0.3.0-beta.14) (2021-06-13)
-
+* Disabling of buttons now works as originally intended.
 
 
 # [0.3.0-beta.11](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.9...v0.3.0-beta.11) (2021-06-12)
