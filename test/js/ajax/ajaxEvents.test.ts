@@ -31,8 +31,6 @@ describe('Ajax', (): void => {
     const submitButton = findByTestId('GET-200')?.querySelector("input[type='submit']") as HTMLInputElement | null
 
     const submitGet200 = (): void => {
-      const submitButton = findByTestId('GET-200')?.querySelector("input[type='text']") as HTMLInputElement | null
-
       submitButton?.click()
     }
 
@@ -42,25 +40,6 @@ describe('Ajax', (): void => {
         assertFired(event, submitGet200)
       })
     })
-
-    it('Should disable the button on ajax request', (): void => {
-      const submitDisabled = (): void => assert.equal(submitButton?.disabled, true)
-
-      document.addEventListener('submit', submitDisabled)
-      document.addEventListener('ajax:send', submitDisabled)
-      submitGet200()
-      document.removeEventListener('submit', submitDisabled)
-      document.removeEventListener('ajax:send', submitDisabled)
-    })
-
-    // it('Should reenable a button on ajax:complete', (): void => {
-    //   // const submitEnabled = (): void => assert.equal(submitButton?.disabled, false)
-
-    //   window.mrujs = mrujs.start()
-    //   // document.addEventListener('ajax:complete', submitEnabled)
-    //   submitGet200()
-    //   // document.removeEventListener('ajax:complete', submitEnabled)
-    // })
   })
 
   describe('GET 404 Request', (): void => {
@@ -84,9 +63,9 @@ describe('Ajax', (): void => {
 
   describe('Firing ajax:stopped', () => {
     const event = 'ajax:stopped'
+    const submitButton = findByTestId('GET-200')?.querySelector("input[type='text']") as HTMLInputElement | null
 
     const submitGet200 = (): void => {
-      const submitButton = findByTestId('GET-200')?.querySelector("input[type='text']") as HTMLInputElement | null
       submitButton?.click()
     }
 
@@ -95,6 +74,7 @@ describe('Ajax', (): void => {
       const preventDefault = (event: CustomEvent): void => event.preventDefault()
       document.addEventListener('ajax:before', preventDefault as EventListener)
       assertFired(event, submitGet200)
+      assert.equal(submitButton?.dataset.ujsDisabled, undefined)
       document.removeEventListener('ajax:before', preventDefault as EventListener)
     })
 

@@ -21,7 +21,7 @@ export class Toggler {
 
   readonly disableElementConditions: ListeningConditions[] = [
     { event: 'click', selector: SELECTORS.linkClickSelector.selector },
-    { event: 'click', selector: SELECTORS.buttonClickSelector.selector },
+    { event: 'click', selector: SELECTORS.buttonClickSelector.selector }
   ]
 
   readonly handleDisabledConditions: ListeningConditions[] = [
