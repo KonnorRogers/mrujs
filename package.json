@@ -23,7 +23,8 @@
     "build": "rm -rf dist && tsc",
     "build:watch": "yarn build --watch",
     "changelog": "standard-changelog",
-    "deploy": "yarn changelog && yarn publish && git add . && git commit -m 'chore: update changelog' && git push"
+    "release": "standard-version",
+    "deploy": "yarn changelog && yarn release && git add . && git commit -m 'chore: update changelog' && git push"
   },
   "dependencies": {
     "morphdom": ">=2.6.0 <3.0.0"
@@ -38,6 +39,7 @@
     "@web/test-runner-playwright": "^0.8.4",
     "sinon": "^9.2.4",
     "standard-changelog": "^2.0.27",
+    "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",
     "typescript": "^4.2.3"
   },
