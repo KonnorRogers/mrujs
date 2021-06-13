@@ -146,7 +146,12 @@ document.querySelector("form").addEventListener("ajax:send", (event) => {
   // => If event is not passed in, it wont fire a `ajax:stopped` event.
 })
 ```
-</details>
+
+#### WARNING:
+
+Be careful if you call `event.stopImmediatePropagation()` or
+`event.stopPropagation()`. This will cause `ajax:stopped` to not fire
+and will leave your buttons in a disabled state that you must handle.
 
 ### Fetch
 
