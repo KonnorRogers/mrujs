@@ -1,5 +1,5 @@
 import { AJAX_EVENTS, dispatch } from './utils/events'
-import { findSubmitter, ExtendedSubmitEvent } from './submitToggle'
+import { findSubmitter, ExtendedSubmitEvent } from './submitFinder'
 import { FetchResponse } from './http/fetchResponse'
 import { AddOrRemoveListeners, AjaxEventDetail } from './types'
 import { FormSubmission } from './formSubmission'
@@ -42,6 +42,11 @@ export class FormSubmitDispatcher {
     event.preventDefault()
 
     const submitter = findSubmitter(event)
+
+    if (submitter != null) {
+      window.mrujs?.toggler.disableElement(submitter)
+    }
+
     const { fetchRequest, request } = new FormSubmission(element, submitter)
     const detail: AjaxEventDetail = { element, fetchRequest, request, submitter }
 

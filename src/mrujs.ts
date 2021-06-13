@@ -7,7 +7,7 @@ import { Csrf } from './csrf'
 import { Confirm } from './confirm'
 import { Method } from './method'
 import { NavigationAdapter } from './navigationAdapter'
-import { enableSubmitter, disableSubmitter } from './submitToggle'
+import { Toggler } from './toggler'
 
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
@@ -26,6 +26,8 @@ export class Mrujs {
   csrf: Csrf
   method: Method
   navigationAdapter: NavigationAdapter
+  toggler: Toggler
+  boundReenableDisabledElements: EventListener
 
   __restart__!: Function
 
@@ -37,6 +39,8 @@ export class Mrujs {
     this.navigationAdapter = new NavigationAdapter()
     this.method = new Method()
     this.confirmClass = new Confirm()
+    this.toggler = new Toggler()
+    this.boundReenableDisabledElements = this.reenableDisabledElements.bind(this)
 
     this.connected = false
   }
@@ -74,35 +78,37 @@ export class Mrujs {
   }
 
   connect (): void {
-    this.csrf.connect()
-    document.addEventListener('submit', disableSubmitter as EventListener)
-    this.clickHandler.connect()
-    this.confirmClass.connect()
-    this.method.connect()
-    this.formSubmitDispatcher.connect()
-    document.addEventListener('ajax:complete', enableSubmitter as EventListener)
-    this.navigationAdapter.connect()
-
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
     // See https://github.com/rails/jquery-ujs/issues/357
     // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
-    window.addEventListener('pageshow', this.reenableDisabledElements)
+    this.reenableDisabledElements()
+    window.addEventListener('pageshow', this.boundReenableDisabledElements)
+
+    this.csrf.connect()
+    this.toggler.addEnableElementListeners() // Enables elements on ajax:stopped / ajax:complete
+    this.clickHandler.connect() // preventInsignificantClicks
+    this.toggler.addHandleDisabledListeners() // checks if element is disabled before proceeding.
+    this.confirmClass.connect() // confirm
+    this.toggler.addDisableElementListeners() // disables element while processing.
+    this.method.connect()
+    this.formSubmitDispatcher.connect()
+    this.navigationAdapter.connect()
 
     this.connected = true
   }
 
   disconnect (): void {
+    window.removeEventListener('pageshow', this.boundReenableDisabledElements)
     this.csrf.disconnect()
+    this.toggler.removeEnableElementListeners()
     this.clickHandler.disconnect()
+    this.toggler.removeHandleDisabledListeners()
     this.confirmClass.disconnect()
+    this.toggler.removeDisableElementListeners()
     this.method.disconnect()
     this.formSubmitDispatcher.disconnect()
     this.navigationAdapter.disconnect()
-
-    window.removeEventListener('pageshow', this.reenableDisabledElements)
-    document.removeEventListener('submit', disableSubmitter as EventListener)
-    document.removeEventListener('ajax:complete', enableSubmitter as EventListener)
 
     this.connected = false
   }
@@ -135,22 +141,20 @@ export class Mrujs {
 
   reenableDisabledElements (): void {
     document
-      .querySelectorAll(SELECTORS.formEnableSelector.selector)
+      .querySelectorAll(`${SELECTORS.formEnableSelector.selector} ${SELECTORS.linkDisableSelector.selector}`)
       .forEach(element => {
         const el = element as HTMLInputElement
         // Reenable any elements previously disabled
-        if (el.dataset['mrujs-disabled'] != null) {
-          el.disabled = false
-        }
+        this.toggler.enableElement(el)
       })
 
-    document
-      .querySelectorAll(SELECTORS.linkDisableSelector.selector)
-      .forEach(element => {
-        const el = element as HTMLInputElement
-        if (el.dataset['mrujs-disabled'] != null) {
-          el.disabled = false
-        }
-      })
+    // document
+    //   .querySelectorAll()
+    //   .forEach(element => {
+    //     const el = element as HTMLInputElement
+    //     if (el.dataset.ujsDisabled != null) {
+    //       el.disabled = false
+    //     }
+    //   })
   }
 }

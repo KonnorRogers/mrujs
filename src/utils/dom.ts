@@ -14,7 +14,7 @@ export interface SelectorInterface {
  * @example
  *   match(document.querySelector("form"), { selector: "form", exclude: "form[data-remote='true']"})
  */
-export function match (element: HTMLElement, { selector, exclude }: SelectorInterface): boolean {
+export function match (element: Element, { selector, exclude }: SelectorInterface): boolean {
   if (exclude !== undefined) {
     return m.call(element, selector) && !m.call(element, exclude)
   }
