@@ -1,3 +1,19 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [0.3.0-beta.14](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.12...v0.3.0-beta.14) (2021-06-13)
+
+
+### Features
+
+* Add checks for json responses. ([#44](https://github.com/ParamagicDev/mrujs/issues/44)) ([fe1ca93](https://github.com/ParamagicDev/mrujs/commit/fe1ca9367a6568130367945cd24f1c99480ae110))
+
+
+### Bug Fixes
+
+* data disable button handling ([#46](https://github.com/ParamagicDev/mrujs/issues/46)) ([7d12614](https://github.com/ParamagicDev/mrujs/commit/7d126144713759a3c08765463eec5e5f52b8b5f7))
+
 # [0.3.0-beta.14](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.12...v0.3.0-beta.14) (2021-06-13)
 
 ### Bug Fixes
@@ -150,6 +166,3 @@ with UJS.
 
 
 ## 0.0.2 (2021-05-01)
-
-
-
