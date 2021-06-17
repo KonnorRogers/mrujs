@@ -1,5 +1,5 @@
 import { dispatch, stopEverything } from './utils/events'
-import { SELECTORS } from './utils/dom'
+import { SELECTORS, match } from './utils/dom'
 import { IQuery } from './types'
 
 export class Confirm {
@@ -50,6 +50,18 @@ export class Confirm {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
           element.removeEventListener(obj.event, this.__handleConfirm__ as EventListener)
+        })
+      })
+    })
+  }
+
+  observerCallback (nodeList: NodeList): void {
+    Confirm.queries.forEach((obj) => {
+      obj.selectors.forEach((selector) => {
+        nodeList.forEach((node) => {
+          if (match(node, { selector })) {
+            node.addEventListener(obj.event, this.__handleConfirm__ as EventListener)
+          }
         })
       })
     })

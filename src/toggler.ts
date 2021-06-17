@@ -43,6 +43,17 @@ export class Toggler {
     this.removeListeners(this.enableElementConditions, this.boundEnableElement)
   }
 
+  enableElementObserverCallback (nodeList: NodeList): void {
+    this.enableElementConditions.forEach((condition) => {
+      const { selector, event } = condition
+      nodeList.forEach((node) => {
+        if (match(node, { selector })) {
+          node.addEventListener(event, this.boundEnableElement)
+        }
+      })
+    })
+  }
+
   addDisableElementListeners (): void {
     this.addListeners(this.disableElementConditions, this.boundDisableElement)
   }
@@ -51,12 +62,34 @@ export class Toggler {
     this.removeListeners(this.disableElementConditions, this.boundDisableElement)
   }
 
+  disableElementObserverCallback (nodeList: NodeList): void {
+    this.disableElementConditions.forEach((condition) => {
+      const { selector, event } = condition
+      nodeList.forEach((node) => {
+        if (match(node, { selector })) {
+          node.addEventListener(event, this.boundDisableElement)
+        }
+      })
+    })
+  }
+
   addHandleDisabledListeners (): void {
     this.addListeners(this.handleDisabledConditions, this.handleDisabledElement)
   }
 
   removeHandleDisabledListeners (): void {
     this.removeListeners(this.handleDisabledConditions, this.handleDisabledElement)
+  }
+
+  handleDisabledObserverCallback (nodeList: NodeList): void {
+    this.handleDisabledConditions.forEach((condition) => {
+      const { selector, event } = condition
+      nodeList.forEach((node) => {
+        if (match(node, { selector })) {
+          node.addEventListener(event, this.handleDisabledElement)
+        }
+      })
+    })
   }
 
   addListeners (conditions: ListeningConditions[], callback: EventListener): void {

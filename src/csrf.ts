@@ -8,7 +8,6 @@ export class Csrf {
 
   constructor () {
     this.observer = new MutationObserver(this.observerCallback)
-
     this.observerOptions = OBSERVER_OPTIONS
   }
 
