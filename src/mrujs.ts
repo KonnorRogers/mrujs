@@ -31,7 +31,6 @@ export class Mrujs {
   toggler: Toggler
 
   boundReenableDisabledElements: EventListener
-  boundTurbolinksShim!: EventListener
 
   constructor (config = {}) {
     this.config = config
@@ -43,7 +42,6 @@ export class Mrujs {
     this.confirmClass = new Confirm()
     this.toggler = new Toggler()
     this.boundReenableDisabledElements = this.reenableDisabledElements.bind(this)
-    this.boundTurbolinksShim = this.turbolinksShim.bind(this)
 
     // MutationObserver for added nodes
     this.addedNodesObserver = new AddedNodesObserver(this.addedNodesCallback.bind(this))
@@ -51,7 +49,6 @@ export class Mrujs {
     this.connected = false
   }
 
-  // connect
   start (): Mrujs {
     window.Rails = window.mrujs = this
 
@@ -62,42 +59,16 @@ export class Mrujs {
 
     this.connect()
 
-    // Not happy about this, perhaps parsing trees may be easier? not sure the best alternative to this.
-    document.addEventListener('turbolinks:load', this.boundTurbolinksShim)
-
     return this
   }
 
-  // disconnect and remove the turbolinks:load event listener
   stop (): void {
     this.disconnect()
-    document.removeEventListener('turbolinks:load', this.boundTurbolinksShim)
   }
 
   restart (): void {
     this.disconnect()
     this.connect()
-  }
-
-  /**
-   * Hacky workaround for TL body replacement which messes with mutation observers.
-   */
-  turbolinksShim (): void {
-    // disconnect
-    this.toggler.removeEnableElementListeners() // Enables elements on ajax:stopped / ajax:complete
-    this.clickHandler.disconnect() // preventInsignificantClicks
-    this.toggler.removeHandleDisabledListeners() // checks if element is disabled before proceeding.
-    this.confirmClass.disconnect() // confirm
-    this.toggler.removeDisableElementListeners() // disables element while processing.
-    this.method.disconnect()
-
-    // reconnect
-    this.toggler.addEnableElementListeners() // Enables elements on ajax:stopped / ajax:complete
-    this.clickHandler.connect() // preventInsignificantClicks
-    this.toggler.addHandleDisabledListeners() // checks if element is disabled before proceeding.
-    this.confirmClass.connect() // confirm
-    this.toggler.addDisableElementListeners() // disables element while processing.
-    this.method.connect()
   }
 
   connect (): void {

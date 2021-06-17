@@ -50,6 +50,10 @@ export class Toggler {
         if (match(node, { selector })) {
           node.addEventListener(event, this.boundEnableElement)
         }
+
+        if (node instanceof Element) {
+          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.boundEnableElement))
+        }
       })
     })
   }
@@ -69,6 +73,10 @@ export class Toggler {
         if (match(node, { selector })) {
           node.addEventListener(event, this.boundDisableElement)
         }
+
+        if (node instanceof Element) {
+          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.boundDisableElement))
+        }
       })
     })
   }
@@ -87,6 +95,10 @@ export class Toggler {
       nodeList.forEach((node) => {
         if (match(node, { selector })) {
           node.addEventListener(event, this.handleDisabledElement)
+        }
+
+        if (node instanceof Element) {
+          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.handleDisabledElement))
         }
       })
     })

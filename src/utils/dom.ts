@@ -15,7 +15,7 @@ export interface SelectorInterface {
  *   match(document.querySelector("form"), { selector: "form", exclude: "form[data-remote='true']"})
  */
 export function match (element: Node | Element, { selector, exclude }: SelectorInterface): boolean {
-  if (element instanceof Element === false) {
+  if (!(element instanceof Element)) {
     return false
   }
 

@@ -43,6 +43,10 @@ export class ClickHandler {
           if (match(node, { selector })) {
             node.addEventListener(obj.event, Utils.preventInsignificantClick as EventListener)
           }
+
+          if (node instanceof Element) {
+            node.querySelectorAll(selector).forEach((el) => el.addEventListener(obj.event, Utils.preventInsignificantClick as EventListener))
+          }
         })
       })
     })

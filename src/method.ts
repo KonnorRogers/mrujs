@@ -23,6 +23,10 @@ export class Method {
       if (match(node, SELECTORS.linkClickSelector)) {
         node.addEventListener('click', this.handle)
       }
+
+      if (node instanceof Element) {
+        node.querySelectorAll(SELECTORS.linkClickSelector.selector).forEach((el) => el.addEventListener('click', this.handle))
+      }
     })
   }
 
