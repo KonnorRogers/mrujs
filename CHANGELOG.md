@@ -1,3 +1,7 @@
+# [0.3.0-beta.15](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.12...v0.3.0-beta.15) (2021-06-17)
+
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
