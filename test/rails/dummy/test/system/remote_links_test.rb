@@ -13,6 +13,14 @@ class RemoteFormsTest < ApplicationSystemTestCase
 
     assert_current_path remote_links_path
     click_link "Method Get Link"
+    assert_current_path remote_links_path
+  end
+
+  test "should navigate for a regular link" do
+    visit remote_links_path
+
+    assert_current_path remote_links_path
+    click_link "Go home"
     assert_current_path root_path
   end
 end

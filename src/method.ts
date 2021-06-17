@@ -1,5 +1,5 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
-import { SELECTORS } from './utils/dom'
+import { match, SELECTORS } from './utils/dom'
 import { LinkSubmission } from './linkSubmission'
 
 /**
@@ -15,6 +15,18 @@ export class Method {
   disconnect (): void {
     this.allLinks.forEach((link: HTMLAnchorElement) => {
       link.removeEventListener('click', this.handle)
+    })
+  }
+
+  observerCallback (nodeList: NodeList): void {
+    nodeList.forEach((node) => {
+      if (match(node, SELECTORS.linkClickSelector)) {
+        node.addEventListener('click', this.handle)
+      }
+
+      if (node instanceof Element) {
+        node.querySelectorAll(SELECTORS.linkClickSelector.selector).forEach((el) => el.addEventListener('click', this.handle))
+      }
     })
   }
 

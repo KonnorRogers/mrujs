@@ -1,9 +1,9 @@
 import { dispatch, stopEverything } from './utils/events'
-import { SELECTORS } from './utils/dom'
+import { SELECTORS, match } from './utils/dom'
 import { IQuery } from './types'
 
 export class Confirm {
-  __handleConfirm__!: Function
+  boundHandleConfirm!: EventListener
 
   /*
    * An array of queries to run on the document. Each object has an event, and then a queries array.
@@ -34,12 +34,12 @@ export class Confirm {
   }
 
   connect (): void {
-    this.__handleConfirm__ = this.handleConfirm.bind(this)
+    this.boundHandleConfirm = this.handleConfirm.bind(this)
 
     Confirm.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
-          element.addEventListener(obj.event, this.__handleConfirm__ as EventListener)
+          element.addEventListener(obj.event, this.boundHandleConfirm)
         })
       })
     })
@@ -49,13 +49,29 @@ export class Confirm {
     Confirm.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
-          element.removeEventListener(obj.event, this.__handleConfirm__ as EventListener)
+          element.removeEventListener(obj.event, this.boundHandleConfirm)
         })
       })
     })
   }
 
-  handleConfirm (event: CustomEvent): void {
+  observerCallback (nodeList: NodeList): void {
+    Confirm.queries.forEach((obj) => {
+      obj.selectors.forEach((selector) => {
+        nodeList.forEach((node) => {
+          if (match(node, { selector })) {
+            node.addEventListener(obj.event, this.boundHandleConfirm)
+          }
+
+          if (node instanceof Element) {
+            node.querySelectorAll(selector).forEach((el) => el.addEventListener(obj.event, this.boundHandleConfirm))
+          }
+        })
+      })
+    })
+  }
+
+  handleConfirm (event: Event | CustomEvent): void {
     if (event.target == null) return // false
 
     const element = event.target as HTMLElement

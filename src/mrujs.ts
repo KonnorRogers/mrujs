@@ -8,6 +8,7 @@ import { Confirm } from './confirm'
 import { Method } from './method'
 import { NavigationAdapter } from './navigationAdapter'
 import { Toggler } from './toggler'
+import { AddedNodesObserver } from './addedNodesObserver'
 
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
@@ -18,6 +19,7 @@ export class Mrujs {
   static FetchRequest = FetchRequest.constructor
   static FetchResponse = FetchResponse.constructor
 
+  private readonly addedNodesObserver: AddedNodesObserver
   formSubmitDispatcher: FormSubmitDispatcher
   clickHandler: ClickHandler
   connected: boolean
@@ -27,9 +29,8 @@ export class Mrujs {
   method: Method
   navigationAdapter: NavigationAdapter
   toggler: Toggler
-  boundReenableDisabledElements: EventListener
 
-  __restart__!: Function
+  boundReenableDisabledElements: EventListener
 
   constructor (config = {}) {
     this.config = config
@@ -42,10 +43,12 @@ export class Mrujs {
     this.toggler = new Toggler()
     this.boundReenableDisabledElements = this.reenableDisabledElements.bind(this)
 
+    // MutationObserver for added nodes
+    this.addedNodesObserver = new AddedNodesObserver(this.addedNodesCallback.bind(this))
+
     this.connected = false
   }
 
-  // connect
   start (): Mrujs {
     window.Rails = window.mrujs = this
 
@@ -54,22 +57,13 @@ export class Mrujs {
       return window.mrujs
     }
 
-    this.restart()
-
-    // Allows us to actually remove the function
-    this.__restart__ = this.restart.bind(this)
-
-    document.addEventListener('DOMContentLoaded', this.__restart__ as EventListener)
-    document.addEventListener('turbolinks:load', this.__restart__ as EventListener)
+    this.connect()
 
     return this
   }
 
-  // disconnect and remove the DOMContentLoaded event listener
   stop (): void {
     this.disconnect()
-    document.removeEventListener('DOMContentLoaded', this.__restart__ as EventListener)
-    document.removeEventListener('turbolinks:load', this.__restart__ as EventListener)
   }
 
   restart (): void {
@@ -78,6 +72,7 @@ export class Mrujs {
   }
 
   connect (): void {
+    this.addedNodesObserver.connect()
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
     // See https://github.com/rails/jquery-ujs/issues/357
@@ -100,6 +95,7 @@ export class Mrujs {
 
   disconnect (): void {
     window.removeEventListener('pageshow', this.boundReenableDisabledElements)
+    this.addedNodesObserver.disconnect()
     this.csrf.disconnect()
     this.toggler.removeEnableElementListeners()
     this.clickHandler.disconnect()
@@ -110,7 +106,22 @@ export class Mrujs {
     this.formSubmitDispatcher.disconnect()
     this.navigationAdapter.disconnect()
 
+    this.addedNodesObserver.disconnect()
+
     this.connected = false
+  }
+
+  addedNodesCallback (mutationList: MutationRecord[], _observer: MutationObserver): void {
+    for (const mutation of mutationList) {
+      if (mutation.type === 'childList') {
+        this.toggler.enableElementObserverCallback(mutation.addedNodes)
+        this.clickHandler.observerCallback(mutation.addedNodes)
+        this.toggler.disableElementObserverCallback(mutation.addedNodes)
+        this.confirmClass.observerCallback(mutation.addedNodes)
+        this.toggler.handleDisabledObserverCallback(mutation.addedNodes)
+        this.method.observerCallback(mutation.addedNodes)
+      }
+    }
   }
 
   /**
@@ -120,12 +131,6 @@ export class Mrujs {
     return window.confirm(message)
   }
 
-  /**
-   * Takes in an object and will convert it to a Request. {url} is required.
-   * If request is null, it comes from a form. If a request object is given,
-   * it is required to have a {url:} defined.
-   * @see Ajax#fetch
-   */
   async fetch (input: Request | Locateable, options: RequestInit = {}): Promise<Response> {
     const fetchRequest = new FetchRequest(input, options)
     return await window.fetch(fetchRequest.request)
@@ -147,14 +152,5 @@ export class Mrujs {
         // Reenable any elements previously disabled
         this.toggler.enableElement(el)
       })
-
-    // document
-    //   .querySelectorAll()
-    //   .forEach(element => {
-    //     const el = element as HTMLInputElement
-    //     if (el.dataset.ujsDisabled != null) {
-    //       el.disabled = false
-    //     }
-    //   })
   }
 }
