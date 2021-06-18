@@ -144,3 +144,4 @@ test/rails/dummy/node_modules
 test/rails/dummy/yarn-error.log
 test/rails/dummy/yarn-debug.log*
 test/rails/dummy/.yarn-integrity
+**/*.DS_Store
