@@ -1,3 +1,17 @@
+# [0.3.0-beta.16](https://github.com/ParamagicDev/mrujs/compare/v0.3.0...v0.3.0-beta.16) (2021-06-24)
+
+
+### Features
+
+* custom query selectors ([#51](https://github.com/ParamagicDev/mrujs/issues/51)) ([17468c6](https://github.com/ParamagicDev/mrujs/commit/17468c6a089534892c7b724b46c8416399972daa))
+
+
+### Reverts
+
+* Revert "chore(release): 0.3.0" ([dacf18e](https://github.com/ParamagicDev/mrujs/commit/dacf18e432f37d54e89831a07114c68534319b7e))
+
+
+
 # [0.3.0-beta.15](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.12...v0.3.0-beta.15) (2021-06-17)
 
 ## [0.3.0-beta.14](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.12...v0.3.0-beta.14) (2021-06-13)
