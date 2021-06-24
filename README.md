@@ -183,7 +183,7 @@ To *send* a `json` payload, make sure to set the `Content-Type` header to
 
 ```js
 window.mrujs.fetch(
-  "/url"
+  "/url",
   {
     "Content-Type": "application/json",
     body: JSON.stringify(data)
