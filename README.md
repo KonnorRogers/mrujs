@@ -271,6 +271,9 @@ Important to note, you must set these before setting the querySelectors.
 If you want to set the querySelectors mid-session, you will have to
 follow the above steps, but instead of calling `start`, you would call `mrujs.restart()`.
 
+A list of all `querySelectors` and their strings can be found in the
+[src/utils/dom.ts](/src/utils/dom.ts) file.
+
 ## Developing locally
 
 1. Clone the repo
