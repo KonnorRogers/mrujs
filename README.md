@@ -255,7 +255,7 @@ extended with the following API:
 import mrujs from "mrujs"
 
 // Save the original
-const newSelectors = mrujs.querySelectors
+const originalSelectors = mrujs.querySelectors
 
 // Modify it.
 originalSelectors.linkDisableSelector.selector += ", my-custom-element"
