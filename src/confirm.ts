@@ -1,6 +1,6 @@
 import { dispatch, stopEverything } from './utils/events'
-import { SELECTORS, match } from './utils/dom'
-import { IQuery } from './types'
+import { match } from './utils/dom'
+import { EventQueryInterface } from './types'
 
 export class Confirm {
   boundHandleConfirm!: EventListener
@@ -8,26 +8,26 @@ export class Confirm {
   /*
    * An array of queries to run on the document. Each object has an event, and then a queries array.
    */
-  static get queries (): IQuery[] {
+  get queries (): EventQueryInterface[] {
     return [
       {
         event: 'click',
         selectors: [
-          SELECTORS.linkClickSelector.selector,
-          SELECTORS.buttonClickSelector.selector,
-          SELECTORS.formInputClickSelector.selector
+          window.mrujs.querySelectors.linkClickSelector.selector,
+          window.mrujs.querySelectors.buttonClickSelector.selector,
+          window.mrujs.querySelectors.formInputClickSelector.selector
         ]
       },
       {
         event: 'change',
         selectors: [
-          SELECTORS.inputChangeSelector.selector
+          window.mrujs.querySelectors.inputChangeSelector.selector
         ]
       },
       {
         event: 'submit',
         selectors: [
-          SELECTORS.formSubmitSelector.selector
+          window.mrujs.querySelectors.formSubmitSelector.selector
         ]
       }
     ]
@@ -36,7 +36,7 @@ export class Confirm {
   connect (): void {
     this.boundHandleConfirm = this.handleConfirm.bind(this)
 
-    Confirm.queries.forEach((obj) => {
+    this.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
           element.addEventListener(obj.event, this.boundHandleConfirm)
@@ -46,7 +46,7 @@ export class Confirm {
   }
 
   disconnect (): void {
-    Confirm.queries.forEach((obj) => {
+    this.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         document.querySelectorAll(selector).forEach((element) => {
           element.removeEventListener(obj.event, this.boundHandleConfirm)
@@ -56,7 +56,7 @@ export class Confirm {
   }
 
   observerCallback (nodeList: NodeList): void {
-    Confirm.queries.forEach((obj) => {
+    this.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         nodeList.forEach((node) => {
           if (match(node, { selector })) {
@@ -84,7 +84,7 @@ export class Confirm {
     let answer = false
 
     try {
-      answer = window?.mrujs?.confirm(message) as boolean
+      answer = window?.mrujs?.confirm(message)
     } catch (e) {
       console.warn('there was an error with mrujs.confirm')
     }

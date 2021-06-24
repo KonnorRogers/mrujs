@@ -8,7 +8,16 @@ describe('index', () => {
   })
 
   it('Should retrieve the proper csrf token', () => {
-    window.mrujs = mrujs.start()
+    mrujs.start()
     assert.equal(window.mrujs.csrfToken, '1234')
+  })
+
+  it('Should allow for custom querySelectors', () => {
+    const qs = mrujs.querySelectors
+    qs.linkClickSelector.selector += ', my-custom-element'
+    mrujs.querySelectors = qs
+
+    mrujs.start()
+    assert.include(mrujs.querySelectors.linkClickSelector.selector, 'my-custom-element')
   })
 })

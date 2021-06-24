@@ -1,5 +1,5 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
-import { match, SELECTORS } from './utils/dom'
+import { match } from './utils/dom'
 import { LinkSubmission } from './linkSubmission'
 
 /**
@@ -20,12 +20,12 @@ export class Method {
 
   observerCallback (nodeList: NodeList): void {
     nodeList.forEach((node) => {
-      if (match(node, SELECTORS.linkClickSelector)) {
+      if (match(node, window.mrujs.querySelectors.linkClickSelector)) {
         node.addEventListener('click', this.handle)
       }
 
       if (node instanceof Element) {
-        node.querySelectorAll(SELECTORS.linkClickSelector.selector).forEach((el) => el.addEventListener('click', this.handle))
+        node.querySelectorAll(window.mrujs.querySelectors.linkClickSelector.selector).forEach((el) => el.addEventListener('click', this.handle))
       }
     })
   }
@@ -59,6 +59,6 @@ export class Method {
   }
 
   get allLinks (): HTMLAnchorElement[] {
-    return Array.from(document.querySelectorAll(SELECTORS.linkClickSelector.selector))
+    return Array.from(document.querySelectorAll(window.mrujs.querySelectors.linkClickSelector.selector))
   }
 }

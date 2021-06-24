@@ -36,6 +36,7 @@
     "@web/dev-server-esbuild": "^0.2.11",
     "@web/test-runner": "^0.12.15",
     "@web/test-runner-playwright": "^0.8.4",
+    "playwright": "^1.12.2",
     "sinon": "^9.2.4",
     "standard-changelog": "^2.0.27",
     "ts-standard": "^10.0.0",
