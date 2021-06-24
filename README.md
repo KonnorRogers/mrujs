@@ -267,7 +267,7 @@ mrujs.querySelectors = originalSelectors
 mrujs.start()
 ```
 
-Important to note, you must set these before setting the querySelectors.
+Important to note, you must set these before starting mrujs.
 If you want to set the querySelectors mid-session, you will have to
 follow the above steps, but instead of calling `start`, you would call `mrujs.restart()`.
 
