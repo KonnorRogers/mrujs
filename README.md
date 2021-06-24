@@ -244,19 +244,32 @@ do that:
 This will create a `fetch` request and then navigate to the new page if
 redirected, or refresh the current page is no redirect found.
 
-## Roadmap
+## Extending Mrujs
 
-- [x] - add support for `data-method="<REQUEST_TYPE>"` for non-forms
-it.
-- [x] - `data-type='type'` for forms.
-- [x] - Alias `window.Rails` to `window.mrujs` (Allows drop in
-replacement)
-- [x] - Allow the use of `data-confirm=""`
-- [x] - Provide a confirm dialog for `data-confirm`
-- [x] - Allow users to provide their own confirm function to `data-confirm`
-- [x] - Allow `ajax:send` to be cancelled via abort controllers.
-- [ ] - Asset pipeline, if someone would like to add support im open to
-it
+### (Experimental) QuerySelectors
+
+Mrujs comes with a number of preconstructed querySelectors. These can be
+extended with the following API:
+
+```js
+import mrujs from "mrujs"
+
+// Save the original
+const newSelectors = mrujs.querySelectors
+
+// Modify it.
+originalSelectors.linkDisableSelector.selector += ", my-custom-element"
+
+// Push it back in.
+mrujs.querySelectors = originalSelectors
+
+// Now start!
+mrujs.start()
+```
+
+Important to note, you must set these before setting the querySelectors.
+If you want to set the querySelectors mid-session, you will have to
+follow the above steps, but instead of calling `start`, you would call `mrujs.restart()`.
 
 ## Developing locally
 
