@@ -1,5 +1,5 @@
 import { Submitter } from './types'
-import { match, SELECTORS } from './utils/dom'
+import { match } from './utils/dom'
 import { AJAX_EVENTS, stopEverything } from './utils/events'
 
 interface ListeningConditions {
@@ -12,28 +12,34 @@ interface ListeningConditions {
  *   and reenables them when ajax:stopped or ajax:complete is fired.
  */
 export class Toggler {
-  readonly enableElementConditions: ListeningConditions[] = [
-    { event: AJAX_EVENTS.ajaxComplete, selector: SELECTORS.buttonDisableSelector.selector },
-    { event: AJAX_EVENTS.ajaxStopped, selector: SELECTORS.buttonDisableSelector.selector },
-    { event: AJAX_EVENTS.ajaxComplete, selector: SELECTORS.linkDisableSelector.selector },
-    { event: AJAX_EVENTS.ajaxStopped, selector: SELECTORS.linkDisableSelector.selector }
-  ]
-
-  readonly disableElementConditions: ListeningConditions[] = [
-    { event: 'click', selector: SELECTORS.linkClickSelector.selector },
-    { event: 'click', selector: SELECTORS.buttonClickSelector.selector }
-  ]
-
-  readonly handleDisabledConditions: ListeningConditions[] = [
-    { event: 'click', selector: SELECTORS.linkClickSelector.selector },
-    { event: 'click', selector: SELECTORS.buttonClickSelector.selector },
-    { event: 'change', selector: SELECTORS.inputChangeSelector.selector },
-    { event: 'submit', selector: SELECTORS.formSubmitSelector.selector },
-    { event: 'click', selector: SELECTORS.formInputClickSelector.selector }
-  ]
-
   readonly boundEnableElement = this.enableElement.bind(this)
   readonly boundDisableElement = this.disableElement.bind(this)
+
+  get enableElementConditions (): ListeningConditions[] {
+    return [
+      { event: AJAX_EVENTS.ajaxComplete, selector: window.mrujs.querySelectors.buttonDisableSelector.selector },
+      { event: AJAX_EVENTS.ajaxStopped, selector: window.mrujs.querySelectors.buttonDisableSelector.selector },
+      { event: AJAX_EVENTS.ajaxComplete, selector: window.mrujs.querySelectors.linkDisableSelector.selector },
+      { event: AJAX_EVENTS.ajaxStopped, selector: window.mrujs.querySelectors.linkDisableSelector.selector }
+    ]
+  }
+
+  get handleDisabledConditions (): ListeningConditions[] {
+    return [
+      { event: 'click', selector: window.mrujs.querySelectors.linkClickSelector.selector },
+      { event: 'click', selector: window.mrujs.querySelectors.buttonClickSelector.selector },
+      { event: 'change', selector: window.mrujs.querySelectors.inputChangeSelector.selector },
+      { event: 'submit', selector: window.mrujs.querySelectors.formSubmitSelector.selector },
+      { event: 'click', selector: window.mrujs.querySelectors.formInputClickSelector.selector }
+    ]
+  }
+
+  get disableElementConditions (): ListeningConditions[] {
+    return [
+      { event: 'click', selector: window.mrujs.querySelectors.linkClickSelector.selector },
+      { event: 'click', selector: window.mrujs.querySelectors.buttonClickSelector.selector }
+    ]
+  }
 
   addEnableElementListeners (): void {
     this.addListeners(this.enableElementConditions, this.boundEnableElement)
@@ -131,22 +137,22 @@ export class Toggler {
       element = trigger.target as HTMLElement
     }
 
-    if (match(element, SELECTORS.linkDisableSelector)) {
+    if (match(element, window.mrujs.querySelectors.linkDisableSelector)) {
       this.enableLinkElement(element)
       return
     }
 
-    if (match(element, SELECTORS.linkDisableSelector)) {
+    if (match(element, window.mrujs.querySelectors.linkDisableSelector)) {
       this.enableLinkElement(element)
       return
     }
 
-    if (match(element, SELECTORS.buttonDisableSelector) || match(element, SELECTORS.formEnableSelector)) {
+    if (match(element, window.mrujs.querySelectors.buttonDisableSelector) || match(element, window.mrujs.querySelectors.formEnableSelector)) {
       this.enableFormElement(element)
       return
     }
 
-    if (match(element, SELECTORS.formSubmitSelector)) {
+    if (match(element, window.mrujs.querySelectors.formSubmitSelector)) {
       this.enableFormElements(element as HTMLFormElement)
     }
   }
@@ -163,11 +169,11 @@ export class Toggler {
       element = event
     }
 
-    if (match(element, SELECTORS.linkDisableSelector)) {
+    if (match(element, window.mrujs.querySelectors.linkDisableSelector)) {
       this.disableLinkElement(element)
-    } else if (match(element, SELECTORS.buttonDisableSelector) || match(element, SELECTORS.formDisableSelector)) {
+    } else if (match(element, window.mrujs.querySelectors.buttonDisableSelector) || match(element, window.mrujs.querySelectors.formDisableSelector)) {
       this.disableFormElement(element as HTMLFormElement)
-    } else if (match(element, SELECTORS.formSubmitSelector)) {
+    } else if (match(element, window.mrujs.querySelectors.formSubmitSelector)) {
       this.disableFormElements(element as HTMLFormElement)
     }
   }
@@ -210,7 +216,7 @@ export class Toggler {
   //  - Replaces element text with value of 'data-disable-with' attribute
   //  - Sets disabled property to true
   disableFormElements (form: HTMLFormElement): void {
-    findFormElements(form, SELECTORS.formDisableSelector.selector).forEach((el) => this.disableFormElement(el))
+    findFormElements(form, window.mrujs.querySelectors.formDisableSelector.selector).forEach((el) => this.disableFormElement(el))
   }
 
   disableFormElement (element: HTMLFormElement): void {
@@ -238,7 +244,7 @@ export class Toggler {
  *  - Sets disabled property to false
  */
   enableFormElements (form: HTMLFormElement): void {
-    const elements = findFormElements(form, SELECTORS.formEnableSelector.selector) as HTMLElement[]
+    const elements = findFormElements(form, window.mrujs.querySelectors.formEnableSelector.selector) as HTMLElement[]
 
     elements.forEach((el: HTMLElement) => {
       this.enableFormElement(el)

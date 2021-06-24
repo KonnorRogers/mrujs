@@ -1,16 +1,16 @@
 import { Utils } from './utils'
-import { match, SELECTORS } from './utils/dom'
-import { IQuery } from './types'
+import { match } from './utils/dom'
+import { EventQueryInterface } from './types'
 
 export class ClickHandler {
-  static get queries (): IQuery[] {
+  static get queries (): EventQueryInterface[] {
     return [
       {
         event: 'click',
         selectors: [
-          SELECTORS.linkClickSelector.selector,
-          SELECTORS.buttonClickSelector.selector,
-          SELECTORS.formInputClickSelector.selector
+          window.mrujs.querySelectors.linkClickSelector.selector,
+          window.mrujs.querySelectors.buttonClickSelector.selector,
+          window.mrujs.querySelectors.formInputClickSelector.selector
         ]
       }
     ]

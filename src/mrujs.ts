@@ -12,8 +12,9 @@ import { AddedNodesObserver } from './addedNodesObserver'
 
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
-import { SELECTORS } from './utils/dom'
+import { BASE_SELECTORS } from './utils/dom'
 import { Locateable } from './utils/url'
+import { MrujsConfigInterface, QuerySelectorInterface } from './types'
 
 export class Mrujs {
   static FetchRequest = FetchRequest.constructor
@@ -23,7 +24,7 @@ export class Mrujs {
   formSubmitDispatcher: FormSubmitDispatcher
   clickHandler: ClickHandler
   connected: boolean
-  config: Record<string, unknown>
+  config: MrujsConfigInterface
   confirmClass: Confirm
   csrf: Csrf
   method: Method
@@ -32,8 +33,8 @@ export class Mrujs {
 
   boundReenableDisabledElements: EventListener
 
-  constructor (config = {}) {
-    this.config = config
+  constructor () {
+    this.config = { querySelectors: { ...BASE_SELECTORS } }
     this.clickHandler = new ClickHandler()
     this.csrf = new Csrf()
     this.formSubmitDispatcher = new FormSubmitDispatcher()
@@ -53,7 +54,7 @@ export class Mrujs {
     window.Rails = window.mrujs = this
 
     // Dont start twice!
-    if (window.mrujs?.connected) {
+    if (window.mrujs.connected) {
       return window.mrujs
     }
 
@@ -136,6 +137,14 @@ export class Mrujs {
     return await window.fetch(fetchRequest.request)
   }
 
+  get querySelectors (): QuerySelectorInterface {
+    return this.config.querySelectors
+  }
+
+  set querySelectors (querySelectors: QuerySelectorInterface) {
+    this.config.querySelectors = querySelectors
+  }
+
   get csrfToken (): string | null {
     return this.csrf.token
   }
@@ -146,7 +155,7 @@ export class Mrujs {
 
   reenableDisabledElements (): void {
     document
-      .querySelectorAll(`${SELECTORS.formEnableSelector.selector} ${SELECTORS.linkDisableSelector.selector}`)
+      .querySelectorAll(`${this.querySelectors.formEnableSelector.selector} ${this.querySelectors.linkDisableSelector.selector}`)
       .forEach(element => {
         const el = element as HTMLInputElement
         // Reenable any elements previously disabled

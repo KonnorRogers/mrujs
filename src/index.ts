@@ -5,8 +5,8 @@ import { FetchResponse } from './http/fetchResponse'
 // This is required for typescript checking in tests
 declare global {
   interface Window {
-    mrujs?: Mrujs
-    Rails?: Mrujs
+    mrujs: Mrujs
+    Rails: Mrujs
     Turbolinks?: any
   }
 }

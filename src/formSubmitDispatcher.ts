@@ -44,7 +44,7 @@ export class FormSubmitDispatcher {
     const submitter = findSubmitter(event)
 
     if (submitter != null) {
-      window.mrujs?.toggler.disableElement(submitter)
+      window.mrujs.toggler.disableElement(submitter)
     }
 
     const { fetchRequest, request } = new FormSubmission(element, submitter)

@@ -1,14 +1,11 @@
 // This file is copied from:
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/dom.coffee
 
+import { QuerySelectorInterface, SelectorInterface } from '../types'
 const m =
   Element.prototype.matches ??
   Element.prototype.webkitMatchesSelector
 
-export interface SelectorInterface {
-  selector: string
-  exclude?: string
-}
 /**
  * Checks if the given native dom element matches the selector
  * @example
@@ -26,7 +23,7 @@ export function match (element: Node | Element, { selector, exclude }: SelectorI
   return m.call(element, selector)
 }
 
-export const SELECTORS = {
+export const BASE_SELECTORS: QuerySelectorInterface = {
   // Link elements bound by rails-ujs
   linkClickSelector: {
     selector:
@@ -67,9 +64,6 @@ export const SELECTORS = {
     selector:
       'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled'
   },
-
-  // Form file input elements
-  fileInputSelector: { selector: 'input[name][type=file]:not([disabled])' },
 
   // Link onClick disable selector with possible reenable after remote submission
   linkDisableSelector: { selector: 'a[data-disable-with], a[data-disable]' },
