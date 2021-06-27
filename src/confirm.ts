@@ -89,7 +89,6 @@ export class Confirm {
       console.warn('there was an error with mrujs.confirm')
     }
 
-    console.log("ANSWER: ", answer)
     if (answer) {
       dispatch.call(element, 'confirm:complete', { detail: { answer } })
       return
