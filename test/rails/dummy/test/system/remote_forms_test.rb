@@ -30,7 +30,7 @@ class RemoteFormsTest < ApplicationSystemTestCase
       fill_in "Body", with: @post.body
       fill_in "Title", with: @post.title
       click_on "Create Post"
-      # assert_button "Submitting...", disabled: true
+      assert_button "Submitting...", disabled: true
     end
 
     assert_text ::PostsController::CREATED
@@ -61,7 +61,7 @@ class RemoteFormsTest < ApplicationSystemTestCase
       fill_in "Body", with: @post.body
       fill_in "Title", with: @post.title
       click_on "Update Post"
-      # assert_button "Submitting...", disabled: true
+      assert_button "Submitting...", disabled: true
     end
 
     assert_text ::PostsController::UPDATED
@@ -75,16 +75,23 @@ class RemoteFormsTest < ApplicationSystemTestCase
       click_on "Destroy", match: :first
     end
 
-    # assert_button "Destroying...", disabled: true
     assert_text ::PostsController::DESTROYED
   end
 
   test "destroying a post with ajax and confirm" do
     page.accept_confirm do
       click_on "Ajax Destroy", match: :first
-      # assert_button "Destroying...", disabled: true
     end
 
+    assert_button "Destroying...", disabled: true
     assert_text ::PostsController::DESTROYED
+  end
+
+  test "When cancelling a data-confirm" do
+    page.dismiss_confirm do
+      click_on "Ajax Destroy", match: :first
+    end
+
+    assert_button "Ajax Destroy", match: :first, disabled: true
   end
 end
