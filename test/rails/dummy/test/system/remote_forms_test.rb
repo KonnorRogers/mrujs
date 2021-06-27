@@ -75,6 +75,7 @@ class RemoteFormsTest < ApplicationSystemTestCase
       click_on "Destroy", match: :first
     end
 
+    assert_link "Destroying..."
     assert_text ::PostsController::DESTROYED
   end
 
