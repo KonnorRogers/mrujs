@@ -83,7 +83,7 @@ class RemoteFormsTest < ApplicationSystemTestCase
       click_on "Ajax Destroy", match: :first
     end
 
-    assert_button "Destroying...", disabled: true
+    assert_link "Destroying..."
     assert_text ::PostsController::DESTROYED
   end
 
@@ -92,6 +92,7 @@ class RemoteFormsTest < ApplicationSystemTestCase
       click_on "Ajax Destroy", match: :first
     end
 
-    assert_button "Ajax Destroy", match: :first, disabled: true
+    refute_text ::PostsController::DESTROYED
+    assert_link "Ajax Destroy", match: :first
   end
 end
