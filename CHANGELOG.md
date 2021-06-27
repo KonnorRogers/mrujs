@@ -1,3 +1,9 @@
+# [0.3.0-beta.17](https://github.com/ParamagicDev/mrujs/compare/v0.3.0...v0.3.0-beta.17) (2021-06-27)
+
+### Fixes
+
+* data-confirm event ordering on mutation observers
+
 # [0.3.0-beta.16](https://github.com/ParamagicDev/mrujs/compare/v0.3.0...v0.3.0-beta.16) (2021-06-24)
 
 
