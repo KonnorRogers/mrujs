@@ -117,8 +117,8 @@ export class Mrujs {
       if (mutation.type === 'childList') {
         this.toggler.enableElementObserverCallback(mutation.addedNodes)
         this.clickHandler.observerCallback(mutation.addedNodes)
-        this.toggler.disableElementObserverCallback(mutation.addedNodes)
         this.confirmClass.observerCallback(mutation.addedNodes)
+        this.toggler.disableElementObserverCallback(mutation.addedNodes)
         this.toggler.handleDisabledObserverCallback(mutation.addedNodes)
         this.method.observerCallback(mutation.addedNodes)
       }
