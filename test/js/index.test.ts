@@ -1,4 +1,5 @@
 import { assert } from '@esm-bundle/chai'
+
 import mrujs, { Mrujs } from '../../src/index'
 import { BASE_ACCEPT_HEADERS } from '../../src/utils/headers'
 
@@ -36,6 +37,17 @@ describe('index', () => {
     for (const [key, value] of Object.entries(BASE_ACCEPT_HEADERS)) {
       assert(mrujs.mimeTypes[key] === value)
     }
+
+    mrujs.stop()
+  })
+
+  it('Should allow overriding internal mimetypes', () => {
+    const customMime = { shortcut: 'any', header: 'text/vnd.custom' }
+    mrujs.registerMimeTypes([customMime])
+    mrujs.start()
+
+    assert(mrujs.mimeTypes[customMime.shortcut] === customMime.header)
+    assert(mrujs.mimeTypes.any !== BASE_ACCEPT_HEADERS.any)
 
     mrujs.stop()
   })
