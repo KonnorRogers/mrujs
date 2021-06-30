@@ -23,7 +23,8 @@
     "build": "rm -rf dist && tsc",
     "build:watch": "yarn build --watch",
     "changelog": "standard-changelog",
-    "deploy": "yarn changelog && yarn deploy && git add . && git commit -m 'chore: update changelog' && git push"
+    "deploy": "yarn build && yarn changelog && yarn deploy && git add . && git commit -m 'chore: update changelog'",
+    "push": "git push --tags"
   },
   "dependencies": {
     "morphdom": ">=2.6.0 <3.0.0"
