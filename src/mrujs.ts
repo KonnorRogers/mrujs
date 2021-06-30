@@ -158,8 +158,8 @@ export class Mrujs {
   utils (): ExposedUtilsInterface {
     return {
       match,
-      FetchRequest: FetchRequest["constructor"],
-      FetchResponse: FetchResponse["constructor"]
+      FetchRequest: FetchRequest.constructor,
+      FetchResponse: FetchResponse.constructor
     }
   }
 
