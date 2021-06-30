@@ -25,7 +25,6 @@ import {
 } from './types'
 
 export class Mrujs {
-  private readonly addedNodesObserver: AddedNodesObserver
   formSubmitDispatcher: FormSubmitDispatcher
   clickHandler: ClickHandler
   connected: boolean
@@ -33,10 +32,11 @@ export class Mrujs {
   confirmClass: Confirm
   csrf: Csrf
   method: Method
-  navigationAdapter: NavigationAdapter
   toggler: Toggler
 
-  boundReenableDisabledElements: EventListener
+  private readonly navigationAdapter: NavigationAdapter
+  private readonly boundReenableDisabledElements: EventListener
+  private readonly addedNodesObserver: AddedNodesObserver
 
   constructor () {
     this.config = {
@@ -155,11 +155,11 @@ export class Mrujs {
    * Utilities generally not used for general purpose, but instead used for things like
    *   plugins or advanced features.
    */
-  utils (): ExposedUtilsInterface {
+  get utils (): ExposedUtilsInterface {
     return {
       match,
-      FetchRequest: FetchRequest.constructor,
-      FetchResponse: FetchResponse.constructor
+      FetchRequest: FetchRequest,
+      FetchResponse: FetchResponse
     }
   }
 
