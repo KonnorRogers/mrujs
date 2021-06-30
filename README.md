@@ -367,11 +367,11 @@ const MyPlugin = {
   disconnect: () => {console.log(`${name} disconnecting`)}
 }
 
-window.mrujs.start(
+window.mrujs.start({
   plugins: [
     MyPlugin
   ]
-)
+})
 ```
 
 Using a class:
@@ -391,11 +391,11 @@ class MyPlugin {
   }
 }
 
-window.mrujs.start(
+window.mrujs.start({
   plugins: [
     new MyPlugin()
   ]
-)
+})
 ```
 
 
