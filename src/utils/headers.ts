@@ -1,4 +1,6 @@
-export const ACCEPT_HEADERS = {
+import { MimeTypeInterface } from '../types'
+
+export const BASE_ACCEPT_HEADERS: MimeTypeInterface = {
   '*': '*/*',
   any: '*/*',
   text: 'text/plain',
@@ -7,17 +9,19 @@ export const ACCEPT_HEADERS = {
   json: 'application/json, text/javascript'
 }
 
-export type AcceptHeadersType = '*' | 'any' | 'text' | 'html' | 'xml' | 'json'
-
 export function findResponseTypeHeader (responseType: string | undefined): string {
+  const acceptHeaders = {
+    ...window.mrujs.mimeTypes
+  }
+
   if (responseType == null) {
-    return ACCEPT_HEADERS.any
+    return acceptHeaders.any
   }
 
   responseType = responseType.trim()
 
-  if (Object.keys(ACCEPT_HEADERS).includes(responseType)) {
-    return ACCEPT_HEADERS[responseType as AcceptHeadersType]
+  if (Object.keys(acceptHeaders).includes(responseType)) {
+    return acceptHeaders[responseType]
   }
 
   return responseType

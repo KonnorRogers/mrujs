@@ -14,7 +14,8 @@ import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
 import { BASE_SELECTORS } from './utils/dom'
 import { Locateable } from './utils/url'
-import { MrujsConfigInterface, QuerySelectorInterface } from './types'
+import { BASE_ACCEPT_HEADERS } from './utils/headers'
+import { MrujsConfigInterface, QuerySelectorInterface, MimeTypeInterface, CustomMimeTypeInterface } from './types'
 
 export class Mrujs {
   static FetchRequest = FetchRequest.constructor
@@ -34,7 +35,7 @@ export class Mrujs {
   boundReenableDisabledElements: EventListener
 
   constructor () {
-    this.config = { querySelectors: { ...BASE_SELECTORS } }
+    this.config = { querySelectors: { ...BASE_SELECTORS }, mimeTypes: { ...BASE_ACCEPT_HEADERS } }
     this.clickHandler = new ClickHandler()
     this.csrf = new Csrf()
     this.formSubmitDispatcher = new FormSubmitDispatcher()
@@ -135,6 +136,26 @@ export class Mrujs {
   async fetch (input: Request | Locateable, options: RequestInit = {}): Promise<Response> {
     const fetchRequest = new FetchRequest(input, options)
     return await window.fetch(fetchRequest.request)
+  }
+
+  registerMimeTypes (mimeTypes: CustomMimeTypeInterface[]): MimeTypeInterface {
+    const customMimeTypes: MimeTypeInterface = {}
+
+    mimeTypes.forEach((mimeType) => {
+      const { shortcut, header } = mimeType
+      customMimeTypes[shortcut] = header
+    })
+
+    this.config.mimeTypes = {
+      ...this.config.mimeTypes,
+      ...customMimeTypes
+    }
+
+    return this.mimeTypes
+  }
+
+  get mimeTypes (): MimeTypeInterface {
+    return this.config.mimeTypes
   }
 
   get querySelectors (): QuerySelectorInterface {

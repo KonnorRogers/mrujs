@@ -21,6 +21,7 @@ export interface AjaxEventDetail {
 
 export interface MrujsConfigInterface {
   querySelectors: QuerySelectorInterface
+  mimeTypes: MimeTypeInterface
 }
 
 export interface QuerySelectorInterface {
@@ -38,4 +39,13 @@ export interface QuerySelectorInterface {
 export interface SelectorInterface {
   selector: string
   exclude?: string
+}
+
+export interface CustomMimeTypeInterface {
+  shortcut: string
+  header: string
+}
+
+export interface MimeTypeInterface {
+  [key: string]: string
 }

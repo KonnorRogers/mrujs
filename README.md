@@ -19,6 +19,17 @@ In it's current state, Mrujs is has about 95% feature parity with UJS.
 The goal of Mrujs is to be a drop-in replacement for UJS, but this is
 not possible in all cases.
 
+## Integrations
+
+Currently Mrujs is designed to work best with Turbolinks. Turbolinks is
+the current navigation adapter for Mrujs. In the future, there are plans
+to use regular navigation on the window and Turbo. Those have not been
+implemented yet but are on the roadmap.
+
+In addition, on unsuccessful form submissions, MorphDOM is used to morph
+responses from the server to provide a DOM diffed update page to display
+things like errors.
+
 ## Getting Started
 
 1. Install `mrujs`
@@ -49,17 +60,12 @@ Rails.start()
 If using Turbo, make sure to set Turbo to false.
 
 ```erb
-<%= form_with scope: Model, data: {remote: "true", turbo: "false"} do |form| %>
+<%= form_with scope: Model, data: {remote: "true"} do |form| %>
   <%= form.label :name %>
   <%= form.text_field :name %>
 
   <%= form.submit "Submit", data-disable-with: "Submitting..." %>
 <%= end %>
-
-<form action="/" method="post" data-remote="true" data-turbo="false">
-  <input id="foo" name="foo">
-  <input type="submit" value="Submit">
-</form>
 ```
 
 4. Stopping Mrujs
@@ -273,6 +279,34 @@ follow the above steps, but instead of calling `start`, you would call `mrujs.re
 
 A list of all `querySelectors` and their strings can be found in the
 [src/utils/dom.ts](/src/utils/dom.ts) file.
+
+### (Expiremental) MimeTypes
+
+Mrujs comes with a set of predefined MimeTypes for `AcceptHeaders`.
+These can be modified to include additional shortcuts.
+
+Here is an example of adding a custom CableCar mimetype.
+
+```js
+import mrujs from "mrujs"
+
+mrujs.registerMimeTypes(
+  [
+    {shortcut: "cablecar", header: "text/vnd.cablecar.json"}
+  ]
+)
+
+mrujs.start()
+```
+
+Then in a form you can do the following to set the proper Accept header
+with shorthand syntax.
+
+```html
+<form data-remote="true" data-type="cablecar"></form>
+```
+
+and this will set the Accept header to `"text/vnd.cablecar.json"`
 
 ## Developing locally
 
