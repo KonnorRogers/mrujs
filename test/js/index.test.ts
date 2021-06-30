@@ -39,4 +39,15 @@ describe('index', () => {
 
     mrujs.stop()
   })
+
+  it('Should allow overriding internal mimetypes', () => {
+    const customMime = { shortcut: 'any', header: 'text/vnd.custom' }
+    mrujs.registerMimeTypes([customMime])
+    mrujs.start()
+
+    assert(mrujs.mimeTypes[customMime.shortcut] === customMime.header)
+    assert(mrujs.mimeTypes.any !== BASE_ACCEPT_HEADERS.any)
+
+    mrujs.stop()
+  })
 })

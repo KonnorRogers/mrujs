@@ -22,6 +22,7 @@ export interface AjaxEventDetail {
 export interface MrujsConfigInterface {
   querySelectors: QuerySelectorInterface
   mimeTypes: MimeTypeInterface
+  plugins: PluginInterface[]
 }
 
 export interface QuerySelectorInterface {
@@ -48,4 +49,16 @@ export interface CustomMimeTypeInterface {
 
 export interface MimeTypeInterface {
   [key: string]: string
+}
+
+export interface PluginInterface {
+  connect: Function
+  disconnect: Function
+  [key: string]: unknown
+}
+
+export interface ExposedUtilsInterface {
+  match: Function
+  FetchRequest: FetchRequest['constructor']
+  FetchResponse: FetchResponse['constructor']
 }

@@ -12,15 +12,19 @@ import { AddedNodesObserver } from './addedNodesObserver'
 
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
-import { BASE_SELECTORS } from './utils/dom'
+import { BASE_SELECTORS, match } from './utils/dom'
 import { Locateable } from './utils/url'
 import { BASE_ACCEPT_HEADERS } from './utils/headers'
-import { MrujsConfigInterface, QuerySelectorInterface, MimeTypeInterface, CustomMimeTypeInterface } from './types'
+import {
+  ExposedUtilsInterface,
+  PluginInterface,
+  MrujsConfigInterface,
+  QuerySelectorInterface,
+  MimeTypeInterface,
+  CustomMimeTypeInterface
+} from './types'
 
 export class Mrujs {
-  static FetchRequest = FetchRequest.constructor
-  static FetchResponse = FetchResponse.constructor
-
   private readonly addedNodesObserver: AddedNodesObserver
   formSubmitDispatcher: FormSubmitDispatcher
   clickHandler: ClickHandler
@@ -35,7 +39,12 @@ export class Mrujs {
   boundReenableDisabledElements: EventListener
 
   constructor () {
-    this.config = { querySelectors: { ...BASE_SELECTORS }, mimeTypes: { ...BASE_ACCEPT_HEADERS } }
+    this.config = {
+      querySelectors: { ...BASE_SELECTORS },
+      mimeTypes: { ...BASE_ACCEPT_HEADERS },
+      plugins: []
+    }
+
     this.clickHandler = new ClickHandler()
     this.csrf = new Csrf()
     this.formSubmitDispatcher = new FormSubmitDispatcher()
@@ -51,7 +60,7 @@ export class Mrujs {
     this.connected = false
   }
 
-  start (): Mrujs {
+  start (config: Partial<MrujsConfigInterface> = {}): Mrujs {
     window.Rails = window.mrujs = this
 
     // Dont start twice!
@@ -59,6 +68,7 @@ export class Mrujs {
       return window.mrujs
     }
 
+    this.config = { ...this.config, ...config }
     this.connect()
 
     return this
@@ -92,6 +102,10 @@ export class Mrujs {
     this.formSubmitDispatcher.connect()
     this.navigationAdapter.connect()
 
+    this.plugins.forEach((plugin) => {
+      plugin.connect()
+    })
+
     this.connected = true
   }
 
@@ -109,6 +123,10 @@ export class Mrujs {
     this.navigationAdapter.disconnect()
 
     this.addedNodesObserver.disconnect()
+
+    this.plugins.forEach((plugin) => {
+      plugin.disconnect()
+    })
 
     this.connected = false
   }
@@ -131,6 +149,18 @@ export class Mrujs {
    */
   confirm (message: string): boolean {
     return window.confirm(message)
+  }
+
+  /**
+   * Utilities generally not used for general purpose, but instead used for things like
+   *   plugins or advanced features.
+   */
+  utils (): ExposedUtilsInterface {
+    return {
+      match,
+      FetchRequest: FetchRequest["constructor"],
+      FetchResponse: FetchResponse["constructor"]
+    }
   }
 
   async fetch (input: Request | Locateable, options: RequestInit = {}): Promise<Response> {
@@ -156,6 +186,10 @@ export class Mrujs {
 
   get mimeTypes (): MimeTypeInterface {
     return this.config.mimeTypes
+  }
+
+  get plugins (): PluginInterface[] {
+    return this.config.plugins
   }
 
   get querySelectors (): QuerySelectorInterface {

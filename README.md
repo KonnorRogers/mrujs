@@ -308,6 +308,52 @@ with shorthand syntax.
 
 and this will set the Accept header to `"text/vnd.cablecar.json"`
 
+#### Default accept header.
+
+By default, Mrujs will use the `mrujs.mimeTypes.any` which is `"*/*"` if
+a `data-type` is not found on the element performing a `data-method` or
+a form.
+
+If you would like to override this, you can do so with the following
+syntax:
+
+```js
+mrujs.registerMimeTypes(
+  [
+    {shortcut: "any", header: "text/vnd.my-custom-header, */*"}
+  ]
+)
+```
+
+Now, `"text/vnd.my-custom-header"` will take precendence over other
+responses.
+
+### Experimental (Plugins)
+
+All plugins should implement the following interface:
+
+`plugin.connect()` is for when Mrujs starts.
+`plugin.disconnect()` a fully reversible way to get rid of any side effects
+like event Listeners.
+
+Using a plugin:
+
+```js
+import mrujs from "mrujs"
+import MyPlugin from "mrujs-plugin"
+
+mrujs.start({
+  plugins: [
+    new MyPlugin()
+  ]
+})
+```
+
+Please note, plugins will be run in the order they are added. Perhaps in
+the future there will be specific hooks, but currently, they are just an
+additional operation that runs after everything else has connected
+internally.
+
 ## Developing locally
 
 1. Clone the repo
