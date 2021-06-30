@@ -17,7 +17,7 @@ import { Locateable } from './utils/url'
 import { BASE_ACCEPT_HEADERS } from './utils/headers'
 import {
   ExposedUtilsInterface,
-  PluginInterface,
+  MrujsPluginInterface,
   MrujsConfigInterface,
   QuerySelectorInterface,
   MimeTypeInterface,
@@ -188,7 +188,7 @@ export class Mrujs {
     return this.config.mimeTypes
   }
 
-  get plugins (): PluginInterface[] {
+  get plugins (): MrujsPluginInterface[] {
     return this.config.plugins
   }
 

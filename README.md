@@ -332,6 +332,7 @@ responses.
 
 All plugins should implement the following interface:
 
+`plugin.name` A getter to retrive the name of the plugin
 `plugin.connect()` is for when Mrujs starts.
 `plugin.disconnect()` a fully reversible way to get rid of any side effects
 like event Listeners.
@@ -353,6 +354,50 @@ Please note, plugins will be run in the order they are added. Perhaps in
 the future there will be specific hooks, but currently, they are just an
 additional operation that runs after everything else has connected
 internally.
+
+### Plugin examples
+
+Using an object:
+
+```js
+const name = "my-plugin"
+const MyPlugin = {
+  name,
+  connect: () => {console.log(`${name} connecting`)},
+  disconnect: () => {console.log(`${name} disconnecting`)}
+}
+
+window.mrujs.start(
+  plugins: [
+    MyPlugin
+  ]
+)
+```
+
+Using a class:
+
+```js
+class MyPlugin {
+  get name() {
+    return "my-plugin"
+  }
+
+  connect() {
+    console.log(`${this.name} connecting`)
+  }
+
+  disconnect() {
+    console.log(`${this.name} disconnecting`)
+  }
+}
+
+window.mrujs.start(
+  plugins: [
+    new MyPlugin()
+  ]
+)
+```
+
 
 ## Developing locally
 

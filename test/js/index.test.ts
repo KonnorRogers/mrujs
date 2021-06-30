@@ -1,4 +1,5 @@
 import { assert } from '@esm-bundle/chai'
+
 import mrujs, { Mrujs } from '../../src/index'
 import { BASE_ACCEPT_HEADERS } from '../../src/utils/headers'
 

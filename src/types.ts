@@ -22,7 +22,7 @@ export interface AjaxEventDetail {
 export interface MrujsConfigInterface {
   querySelectors: QuerySelectorInterface
   mimeTypes: MimeTypeInterface
-  plugins: PluginInterface[]
+  plugins: MrujsPluginInterface[]
 }
 
 export interface QuerySelectorInterface {
@@ -51,10 +51,10 @@ export interface MimeTypeInterface {
   [key: string]: string
 }
 
-export interface PluginInterface {
-  connect: Function
-  disconnect: Function
-  [key: string]: unknown
+export interface MrujsPluginInterface {
+  name: string
+  connect: () => void
+  disconnect: () => void
 }
 
 export interface ExposedUtilsInterface {
