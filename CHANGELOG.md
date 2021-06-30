@@ -1,27 +1,24 @@
 # [0.3.0-beta.18](https://github.com/ParamagicDev/mrujs/compare/v0.3.0...v0.3.0-beta.18) (2021-06-30)
 
+### Features
 
-### Bug Fixes
+* Custom MimeType registering
 
-* confirm ordering on elements ([0324b54](https://github.com/ParamagicDev/mrujs/commit/0324b54ff02d64882b4fa4d6ab073089d7ff7bc3))
+### Fixes
+
+* isJson checks on FetchResponse are now more inclusive.
+
+# [0.3.0-beta.17](https://github.com/ParamagicDev/mrujs/compare/v0.3.0...v0.3.0-beta.17) (2021-06-27)
 
 
 ### Features
 
 * custom query selectors ([#51](https://github.com/ParamagicDev/mrujs/issues/51)) ([17468c6](https://github.com/ParamagicDev/mrujs/commit/17468c6a089534892c7b724b46c8416399972daa))
 
-
-### Reverts
-
-* Revert "chore(release): 0.3.0" ([dacf18e](https://github.com/ParamagicDev/mrujs/commit/dacf18e432f37d54e89831a07114c68534319b7e))
-
-
-
-# [0.3.0-beta.17](https://github.com/ParamagicDev/mrujs/compare/v0.3.0...v0.3.0-beta.17) (2021-06-27)
-
 ### Fixes
 
 * data-confirm event ordering on mutation observers
+* confirm ordering on elements ([0324b54](https://github.com/ParamagicDev/mrujs/commit/0324b54ff02d64882b4fa4d6ab073089d7ff7bc3))
 
 # [0.3.0-beta.16](https://github.com/ParamagicDev/mrujs/compare/v0.3.0...v0.3.0-beta.16) (2021-06-24)
 
