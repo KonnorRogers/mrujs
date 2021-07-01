@@ -133,14 +133,12 @@ export class Mrujs {
 
   addedNodesCallback (mutationList: MutationRecord[], _observer: MutationObserver): void {
     for (const mutation of mutationList) {
-      if (mutation.type === 'childList') {
-        this.toggler.enableElementObserverCallback(mutation.addedNodes)
-        this.clickHandler.observerCallback(mutation.addedNodes)
-        this.confirmClass.observerCallback(mutation.addedNodes)
-        this.toggler.disableElementObserverCallback(mutation.addedNodes)
-        this.toggler.handleDisabledObserverCallback(mutation.addedNodes)
-        this.method.observerCallback(mutation.addedNodes)
-      }
+      this.toggler.enableElementObserverCallback(mutation.addedNodes)
+      this.clickHandler.observerCallback(mutation.addedNodes)
+      this.confirmClass.observerCallback(mutation.addedNodes)
+      this.toggler.disableElementObserverCallback(mutation.addedNodes)
+      this.toggler.handleDisabledObserverCallback(mutation.addedNodes)
+      this.method.observerCallback(mutation.addedNodes)
     }
   }
 
