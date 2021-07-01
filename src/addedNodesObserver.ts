@@ -1,3 +1,5 @@
+import { BASE_MODIFIERS } from './utils/dom'
+
 /**
  * Mutation observer for added nodes.
  */
@@ -10,7 +12,7 @@ export class AddedNodesObserver {
     this.observerOptions = {
       childList: true,
       subtree: true,
-      attributes: false
+      attributeFilter: BASE_MODIFIERS
     }
   }
 

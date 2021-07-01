@@ -23,6 +23,15 @@ export function match (element: Node | Element, { selector, exclude }: SelectorI
   return m.call(element, selector)
 }
 
+export const BASE_MODIFIERS = [
+  'data-confirm',
+  'data-remote',
+  'data-method',
+  'data-disable',
+  'data-disable-with',
+  'type'
+]
+
 export const BASE_SELECTORS: QuerySelectorInterface = {
   // Link elements bound by rails-ujs
   linkClickSelector: {
