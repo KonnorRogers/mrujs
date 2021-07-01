@@ -1,3 +1,12 @@
+# [0.3.0-beta.21](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.20...v0.3.0-beta.21) (2021-07-01)
+
+
+### Bug Fixes
+
+* addedNodesObserver properly observes attributes now ([#57](https://github.com/ParamagicDev/mrujs/issues/57)) ([bb52891](https://github.com/ParamagicDev/mrujs/commit/bb52891ec689c7197282099648f84c215089e100))
+
+
+
 # [0.3.0-beta.19](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.20...v0.3.0-beta.19) (2021-06-30)
 
 ### Features
