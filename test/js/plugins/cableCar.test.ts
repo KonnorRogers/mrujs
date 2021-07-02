@@ -1,5 +1,4 @@
 import { assert } from '@esm-bundle/chai'
-import { spy } from 'sinon'
 
 import CableReady from 'cable_ready'
 
@@ -9,7 +8,6 @@ const cableCar = new CableCar(CableReady)
 
 describe('CableCar', () => {
   beforeEach(() => {
-
     mrujs.start({
       plugins: [
         cableCar
