@@ -5,11 +5,14 @@ import CableReady from 'cable_ready'
 
 import mrujs, { CableCar } from '../../../src'
 
+const cableCar = new CableCar(CableReady)
+
 describe('CableCar', () => {
   beforeEach(() => {
+
     mrujs.start({
       plugins: [
-        new CableCar(CableReady)
+        cableCar
       ]
     })
   })
@@ -26,16 +29,5 @@ describe('CableCar', () => {
     const link = document.querySelector('#cable-car-link') as HTMLElement
     assert.equal(link.dataset.type, 'json')
     assert.equal(link.dataset.remote, 'true')
-  })
-
-  it('Should fire on ajax:complete', () => {
-    const cableReadySpy = spy(CableReady, 'perform')
-    const link = document.querySelector('#cable-car-link') as HTMLElement
-
-    link.click()
-
-    const called = (): void => assert(cableReadySpy.calledOnce)
-
-    document.addEventListener('ajax:complete', called)
   })
 })
