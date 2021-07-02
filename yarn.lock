@@ -895,6 +895,13 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
+cable_ready@*:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/cable_ready/-/cable_ready-4.5.0.tgz#1207218dd16934d12addfbd34c26ead853570672"
+  integrity sha512-9bom1DuYe1teBdRckgKWjg+rWRLWrkOvkhzlXkhb33X+Pfu/QK9e4vGk6hGK9PVKVr0SYZC41dByFGknW4spLg==
+  dependencies:
+    morphdom "^2.6.1"
+
 cache-content-type@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cache-content-type/-/cache-content-type-1.0.1.tgz#035cde2b08ee2129f4a8315ea8f00a00dba1453c"
@@ -2833,7 +2840,7 @@ modify-values@^1.0.0:
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
 
-"morphdom@>=2.6.0 <3.0.0":
+"morphdom@>=2.6.0 <3.0.0", morphdom@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.6.1.tgz#e868e24f989fa3183004b159aed643e628b4306e"
   integrity sha512-Y8YRbAEP3eKykroIBWrjcfMw7mmwJfjhqdpSvoqinu8Y702nAwikpXcNFDiIkyvfCLxLM9Wu95RZqo4a9jFBaA==

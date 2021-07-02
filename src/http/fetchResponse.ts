@@ -6,7 +6,7 @@ export class FetchResponse {
   readonly response: Response
   private __responseHtml__!: Promise<string>
   private __responseText__!: Promise<string>
-  private __responseJson__!: Promise<Record<string, unknown>>
+  private __responseJson__!: Promise<JSON>
 
   constructor (response: Response) {
     this.response = response
@@ -64,7 +64,7 @@ export class FetchResponse {
     return Promise.reject(this.response)
   }
 
-  get responseJson (): Promise<Record<string, unknown>> {
+  get responseJson (): Promise<JSON> {
     if (this.isJson) {
       if (this.__responseJson__ != null) return this.__responseJson__
 

@@ -1,3 +1,4 @@
+// This is a base test for the plugin interface.
 import { MrujsPluginInterface } from '../../src/types'
 import { assert } from '@esm-bundle/chai'
 import { spy } from 'sinon'
