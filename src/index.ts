@@ -16,3 +16,5 @@ const mrujs = new Mrujs()
 export { Mrujs }
 export { FetchRequest, FetchResponse }
 export default mrujs
+
+export { CableCar } from './plugins/cableCar'

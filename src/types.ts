@@ -9,6 +9,10 @@ export interface EventQueryInterface {
   selectors: string[]
 }
 
+export interface AjaxEvent extends CustomEvent, Event {
+  detail: AjaxEventDetail
+}
+
 export interface AjaxEventDetail {
   element: HTMLFormElement
   fetchRequest: FetchRequest

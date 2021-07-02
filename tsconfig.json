@@ -15,6 +15,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
+    "skipLibCheck": true,
 
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
