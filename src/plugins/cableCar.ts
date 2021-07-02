@@ -31,6 +31,9 @@ export class CableCar {
   }
 
   connect (): void {
+    this.scanner() // Attach to all currently existing nodes / elements.
+
+    // Now lets scan the dom on any big updates.
     document.addEventListener('DOMContentLoaded', this.boundScanner)
     document.addEventListener('turbolinks:load', this.boundScanner)
     document.addEventListener('turbo:load', this.boundScanner)
