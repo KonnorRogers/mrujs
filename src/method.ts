@@ -42,10 +42,10 @@ export class Method {
   handle (event: Event): void {
     stopEverything(event)
 
-    const element = event.currentTarget as HTMLAnchorElement
-    const submitter = element
+    const link = event.currentTarget as HTMLAnchorElement
+    const submitter = event.target
 
-    const linkSubmission = new LinkSubmission(element)
+    const linkSubmission = new LinkSubmission(link)
 
     const { fetchRequest, request } = linkSubmission
 
@@ -53,8 +53,8 @@ export class Method {
      * Send it through the event chain. use ajax:beforeSend because submit auto
      * populates fields that we dont want.
      */
-    dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
-      detail: { element, fetchRequest, request, submitter }
+    dispatch.call(link, AJAX_EVENTS.ajaxBeforeSend, {
+      detail: { element: link, fetchRequest, request, submitter }
     })
   }
 
