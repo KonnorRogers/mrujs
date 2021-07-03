@@ -38,7 +38,10 @@
       <input type="submit" value="Submit" />
     </form>
 
-    <a data-testid="get-link" method="get" href="/">Delete link</a>
+    <a data-testid="get-link" data-remote="true" data-method="get" href="/">GET link</a>
+    <a data-testid="delete-link" data-method="delete" href="/">
+      <button data-testid="delete-button">Delete link</button>
+    </a>
 
     <script type="module">
       import { runTests } from '@web/test-runner-mocha';

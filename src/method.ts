@@ -42,7 +42,7 @@ export class Method {
   handle (event: Event): void {
     stopEverything(event)
 
-    const element = event.target as HTMLAnchorElement
+    const element = event.currentTarget as HTMLAnchorElement
     const submitter = element
 
     const linkSubmission = new LinkSubmission(element)
