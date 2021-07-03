@@ -180,7 +180,7 @@ To *receive* a `json` response, make sure to set the `Accept` header to
 ```js
 window.mrujs.fetch(
   "/url",
-  {"Accept": "application/json"}
+  {headers: {"Accept": "application/json"}}
 ).then(response => {}).catch(error => {})
 ```
 
@@ -191,7 +191,7 @@ To *send* a `json` payload, make sure to set the `Content-Type` header to
 window.mrujs.fetch(
   "/url",
   {
-    "Content-Type": "application/json",
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify(data)
   }
 ).then(response => {}).catch(error => {})
