@@ -6,7 +6,7 @@ import mrujs, { CableCar } from '../../../src'
 
 const cableCar = new CableCar(CableReady)
 
-describe('CableCar', () => {
+describe('CableCar with standard config', () => {
   beforeEach(() => {
     mrujs.start({
       plugins: [

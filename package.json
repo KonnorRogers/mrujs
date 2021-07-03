@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
+    "@open-wc/testing": "^3.0.0-next.2",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
     "@web/dev-server": "^0.1.8",

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <a id="cable-car-link" href="/" data-cable-car>Click me!</a>
+
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha';
+
+    runTests(async () => {
+      await import('./cableCarMimeType.test');
+    });
+  </script>
+</body>
+</html>
