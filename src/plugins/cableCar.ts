@@ -87,7 +87,7 @@ export class CableCar {
     const fetchResponse = event.detail.fetchResponse
 
     if (fetchResponse == null) return
-    if (!fetchResponse.isJson) return
+    if (fetchResponse.isJson === false) return
 
     fetchResponse.responseJson.then((response: JSON) => {
       this.cableReady.perform(response)
