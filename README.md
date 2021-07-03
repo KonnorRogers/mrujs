@@ -432,6 +432,19 @@ Now, any element with `data-cable-car` will get `data-remote="true"` and
 perform an AJAX request, return JSON, and then automatically performs
 CableReady operations on the JSON payload.
 
+### Example
+
+```html
+<a href="/url" data-method="patch" data-cable-car>I get used by CableCar!</a>
+```
+
+Turns into:
+
+```html
+<a href="/url" data-method="patch" data-cable-car data-remote="true" data-type="json">Click
+me</a>
+```
+
 ## Known Issues
 
 ### Turbolinks Gem
