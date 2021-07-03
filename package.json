@@ -1,6 +1,6 @@
 {
   "name": "mrujs",
-  "version": "0.3.0-beta.22",
+  "version": "0.3.0-beta.23",
   "description": "UJS for modern javascript. mrujs stands for Modern Rails UJS",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -37,6 +37,7 @@
     "@web/dev-server-esbuild": "^0.2.11",
     "@web/test-runner": "^0.12.15",
     "@web/test-runner-playwright": "^0.8.4",
+    "cable_ready": "*",
     "playwright": "^1.12.2",
     "sinon": "^9.2.4",
     "standard-changelog": "^2.0.27",

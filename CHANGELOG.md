@@ -1,3 +1,12 @@
+# [0.3.0-beta.23](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.22...v0.3.0-beta.23) (2021-07-03)
+
+
+### Features
+
+* cable-car integration ([cb93691](https://github.com/ParamagicDev/mrujs/commit/cb93691b6cda09606ff91ed94383da455fbfd8ab))
+
+
+
 # [0.3.0-beta.21](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.20...v0.3.0-beta.21) (2021-07-01)
 
 
