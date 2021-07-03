@@ -145,3 +145,6 @@ test/rails/dummy/yarn-error.log
 test/rails/dummy/yarn-debug.log*
 test/rails/dummy/.yarn-integrity
 **/*.DS_Store
+
+# nodenv version file
+.node-version
