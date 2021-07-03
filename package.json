@@ -23,7 +23,11 @@
     "build": "rm -rf dist && tsc",
     "build:watch": "yarn build --watch",
     "changelog": "standard-changelog",
-    "deploy": "yarn build && yarn publish && yarn changelog && git add . && git commit -m 'chore: update changelog'",
+    "deploy": "standard-version",
+    "deploy:beta": "standard-version --prerelease beta",
+    "deploy:patch": "standard-version --release-as patch",
+    "deploy:minor": "standard-version --release-as minor",
+    "deploy:major": "standard-version --release-as major",
     "push": "git push --tags"
   },
   "dependencies": {
@@ -40,7 +44,7 @@
     "cable_ready": "*",
     "playwright": "^1.12.2",
     "sinon": "^9.2.4",
-    "standard-changelog": "^2.0.27",
+    "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",
     "typescript": "^4.2.3"
   },
