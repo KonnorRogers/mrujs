@@ -29,7 +29,7 @@ export class CableCar {
     this.observer = new MutationObserver(this.boundScanner)
     this.elements = []
     this.cableReady = cableReady
-    this.mimeType = (mimeType ?? 'json')
+    this.mimeType = (mimeType ?? 'application/vnd.cable-ready.json')
   }
 
   get name (): string {
@@ -43,6 +43,8 @@ export class CableCar {
     document.addEventListener('DOMContentLoaded', this.boundScanner)
     document.addEventListener('turbolinks:load', this.boundScanner)
     document.addEventListener('turbo:load', this.boundScanner)
+    document.addEventListener(AJAX_EVENTS.ajaxComplete, this.boundPerform)
+
 
     this.observer.observe(document.documentElement, {
       attributeFilter: ['data-cable-car'],
@@ -53,13 +55,14 @@ export class CableCar {
 
   disconnect (): void {
     this.elements.forEach((element: ExtendedElement) => {
-      element.removeEventListener(AJAX_EVENTS.ajaxComplete, this.boundPerform)
       element.observer?.disconnect()
     })
 
     document.removeEventListener('DOMContentLoaded', this.boundScanner)
     document.removeEventListener('turbolinks:load', this.boundScanner)
     document.removeEventListener('turbo:load', this.boundScanner)
+    document.removeEventListener(AJAX_EVENTS.ajaxComplete, this.boundPerform)
+
   }
 
   scanner (): void {
@@ -71,7 +74,6 @@ export class CableCar {
       })
       .forEach(element => {
         const el = element as ExtendedElement
-        el.addEventListener(AJAX_EVENTS.ajaxComplete, this.boundPerform)
         el.dataset.type = this.mimeType
         el.dataset.remote = 'true'
         el.observer = new MutationObserver(this.integrity)
@@ -94,10 +96,10 @@ export class CableCar {
     const fetchResponse = event.detail.fetchResponse
 
     if (fetchResponse == null) return
-    if (!fetchResponse.isJson) return
+    if (!fetchResponse.contentType?.match(this.mimeType)) return
 
-    fetchResponse.responseJson.then((response: JSON) => {
-      this.cableReady.perform(response)
+    fetchResponse.responseText.then((response: string) => {
+      this.cableReady.perform(JSON.parse(response))
     }).catch((err: Error) => {
       console.error(err)
     })
