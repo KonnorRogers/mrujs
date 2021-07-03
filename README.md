@@ -398,6 +398,54 @@ window.mrujs.start({
 })
 ```
 
+## Plugins
+
+### CableCar
+
+Mrujs has an official first class plugin for use with CableReady's JSON
+serializer called CableCar! If you do not already have CableReady in
+your `package.json`, you must add it. Mrujs does not ship CableReady, it
+is up to you to install it and pass it into the CableCar plugin.
+
+#### Installing CableReady
+
+`yarn add cable_ready`
+
+#### Using Cable Car
+
+To use the plugin, we start mrujs as
+normal, but then pass in a configuration defining plugins.
+
+```js
+import CableReady from "cable_ready"
+import mrujs, { CableCar } from "mrujs"
+
+mrujs.start({
+  plugins: [
+    new CableCar(CableReady)
+  ]
+})
+```
+
+Now, any element with `data-cable-car` will get `data-remote="true"` and
+`data-type="json"` which means that anything with `data-cable-car` will
+perform an AJAX request, return JSON, and then automatically performs
+CableReady operations on the JSON payload.
+
+## Known Issues
+
+### Turbolinks Gem
+
+If you are using the `Turbolinks` gem, you can safely disable it. Having
+it enabled means forms / ajax requests will not properly work as
+intended.
+
+
+### 204 No Content
+
+When returning a `204 No Content`, Mrujs will not automatically
+redirect via Turbolinks. It's up to you to handle redirects. This is
+because 204's do not return HTML.
 
 ## Developing locally
 
@@ -448,8 +496,3 @@ From any where _outside_ of the `test/ruby/dummy` directory:
 
 `bundle exec rake test`
 
-## Known Issues
-
-If you are using the `Turbolinks` gem, you can safely disable it. Having
-it enabled means forms / ajax requests will not properly work as
-intended.
