@@ -13,17 +13,19 @@ export class CableCar {
   observer: MutationObserver
   elements: ExtendedElement[]
   cableReady: CableReady
+  mimeType: string
 
   boundPerform: EventListener
   boundScanner: MutationCallback & EventListener
 
-  constructor (cableReady: CableReady) {
+  constructor (cableReady: CableReady, {mimeType}: {mimeType?: string}) {
     this.boundScanner = this.scanner.bind(this)
     this.boundPerform = this.perform.bind(this) as EventListener
 
     this.observer = new MutationObserver(this.boundScanner)
     this.elements = []
     this.cableReady = cableReady
+    this.mimeType = (mimeType || 'json')
   }
 
   get name (): string {
@@ -65,7 +67,7 @@ export class CableCar {
       .forEach(element => {
         const el = element as ExtendedElement
         el.addEventListener(AJAX_EVENTS.ajaxComplete, this.boundPerform)
-        el.dataset.type = 'json'
+        el.dataset.type = this.mimeType
         el.dataset.remote = 'true'
         el.observer = new MutationObserver(this.integrity)
         el.observer.observe(element, {
@@ -78,7 +80,7 @@ export class CableCar {
   integrity (mutations: MutationRecord[]): void {
     mutations.forEach(mutation => {
       const element = mutation.target as HTMLElement
-      if (!element.hasAttribute('data-type')) element.dataset.type = 'json'
+      if (!element.hasAttribute('data-type')) element.dataset.type = this.mimeType
       if (!element.hasAttribute('data-remote')) element.dataset.remote = 'true'
     })
   }
