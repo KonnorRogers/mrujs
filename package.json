@@ -1,6 +1,6 @@
 {
   "name": "mrujs",
-  "version": "0.3.0-beta.24",
+  "version": "0.3.0-beta.26",
   "description": "UJS for modern javascript. mrujs stands for Modern Rails UJS",
   "source": "src/index.ts",
   "main": "dist/index.js",
@@ -23,7 +23,11 @@
     "build": "rm -rf dist && tsc",
     "build:watch": "yarn build --watch",
     "changelog": "standard-changelog",
-    "deploy": "yarn build && yarn publish && yarn changelog && git add . && git commit -m 'chore: update changelog'",
+    "deploy": "standard-version",
+    "deploy:beta": "standard-version --prerelease beta",
+    "deploy:patch": "standard-version --release-as patch",
+    "deploy:minor": "standard-version --release-as minor",
+    "deploy:major": "standard-version --release-as major",
     "push": "git push --tags"
   },
   "dependencies": {
@@ -31,6 +35,7 @@
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
+    "@open-wc/testing": "^3.0.0-next.2",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
     "@web/dev-server": "^0.1.8",
@@ -40,7 +45,7 @@
     "cable_ready": "*",
     "playwright": "^1.12.2",
     "sinon": "^9.2.4",
-    "standard-changelog": "^2.0.27",
+    "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",
     "typescript": "^4.2.3"
   },

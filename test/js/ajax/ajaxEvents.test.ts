@@ -87,19 +87,33 @@ describe('Ajax', (): void => {
     })
   })
 
-  // This doesnt work due to some issue with chromium / webkit and hijacking link clicks...
-  // describe('Ajax data-method links', () => {
-  //   const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error', 'ajax:error']
+  describe('Ajax data-method links', () => {
+    const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error', 'ajax:error']
 
-  //   const getLink = (): void => {
-  //     window.mrujs = mrujs.start();
-  //     (findByTestId('get-link') as HTMLAnchorElement).click()
-  //   }
+    const getLink = (): void => {
+      window.mrujs = mrujs.start();
+      (findByTestId('get-link') as HTMLAnchorElement).click()
+    }
 
-  //   events.forEach((event) => {
-  //     it(`Should fire an ${event} for link GET requests`, () => {
-  //       assertFired(event, getLink)
-  //     })
-  //   })
-  // })
+    events.forEach((event) => {
+      it(`Should fire an ${event} for link GET requests`, () => {
+        assertFired(event, getLink)
+      })
+    })
+  })
+
+  describe('Ajax data-method links work on nested elements', () => {
+    const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error', 'ajax:error']
+
+    const deleteLink = (): void => {
+      window.mrujs = mrujs.start();
+      (findByTestId('delete-button') as HTMLButtonElement).click()
+    }
+
+    events.forEach((event) => {
+      it(`Should fire an ${event} for link DELETE requests`, () => {
+        assertFired(event, deleteLink)
+      })
+    })
+  })
 })

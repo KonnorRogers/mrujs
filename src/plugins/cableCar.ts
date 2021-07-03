@@ -5,6 +5,10 @@ interface CableReady {
   perform: (json: JSON) => void
 }
 
+interface CableCarConfig {
+  mimeType?: string
+}
+
 interface ExtendedElement extends HTMLElement {
   observer?: MutationObserver
 }
@@ -18,14 +22,14 @@ export class CableCar {
   boundPerform: EventListener
   boundScanner: MutationCallback & EventListener
 
-  constructor (cableReady: CableReady, {mimeType}: {mimeType?: string}) {
+  constructor (cableReady: CableReady, { mimeType }: CableCarConfig = {}) {
     this.boundScanner = this.scanner.bind(this)
     this.boundPerform = this.perform.bind(this) as EventListener
 
     this.observer = new MutationObserver(this.boundScanner)
     this.elements = []
     this.cableReady = cableReady
-    this.mimeType = (mimeType || 'json')
+    this.mimeType = (mimeType ?? 'json')
   }
 
   get name (): string {
@@ -42,6 +46,7 @@ export class CableCar {
 
     this.observer.observe(document.documentElement, {
       attributeFilter: ['data-cable-car'],
+      childList: true,
       subtree: true
     })
   }

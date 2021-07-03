@@ -1,3 +1,14 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [0.3.0-beta.26](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.25...v0.3.0-beta.26) (2021-07-03)
+
+
+### Features
+
+* **cablecar:** allow custom default MimeTypes ([#62](https://github.com/ParamagicDev/mrujs/issues/62)) ([606330e](https://github.com/ParamagicDev/mrujs/commit/606330e435a277d9d09f459e5ef51fe2cbdcb260))
+
 # [0.3.0-beta.23](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.22...v0.3.0-beta.23) (2021-07-03)
 
 
