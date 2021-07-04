@@ -45,7 +45,6 @@ export class CableCar {
     document.addEventListener('turbo:load', this.boundScanner)
     document.addEventListener(AJAX_EVENTS.ajaxComplete, this.boundPerform)
 
-
     this.observer.observe(document.documentElement, {
       attributeFilter: ['data-cable-car'],
       childList: true,
@@ -62,7 +61,6 @@ export class CableCar {
     document.removeEventListener('turbolinks:load', this.boundScanner)
     document.removeEventListener('turbo:load', this.boundScanner)
     document.removeEventListener(AJAX_EVENTS.ajaxComplete, this.boundPerform)
-
   }
 
   scanner (): void {
@@ -96,7 +94,7 @@ export class CableCar {
     const fetchResponse = event.detail.fetchResponse
 
     if (fetchResponse == null) return
-    if (!fetchResponse.contentType?.match(this.mimeType)) return
+    if ((fetchResponse.contentType?.match(this.mimeType)) == null) return
 
     fetchResponse.responseText.then((response: string) => {
       this.cableReady.perform(JSON.parse(response))
