@@ -76,7 +76,7 @@ export class FetchResponse {
 
   // https://fetch.spec.whatwg.org/#fetch-api
   get isJson (): boolean {
-    return Boolean(this.contentType?.toLowerCase().match(/(^application\/json|\.json$)/))
+    return Boolean(this.contentType?.toLowerCase().match(/(^application\/json|\.json)/))
   }
 
   getHeader (name: string): string | null {
