@@ -21,10 +21,7 @@ not possible in all cases.
 
 ## Integrations
 
-Currently Mrujs is designed to work best with Turbolinks. Turbolinks is
-the current navigation adapter for Mrujs. In the future, there are plans
-to use regular navigation on the window and Turbo. Those have not been
-implemented yet but are on the roadmap.
+Mrujs supports both Turbolinks and Turbo.
 
 In addition, on unsuccessful form submissions, MorphDOM is used to morph
 responses from the server to provide a DOM diffed update page to display
@@ -38,7 +35,7 @@ things like errors.
 yarn add mrujs
 ```
 
-2. Go to your Webpacker entrypoint and import `mrujs` and start it up.
+1. Go to your Webpacker entrypoint and import `mrujs` and start it up.
 
 ```js
 // app/javascript/packs/application.js
@@ -55,12 +52,12 @@ Rails.start()
 // mrujs is available globally as window.Rails or window.mrujs
 ```
 
-3. Using on a form
+1. Using on a form
 
 If using Turbo, make sure to set Turbo to false.
 
 ```erb
-<%= form_with scope: Model, data: {remote: "true"} do |form| %>
+<%= form_with scope: Model, local: false, data: {turbo: "false"} do |form| %>
   <%= form.label :name %>
   <%= form.text_field :name %>
 
@@ -68,7 +65,18 @@ If using Turbo, make sure to set Turbo to false.
 <%= end %>
 ```
 
-4. Stopping Mrujs
+```html
+<form data-remote="true" data-turbo="false">
+</form>
+```
+
+1. Using on a link
+
+```html
+<a href="/" data-remote="true" data-turbo="false">Ajax get request</a>
+```
+
+1. Stopping Mrujs
 
 If you would like to stop Mrujs, feel free to do the following:
 
@@ -249,6 +257,58 @@ do that:
 
 This will create a `fetch` request and then navigate to the new page if
 redirected, or refresh the current page is no redirect found.
+
+## Reference
+
+The following `data-*` attributes attach behavior in mrujs:
+
+```js
+data-remote="true"
+// => Make a link or form submit via AJAX
+
+data-method="delete"
+// => Make a link perform the method via AJAX
+
+data-confirm="Are you sure?"
+// => Pulls up a confirm dialog when the element is clicked
+
+data-disable="true"
+// => Disables the submit element clicked in a form / link and reenables it on success
+
+data-disable-with="Submitting..."
+data-disable-with="<div class="spinner">Submitting...</div>"
+// => Replaces the current innerHTML of the clicked input / link with
+//    the text / html in data-disable-with
+
+data-type="mimeType"
+// => Uses the value as the Accept header for the link / form.
+
+```
+
+## Working with Turbo
+
+Turbo and Mrujs have some conflicting pieces of functionality. In order
+to avoid clashing with Turbo, some data attributes require explicitly
+setting `data-turbo="false"`
+
+### Attributes that need `data-turbo="false"`
+
+```
+data-remote="true"
+data-method="patch"
+```
+
+### Attributes that don't need `data-turbo="false"`
+
+```
+data-confirm="Are you sure?"
+data-disable="true"
+data-disable-with="Submitting..."
+```
+
+Also of note, Turbo has its own `data-method`, to avoid conflicts with
+mrujs' `data-method`, please use `data-turbo-method` when you want to
+use Turbo's version of link methods.
 
 ## Extending Mrujs
 
@@ -459,6 +519,12 @@ intended.
 When returning a `204 No Content`, Mrujs will not automatically
 redirect via Turbolinks. It's up to you to handle redirects. This is
 because 204's do not return HTML.
+
+### Turbo Integration
+
+Currently, Turbo will show pages twice on successful form submission
+that redirects causing notifications to disappear. This is fixed on
+`main` by this PR: https://github.com/hotwired/turbo/pull/301
 
 ## Developing locally
 

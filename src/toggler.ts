@@ -16,28 +16,33 @@ export class Toggler {
   readonly boundDisableElement = this.disableElement.bind(this)
 
   get enableElementConditions (): ListeningConditions[] {
+    const { buttonDisableSelector, linkDisableSelector } = window.mrujs.querySelectors
+
     return [
-      { event: AJAX_EVENTS.ajaxComplete, selector: window.mrujs.querySelectors.buttonDisableSelector.selector },
-      { event: AJAX_EVENTS.ajaxStopped, selector: window.mrujs.querySelectors.buttonDisableSelector.selector },
-      { event: AJAX_EVENTS.ajaxComplete, selector: window.mrujs.querySelectors.linkDisableSelector.selector },
-      { event: AJAX_EVENTS.ajaxStopped, selector: window.mrujs.querySelectors.linkDisableSelector.selector }
+      { event: AJAX_EVENTS.ajaxComplete, selector: buttonDisableSelector.selector },
+      { event: AJAX_EVENTS.ajaxStopped, selector: buttonDisableSelector.selector },
+      { event: AJAX_EVENTS.ajaxComplete, selector: linkDisableSelector.selector },
+      { event: AJAX_EVENTS.ajaxStopped, selector: linkDisableSelector.selector }
     ]
   }
 
   get handleDisabledConditions (): ListeningConditions[] {
+    const { linkClickSelector, buttonClickSelector, inputChangeSelector, formSubmitSelector, formInputClickSelector } = window.mrujs.querySelectors
+
     return [
-      { event: 'click', selector: window.mrujs.querySelectors.linkClickSelector.selector },
-      { event: 'click', selector: window.mrujs.querySelectors.buttonClickSelector.selector },
-      { event: 'change', selector: window.mrujs.querySelectors.inputChangeSelector.selector },
-      { event: 'submit', selector: window.mrujs.querySelectors.formSubmitSelector.selector },
-      { event: 'click', selector: window.mrujs.querySelectors.formInputClickSelector.selector }
+      { event: 'click', selector: linkClickSelector.selector },
+      { event: 'click', selector: buttonClickSelector.selector },
+      { event: 'change', selector: inputChangeSelector.selector },
+      { event: 'submit', selector: formSubmitSelector.selector },
+      { event: 'click', selector: formInputClickSelector.selector }
     ]
   }
 
   get disableElementConditions (): ListeningConditions[] {
+    const { linkClickSelector, buttonClickSelector } = window.mrujs.querySelectors
     return [
-      { event: 'click', selector: window.mrujs.querySelectors.linkClickSelector.selector },
-      { event: 'click', selector: window.mrujs.querySelectors.buttonClickSelector.selector }
+      { event: 'click', selector: linkClickSelector.selector },
+      { event: 'click', selector: buttonClickSelector.selector }
     ]
   }
 

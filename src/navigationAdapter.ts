@@ -4,27 +4,55 @@ import morphdom from 'morphdom'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
 
+export interface Adapter {
+  visit: (location: Locateable, { action }: { action: VisitAction }) => void
+  clearCache: () => void
+
+  // Turbolinks
+  supported?: boolean
+  Snapshot: {
+    wrap: (str: string) => string
+  }
+  controller: {
+    cache: {
+      put: (location: Locateable, snapshot: string) => void
+    }
+  }
+
+  // Turbo
+  PageSnapshot?: {
+    fromHTMLString: (str: string) => string
+  }
+  navigator: {
+    view: {
+      snapshotCache: {
+        put: (location: Locateable, snapshot: string) => void
+      }
+    }
+  }
+}
+
 const ALLOWABLE_ACTIONS = [
   'advance',
   'replace',
   'restore'
 ]
 
-type VisitAction = 'advance' | 'replace' | 'restore'
+export type VisitAction = 'advance' | 'replace' | 'restore'
 
 export class NavigationAdapter {
-  private readonly __navigateViaEvent__: Function
+  private readonly boundNavigateViaEvent: (event: CustomEvent) => void
 
   constructor () {
-    this.__navigateViaEvent__ = this.navigateViaEvent.bind(this)
+    this.boundNavigateViaEvent = this.navigateViaEvent.bind(this)
   }
 
   connect (): void {
-    document.addEventListener('ajax:complete', this.__navigateViaEvent__ as EventListener)
+    document.addEventListener('ajax:complete', this.boundNavigateViaEvent as EventListener)
   }
 
   disconnect (): void {
-    document.removeEventListener('ajax:complete', this.__navigateViaEvent__ as EventListener)
+    document.removeEventListener('ajax:complete', this.boundNavigateViaEvent as EventListener)
   }
 
   /**
@@ -68,16 +96,29 @@ export class NavigationAdapter {
       return
     }
 
-    if (!this.useTurbolinks) return
+    if (this.adapter == null) return
 
-    window.Turbolinks.clearCache()
+    this.adapter.clearCache()
 
+    // Special navigation handling for Turbo[links].
     if (response.isHtml) {
-      this.navigateToResponse(response, location, action)
+      this.preventDoubleVisit(response, location, action)
       return
     }
 
-    window.Turbolinks.visit(location, { action })
+    this.adapter.visit(location, { action })
+  }
+
+  get adapter (): Adapter | undefined {
+    if (this.useTurbolinks) {
+      return window.Turbolinks
+    }
+
+    if (this.useTurbo) {
+      return window.Turbo
+    }
+
+    return undefined
   }
 
   get useTurbolinks (): boolean {
@@ -87,13 +128,47 @@ export class NavigationAdapter {
     return true
   }
 
-  navigateToResponse (response: FetchResponse, location: Locateable, action: VisitAction): void {
+  get useTurbo (): boolean {
+    if (window.Turbo == null) return false
+
+    return true
+  }
+
+  preventDoubleVisit (response: FetchResponse, location: Locateable, action: VisitAction): void {
+    if (this.adapter == null) return
+
+    // This is a fun wrapper to avoid double visits with Turbolinks
     response.responseHtml.then((html) => {
-      const snapshot = window.Turbolinks.Snapshot.wrap(html)
-      window.Turbolinks.controller.cache.put(location, snapshot)
+      const snapshot = this.generateSnapshotFromHtml(html, this.adapter as Adapter)
+      this.putSnapshotInCache(location, snapshot, this.adapter as Adapter)
       action = 'restore'
-      window.Turbolinks.visit(location, { action })
+      this.adapter?.visit(location, { action })
     }).catch((error) => console.error(error))
+  }
+
+  generateSnapshotFromHtml (html: string, adapter: Adapter): string {
+    if (this.useTurbolinks) {
+      return adapter.Snapshot.wrap(html)
+    }
+
+    if (this.useTurbo && (adapter.PageSnapshot != null)) {
+      return adapter.PageSnapshot.fromHTMLString(html)
+    }
+
+    return ''
+  }
+
+  putSnapshotInCache (location: Locateable, snapshot: string, adapter: Adapter): void {
+    if (snapshot === '') return
+
+    if (this.useTurbolinks) {
+      adapter.controller.cache.put(location, snapshot)
+      return
+    }
+
+    if (this.useTurbo) {
+      adapter.navigator.view.snapshotCache.put(location, snapshot)
+    }
   }
 
   morphResponse (response: FetchResponse): void {
@@ -109,9 +184,6 @@ export class NavigationAdapter {
         // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
         // @ts-expect-error pushState accepts URL | string, but TS complains about URL.
         window.history.pushState({}, '', response.location)
-
-        // This is only needed until we start using mutationObservers.
-        window?.mrujs?.restart()
       })
       .catch((error: Error) => {
         console.error(error)
@@ -119,7 +191,7 @@ export class NavigationAdapter {
   }
 
   determineAction (element: HTMLElement): VisitAction {
-    let action = element.dataset.turbolinksAction
+    let action = element.dataset.turbolinksAction ?? element.dataset.turboAction
 
     if (action == null || !ALLOWABLE_ACTIONS.includes(action)) {
       action = 'advance'
