@@ -6,8 +6,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%# <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %1> %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <% if ENV["PACK"] == "turbo" %>
+      <script>window.useTurbo = true</script>
+    <% else %>
+      <script>window.useTurbo = false</script>
+    <% end %>
+
+    <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>

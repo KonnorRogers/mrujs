@@ -29,57 +29,60 @@ export const BASE_MODIFIERS = [
   'data-method',
   'data-disable',
   'data-disable-with',
+  'data-turbo',
   'type'
 ]
 
+let form = 'form'
+let link = 'a'
+
+if (window.Turbo != null) {
+  form = 'form[data-turbo=false]'
+  link = 'a[data-turbo=false]'
+}
+
+// data-confirm doesnt matter with Turbo.
+const linkClickSelector = `a[data-confirm], ${link}[data-method], ${link}[data-remote]:not([disabled]), a[data-disable-with], ${link}[data-disable]`
+const buttonClickSelector = 'button[data-remote]:not([form]), button[data-confirm]:not([form])'
+const inputChangeSelector = 'select[data-remote], input[data-remote], textarea[data-remote]'
+const formSubmitSelector = `${form}`
+const formInputClickSelector = 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])'
+
+const formDisableSelector = 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled'
+
+const formEnableSelector = 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled'
+
+const linkDisableSelector = 'a[data-disable-with], a[data-disable]'
+const buttonDisableSelector = 'button[data-remote][data-disable-with], button[data-remote][data-disable]'
+
 export const BASE_SELECTORS: QuerySelectorInterface = {
   // Link elements bound by rails-ujs
-  linkClickSelector: {
-    selector:
-      'a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]'
-  },
+  linkClickSelector: { selector: linkClickSelector },
 
   // Button elements bound by rails-ujs
   buttonClickSelector: {
-    selector:
-      'button[data-remote]:not([form]), button[data-confirm]:not([form])',
+    selector: buttonClickSelector,
     exclude: 'form button'
   },
 
   // Select elements bound by rails-ujs
-  inputChangeSelector: {
-    selector: 'select[data-remote], input[data-remote], textarea[data-remote]'
-  },
+  inputChangeSelector: { selector: inputChangeSelector },
 
   // Form elements bound by rails-ujs
-  formSubmitSelector: {
-    selector: 'form'
-  },
+  formSubmitSelector: { selector: formSubmitSelector },
 
   // Form input elements bound by rails-ujs
-  formInputClickSelector: {
-    selector:
-      'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])'
-  },
+  formInputClickSelector: { selector: formInputClickSelector },
 
   // Form input elements disabled during form submission
-  formDisableSelector: {
-    selector:
-      'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled'
-  },
+  formDisableSelector: { selector: formDisableSelector },
 
   // Form input elements re-enabled after form submission
-  formEnableSelector: {
-    selector:
-      'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled'
-  },
+  formEnableSelector: { selector: formEnableSelector },
 
   // Link onClick disable selector with possible reenable after remote submission
-  linkDisableSelector: { selector: 'a[data-disable-with], a[data-disable]' },
+  linkDisableSelector: { selector: linkDisableSelector },
 
   // Button onClick disable selector with possible reenable after remote submission
-  buttonDisableSelector: {
-    selector:
-      'button[data-remote][data-disable-with], button[data-remote][data-disable]'
-  }
+  buttonDisableSelector: { selector: buttonDisableSelector }
 }
