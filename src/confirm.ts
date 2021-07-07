@@ -55,7 +55,7 @@ export class Confirm {
     })
   }
 
-  observerCallback (nodeList: NodeList): void {
+  observerCallback (nodeList: Node[]): void {
     this.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         nodeList.forEach((node) => {

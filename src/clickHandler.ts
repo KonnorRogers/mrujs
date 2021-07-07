@@ -36,7 +36,7 @@ export class ClickHandler {
     })
   }
 
-  observerCallback (nodeList: NodeList): void {
+  observerCallback (nodeList: Node[]): void {
     ClickHandler.queries.forEach((obj) => {
       obj.selectors.forEach((selector) => {
         nodeList.forEach((node) => {
