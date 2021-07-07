@@ -18,7 +18,7 @@ export class Method {
     })
   }
 
-  observerCallback (nodeList: NodeList): void {
+  observerCallback (nodeList: Node[]): void {
     nodeList.forEach((node) => {
       if (match(node, window.mrujs.querySelectors.linkClickSelector)) {
         node.addEventListener('click', this.handle)

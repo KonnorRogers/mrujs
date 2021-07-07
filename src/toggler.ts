@@ -49,7 +49,7 @@ export class Toggler {
     this.removeListeners(this.enableElementConditions, this.boundEnableElement)
   }
 
-  enableElementObserverCallback (nodeList: NodeList): void {
+  enableElementObserverCallback (nodeList: Node[]): void {
     this.enableElementConditions.forEach((condition) => {
       const { selector, event } = condition
       nodeList.forEach((node) => {
@@ -72,7 +72,7 @@ export class Toggler {
     this.removeListeners(this.disableElementConditions, this.boundDisableElement)
   }
 
-  disableElementObserverCallback (nodeList: NodeList): void {
+  disableElementObserverCallback (nodeList: Node[]): void {
     this.disableElementConditions.forEach((condition) => {
       const { selector, event } = condition
       nodeList.forEach((node) => {
@@ -95,7 +95,7 @@ export class Toggler {
     this.removeListeners(this.handleDisabledConditions, this.handleDisabledElement)
   }
 
-  handleDisabledObserverCallback (nodeList: NodeList): void {
+  handleDisabledObserverCallback (nodeList: Node[]): void {
     this.handleDisabledConditions.forEach((condition) => {
       const { selector, event } = condition
       nodeList.forEach((node) => {
