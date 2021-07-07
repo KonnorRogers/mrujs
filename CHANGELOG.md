@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0-beta.27](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.26...v0.3.0-beta.27) (2021-07-07)
+
+
+### Features
+
+* Add support for Turbo ([#65](https://github.com/ParamagicDev/mrujs/issues/65)) ([dd0b9ee](https://github.com/ParamagicDev/mrujs/commit/dd0b9eefa9b90f130428e36a659bfa7e1229ebc8))
+
+
+### Bug Fixes
+
+* event listeners now attach properly when attributes change ([#66](https://github.com/ParamagicDev/mrujs/issues/66)) ([39632a2](https://github.com/ParamagicDev/mrujs/commit/39632a20d6b0274623367c47220ee1cac8e62a00))
+* json matching ([6ca5116](https://github.com/ParamagicDev/mrujs/commit/6ca51161ba7788344839b8ba6778224bccf0795d))
+
 ## [0.3.0-beta.26](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.25...v0.3.0-beta.26) (2021-07-03)
 
 
