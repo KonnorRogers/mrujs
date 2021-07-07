@@ -24,7 +24,7 @@
     "build:watch": "yarn build --watch",
     "changelog": "standard-changelog",
     "deploy": "standard-version",
-    "deploy:beta": "standard-version --prerelease beta",
+    "deploy:beta": "standard-version --prerelease beta && git push --follow-tags origin main && yarn publish --tag beta",
     "deploy:patch": "standard-version --release-as patch",
     "deploy:minor": "standard-version --release-as minor",
     "deploy:major": "standard-version --release-as major",
