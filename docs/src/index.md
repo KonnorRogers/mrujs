@@ -14,7 +14,7 @@ reasons:
   - header: Compatibility.
     text: Mrujs strives to be a drop-in replacement for rails-ujs.
   - header: Small.
-    text: No overblown tools or frontend frameworks. Mrujs in at under 10kb minified + gzipped.
+    text: No overblown tools or frontend frameworks. Mrujs clocks in at under 10kb minified + gzipped.
   - header: Modern.
     text:
       Mrujs is purely a frontend library built in typescript with
