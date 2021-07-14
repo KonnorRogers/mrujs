@@ -1,0 +1,34 @@
+<div style="display: none;" data-search-target="container" class="search-modal">
+  <bridgetown-search-form class="search-modal__form">
+    <sl-icon-button class="search-modal__close" name="x-lg" label="Close"
+                    data-action="click->search#hide"></sl-icon-button>
+
+    <input slot="input" type="search" class="search-modal__input">
+    <bridgetown-search-results class="search-modal__results"></bridgetown-search-results>
+  </bridgetown-search-form>
+</div>
+
+<nav class="top-nav container" aria-label="Main">
+  <sl-icon-button data-controller="side-nav" data-action="click->side-nav#open" class="top-nav__hamburger__button" name="list" label="Navigation"></sl-icon-button>
+
+  <div class="top-nav__go-home">
+    <%= render "logo" %>
+  </div>
+
+  <div class="top-nav__search">
+    <sl-icon-button class="top-nav__search__button" name="search" label="Search"
+                    data-action="click->search#show">
+    </sl-icon-button>
+
+    <%= liquid_render "bridgetown_quick_search/search", placeholder: "Search...", input_class: "input top-nav__search__input" %>
+  </div>
+
+  <div class="top-nav__links">
+    <div class="top-nav__categories">
+      <%= render "categories" %>
+    </div>
+    <a target="_blank" rel="noreferrer noopener" href="<%= site.metadata.github_url %>" class="nav-link top-nav__github">
+      <sl-icon name="github">Link to Github</sl-icon>
+    </a>
+  </div>
+</nav>
