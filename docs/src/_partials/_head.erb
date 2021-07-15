@@ -5,11 +5,7 @@
 <% page_title = page.data[:title] %>
 
 <title>
-  <% if page_title %>
-    <%= "#{page_title} | #{site.metadata.title}" %>
-  <% else %>
-    <%= "#{site.metadata.title}: #{site.metadata.tagline}" %>
-  <% end %>
+  <%= site.metadata.title %>
 </title>
 
 <meta name="description" content="<%= site.metadata.description %>">
@@ -23,6 +19,9 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff">
 
+<!-- Social stuff -->
+<meta property="og:image" content="/images/mugshot.jpeg">
+<meta property="twitter:card" content="summary_large_image">
 
 <!-- Fonts -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">

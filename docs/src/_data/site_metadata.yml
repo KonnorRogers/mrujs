@@ -8,8 +8,8 @@ title: Mrujs
 tagline: A modern version of Rails UJS for the future of web development.
 email: konnor5456@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Ujs is a simple javascript library for adding dynamic behavior based on data-*
-  attributes in HTML elements. Ujs aims for simplicity and power.
+  Mrujs is a frontend library for adding dynamic behavior to HTML elements using data
+  attributes. Mrujs aims for simplicity and power.
 
 github_url: https://github.com/paramagicdev/mrujs
 default_branch: main
