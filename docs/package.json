@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build:src": "NODE_ENV=production BRIDGETOWN_ENV=production bin/bridgetown build",
-    "build": "NODE_ENV=production BRIDGETOWN_ENV=production snowpack build",
+    "deploy": "NODE_ENV=production BRIDGETOWN_ENV=production snowpack build",
     "clean:src": "bundle exec bridgetown clean",
     "restart": "yarn clean:src && yarn start --reload",
     "start": "NODE_ENV=development BRIDGETOWN_ENV=development snowpack dev"
