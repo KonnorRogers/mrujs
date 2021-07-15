@@ -6,6 +6,7 @@ module.exports = {
   mount: {
     frontend: "/dist",
     ".bridgetown": { url: "/", static: true, resolve: false },
+    output: { url: "/", static: true }
   },
   plugins: [
     [
