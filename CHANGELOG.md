@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0-beta.28](https://github.com/ParamagicDev/mrujs/compare/v0.3.1-beta.0...v0.3.0-beta.28) (2021-07-16)
+
 ## [0.3.0-beta.27](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.26...v0.3.0-beta.27) (2021-07-07)
 
 
