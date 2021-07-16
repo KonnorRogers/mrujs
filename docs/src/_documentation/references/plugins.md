@@ -3,16 +3,27 @@ title: (Experimental) Plugins
 doc_order: 60
 ---
 
-## [Interface](#interface)
+## [Plugin Interface](#plugin-interface)
+
+### [Required](#required)
 
 All plugins should implement the following interface:
 
 `plugin.name` A getter to retrieve the name of the plugin
-`plugin.connect()` A callback for when mrujs starts.
-`plugin.disconnect()` A callback for fully any side effects by `connect`
+`plugin.connect()` A callback for after mrujs has added all its event listeners
+`plugin.disconnect()` A callback for fully reversing any side effects caused by `plugin.connect()`
 such as event Listeners.
 
-## [Using a plugin:](#using-a-plugin)
+### [Optional](#optional)
+
+The following are optional interfaces on a plugin:
+
+`plugin.initialize()` this will run before mrujs runs `connect()` and installs all event listeners. This only runs 1 time on start.
+`plugin.observerCallback(addedNodes)` Hooks into the
+mutation observer of mrujs and provides any array of `Node`s to act
+upon.
+
+## [Using a plugin](#using-a-plugin)
 
 ```js
 import mrujs from "mrujs"
