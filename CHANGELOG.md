@@ -2,13 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [0.3.0](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.27...v0.3.0) (2021-07-16)
-
-
-### Features
-
-* add observerCallback and initialize plugin hooks ([#74](https://github.com/ParamagicDev/mrujs/issues/74)) ([18fde0c](https://github.com/ParamagicDev/mrujs/commit/18fde0cfda29821665b47eb3681f119edf40c790))
-
 ## [0.3.0-beta.27](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.26...v0.3.0-beta.27) (2021-07-07)
 
 
