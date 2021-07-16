@@ -80,7 +80,7 @@ export class Mrujs {
 
     this.config = { ...this.config, ...config }
     this.plugins.forEach((plugin) => {
-      if (typeof plugin["initialize"] === "function") {
+      if (typeof plugin.initialize === 'function') {
         plugin.initialize()
       }
     })
