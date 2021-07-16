@@ -1,6 +1,6 @@
 // This file is copied from:
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/dom.coffee
-import { QuerySelectorInterface, SelectorInterface } from '../types'
+import { EventQueryInterface, QuerySelectorInterface, SelectorInterface } from '../types'
 
 const m =
   Element.prototype.matches ??
@@ -85,4 +85,34 @@ export const BASE_SELECTORS: QuerySelectorInterface = {
 
   // Button onClick disable selector with possible reenable after remote submission
   buttonDisableSelector: { selector: buttonDisableSelector }
+}
+
+export function addListeners (conditions: EventQueryInterface[], callback: EventListener): void {
+  conditions.forEach((condition) => {
+    const { selectors, event } = condition
+
+    document.querySelectorAll(selectors.join(', ')).forEach((el: Element) => el.addEventListener(event, callback))
+  })
+}
+
+export function removeListeners (conditions: EventQueryInterface[], callback: EventListener): void {
+  conditions.forEach((condition) => {
+    const { selectors, event } = condition
+    const selector = selectors.join(', ')
+
+    document.querySelectorAll(selector).forEach((el: Element) => el.removeEventListener(event, callback))
+  })
+}
+
+/**
+ * Helper function that returns form elements that match the specified CSS selector
+ *   If form is actually a "form" element this will return associated elements outside the from that have
+ *   the html form attribute set
+ */
+export function findFormElements (form: HTMLElement, selector: string): HTMLFormElement[] {
+  if (match(form, { selector: 'form' })) {
+    return Array.from((form as HTMLFormElement).elements).filter((el: Element) => match(el, { selector })) as HTMLFormElement[]
+  }
+
+  return Array.from(form.querySelectorAll(selector))
 }

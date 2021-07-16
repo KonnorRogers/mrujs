@@ -16,6 +16,10 @@ export class AddedNodesObserver {
     }
   }
 
+  get name (): string {
+    return AddedNodesObserver.name
+  }
+
   connect (): void {
     this.observer.observe(document, this.observerOptions)
   }

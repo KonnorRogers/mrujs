@@ -5,18 +5,22 @@ import { AddOrRemoveListeners, AjaxEventDetail } from './types'
 import { FormSubmission } from './formSubmission'
 
 export class FormSubmitDispatcher {
-  readonly __startFormSubmission__: Function
-  readonly __startFetchRequest__: Function
-  readonly __sendFetchRequest__: Function
-  readonly __dispatchError__: Function
-  readonly __dispatchComplete__: Function
+  readonly boundStartFormSubmission: Function
+  readonly boundStartFetchRequest: Function
+  readonly boundSendFetchRequest: Function
+  readonly boundDispatchError: Function
+  readonly boundDispatchComplete: Function
 
   constructor () {
-    this.__startFormSubmission__ = this.startFormSubmission.bind(this)
-    this.__startFetchRequest__ = this.startFetchRequest.bind(this)
-    this.__sendFetchRequest__ = this.sendFetchRequest.bind(this)
-    this.__dispatchError__ = this.dispatchError.bind(this)
-    this.__dispatchComplete__ = this.dispatchComplete.bind(this)
+    this.boundStartFormSubmission = this.startFormSubmission.bind(this)
+    this.boundStartFetchRequest = this.startFetchRequest.bind(this)
+    this.boundSendFetchRequest = this.sendFetchRequest.bind(this)
+    this.boundDispatchError = this.dispatchError.bind(this)
+    this.boundDispatchComplete = this.dispatchComplete.bind(this)
+  }
+
+  get name (): string {
+    return FormSubmitDispatcher.name
   }
 
   connect (): void {
@@ -44,7 +48,7 @@ export class FormSubmitDispatcher {
     const submitter = findSubmitter(event)
 
     if (submitter != null) {
-      window.mrujs.toggler.disableElement(submitter)
+      window.mrujs.elementDisabler.disableElement(submitter)
     }
 
     const { fetchRequest, request } = new FormSubmission(element, submitter)
@@ -167,15 +171,15 @@ export class FormSubmitDispatcher {
    * dispatches a given event in the context of `this.element`
    */
   private listeners (fn: AddOrRemoveListeners): void {
-    document[fn]('submit', this.__startFormSubmission__ as EventListener) // fires ajaxBefore
-    document[fn](AJAX_EVENTS.ajaxBefore, this.__startFetchRequest__ as EventListener) // fires ajaxBeforeSend
+    document[fn]('submit', this.boundStartFormSubmission as EventListener) // fires ajaxBefore
+    document[fn](AJAX_EVENTS.ajaxBefore, this.boundStartFetchRequest as EventListener) // fires ajaxBeforeSend
 
     // fires ajaxRequestError || ajaxSuccess || ajaxResponse
-    document[fn](AJAX_EVENTS.ajaxBeforeSend, this.__sendFetchRequest__ as EventListener)
-    document[fn](AJAX_EVENTS.ajaxSuccess, this.__dispatchComplete__ as EventListener)
-    document[fn](AJAX_EVENTS.ajaxRequestError, this.__dispatchError__ as EventListener)
-    document[fn](AJAX_EVENTS.ajaxResponseError, this.__dispatchError__ as EventListener)
-    document[fn](AJAX_EVENTS.ajaxError, this.__dispatchComplete__ as EventListener)
+    document[fn](AJAX_EVENTS.ajaxBeforeSend, this.boundSendFetchRequest as EventListener)
+    document[fn](AJAX_EVENTS.ajaxSuccess, this.boundDispatchComplete as EventListener)
+    document[fn](AJAX_EVENTS.ajaxRequestError, this.boundDispatchError as EventListener)
+    document[fn](AJAX_EVENTS.ajaxResponseError, this.boundDispatchError as EventListener)
+    document[fn](AJAX_EVENTS.ajaxError, this.boundDispatchComplete as EventListener)
   }
 
   private findTarget (event: CustomEvent): HTMLFormElement {

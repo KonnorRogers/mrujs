@@ -47,6 +47,10 @@ export class NavigationAdapter {
     this.boundNavigateViaEvent = this.navigateViaEvent.bind(this)
   }
 
+  get name (): string {
+    return NavigationAdapter.name
+  }
+
   connect (): void {
     document.addEventListener('ajax:complete', this.boundNavigateViaEvent as EventListener)
   }

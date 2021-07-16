@@ -5,7 +5,7 @@ export type AddOrRemoveListeners = 'addEventListener' | 'removeEventListener'
 export type Submitter = HTMLInputElement | HTMLButtonElement
 
 export interface EventQueryInterface {
-  event: 'click' | 'change' | 'submit'
+  event: string
   selectors: string[]
 }
 
@@ -57,8 +57,10 @@ export interface MimeTypeInterface {
 
 export interface MrujsPluginInterface {
   name: string
+  initialize?: () => void
   connect: () => void
   disconnect: () => void
+  observerCallback?: (addedNodes: Node[]) => void
 }
 
 export interface ExposedUtilsInterface {

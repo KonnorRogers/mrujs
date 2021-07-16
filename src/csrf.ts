@@ -1,25 +1,16 @@
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/csrf.coffee
-import { OBSERVER_OPTIONS } from './utils/observer'
-import { Utils } from './utils'
+import { Misc } from './utils/misc'
 
 export class Csrf {
-  observer: MutationObserver
-  observerOptions: MutationObserverInit
-
-  constructor () {
-    this.observer = new MutationObserver(this.observerCallback)
-    this.observerOptions = OBSERVER_OPTIONS
+  get name (): string {
+    return Csrf.name
   }
 
   connect (): void {
-    // install the observer, then refresh.
-    this.observer.observe(document, this.observerOptions)
     this.refresh()
   }
 
-  disconnect (): void {
-    this.observer.disconnect()
-  }
+  disconnect (): void {}
 
   // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
   refresh (): void {
@@ -33,23 +24,12 @@ export class Csrf {
     }
   }
 
-  observerCallback (mutations: MutationRecord[]): void {
-    for (const mutation of mutations) {
-      // If a new csrf-token is added, lets update the token and refresh all form elements.
-      if (mutation.type === 'childList') {
-        for (const node of mutation.addedNodes) {
-          if (Csrf.isCsrfToken(node)) {
-            this.refresh()
-          }
-        }
-      } else if (mutation.type === 'attributes') {
-        // For when the `meta[name='csrf-token'].content` changes
-        const node = mutation.target
-        if (Csrf.isCsrfToken(node)) {
-          this.refresh()
-        }
+  observerCalback (addedNodes: Node[]): void {
+    addedNodes.forEach((node) => {
+      if (Csrf.isCsrfToken(node)) {
+        this.refresh()
       }
-    }
+    })
   }
 
   static isCsrfToken (node: Node): boolean {
@@ -62,11 +42,11 @@ export class Csrf {
 
   // Up-to-date Cross-Site Request Forgery token
   get token (): string | null {
-    return Utils.getCookieValue(Utils.getMetaContent('csrf-param')) ?? Utils.getMetaContent('csrf-token')
+    return Misc.getCookieValue(Misc.getMetaContent('csrf-param')) ?? Misc.getMetaContent('csrf-token')
   }
 
   // URL param that must contain the CSRF token
   get param (): string | null {
-    return Utils.getMetaContent('csrf-param')
+    return Misc.getMetaContent('csrf-param')
   }
 }
