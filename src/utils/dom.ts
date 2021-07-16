@@ -37,8 +37,8 @@ let form = 'form'
 let link = 'a'
 
 if (window.Turbo != null) {
-  form = 'form[data-turbo=false]'
-  link = 'a[data-turbo=false]'
+  form = 'form[data-turbo="false"]'
+  link = 'a[data-turbo="false"]'
 }
 
 // data-confirm doesnt matter with Turbo.
