@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0-beta.29](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.28...v0.3.0-beta.29) (2021-07-16)
+
+
+### Bug Fixes
+
+* querySelectors for Turbo ([#75](https://github.com/ParamagicDev/mrujs/issues/75)) ([06c6d28](https://github.com/ParamagicDev/mrujs/commit/06c6d280f1de4cadd15dbc4c31b41ad283d1b374))
+
 ## [0.3.0-beta.28](https://github.com/ParamagicDev/mrujs/compare/v0.3.1-beta.0...v0.3.0-beta.28) (2021-07-16)
 
 ### Features
