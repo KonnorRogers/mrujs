@@ -7,7 +7,9 @@ import { Csrf } from './csrf'
 import { Confirm } from './confirm'
 import { Method } from './method'
 import { NavigationAdapter } from './navigationAdapter'
-import { Toggler } from './toggler'
+import { DisabledElementChecker } from './disabledElementChecker'
+import { ElementEnabler } from './elementEnabler'
+import { ElementDisabler } from './elementDisabler'
 import { AddedNodesObserver } from './addedNodesObserver'
 
 import { FetchRequest } from './http/fetchRequest'
@@ -25,18 +27,24 @@ import {
 } from './types'
 
 export class Mrujs {
-  formSubmitDispatcher: FormSubmitDispatcher
-  clickHandler: ClickHandler
   connected: boolean
   config: MrujsConfigInterface
-  confirmClass: Confirm
-  csrf: Csrf
-  method: Method
-  toggler: Toggler
 
-  private readonly navigationAdapter: NavigationAdapter
-  private readonly boundReenableDisabledElements: EventListener
-  private readonly addedNodesObserver: AddedNodesObserver
+  readonly boundReEnableDisabledElements = this.reEnableDisabledElements.bind(this) as EventListener
+
+  readonly elementEnabler = new ElementEnabler()
+  readonly elementDisabler = new ElementDisabler()
+  readonly disabledElementChecker = new DisabledElementChecker()
+  readonly navigationAdapter = new NavigationAdapter()
+  readonly clickHandler = new ClickHandler()
+  readonly confirmClass = new Confirm()
+  readonly csrf = new Csrf()
+  readonly method = new Method()
+
+  private readonly corePlugins: MrujsPluginInterface[]
+  private readonly formSubmitDispatcher = new FormSubmitDispatcher()
+  private readonly boundAddedNodesCallback = this.addedNodesCallback.bind(this)
+  private readonly addedNodesObserver = new AddedNodesObserver(this.boundAddedNodesCallback)
 
   constructor () {
     this.config = {
@@ -45,17 +53,19 @@ export class Mrujs {
       plugins: []
     }
 
-    this.clickHandler = new ClickHandler()
-    this.csrf = new Csrf()
-    this.formSubmitDispatcher = new FormSubmitDispatcher()
-    this.navigationAdapter = new NavigationAdapter()
-    this.method = new Method()
-    this.confirmClass = new Confirm()
-    this.toggler = new Toggler()
-    this.boundReenableDisabledElements = this.reenableDisabledElements.bind(this)
-
-    // MutationObserver for added nodes
-    this.addedNodesObserver = new AddedNodesObserver(this.addedNodesCallback.bind(this))
+    // Order matters here!
+    this.corePlugins = [
+      this.addedNodesObserver,
+      this.csrf,
+      this.elementEnabler,
+      this.clickHandler,
+      this.disabledElementChecker,
+      this.confirmClass,
+      this.elementDisabler,
+      this.method,
+      this.formSubmitDispatcher,
+      this.navigationAdapter
+    ]
 
     this.connected = false
   }
@@ -83,49 +93,26 @@ export class Mrujs {
     this.connect()
   }
 
-  connect (): void {
-    this.addedNodesObserver.connect()
+  private connect (): void {
     // This event works the same as the load event, except that it fires every
     // time the page is loaded.
     // See https://github.com/rails/jquery-ujs/issues/357
     // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
-    this.reenableDisabledElements()
-    window.addEventListener('pageshow', this.boundReenableDisabledElements)
+    this.reEnableDisabledElements()
+    window.addEventListener('pageshow', this.boundReEnableDisabledElements)
 
-    this.csrf.connect()
-    this.toggler.addEnableElementListeners() // Enables elements on ajax:stopped / ajax:complete
-    this.clickHandler.connect() // preventInsignificantClicks
-    this.toggler.addHandleDisabledListeners() // checks if element is disabled before proceeding.
-    this.confirmClass.connect() // confirm
-    this.toggler.addDisableElementListeners() // disables element while processing.
-    this.method.connect()
-    this.formSubmitDispatcher.connect()
-    this.navigationAdapter.connect()
-
-    this.plugins.forEach((plugin) => {
+    this.corePlugins.concat(this.plugins).forEach((plugin) => {
       plugin.connect()
     })
 
     this.connected = true
   }
 
-  disconnect (): void {
-    window.removeEventListener('pageshow', this.boundReenableDisabledElements)
-    this.addedNodesObserver.disconnect()
-    this.csrf.disconnect()
-    this.toggler.removeEnableElementListeners()
-    this.clickHandler.disconnect()
-    this.toggler.removeHandleDisabledListeners()
-    this.confirmClass.disconnect()
-    this.toggler.removeDisableElementListeners()
-    this.method.disconnect()
-    this.formSubmitDispatcher.disconnect()
-    this.navigationAdapter.disconnect()
+  private disconnect (): void {
+    window.removeEventListener('pageshow', this.boundReEnableDisabledElements)
 
-    this.addedNodesObserver.disconnect()
-
-    this.plugins.forEach((plugin) => {
-      plugin.disconnect()
+    this.corePlugins.concat(this.plugins).forEach((plugin) => {
+      plugin.connect()
     })
 
     this.connected = false
@@ -141,12 +128,11 @@ export class Mrujs {
         addedNodes = Array.from(mutation.addedNodes)
       }
 
-      this.toggler.enableElementObserverCallback(addedNodes)
-      this.clickHandler.observerCallback(addedNodes)
-      this.confirmClass.observerCallback(addedNodes)
-      this.toggler.disableElementObserverCallback(addedNodes)
-      this.toggler.handleDisabledObserverCallback(addedNodes)
-      this.method.observerCallback(addedNodes)
+      this.corePlugins.concat(this.plugins).forEach((plugin) => {
+        if (typeof plugin.observerCallback === 'function') {
+          plugin.observerCallback(addedNodes)
+        }
+      })
     }
   }
 
@@ -214,13 +200,13 @@ export class Mrujs {
     return this.csrf.param
   }
 
-  reenableDisabledElements (): void {
+  private reEnableDisabledElements (): void {
     document
-      .querySelectorAll(`${this.querySelectors.formEnableSelector.selector} ${this.querySelectors.linkDisableSelector.selector}`)
+      .querySelectorAll(`${window.mrujs.querySelectors.formEnableSelector.selector}, ${window.mrujs.querySelectors.linkDisableSelector.selector}`)
       .forEach(element => {
         const el = element as HTMLInputElement
         // Reenable any elements previously disabled
-        this.toggler.enableElement(el)
+        this.elementEnabler.enableElement(el)
       })
   }
 }

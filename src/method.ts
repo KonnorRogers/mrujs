@@ -6,6 +6,10 @@ import { LinkSubmission } from './linkSubmission'
  * Handles `data-method="method" submissions.`
  */
 export class Method {
+  get name (): string {
+    return Method.name
+  }
+
   connect (): void {
     this.allLinks.forEach((link: HTMLAnchorElement): void => {
       link.addEventListener('click', this.handle)
