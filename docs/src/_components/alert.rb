@@ -7,7 +7,7 @@ class Alert < Bridgetown::Component
     danger: "exclamation-octagon"
   }.freeze
 
-  def initialize(type: "text", title: nil)
+  def initialize(type: :info, title: nil)
     @type = type
     @title = title
 
