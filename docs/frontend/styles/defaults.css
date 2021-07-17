@@ -187,7 +187,7 @@ code > span {
 
 .highlight {
   border-radius: var(--border-radius-large);
-  font-size: 1.1rem;
+  font-size: 1.1em;
   line-height: 1.4;
 }
 
@@ -200,6 +200,7 @@ code.highlighter-rouge {
   border-radius: var(--border-radius-base);
   background: var(--code-background);
   color: var(--code-color);
+  word-break: break-all;
 }
 
 code.highlight {
