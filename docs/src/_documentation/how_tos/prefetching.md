@@ -114,7 +114,7 @@ const url = "/how-tos"
 if (navigationAdapter.cacheContains(url) === false) {
   window.mrujs.fetch(url, { method: "get" })
     .then((response) => response.text())
-    .then((html) => navigationAdapter.prefetch({ url, html })
+    .then((html) => navigationAdapter.prefetch({ url, html }))
     .catch((err) => console.error(err))
 }
 ```
