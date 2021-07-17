@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0-beta.31](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.29...v0.3.0-beta.31) (2021-07-17)
+
+
+### Features
+
+* add cache operations ([#78](https://github.com/ParamagicDev/mrujs/issues/78)) ([9ff8c7e](https://github.com/ParamagicDev/mrujs/commit/9ff8c7ec3d1037acfa91d5be7482683083850883))
+
 ## [0.3.0-beta.29](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.28...v0.3.0-beta.29) (2021-07-16)
 
 
