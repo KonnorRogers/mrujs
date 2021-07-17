@@ -1,5 +1,6 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from '../utils/events'
-import { mergeHeaders, expandUrl, Locateable } from '../utils/url'
+import { mergeHeaders, expandUrl } from '../utils/url'
+import { Locateable } from '../types'
 
 export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
 

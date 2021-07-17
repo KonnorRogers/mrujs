@@ -76,13 +76,14 @@ export class ElementEnabler {
    */
   enableLinkElement (element: HTMLElement): void {
     const originalText = element.dataset.ujsEnableWith
+
     if (originalText != null) {
       element.innerHTML = originalText // set to old enabled state
-      element.dataset.ujsEnableWith = undefined // clean up cache
+      element.removeAttribute('data-ujs-enable-with') // clean up cache
     }
 
     element.removeEventListener('click', stopEverything) // enable element
-    element.dataset.ujsDisabled = undefined
+    element.removeAttribute('data-ujs-disabled')
   }
 
   /**
@@ -107,10 +108,10 @@ export class ElementEnabler {
       } else {
         (element as HTMLFormElement).value = originalText
       }
-      element.dataset.ujsEnableWith = undefined // clean up cache
+      element.removeAttribute('data-ujs-enable-with') // clean up cache
     }
 
     (element as HTMLFormElement).disabled = false
-    element.dataset.ujsDisabled = undefined
+    element.removeAttribute('data-ujs-disabled')
   }
 }
