@@ -56,14 +56,14 @@ using an AJAX request.
 ## [Prefetching with fetch](#prefetching-with-fetch)
 
 To prefetch with fetch is fairly straightforward. We fetch the url, we
-parse the response, then we pass the respond to the prefetch function.
+parse the response, then we pass the response to the prefetch function.
 Lets look at an example:
 
 ```js
 const url = "/posts"
 window.mrujs.fetch(url, { method: "get" })
   .then((response) => response.text())
-  .then((html) => window.mrujs.navigationAdapter.prefetch({ url, html })
+  .then((html) => window.mrujs.navigationAdapter.prefetch({ url, html }))
   .catch((err) => console.error(err))
 ```
 
