@@ -10,6 +10,9 @@ module NavigationAdapterTests
       post_fetch_count = evaluate_script("window.mrujs.navigationAdapter.snapshotCache.keys.length")
 
       assert_equal pre_fetch_count + 1, post_fetch_count
+
+      has_posts_key = evaluate_script("window.mrujs.navigationAdapter.cacheContains('/posts')")
+      assert has_posts_key
     end
   end
 end

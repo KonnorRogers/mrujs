@@ -40,13 +40,16 @@ CableReady operations on the JSON payload.
 ## [Example](#example)
 
 ```html
-<a href="/url" data-method="patch" data-cable-car>I get used by CableCar!</a>
+<a href="/url" data-method="patch" data-cable-car>
+  I get used by CableCar!
+</a>
 ```
 
 Turns into:
 
 ```html
-<a href="/url" data-method="patch" data-cable-car data-remote="true" data-type="json">Click
-me</a>
+<a href="/url" data-method="patch" data-remote="true" data-type="json" data-cable-car="">
+  Click me
+</a>
 ```
 

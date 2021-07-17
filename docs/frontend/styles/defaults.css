@@ -13,6 +13,7 @@ body {
 
 main {
   margin: 0 var(--spacing-medium);
+  overflow-x: hidden;
 }
 
 button {

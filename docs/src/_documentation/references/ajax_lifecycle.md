@@ -48,7 +48,12 @@ submission // => Either FormSubmission or LinkSubmission.
 ```
 
 <%= render(Alert.new(title: "Warning: About remote / ajax links", type: :warning)) do %>
-  <code class="highlight">&lt;a href="#" data-method="delete" data-remote="true"&gt;Link&lt;/a&gt;</code>
+  <code class="highlight">&lt;a href="#" data-method="delete" data-remote="true"&gt;
+    <br>
+    &nbsp;&nbsp;Link
+    <br>
+    &lt;/a&gt;
+  </code>
   does not fire the <code class="highlight">submit</code> event, it skips to <code class="highlight">ajax:before</code>, this is due to
   to the fact that links do not actually trigger a <code class="highlight">submit</code> event.
 <% end %>
@@ -80,8 +85,9 @@ document.querySelector("form").addEventListener("ajax:send", (event) => {
 <sl-alert type="warning" open>
   <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
   <strong>Warning:</strong>
-  Be careful if we call `event.stopImmediatePropagation()` or
-  `event.stopPropagation()`, this will prevent the `ajax:stopped` or `ajax:completed` events
+  Be careful if we call <code class="highlight">event.stopImmediatePropagation()</code> or
+  <code class="highlight">event.stopPropagation()</code>, this will prevent the
+  <code class="highlight">ajax:stopped</code> or <code class="highlight">ajax:completed</code> events
   from firing and will leave our buttons in a disabled state that we must handle manually.
 </sl-alert>
 

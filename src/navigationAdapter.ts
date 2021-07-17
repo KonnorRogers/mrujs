@@ -88,6 +88,11 @@ export class NavigationAdapter {
     this.putSnapshotInCache(expandedUrl, snapshot)
   }
 
+  cacheContains (url: Locateable): boolean {
+    const expandedUrl = expandUrl(url)
+    return this.snapshotCache?.has(expandedUrl) ?? false
+  }
+
   get snapshotCache (): SnapshotCacheInterface | undefined {
     if (this.useTurbolinks) return this.adapter?.controller.cache
     if (this.useTurbo) return this.adapter?.navigator.view.snapshotCache

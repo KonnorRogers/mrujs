@@ -5,8 +5,7 @@
 module.exports = {
   mount: {
     frontend: "/dist",
-    ".bridgetown": { url: "/", static: true, resolve: false },
-    output: { url: "/", static: true }
+    ".bridgetown": { url: "/", static: true },
   },
   plugins: [
     [
@@ -21,7 +20,7 @@ module.exports = {
   ],
   devOptions: {
     port: 4000,
-    hmrDelay: 1100,
+    hmrDelay: 300,
     open: "none",
   },
   buildOptions: {
