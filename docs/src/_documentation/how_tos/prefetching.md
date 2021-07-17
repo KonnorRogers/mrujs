@@ -55,7 +55,7 @@ using an AJAX request.
 
 ## [Prefetching with fetch](#prefetching-with-fetch)
 
-<%= render Alert.new %>
+<%= render Alert.new do %>
   All of the below can be run in the devTools console since this site
   uses mrujs! So feel free to open up the console and run the following
   commands!
@@ -121,3 +121,4 @@ if (navigationAdapter.cacheContains(url) === false) {
 
 And that wraps up how we can prefetch URLs using mrujs! Good luck and
 may you caches always be warm!
+
