@@ -68,3 +68,9 @@ export interface ExposedUtilsInterface {
   FetchRequest: FetchRequest['constructor']
   FetchResponse: FetchResponse['constructor']
 }
+
+export interface SnapshotCacheInterface {
+  size: number
+  keys: string[]
+  snapshots: Record<string, unknown>
+}

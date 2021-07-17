@@ -1,7 +1,15 @@
 export type Locateable = URL | string
 
 export function expandUrl (locateable: Locateable): URL {
+  if (urlExpanded(locateable)) {
+    return new URL(locateable.toString())
+  }
+
   return new URL(locateable.toString(), document.baseURI)
+}
+
+function urlExpanded (locateable: Locateable): boolean {
+  return /^http/.test(locateable.toString())
 }
 
 export function getAnchor (url: URL): string {
@@ -34,3 +42,4 @@ export function mergeHeaders (...sources: Headers[]): Headers {
 
   return new Headers(main)
 }
+

@@ -135,8 +135,9 @@ export class NavigationAdapter {
   }
 
   prefetch ({ html, url }: {html: string, url: Locateable}): void {
+    const expandedUrl = expandUrl(url)
     const snapshot = this.generateSnapshotFromHtml(html, this.adapter as Adapter)
-    this.putSnapshotInCache(url, snapshot, this.adapter as Adapter)
+    this.putSnapshotInCache(expandedUrl, snapshot, this.adapter as Adapter)
   }
 
   generateSnapshotFromHtml (html: string, adapter: Adapter): string {
@@ -144,14 +145,14 @@ export class NavigationAdapter {
       return adapter.Snapshot.wrap(html)
     }
 
-    if (this.useTurbo && (adapter.PageSnapshot != null)) {
-      return adapter.PageSnapshot.fromHTMLString(html)
+    if (this.useTurbo && this.canSnapshot) {
+      return adapter.PageSnapshot?.fromHTMLString(html) ?? ""
     }
 
     return ''
   }
 
-  putSnapshotInCache (location: Locateable, snapshot: string, adapter: Adapter): void {
+  private putSnapshotInCache (location: Locateable, snapshot: string, adapter: Adapter): void {
     if (snapshot === '') return
 
     if (this.useTurbolinks) {
@@ -162,6 +163,29 @@ export class NavigationAdapter {
     if (this.useTurbo) {
       adapter.navigator.view.snapshotCache.put(location, snapshot)
     }
+  }
+
+  get snapshotCache():  {
+
+  }
+
+  private get canSnapshot(): boolean {
+    if (this.useTurbolinks) return true
+    if (this.useTurbo) {
+      // PageSnapshot is required in Turbo to manually generate Snapshots.
+      if (this.adapter?.PageSnapshot == null) {
+        console.warn(
+          `The version of Turbo you are currently using does not support
+           snapshot generation. Please consider upgrading your version of Turbo.`
+        )
+
+        return false
+      }
+
+      return true
+    }
+
+    return false
   }
 
   private preventDoubleVisit (response: FetchResponse, location: Locateable, action: VisitAction): void {
