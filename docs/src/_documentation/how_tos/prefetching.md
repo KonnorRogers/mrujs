@@ -38,13 +38,13 @@ Prefetching expects two things, a string of HTML, and a url.
 
 ```js
 window.mrujs.navigationAdapter.prefetch({
-  url: "/posts",
+  url: "/how-tos",
   html: "<div>Hi</div>"
 })
 ```
 
 <%= render(Alert.new(type: :danger)) do %>
-  The snapshot cache expects <code class="highlight">new URL("/posts", document.baseURI)</code> for
+  The snapshot cache expects <code class="highlight">new URL("/how-tos", document.baseURI)</code> for
   the url. This is prefilled for you by mrujs. If you're prefetching a
   different location with a baseURI different from the current baseURI, make sure to pass in
   an instance of URL with the proper domain.
@@ -55,15 +55,21 @@ using an AJAX request.
 
 ## [Prefetching with fetch](#prefetching-with-fetch)
 
+<%= render Alert.new do %>
+  All of the below can be run in the devTools console since this site
+  uses mrujs! So feel free to open up the console and run the following
+  commands!
+<% end %>
+
 To prefetch with fetch is fairly straightforward. We fetch the url, we
-parse the response, then we pass the respond to the prefetch function.
+parse the response, then we pass the response to the prefetch function.
 Lets look at an example:
 
 ```js
-const url = "/posts"
+const url = "/how-tos"
 window.mrujs.fetch(url, { method: "get" })
   .then((response) => response.text())
-  .then((html) => window.mrujs.navigationAdapter.prefetch({ url, html })
+  .then((html) => window.mrujs.navigationAdapter.prefetch({ url, html }))
   .catch((err) => console.error(err))
 ```
 
@@ -86,12 +92,12 @@ The next thing we will be looking at is `snapshotCache.has()`.
 ## [Preventing overfetching](#preventing-overfetch)
 
 Mrujs provides a nice wrapper around `snapshotCache.has()` called
-`window.mrujs.navigationAdapter.cacheContains("/url")`
+`cacheContains("/url")`.
 
 To check if we've already fetched a location we can do the following:
 
 ```js
-window.mrujs.navigationAdapter.cacheContains("/posts") // => true
+window.mrujs.navigationAdapter.cacheContains("/how-tos") // => true
 ```
 
 This will return a `boolean` which will tell us if we've already fetched
@@ -102,7 +108,7 @@ if we've already prefetched the url.
 
 ```js
 const { navigationAdapter } = window.mrujs // Shortcut for the nav adapter.
-const url = "/posts"
+const url = "/how-tos"
 
 // If the url is not in the cache, go out and fetch it.
 if (navigationAdapter.cacheContains(url) === false) {
@@ -115,3 +121,4 @@ if (navigationAdapter.cacheContains(url) === false) {
 
 And that wraps up how we can prefetch URLs using mrujs! Good luck and
 may you caches always be warm!
+
