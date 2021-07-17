@@ -83,7 +83,8 @@ export class NavigationAdapter {
   /**
    * This is a manual navigation triggered by something like `method: :delete`
    */
-  navigate (response: FetchResponse, element: HTMLElement, request: FetchRequest, action?: VisitAction): void {
+  private navigate (response: FetchResponse, element: HTMLElement, request: FetchRequest, action?: VisitAction): void {
+    if (!response.isHtml) return
     // If we get redirected, use Turbolinks
     // This needs to be reworked to not trigger 2 HTML responses or find a
     // way to not refetch a page.
@@ -105,12 +106,7 @@ export class NavigationAdapter {
     this.adapter.clearCache()
 
     // Special navigation handling for Turbo[links].
-    if (response.isHtml) {
-      this.preventDoubleVisit(response, location, action)
-      return
-    }
-
-    this.adapter.visit(location, { action })
+    this.preventDoubleVisit(response, location, action)
   }
 
   get adapter (): Adapter | undefined {
@@ -138,16 +134,9 @@ export class NavigationAdapter {
     return true
   }
 
-  preventDoubleVisit (response: FetchResponse, location: Locateable, action: VisitAction): void {
-    if (this.adapter == null) return
-
-    // This is a fun wrapper to avoid double visits with Turbolinks
-    response.responseHtml.then((html) => {
-      const snapshot = this.generateSnapshotFromHtml(html, this.adapter as Adapter)
-      this.putSnapshotInCache(location, snapshot, this.adapter as Adapter)
-      action = 'restore'
-      this.adapter?.visit(location, { action })
-    }).catch((error) => console.error(error))
+  prefetch ({ html, url }: {html: string, url: Locateable}): void {
+    const snapshot = this.generateSnapshotFromHtml(html, this.adapter as Adapter)
+    this.putSnapshotInCache(url, snapshot, this.adapter as Adapter)
   }
 
   generateSnapshotFromHtml (html: string, adapter: Adapter): string {
@@ -175,7 +164,18 @@ export class NavigationAdapter {
     }
   }
 
-  morphResponse (response: FetchResponse): void {
+  private preventDoubleVisit (response: FetchResponse, location: Locateable, action: VisitAction): void {
+    if (this.adapter == null) return
+
+    // This is a fun wrapper to avoid double visits with Turbolinks
+    response.responseHtml.then((html) => {
+      this.prefetch({ html, url: location })
+      action = 'restore'
+      this.adapter?.visit(location, { action })
+    }).catch((error) => console.error(error))
+  }
+
+  private morphResponse (response: FetchResponse): void {
     // Dont pass go if its not HTML.
     if (!response.isHtml) return
 
@@ -194,7 +194,7 @@ export class NavigationAdapter {
       })
   }
 
-  determineAction (element: HTMLElement): VisitAction {
+  private determineAction (element: HTMLElement): VisitAction {
     let action = element.dataset.turbolinksAction ?? element.dataset.turboAction
 
     if (action == null || !ALLOWABLE_ACTIONS.includes(action)) {
