@@ -92,7 +92,7 @@ export class NavigationAdapter {
     if (this.useTurbolinks) return this.adapter?.controller.cache
     if (this.useTurbo) return this.adapter?.navigator.view.snapshotCache
 
-    return
+    return undefined
   }
 
   /**
