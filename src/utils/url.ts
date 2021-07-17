@@ -1,4 +1,4 @@
-import { Locateable } from "../types"
+import { Locateable } from '../types'
 
 export function expandUrl (locateable: Locateable): URL {
   if (urlExpanded(locateable)) {
@@ -42,4 +42,3 @@ export function mergeHeaders (...sources: Headers[]): Headers {
 
   return new Headers(main)
 }
-

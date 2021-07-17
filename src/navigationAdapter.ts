@@ -4,7 +4,7 @@ import morphdom from 'morphdom'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
 
-import { SnapshotCacheInterface, Locateable } from "./types"
+import { SnapshotCacheInterface, Locateable } from './types'
 
 export interface Adapter {
   visit: (location: Locateable, { action }: { action: VisitAction }) => void
@@ -88,11 +88,9 @@ export class NavigationAdapter {
     this.putSnapshotInCache(expandedUrl, snapshot)
   }
 
-  get snapshotCache(): SnapshotCacheInterface | undefined {
+  get snapshotCache (): SnapshotCacheInterface | undefined {
     if (this.useTurbolinks) return this.adapter?.controller.cache
     if (this.useTurbo) return this.adapter?.navigator.view.snapshotCache
-
-    return
   }
 
   /**
@@ -115,7 +113,6 @@ export class NavigationAdapter {
 
     this.navigate(fetchResponse, element, fetchRequest)
   }
-
 
   /**
    * This is a manual navigation triggered by something like `method: :delete`
@@ -146,7 +143,6 @@ export class NavigationAdapter {
     this.preventDoubleVisit(response, location, action)
   }
 
-
   private putSnapshotInCache (location: Locateable, snapshot: string): void {
     if (snapshot === '') return
 
@@ -155,17 +151,17 @@ export class NavigationAdapter {
 
   private generateSnapshotFromHtml (html: string): string {
     if (this.useTurbolinks) {
-      return this.adapter?.Snapshot.wrap(html) ?? ""
+      return this.adapter?.Snapshot.wrap(html) ?? ''
     }
 
     if (this.useTurbo && this.canSnapshot) {
-      return this.adapter?.PageSnapshot?.fromHTMLString(html) ?? ""
+      return this.adapter?.PageSnapshot?.fromHTMLString(html) ?? ''
     }
 
     return ''
   }
 
-  private get canSnapshot(): boolean {
+  private get canSnapshot (): boolean {
     if (this.useTurbolinks) return true
     if (this.useTurbo) {
       // PageSnapshot is required in Turbo to manually generate Snapshots.

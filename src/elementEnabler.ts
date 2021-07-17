@@ -79,11 +79,11 @@ export class ElementEnabler {
 
     if (originalText != null) {
       element.innerHTML = originalText // set to old enabled state
-      element.removeAttribute("data-ujs-enable-with") // clean up cache
+      element.removeAttribute('data-ujs-enable-with') // clean up cache
     }
 
     element.removeEventListener('click', stopEverything) // enable element
-    element.removeAttribute("data-ujs-disabled")
+    element.removeAttribute('data-ujs-disabled')
   }
 
   /**
@@ -108,10 +108,10 @@ export class ElementEnabler {
       } else {
         (element as HTMLFormElement).value = originalText
       }
-      element.removeAttribute("data-ujs-enable-with") // clean up cache
+      element.removeAttribute('data-ujs-enable-with') // clean up cache
     }
 
     (element as HTMLFormElement).disabled = false
-    element.removeAttribute("data-ujs-disabled")
+    element.removeAttribute('data-ujs-disabled')
   }
 }
