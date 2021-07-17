@@ -28,7 +28,7 @@
     "deploy:patch": "yarn deploy --release-as patch && yarn push",
     "deploy:minor": "yarn deploy --release-as minor && yarn push",
     "deploy:major": "yarn deploy --release-as major && yarn push",
-    "push": "git tag -a latest && git push --follow-tags origin main && yarn publish"
+    "push": "git tag -af latest && git push --follow-tags origin main && yarn publish"
   },
   "dependencies": {
     "morphdom": ">=2.6.0 <3.0.0"
