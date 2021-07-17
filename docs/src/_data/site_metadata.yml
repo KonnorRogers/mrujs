@@ -13,4 +13,4 @@ description: >- # this means to ignore newlines until "baseurl:"
 
 github_url: https://github.com/paramagicdev/mrujs
 default_branch: main
-doc_location: docs
+doc_location: docs/src
