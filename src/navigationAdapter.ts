@@ -1,8 +1,10 @@
-import { expandUrl, Locateable } from './utils/url'
+import { expandUrl } from './utils/url'
 import morphdom from 'morphdom'
 
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
+
+import { SnapshotCacheInterface, Locateable } from "./types"
 
 export interface Adapter {
   visit: (location: Locateable, { action }: { action: VisitAction }) => void
@@ -14,9 +16,7 @@ export interface Adapter {
     wrap: (str: string) => string
   }
   controller: {
-    cache: {
-      put: (location: Locateable, snapshot: string) => void
-    }
+    cache: SnapshotCacheInterface
   }
 
   // Turbo
@@ -25,9 +25,7 @@ export interface Adapter {
   }
   navigator: {
     view: {
-      snapshotCache: {
-        put: (location: Locateable, snapshot: string) => void
-      }
+      snapshotCache: SnapshotCacheInterface
     }
   }
 }
@@ -41,7 +39,7 @@ const ALLOWABLE_ACTIONS = [
 export type VisitAction = 'advance' | 'replace' | 'restore'
 
 export class NavigationAdapter {
-  private readonly boundNavigateViaEvent: (event: CustomEvent) => void
+  private readonly boundNavigateViaEvent: Function
 
   constructor () {
     this.boundNavigateViaEvent = this.navigateViaEvent.bind(this)
@@ -59,10 +57,48 @@ export class NavigationAdapter {
     document.removeEventListener('ajax:complete', this.boundNavigateViaEvent as EventListener)
   }
 
+  get adapter (): Adapter | undefined {
+    if (this.useTurbolinks) {
+      return window.Turbolinks
+    }
+
+    if (this.useTurbo) {
+      return window.Turbo
+    }
+
+    return undefined
+  }
+
+  get useTurbolinks (): boolean {
+    if (window.Turbolinks == null) return false
+    if (window.Turbolinks.supported !== true) return false
+
+    return true
+  }
+
+  get useTurbo (): boolean {
+    if (window.Turbo == null) return false
+
+    return true
+  }
+
+  prefetch ({ html, url }: {html: string, url: Locateable}): void {
+    const expandedUrl = expandUrl(url)
+    const snapshot = this.generateSnapshotFromHtml(html)
+    this.putSnapshotInCache(expandedUrl, snapshot)
+  }
+
+  get snapshotCache(): SnapshotCacheInterface | undefined {
+    if (this.useTurbolinks) return this.adapter?.controller.cache
+    if (this.useTurbo) return this.adapter?.navigator.view.snapshotCache
+
+    return
+  }
+
   /**
    * Currently, this only fires on successful form submissions.
    */
-  navigateViaEvent (event: CustomEvent): void {
+  private navigateViaEvent (event: CustomEvent): void {
     const { element, fetchResponse, fetchRequest } = event.detail
     if (fetchResponse == null) return
 
@@ -79,6 +115,7 @@ export class NavigationAdapter {
 
     this.navigate(fetchResponse, element, fetchRequest)
   }
+
 
   /**
    * This is a manual navigation triggered by something like `method: :delete`
@@ -109,64 +146,23 @@ export class NavigationAdapter {
     this.preventDoubleVisit(response, location, action)
   }
 
-  get adapter (): Adapter | undefined {
+
+  private putSnapshotInCache (location: Locateable, snapshot: string): void {
+    if (snapshot === '') return
+
+    this.snapshotCache?.put(expandUrl(location), snapshot)
+  }
+
+  private generateSnapshotFromHtml (html: string): string {
     if (this.useTurbolinks) {
-      return window.Turbolinks
-    }
-
-    if (this.useTurbo) {
-      return window.Turbo
-    }
-
-    return undefined
-  }
-
-  get useTurbolinks (): boolean {
-    if (window.Turbolinks == null) return false
-    if (window.Turbolinks.supported !== true) return false
-
-    return true
-  }
-
-  get useTurbo (): boolean {
-    if (window.Turbo == null) return false
-
-    return true
-  }
-
-  prefetch ({ html, url }: {html: string, url: Locateable}): void {
-    const expandedUrl = expandUrl(url)
-    const snapshot = this.generateSnapshotFromHtml(html, this.adapter as Adapter)
-    this.putSnapshotInCache(expandedUrl, snapshot, this.adapter as Adapter)
-  }
-
-  generateSnapshotFromHtml (html: string, adapter: Adapter): string {
-    if (this.useTurbolinks) {
-      return adapter.Snapshot.wrap(html)
+      return this.adapter?.Snapshot.wrap(html) ?? ""
     }
 
     if (this.useTurbo && this.canSnapshot) {
-      return adapter.PageSnapshot?.fromHTMLString(html) ?? ""
+      return this.adapter?.PageSnapshot?.fromHTMLString(html) ?? ""
     }
 
     return ''
-  }
-
-  private putSnapshotInCache (location: Locateable, snapshot: string, adapter: Adapter): void {
-    if (snapshot === '') return
-
-    if (this.useTurbolinks) {
-      adapter.controller.cache.put(location, snapshot)
-      return
-    }
-
-    if (this.useTurbo) {
-      adapter.navigator.view.snapshotCache.put(location, snapshot)
-    }
-  }
-
-  get snapshotCache():  {
-
   }
 
   private get canSnapshot(): boolean {

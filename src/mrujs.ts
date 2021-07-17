@@ -15,7 +15,6 @@ import { AddedNodesObserver } from './addedNodesObserver'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
 import { BASE_SELECTORS, match } from './utils/dom'
-import { Locateable } from './utils/url'
 import { BASE_ACCEPT_HEADERS } from './utils/headers'
 import {
   ExposedUtilsInterface,
@@ -23,7 +22,8 @@ import {
   MrujsConfigInterface,
   QuerySelectorInterface,
   MimeTypeInterface,
-  CustomMimeTypeInterface
+  CustomMimeTypeInterface,
+  Locateable
 } from './types'
 
 export class Mrujs {

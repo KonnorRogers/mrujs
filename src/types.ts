@@ -1,6 +1,6 @@
 import { FetchResponse } from './http/fetchResponse'
 import { FetchRequest } from './http/fetchRequest'
-
+export type Locateable = URL | string
 export type AddOrRemoveListeners = 'addEventListener' | 'removeEventListener'
 export type Submitter = HTMLInputElement | HTMLButtonElement
 
@@ -73,4 +73,7 @@ export interface SnapshotCacheInterface {
   size: number
   keys: string[]
   snapshots: Record<string, unknown>
+  put: (location: URL, snapshot: string) => void
+  has: (location: URL) => boolean
+  [key: string]: unknown
 }

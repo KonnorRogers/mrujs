@@ -1,4 +1,4 @@
-export type Locateable = URL | string
+import { Locateable } from "../types"
 
 export function expandUrl (locateable: Locateable): URL {
   if (urlExpanded(locateable)) {
