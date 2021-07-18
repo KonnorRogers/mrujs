@@ -1,7 +1,9 @@
+require 'json'
 require "nokogiri"
 
 class Helpers < SiteBuilder
   def build
+    helper "version_number", :version_number
     helper "render_svg", :render_svg
     # All pages in "_documentation"
     helper "doc_collection", :doc_collection
@@ -64,5 +66,10 @@ class Helpers < SiteBuilder
 
   def on_github(page)
     site.metadata.github_url + "/tree/#{site.metadata.default_branch}/#{site.metadata.doc_location}/#{page.relative_path}"
+  end
+
+  def version_number
+    package_json = File.read(File.join(File.expand_path("../../../", __dir__), "package.json"))
+    "v#{JSON.parse(package_json)["version"]}"
   end
 end
