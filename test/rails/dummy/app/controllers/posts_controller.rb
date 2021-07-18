@@ -5,7 +5,6 @@ class PostsController < ApplicationController
   UPDATED = "Post was successfully updated."
   DESTROYED = "Post was successfully destroyed."
 
-
   # GET /posts or /posts.json
   def index
     @posts = Post.all
@@ -31,10 +30,8 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: CREATED }
-        format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -58,7 +55,6 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to posts_url, notice: DESTROYED }
-      format.js { head :no_content }
     end
   end
 

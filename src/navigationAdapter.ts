@@ -1,4 +1,4 @@
-import { expandUrl } from './utils/url'
+import { expandUrl, urlsAreEqual } from './utils/url'
 import morphdom from 'morphdom'
 
 import { FetchRequest } from './http/fetchRequest'
@@ -104,21 +104,30 @@ export class NavigationAdapter {
    * Currently, this only fires on successful form submissions.
    */
   private navigateViaEvent (event: CustomEvent): void {
+    if (event.defaultPrevented) return
+
     const { element, fetchResponse, fetchRequest } = event.detail
-    if (fetchResponse == null) return
+
+    if (!this.shouldNavigate(element, fetchRequest, fetchResponse)) return
+
+    this.navigate(fetchResponse, element, fetchRequest)
+  }
+
+  shouldNavigate (element: Element, fetchRequest: FetchRequest, fetchResponse: FetchResponse): boolean {
+    if (fetchResponse == null) return false
 
     // Only render / navigate responses on html responses.
-    if (fetchResponse.isHtml === false) return
+    if (!fetchResponse.isHtml) return false
 
-    if (element instanceof HTMLFormElement && fetchResponse.succeeded === true && fetchResponse.redirected === false) {
+    if (element instanceof HTMLFormElement && fetchResponse.succeeded && !fetchResponse.redirected) {
       console.error('Successful form submissions must redirect')
-      return
+      return false
     }
 
     // Dont navigate on <a data-method="get"> for links.
-    if (element instanceof HTMLAnchorElement && fetchRequest.isGetRequest === true) return
+    if (element instanceof HTMLAnchorElement && fetchRequest.isGetRequest) return false
 
-    this.navigate(fetchResponse, element, fetchRequest)
+    return true
   }
 
   /**
@@ -136,9 +145,12 @@ export class NavigationAdapter {
     if (request?.isGetRequest) location = request.url
     if (response.redirected) location = response.location
 
-    if (response.failed) {
+    const currentLocation = window.location.href
+    const isSamePage = urlsAreEqual(location, currentLocation)
+
+    if (response.failed || isSamePage) {
       // Use morphdom to dom diff the response if the response is HTML.
-      this.morphResponse(response)
+      this.morphResponse(response, !isSamePage)
       return
     }
 
@@ -198,7 +210,7 @@ export class NavigationAdapter {
     }).catch((error) => console.error(error))
   }
 
-  private morphResponse (response: FetchResponse): void {
+  private morphResponse (response: FetchResponse, pushState: boolean = false): void {
     // Dont pass go if its not HTML.
     if (!response.isHtml) return
 
@@ -208,9 +220,11 @@ export class NavigationAdapter {
         template.innerHTML = String(html).trim()
         morphdom(document.body, template.content, { childrenOnly: true })
 
-        // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
-        // @ts-expect-error pushState accepts URL | string, but TS complains about URL.
-        window.history.pushState({}, '', response.location)
+        if (pushState) {
+          // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+          // @ts-expect-error pushState accepts URL | string, but TS complains about URL.
+          window.history.pushState({}, '', response.location)
+        }
       })
       .catch((error: Error) => {
         console.error(error)
