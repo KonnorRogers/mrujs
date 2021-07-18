@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/ParamagicDev/mrujs/compare/v0.3.1...v0.3.2) (2021-07-18)
+
+
+### Bug Fixes
+
+* allow for cancelling nav adapter ([#84](https://github.com/ParamagicDev/mrujs/issues/84)) ([353a977](https://github.com/ParamagicDev/mrujs/commit/353a9773398f6df239ef42062908e5070bffd6f7))
+
 ### [0.3.1](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.31...v0.3.1) (2021-07-17)
 
 ## [0.3.0](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.31...v0.3.0) (2021-07-17)
