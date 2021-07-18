@@ -85,7 +85,6 @@ export class NavigationAdapter {
   prefetch ({ html, url }: {html: string, url: Locateable}): void {
     const expandedUrl = expandUrl(url)
     const snapshot = this.generateSnapshotFromHtml(html)
-    console.log(snapshot)
     this.putSnapshotInCache(expandedUrl, snapshot)
   }
 
@@ -147,10 +146,11 @@ export class NavigationAdapter {
     if (response.redirected) location = response.location
 
     const currentLocation = window.location.href
+    const isSamePage = urlsAreEqual(location, currentLocation)
 
-    if (response.failed || urlsAreEqual(location, currentLocation)) {
+    if (response.failed || isSamePage) {
       // Use morphdom to dom diff the response if the response is HTML.
-      this.morphResponse(response)
+      this.morphResponse(response, isSamePage)
       return
     }
 
@@ -173,7 +173,7 @@ export class NavigationAdapter {
       return this.adapter?.Snapshot.wrap(html) ?? ''
     }
 
-    if (this.useTurbo) {
+    if (this.useTurbo && this.canSnapshot) {
       return this.adapter?.PageSnapshot?.fromHTMLString(html) ?? ''
     }
 
@@ -205,13 +205,12 @@ export class NavigationAdapter {
     // This is a fun wrapper to avoid double visits with Turbolinks
     response.responseHtml.then((html) => {
       this.prefetch({ html, url: location })
-
       action = "restore"
       this.adapter?.visit(location, { action })
     }).catch((error) => console.error(error))
   }
 
-  private morphResponse (response: FetchResponse): void {
+  private morphResponse (response: FetchResponse, pushState: boolean): void {
     // Dont pass go if its not HTML.
     if (!response.isHtml) return
 
@@ -221,9 +220,11 @@ export class NavigationAdapter {
         template.innerHTML = String(html).trim()
         morphdom(document.body, template.content, { childrenOnly: true })
 
-        // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
-        // @ts-expect-error pushState accepts URL | string, but TS complains about URL.
-        window.history.pushState({}, '', response.location)
+        if (pushState) {
+          // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+          // @ts-expect-error pushState accepts URL | string, but TS complains about URL.
+          window.history.pushState({}, '', response.location)
+        }
       })
       .catch((error: Error) => {
         console.error(error)
