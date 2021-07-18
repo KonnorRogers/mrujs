@@ -205,7 +205,7 @@ export class NavigationAdapter {
     // This is a fun wrapper to avoid double visits with Turbolinks
     response.responseHtml.then((html) => {
       this.prefetch({ html, url: location })
-      action = "restore"
+      action = 'restore'
       this.adapter?.visit(location, { action })
     }).catch((error) => console.error(error))
   }
