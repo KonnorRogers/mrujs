@@ -2,7 +2,7 @@
   "name": "dummy",
   "private": true,
   "dependencies": {
-    "@hotwired/turbo": "https://github.com/hotwired/dev-builds/archive/@hotwired/turbo/latest.tar.gz",
+    "@hotwired/turbo": "https://github.com/hotwired/dev-builds/archive/@hotwired/turbo/722f055.tar.gz",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "*",
     "@rails/webpacker": "5.4.0",
