@@ -23,7 +23,7 @@ export function getAnchor (url: URL): string {
   }
 }
 
-export function urlsAreEqual (left: string, right: string): boolean {
+export function urlsAreEqual (left: Locateable, right: Locateable): boolean {
   return expandUrl(left).href === expandUrl(right).href
 }
 

@@ -26,10 +26,9 @@ module RemoteFormTests
         fill_in "Body", with: @post.body
         fill_in "Title", with: @post.title
         click_on "Create Post"
-        # assert_button "Submitting...", disabled: true
       end
 
-      assert_text ::PostsController::CREATED if @turbo == false
+      assert_text ::PostsController::CREATED
       click_on "Back"
 
       # Make sure disabled buttons re-enable
@@ -46,7 +45,7 @@ module RemoteFormTests
         click_on "Update Post"
       end
 
-      assert_text ::PostsController::UPDATED if @turbo == false
+      assert_text ::PostsController::UPDATED, wait: 5
       click_on "Back"
     end
 
@@ -57,10 +56,9 @@ module RemoteFormTests
         fill_in "Body", with: @post.body
         fill_in "Title", with: @post.title
         click_on "Update Post"
-        # assert_button "Submitting...", disabled: true
       end
 
-      assert_text ::PostsController::UPDATED if @turbo == false
+      assert_text ::PostsController::UPDATED, wait: 5
       click_on "Back"
       click_on "Edit", match: :first
       assert_button "Update Post"
@@ -72,7 +70,7 @@ module RemoteFormTests
       end
 
       # known bug with Turbo.
-      assert_text ::PostsController::DESTROYED if @turbo == false
+      assert_text ::PostsController::DESTROYED
     end
 
     test "destroying a post with ajax and confirm" do
@@ -83,7 +81,7 @@ module RemoteFormTests
       assert_link "Destroying..."
 
       # known bug with Turbo
-      assert_text ::PostsController::DESTROYED if @turbo == false
+      assert_text ::PostsController::DESTROYED
     end
 
     test "When cancelling a data-confirm" do
@@ -93,6 +91,20 @@ module RemoteFormTests
 
       refute_text ::PostsController::DESTROYED
       assert_link "Ajax Destroy", match: :first
+    end
+
+    test "When cancelling the nav adapter" do
+      execute_script("document.addEventListener('ajax:complete', (event) => event.preventDefault())")
+
+      click_on "Edit", match: :first
+
+      within "#ajax-form" do
+        fill_in "Body", with: @post.body
+        fill_in "Title", with: @post.title
+        click_on "Update Post"
+      end
+
+      refute_text ::PostsController::UPDATED, wait: 5
     end
   end
 end
