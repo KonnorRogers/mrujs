@@ -92,19 +92,5 @@ module RemoteFormTests
       refute_text ::PostsController::DESTROYED
       assert_link "Ajax Destroy", match: :first
     end
-
-    test "When cancelling the nav adapter" do
-      execute_script("document.addEventListener('ajax:complete', (event) => event.preventDefault())")
-
-      click_on "Edit", match: :first
-
-      within "#ajax-form" do
-        fill_in "Body", with: @post.body
-        fill_in "Title", with: @post.title
-        click_on "Update Post"
-      end
-
-      refute_text ::PostsController::UPDATED, wait: 5
-    end
   end
 end
