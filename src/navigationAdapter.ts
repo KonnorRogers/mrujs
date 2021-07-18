@@ -150,7 +150,7 @@ export class NavigationAdapter {
 
     if (response.failed || isSamePage) {
       // Use morphdom to dom diff the response if the response is HTML.
-      this.morphResponse(response, isSamePage)
+      this.morphResponse(response, !isSamePage)
       return
     }
 
@@ -210,7 +210,7 @@ export class NavigationAdapter {
     }).catch((error) => console.error(error))
   }
 
-  private morphResponse (response: FetchResponse, pushState: boolean): void {
+  private morphResponse (response: FetchResponse, pushState: boolean = false): void {
     // Dont pass go if its not HTML.
     if (!response.isHtml) return
 
