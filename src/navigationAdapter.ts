@@ -104,6 +104,8 @@ export class NavigationAdapter {
    * Currently, this only fires on successful form submissions.
    */
   private navigateViaEvent (event: CustomEvent): void {
+    if (event.defaultPrevented) return
+
     const { element, fetchResponse, fetchRequest } = event.detail
     if (fetchResponse == null) return
 
