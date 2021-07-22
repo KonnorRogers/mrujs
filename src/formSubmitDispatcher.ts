@@ -122,7 +122,7 @@ export class FormSubmitDispatcher {
 
     if (fetchResponse?.succeeded === true) {
       dispatch.call(element, AJAX_EVENTS.ajaxSuccess, {
-        detail: { element, fetchRequest, request, fetchResponse, response, submitter, status  }
+        detail: { element, fetchRequest, request, fetchResponse, response, submitter, status }
       })
       return
     }
