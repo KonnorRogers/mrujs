@@ -25,7 +25,7 @@ describe('CableCar with standard config', () => {
 
   it('Should automatically add data-type and data-remote to data-cable-car elements', () => {
     const link = document.querySelector('#cable-car-link') as HTMLElement
-    assert.equal(link.dataset.type, 'json')
+    assert.equal(link.dataset.type, 'application/vnd.cable-ready.json')
     assert.equal(link.dataset.remote, 'true')
   })
 })

@@ -144,7 +144,6 @@ test/rails/dummy/yarn-error.log
 test/rails/dummy/yarn-debug.log*
 test/rails/dummy/.yarn-integrity
 **/*.DS_Store
-
 test/rails/dummy/node_modules
 docs/node_modules
 docs/.bridgetown
@@ -154,3 +153,6 @@ docs/.bridgetown-metadata
 docs/.bridgetown-webpack
 docs/public
 **/*.bundle
+
+# nodenv version file
+.node-version
