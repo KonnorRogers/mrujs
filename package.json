@@ -13,6 +13,10 @@
   "files": [
     "dist/*"
   ],
+  "sideEffects": [
+    "./src/index.ts",
+    "/src/polyfills/*"
+  ],
   "scripts": {
     "lint": "ts-standard src/ test/js ",
     "fix": "ts-standard src/ test/js --fix",

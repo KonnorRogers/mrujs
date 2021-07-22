@@ -1,6 +1,3 @@
-// Currently only import the safari submit event polyfill.
-import './polyfills'
-
 import { FormSubmitDispatcher } from './formSubmitDispatcher'
 import { ClickHandler } from './clickHandler'
 import { Csrf } from './csrf'
