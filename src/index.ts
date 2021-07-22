@@ -1,3 +1,6 @@
+// Currently only import the safari submit event polyfill.
+import './polyfills'
+
 import { Mrujs } from './mrujs'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
