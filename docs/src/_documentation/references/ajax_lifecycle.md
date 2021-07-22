@@ -45,6 +45,7 @@ fetchResponse // => FetchResponse (wrapper around Response)
 response // => Response
 submitter // => The button clicked to initiate the submit. Button / Link element
 submission // => Either FormSubmission or LinkSubmission.
+status // => available for ajax:success, ajax:complete, ajax:response:error, ajax:error
 ```
 
 <%= render(Alert.new(title: "Warning: About remote / ajax links", type: :warning)) do %>

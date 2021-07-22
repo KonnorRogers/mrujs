@@ -118,16 +118,18 @@ export class FormSubmitDispatcher {
    * properties: { request, response, submitter } = event.detail
    */
   dispatchResponse ({ element, fetchRequest, request, fetchResponse, response, submitter }: AjaxEventDetail): void {
+    const status = response?.status
+
     if (fetchResponse?.succeeded === true) {
       dispatch.call(element, AJAX_EVENTS.ajaxSuccess, {
-        detail: { element, fetchRequest, request, fetchResponse, response, submitter }
+        detail: { element, fetchRequest, request, fetchResponse, response, submitter, status }
       })
       return
     }
 
     // Response errors, >= 400 responses
     dispatch.call(element, AJAX_EVENTS.ajaxResponseError, {
-      detail: { element, fetchRequest, request, fetchResponse, response, submitter }
+      detail: { element, fetchRequest, request, fetchResponse, response, submitter, status }
     })
   }
 
@@ -152,10 +154,8 @@ export class FormSubmitDispatcher {
       return
     }
 
-    const { element, fetchRequest, request, fetchResponse, response, submitter } = event.detail
-
     dispatch.call(this.findTarget(event), AJAX_EVENTS.ajaxError, {
-      detail: { element, fetchRequest, request, fetchResponse, response, submitter }
+      detail: { ...event.detail }
     })
   }
 
