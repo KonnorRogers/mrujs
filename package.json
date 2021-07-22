@@ -43,6 +43,7 @@
     "@web/test-runner": "^0.12.15",
     "@web/test-runner-playwright": "^0.8.4",
     "cable_ready": "*",
+    "microbundle": "^0.13.3",
     "playwright": "^1.12.2",
     "sinon": "^9.2.4",
     "standard-version": "^9.3.0",
