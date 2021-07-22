@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<div style="display: flex;">
+  <%= render "side_nav" %>
+
+  <main class="container">
+    <% title_id = page.data.title.downcase.split(" ").join("-") %>
+    <h1 id="<%= title_id %>">
+      <a href="<%= "##{title_id}" %>">
+        <%= page.data.title %>
+      </a>
+    </h1>
+
+    <%= yield %>
+  </main>
+</div>

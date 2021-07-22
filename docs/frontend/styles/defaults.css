@@ -1,0 +1,209 @@
+html {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
+  margin: 0;
+}
+
+main {
+  margin: 0 var(--spacing-medium);
+  overflow-x: hidden;
+}
+
+button {
+  appearance: none;
+  border: none;
+  background: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+main {
+  padding: var(--spacing-xx-small) var(--spacing-medium);
+}
+
+sl-alert {
+  --sl-font-size-small: 1rem;
+}
+
+img {
+  display: inline-block;
+  margin: var(--spacing-xx-small);
+}
+
+h1,h2,h3,h4 {
+  font-weight: bold;
+  scroll-margin-top: 1.5em;
+}
+
+h1 > a,
+h2 > a,
+h3 > a,
+h4 > a {
+  border-color: transparent;
+}
+
+h2,h3,h4 {
+  border-bottom: 1px solid var(--light-gray);
+}
+
+h1 {
+  padding: 0.25em var(--spacing-large);
+}
+
+h2 {
+  padding: 0.25em var(--spacing-medium);
+}
+
+h3,h4 {
+  padding: 0.25em var(--spacing-x-small);
+  margin: var(--spacing-xx-small) var(--spacing-small);
+}
+
+h1 {
+  font-size: var(--font-xx-large);
+}
+
+h2 {
+  font-size: var(--font-x-large);
+  margin-top: var(--spacing-xx-large);
+  margin-bottom: var(--spacing-small);
+}
+
+h3 {
+  font-size: var(--font-large);
+  margin-top: var(--spacing-x-large);
+}
+
+h4 {
+  margin-top: var(--spacing-large);
+  font-size: var(--font-large);
+}
+
+p {
+  margin: var(--spacing-small) var(--spacing-large);
+}
+
+p, li {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+svg {
+  height: 100%;
+  width: auto;
+}
+
+ul {
+  padding-left: var(--spacing-x-small);
+  line-height: 1.8;
+  list-style: disc inside;
+}
+
+ul ul {
+  list-style: circle inside;
+}
+
+ul ul ul {
+  list-style: square inside;
+}
+
+ul ul ul ul {
+  list-style: disc inside;
+}
+
+ul > li {
+  padding-left: var(--spacing-medium);
+}
+
+@media screen and (min-width: var(--sm)) {
+  pre {
+    overflow-x: hidden;
+  }
+}
+
+@media screen and (min-width: var(--lg)) {
+  .nav-search {
+    margin: 0 auto 0 18rem;
+  }
+}
+
+
+/* code blocks */
+/* inline code highlights */
+a > code,
+a > * > code,
+a > * > code[class*="language-"],
+a {
+  /* Unable to distinguish identifier, this makes links obvious */
+  text-decoration: none;
+  color: var(--primary-color);
+  border-radius: 0 0 0 0;
+  border-bottom: 1px solid var(--primary-color);
+  display: inline;
+  padding: 0.05em 0;
+  line-height: 1.2;
+}
+
+a > code,
+a > * > code,
+a > * > code[class*="language-"] {
+  border-color: transparent;
+}
+
+
+a:hover > code, a:focus > code,
+a:hover > * > code, a:focus > * > code[class*="language-"],
+a:hover, a:focus {
+  color: var(--secondary-color);
+}
+
+a:focus, a:hover {
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+div[class*="language-"] {
+  margin: var(--spacing-xx-small) 0 var(--spacing-xxx-large) 0 !important;
+}
+
+/* Code block */
+pre {
+  padding: var(--spacing-large);
+  margin: var(--spacing-large) 0;
+  overflow-x: auto;
+}
+
+code > span {
+  line-height: var(--line-height-dense);
+}
+
+.highlight {
+  border-radius: var(--border-radius-large);
+  font-size: 1.1em;
+  line-height: 1.4;
+}
+
+
+code.highlight,
+code.highlighter-rouge {
+  display: inline-block;
+  font-size: 0.9em;
+  padding: var(--spacing-xx-small) var(--spacing-x-small);
+  border-radius: var(--border-radius-base);
+  background: var(--code-background);
+  color: var(--code-color);
+  word-break: break-all;
+}
+
+code.highlight {
+  margin: var(--spacing-xx-small) 0;
+}
+

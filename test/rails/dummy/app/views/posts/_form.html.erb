@@ -6,10 +6,10 @@
   </div>
 <% end %>
 
-<%= form_with(id: "ajax-form", model: post, local: false) do |form| %>
+<%= form_with(id: "ajax-form", model: post, data: { turbo: "false", remote: "true" }) do |form| %>
   <%= render partial: "posts/form_body", locals: {form: form, post: post} %>
 
   <div class="actions">
-    <%= form.submit nil, {"data-disable-with" => "Submitting..."} %>
+    <%= form.submit nil, data: {"disable-with" => "Submitting..."} %>
   </div>
 <% end %>

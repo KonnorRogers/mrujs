@@ -1,6 +1,6 @@
-import { stopEverything } from './utils/events'
+import { stopEverything } from '../utils/events'
 
-export const Utils = {
+export const Misc = {
   getMetaContent,
   getCookieValue,
   preventInsignificantClick

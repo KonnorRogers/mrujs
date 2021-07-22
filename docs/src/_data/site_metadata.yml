@@ -1,0 +1,16 @@
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.metadata.title }}, {{ site.metadata.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.metadata.myvariable }}.
+
+title: Mrujs
+tagline: A modern version of Rails UJS for the future of web development.
+email: konnor5456@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Mrujs is a frontend library for adding dynamic behavior to HTML elements using data
+  attributes. Mrujs aims for simplicity and power.
+
+github_url: https://github.com/paramagicdev/mrujs
+default_branch: main
+doc_location: docs/src

@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/ParamagicDev/mrujs/compare/v0.3.1...v0.3.2) (2021-07-18)
+
+
+### Bug Fixes
+
+* allow for cancelling nav adapter ([#84](https://github.com/ParamagicDev/mrujs/issues/84)) ([353a977](https://github.com/ParamagicDev/mrujs/commit/353a9773398f6df239ef42062908e5070bffd6f7))
+
+* Use morphdom if redirecting to the current URL ([#84](https://github.com/ParamagicDev/mrujs/issues/84)) ([353a977](https://github.com/ParamagicDev/mrujs/commit/353a9773398f6df239ef42062908e5070bffd6f7))
+
+### [0.3.1](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.31...v0.3.1) (2021-07-17)
+
+## [0.3.0](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.31...v0.3.0) (2021-07-17)
+
+## [0.3.0-beta.31](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.29...v0.3.0-beta.31) (2021-07-17)
+
+
+### Features
+
+* add cache operations ([#78](https://github.com/ParamagicDev/mrujs/issues/78)) ([9ff8c7e](https://github.com/ParamagicDev/mrujs/commit/9ff8c7ec3d1037acfa91d5be7482683083850883))
+
+### Fixes
+
+* element enabling regression ([#78](https://github.com/ParamagicDev/mrujs/issues/78)) ([9ff8c7e](https://github.com/ParamagicDev/mrujs/commit/9ff8c7ec3d1037acfa91d5be7482683083850883))
+
+## [0.3.0-beta.29](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.28...v0.3.0-beta.29) (2021-07-16)
+
+
+### Bug Fixes
+
+* querySelectors for Turbo ([#75](https://github.com/ParamagicDev/mrujs/issues/75)) ([06c6d28](https://github.com/ParamagicDev/mrujs/commit/06c6d280f1de4cadd15dbc4c31b41ad283d1b374))
+
+## [0.3.0-beta.28](https://github.com/ParamagicDev/mrujs/compare/v0.3.1-beta.0...v0.3.0-beta.28) (2021-07-16)
+
+### Features
+
+Add a initialize and observerCallback hook
+
+## [0.3.0-beta.27](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.26...v0.3.0-beta.27) (2021-07-07)
+
+
+### Features
+
+* Add support for Turbo ([#65](https://github.com/ParamagicDev/mrujs/issues/65)) ([dd0b9ee](https://github.com/ParamagicDev/mrujs/commit/dd0b9eefa9b90f130428e36a659bfa7e1229ebc8))
+
+
+### Bug Fixes
+
+* event listeners now attach properly when attributes change ([#66](https://github.com/ParamagicDev/mrujs/issues/66)) ([39632a2](https://github.com/ParamagicDev/mrujs/commit/39632a20d6b0274623367c47220ee1cac8e62a00))
+* json matching ([6ca5116](https://github.com/ParamagicDev/mrujs/commit/6ca51161ba7788344839b8ba6778224bccf0795d))
+
 ## [0.3.0-beta.26](https://github.com/ParamagicDev/mrujs/compare/v0.3.0-beta.25...v0.3.0-beta.26) (2021-07-03)
 
 

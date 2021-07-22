@@ -1,7 +1,15 @@
-export type Locateable = URL | string
+import { Locateable } from '../types'
 
 export function expandUrl (locateable: Locateable): URL {
+  if (urlExpanded(locateable)) {
+    return new URL(locateable.toString())
+  }
+
   return new URL(locateable.toString(), document.baseURI)
+}
+
+function urlExpanded (locateable: Locateable): boolean {
+  return /^http/.test(locateable.toString())
 }
 
 export function getAnchor (url: URL): string {
@@ -15,7 +23,7 @@ export function getAnchor (url: URL): string {
   }
 }
 
-export function urlsAreEqual (left: string, right: string): boolean {
+export function urlsAreEqual (left: Locateable, right: Locateable): boolean {
   return expandUrl(left).href === expandUrl(right).href
 }
 

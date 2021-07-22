@@ -1,0 +1,41 @@
+---
+layout: default
+---
+
+<%= render "side_nav_mobile" %>
+
+<main class="container">
+  <div class="hero--mobile">
+    <%= render "logo" %>
+  </div>
+
+  <h1 class="site-title">
+    <%= page.data.title %>
+  </h1>
+
+  <p class="slogan">
+    <%= page.data.slogan %>
+  </p>
+
+  <div class="call-to-action__items" role="list">
+    <% page.data.call_to_action_items.each do |item| %>
+      <a class="call-to-action call-to-action--<%= item[:type] %>" href="<%= item[:href] %>" role="listitem">
+        <%= item[:text].to_s.html_safe %>
+      </a>
+    <% end %>
+  </div>
+
+  <h2 class="reason__header"><%= page.data.reason_header %></h2>
+
+  <section class="reason__grid">
+    <% page.data.reasons.each do |reason| %>
+      <article>
+        <h3><%= reason[:header] %></h3>
+        <p>
+          <%= reason[:text] %>
+        </p>
+      </article>
+    <% end %>
+  </section>
+</main>
+

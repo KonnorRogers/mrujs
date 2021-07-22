@@ -6,6 +6,10 @@ import { LinkSubmission } from './linkSubmission'
  * Handles `data-method="method" submissions.`
  */
 export class Method {
+  get name (): string {
+    return Method.name
+  }
+
   connect (): void {
     this.allLinks.forEach((link: HTMLAnchorElement): void => {
       link.addEventListener('click', this.handle)
@@ -18,7 +22,7 @@ export class Method {
     })
   }
 
-  observerCallback (nodeList: NodeList): void {
+  observerCallback (nodeList: Node[]): void {
     nodeList.forEach((node) => {
       if (match(node, window.mrujs.querySelectors.linkClickSelector)) {
         node.addEventListener('click', this.handle)

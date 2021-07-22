@@ -3,12 +3,12 @@ import { match } from './utils/dom'
 import { EventQueryInterface } from './types'
 
 export class Confirm {
-  boundHandleConfirm!: EventListener
+  private readonly boundHandleConfirm = this.handleConfirm.bind(this)
 
   /*
    * An array of queries to run on the document. Each object has an event, and then a queries array.
    */
-  get queries (): EventQueryInterface[] {
+  static get queries (): EventQueryInterface[] {
     return [
       {
         event: 'click',
@@ -33,40 +33,42 @@ export class Confirm {
     ]
   }
 
-  connect (): void {
-    this.boundHandleConfirm = this.handleConfirm.bind(this)
+  get name (): string {
+    return Confirm.name
+  }
 
-    this.queries.forEach((obj) => {
-      obj.selectors.forEach((selector) => {
-        document.querySelectorAll(selector).forEach((element) => {
-          element.addEventListener(obj.event, this.boundHandleConfirm)
-        })
+  connect (): void {
+    Confirm.queries.forEach(({ event, selectors }) => {
+      const selector = selectors.join(', ')
+
+      document.querySelectorAll(selector).forEach((element) => {
+        element.addEventListener(event, this.boundHandleConfirm)
       })
     })
   }
 
   disconnect (): void {
-    this.queries.forEach((obj) => {
-      obj.selectors.forEach((selector) => {
-        document.querySelectorAll(selector).forEach((element) => {
-          element.removeEventListener(obj.event, this.boundHandleConfirm)
-        })
+    Confirm.queries.forEach(({ event, selectors }) => {
+      const selector = selectors.join(', ')
+
+      document.querySelectorAll(selector).forEach((element) => {
+        element.removeEventListener(event, this.boundHandleConfirm)
       })
     })
   }
 
-  observerCallback (nodeList: NodeList): void {
-    this.queries.forEach((obj) => {
-      obj.selectors.forEach((selector) => {
-        nodeList.forEach((node) => {
-          if (match(node, { selector })) {
-            node.addEventListener(obj.event, this.boundHandleConfirm)
-          }
+  observerCallback (nodeList: Node[]): void {
+    Confirm.queries.forEach(({ event, selectors }) => {
+      const selector = selectors.join(', ')
 
-          if (node instanceof Element) {
-            node.querySelectorAll(selector).forEach((el) => el.addEventListener(obj.event, this.boundHandleConfirm))
-          }
-        })
+      nodeList.forEach((node) => {
+        if (match(node, { selector })) {
+          node.addEventListener(event, this.boundHandleConfirm)
+        }
+
+        if (node instanceof Element) {
+          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.boundHandleConfirm))
+        }
       })
     })
   }
