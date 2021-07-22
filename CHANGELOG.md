@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * add status to event.detail ([#86](https://github.com/ParamagicDev/mrujs/issues/86)) ([5b2663a](https://github.com/ParamagicDev/mrujs/commit/5b2663a53faa3f0fc2499706becf8967972fddc8))
+
 * **cablecar:** change the default mimetype ([#64](https://github.com/ParamagicDev/mrujs/issues/64)) ([0e12a0f](https://github.com/ParamagicDev/mrujs/commit/0e12a0fad4481ba58b6f2067b69e1ad07de63501))
 
 ### [0.3.2](https://github.com/ParamagicDev/mrujs/compare/v0.3.1...v0.3.2) (2021-07-18)
