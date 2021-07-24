@@ -186,8 +186,8 @@ export class NavigationAdapter {
       // PageSnapshot is required in Turbo to manually generate Snapshots.
       if (this.adapter?.PageSnapshot == null) {
         console.warn(
-          `The version of Turbo you are currently using does not support
-           snapshot generation. Please consider upgrading your version of Turbo.`
+          `The version of Turbo you are currently using does not support ` +
+          `snapshot generation. Please consider upgrading your version of Turbo.`
         )
 
         return false
