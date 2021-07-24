@@ -179,6 +179,14 @@ export class Mrujs {
     return this.mimeTypes
   }
 
+  get enableElement (): EventListener {
+    return this.elementEnabler.boundEnableElement
+  }
+
+  get disableElement (): EventListener {
+    return this.elementDisabler.boundDisableElement
+  }
+
   get mimeTypes (): MimeTypeInterface {
     return this.config.mimeTypes
   }

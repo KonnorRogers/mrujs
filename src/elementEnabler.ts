@@ -47,7 +47,6 @@ export class ElementEnabler {
     let element = trigger as HTMLElement
 
     if (trigger instanceof Event) {
-      // return if isXhrRedirect(e)
       element = trigger.target as HTMLElement
     }
 

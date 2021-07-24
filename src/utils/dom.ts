@@ -53,7 +53,7 @@ const formDisableSelector = 'input[data-disable-with]:enabled, button[data-disab
 const formEnableSelector = 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled'
 
 const linkDisableSelector = 'a[data-disable-with], a[data-disable]'
-const buttonDisableSelector = 'button[data-remote][data-disable-with], button[data-remote][data-disable]'
+const buttonDisableSelector = 'button[data-disable-with], button[data-disable]'
 
 export const BASE_SELECTORS: QuerySelectorInterface = {
   // Link elements bound by rails-ujs
