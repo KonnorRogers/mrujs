@@ -83,3 +83,8 @@ window.mrujs.stop();
 ```
 
 This will remove all mutation observers and event listeners.
+
+## [Next Steps](#next-steps)
+
+Check out the [Practical Guide to mrujs](/tutorials/practical-guide-to-mrujs) for
+a guide tour of whats possible with mrujs!

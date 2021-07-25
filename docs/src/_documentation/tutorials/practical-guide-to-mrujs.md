@@ -74,7 +74,20 @@ example:
 </p>
 
 Maybe you don't want to display any other text, maybe you just want to
-disable the element. Not a problem.
+disable the element without showing new text. Not a problem.
+
+```html
+<button id="disable-example"
+        data-disable-with="Now I'm disabled...">
+  I'm enabled!
+</button>
+
+<script>
+  document.querySelector("#disable-example").addEventListener("click", (event) => {
+    setTimeout(() => window.mrujs.enableElement(event.target), 3000)
+  })
+</script>
+```
 
 <p align="middle">
   <button id="disable-example"
