@@ -47,7 +47,7 @@
   vertical-align: middle;
   padding: 0;
   transition: var(--sl-transition-fast) background-color, var(--sl-transition-fast) color, var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow;
-  cursor: inherit;
+  cursor: pointer;
   height: var(--sl-input-height-medium);
   line-height: calc(var(--sl-input-height-medium) - var(--sl-input-border-width) * 2);
   border-radius: var(--sl-input-border-radius-medium);

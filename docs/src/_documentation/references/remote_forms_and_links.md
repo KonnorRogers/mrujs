@@ -2,7 +2,10 @@
 title: Understanding Remote Forms and Links
 doc_order: 20
 ---
-## [Remote forms](#remote-forms)
+What are remote forms and links ? When you see the word "Remote" referencing forms or links,
+it means the element is submitting its contents via "AJAX".
+
+### Negotiating proper Accept Header
 
 Remote forms can also negotiate the proper `Accept` headers. To do so,
 set the `data-type='json'` to tell the server you can only accept
@@ -76,7 +79,7 @@ data-disable-with="<div class="spinner">Submitting...</div>"
 // => Replaces the current innerHTML of the clicked input / link with
 //    the text / html in data-disable-with
 
-data-type="mimeType"
+data-type="<mimeType>"
 // => Uses the value as the Accept header for the link / form.
 
 ```
@@ -106,3 +109,9 @@ Also of note, Turbo has its own `data-method`, to avoid conflicts with
 mrujs' `data-method`, please use `data-turbo-method` when you want to
 use Turbo's version of link methods.
 
+## Navigation Adapter
+
+mrujs has a built in navigation adapter which will navigate a user from
+page to page using Morphdom or Turbo(links) if it receives an HTML
+response. If you would like to opt out of the navigation, you can
+specify a `data-ujs-navigate="false"` on the element.

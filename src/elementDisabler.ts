@@ -47,7 +47,6 @@ export class ElementDisabler {
   disableElement (event: Event | HTMLFormElement | Submitter): void {
     let element
 
-    console.log("Working on it boss...")
     if (event instanceof Event) {
       element = event.target as HTMLFormElement
     } else {
