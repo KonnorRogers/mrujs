@@ -31,6 +31,40 @@
   --container-max-width: var(--xl);
 }
 
+.btn {
+  display: inline-flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  border-style: solid;
+  border-width: var(--sl-input-border-width);
+  font-family: var(--sl-input-font-family);
+  font-weight: var(--sl-font-weight-semibold);
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 0;
+  transition: var(--sl-transition-fast) background-color, var(--sl-transition-fast) color, var(--sl-transition-fast) border, var(--sl-transition-fast) box-shadow;
+  cursor: pointer;
+  height: var(--sl-input-height-medium);
+  line-height: calc(var(--sl-input-height-medium) - var(--sl-input-border-width) * 2);
+  border-radius: var(--sl-input-border-radius-medium);
+}
+
+.btn--primary {
+  background-color: var(--sl-color-white);
+  border-color: var(--sl-color-gray-300);
+  color: var(--sl-color-gray-600);
+}
+
+.btn--primary:is(:active, :hover, :focus) {
+  background-color: var(--sl-color-primary-50);
+  border-color: var(--sl-color-primary-300);
+  color: var(--sl-color-primary-600);
+}
+
 .logo__link {
   flex: 1 0 auto;
   width: auto;

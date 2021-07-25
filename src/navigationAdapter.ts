@@ -113,7 +113,8 @@ export class NavigationAdapter {
     this.navigate(fetchResponse, element, fetchRequest)
   }
 
-  shouldNavigate (element: Element, fetchRequest: FetchRequest, fetchResponse: FetchResponse): boolean {
+  shouldNavigate (element: HTMLElement, fetchRequest: FetchRequest, fetchResponse: FetchResponse): boolean {
+    if (element.dataset.ujsNavigate === 'false') return false
     if (fetchResponse == null) return false
 
     // Only render / navigate responses on html responses.
