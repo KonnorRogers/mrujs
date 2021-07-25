@@ -10,6 +10,7 @@ features of mrujs.
 There are 2 ways to approach this guide.
 
 1.) Create your own project with the HTML provided and play with it.
+
 2.) Follow along with the examples provided below.
 
 ## Prerequisites
