@@ -4,8 +4,17 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.3.4](https://github.com/ParamagicDev/mrujs/compare/v0.3.3...v0.3.4) (2021-07-25)
 
-### [0.3.3](https://github.com/ParamagicDev/mrujs/compare/v0.3.2...v0.3.3) (2021-07-22)
+## Features
 
+* Adds mrujs.enableElement and mrujs.disableElement top level. ([#87](https://github.com/ParamagicDev/mrujs/pull/87)) ([e898a5a](https://github.com/ParamagicDev/mrujs/pull/87/commits/e898a5a3dcbd908b5fdf5a49d914b54086755240))
+
+* Adds `data-ujs-navigate`to opt out of the navigation adapter. ([#87](https://github.com/ParamagicDev/mrujs/pull/87)) ([e898a5a](https://github.com/ParamagicDev/mrujs/pull/87/commits/e898a5a3dcbd908b5fdf5a49d914b54086755240))
+
+## Fixes
+
+* Fixes needing `[data-remote]` on buttons ([#87](https://github.com/ParamagicDev/mrujs/pull/87)) ([e898a5a](https://github.com/ParamagicDev/mrujs/pull/87/commits/e898a5a3dcbd908b5fdf5a49d914b54086755240))
+
+### [0.3.3](https://github.com/ParamagicDev/mrujs/compare/v0.3.2...v0.3.3) (2021-07-22)
 
 ### Features
 
