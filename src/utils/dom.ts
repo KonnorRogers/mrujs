@@ -42,8 +42,8 @@ if (window.Turbo != null) {
 }
 
 // data-confirm doesnt matter with Turbo.
-const linkClickSelector = `a[data-confirm], ${link}[data-method], ${link}[data-remote]:not([disabled]), a[data-disable-with], ${link}[data-disable]`
-const buttonClickSelector = 'button[data-remote]:not([form]), button[data-confirm]:not([form]), button[data-disable-with], button[data-disable]'
+const linkClickSelector = `a[data-confirm], ${link}[data-method], ${link}[data-remote]:not([disabled]), ${link}[data-disable-with], ${link}[data-disable]`
+const buttonClickSelector = 'button[data-remote]:not([form]), button[data-confirm]:not([form]), button[data-disable-with]:not([form]), button[data-disable]:not([form])'
 const inputChangeSelector = 'select[data-remote], input[data-remote], textarea[data-remote]'
 const formSubmitSelector = `${form}`
 const formInputClickSelector = 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])'
