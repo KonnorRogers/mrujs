@@ -189,7 +189,7 @@ hook into the ajax events. Or if you're feeling a little shaky how ajax
 works, you can check out the docs on [Remote forms and links](/references/remote-forms-and-links)
 
 <p style="margin: 2em 0;" align="middle"><a href="/references/ajax-lifecycle" class="call-to-action call-to-action--primary">AJAX Lifecycle</a></p>
-<p align="middle"><a href="/references/remote-forms-and-links" class="call-to-action call-to-action--secondary">Remote Forms and Links</a>
+<p align="middle"><a href="/references/remote-forms-and-links" class="call-to-action call-to-action--secondary">Remote Elements</a>
 
 <script>
   // Since we're not actually submitting, we need to clear out disabled elements.
