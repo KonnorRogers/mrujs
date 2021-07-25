@@ -65,6 +65,13 @@
   color: var(--sl-color-primary-600);
 }
 
+.btn[disabled] {
+  color: gray;
+  border-style: dashed;
+  border-color: gray;
+  cursor: not-allowed;
+}
+
 .logo__link {
   flex: 1 0 auto;
   width: auto;

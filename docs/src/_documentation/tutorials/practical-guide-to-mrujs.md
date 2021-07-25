@@ -116,12 +116,12 @@ To trigger an ajax request on a link, add the
 ### Trigger ajax on a form
 
 ```html
-<form action="/" method="get" data-remote="true">
+<form action="/blah" method="post" data-remote="true" data-ujs-navigate="false">
   <input class="btn btn--primary" type="submit" value="Submit via AJAX">
 </form>
 ```
 
-<form action="/" method="get" data-remote="true">
+<form action="/blah" method="post" data-remote="true" data-ujs-navigate="false">
   <input class="btn btn--primary" style="display: flex; margin: 0 auto;" type="submit" value="Submit via AJAX">
 </form>
 
