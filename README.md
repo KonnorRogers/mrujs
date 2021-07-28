@@ -51,11 +51,11 @@ Top level:
 
 Must be run within the `test/rails/dummy` directory.
 
-`cd test/ruby/dummy && bundle exec rails server`
+`cd test/rails/dummy && bundle exec rails server`
 
 ### Tests
 
-From any where _outside_ of the `test/ruby/dummy` directory:
+From any where _outside_ of the `test/rails/dummy` directory:
 
 `bundle exec rake test`
 
