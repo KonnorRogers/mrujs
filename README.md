@@ -49,7 +49,7 @@ Top level:
 
 ### Starting
 
-Must be run within the `test/ruby/dummy` directory.
+Must be run within the `test/rails/dummy` directory.
 
 `cd test/ruby/dummy && bundle exec rails server`
 
