@@ -14,7 +14,7 @@ export class LinkSubmission {
 
     let method = this.method
 
-    if (window.mrujs.config.maskLinkMethods === true) {
+    if (window.mrujs.config.maskLinkMethods) {
       method = this.maskMethod
     }
 
