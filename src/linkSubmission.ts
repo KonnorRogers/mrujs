@@ -12,8 +12,14 @@ export class LinkSubmission {
   constructor (element: HTMLAnchorElement) {
     this.element = element
 
+    let method = this.method
+
+    if (window.mrujs.config.maskLinkMethods === true) {
+      method = this.maskMethod
+    }
+
     const options: RequestInit = {
-      method: this.maskMethod,
+      method,
       headers: this.headers
     }
 

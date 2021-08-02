@@ -45,6 +45,7 @@ export class Mrujs {
 
   constructor () {
     this.config = {
+      maskLinkMethods: true,
       querySelectors: { ...BASE_SELECTORS },
       mimeTypes: { ...BASE_ACCEPT_HEADERS },
       plugins: []

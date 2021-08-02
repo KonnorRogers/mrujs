@@ -21,3 +21,12 @@ To read about how to integrate CableCar, check out the documentation on
 it!
 
 [Integrating CableCar with mrujs](/how-tos/integrate-cablecar)
+
+## [Using with other Frameworks](#using-with-other-frameworks)
+
+Rails isn't for everyone and isn't for everything! Although mrujs is
+designed to work best with Rails, its a purely frontend library that
+will work with any backend of your choice. There is one small hiccup
+in regards to redirects, to learn more, checkout the
+[Understanding method masking](/references/understanding-method-masking)
+section.

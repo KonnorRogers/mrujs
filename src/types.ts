@@ -24,6 +24,7 @@ export interface AjaxEventDetail {
 }
 
 export interface MrujsConfigInterface {
+  maskLinkMethods: boolean
   querySelectors: QuerySelectorInterface
   mimeTypes: MimeTypeInterface
   plugins: MrujsPluginInterface[]
