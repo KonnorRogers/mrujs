@@ -25,6 +25,7 @@ export function match (element: Node | Element, { selector, exclude }: SelectorI
 
 export const BASE_MODIFIERS = [
   'data-confirm',
+  'data-async-confirm',
   'data-remote',
   'data-method',
   'data-disable',

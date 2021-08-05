@@ -26,6 +26,9 @@ import {
   ExtendedRequestInit
 } from './types'
 
+import { MrujsConfirmElement, MrujsConfirmEvent } from "./customElements/mrujs-confirm"
+window.customElements.define('mrujs-confirm', MrujsConfirmElement)
+
 export class Mrujs {
   connected: boolean
   config: MrujsConfigInterface
@@ -149,6 +152,22 @@ export class Mrujs {
   confirm (message: string): boolean {
     return window.confirm(message)
   }
+
+  asyncConfirm (message: string): Promise<boolean> {
+    const dialog = document.createElement("mrujs-confirm")
+    dialog.innerText = message
+    document.body.appendChild(dialog)
+
+    return new Promise((resolve) => {
+      function handleConfirmComplete (event: MrujsConfirmEvent): void {
+        dialog.removeEventListener("confirm:complete", handleConfirmComplete as EventListener)
+        console.log(event.answer)
+        resolve(!!event.answer)
+      }
+      dialog.addEventListener("confirm:complete", handleConfirmComplete as EventListener)
+    })
+  }
+
 
   /**
    * Utilities generally not used for general purpose, but instead used for things like
