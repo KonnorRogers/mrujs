@@ -9,46 +9,90 @@ const template = `
   height: 100%;
   overflow-y: scroll;
   margin: 0;
-  background: rgba(0, 0, 0, 0.66);
+  background: rgba(0, 0, 0, 0.75);
+  --mrujs-confirm: 101 218 251;
+  --mrujs-confirm-hover: 131 238 251;
+  --mrujs-cancel: 40 40 40;
+  --mrujs-cancel-hover: 80 80 90;
+  --mrujs-background: 66 65 76;
   --monospace: 'SFMono-Regular', Consolas,
               'Liberation Mono', Menlo, Courier, monospace;
 }
 .window {
   font-family: var(--monospace);
   line-height: 1.5;
-  width: 800px;
-  color: #d8d8d8;
-  margin: 30px auto;
+  min-width: 200px;
+  width: 75vw;
+  max-width: 500px;
+  color: white;
+  margin: 30vh auto 0 auto;
   padding: 25px 40px;
   position: relative;
-  background: #181818;
+  background: rgb(var(--mrujs-background));
   border-radius: 6px 6px 8px 8px;
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   overflow: hidden;
   border-top: 8px solid var(--red);
 }
-pre {
-  font-family: var(--monospace);
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 1em;
-  overflow-x: scroll;
-  scrollbar-width: none;
+
+.text {
+  font-size: 1rem;
+  min-height: 50px;
 }
-pre::-webkit-scrollbar {
-  display: none;
+
+.button-group {
+  font-size: 1.1rem;
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 100%;
 }
+
+.button-group > button {
+  padding: 0.5em 1.25em;
+  margin-right: 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.button-group > button:last-child {
+  margin-right: 0;
+}
+
+#cancel {
+  background-color: rgb(var(--mrujs-cancel));
+  color: white;
+}
+
+#cancel:hover,
+#cancel:focus {
+  background-color: rgb(var(--mrujs-cancel-hover));
+}
+
+#confirm {
+  background-color: rgb(var(--mrujs-confirm));
+}
+
+#confirm:hover,
+#confirm:focus {
+  background-color: rgb(var(--mrujs-confirm-hover));
+}
+
 </style>
 <div class="window">
-  <slot></slot>
+  <div class="text">
+    <slot></slot>
+  </div>
 
-  <button id="confirm">
-    Confirm
-  </button>
+  <div class="button-group">
+    <button id="cancel">
+      Cancel
+    </button>
 
-  <button id="cancel">
-    Cancel
-  </button>
+    <button id="confirm">
+      OK
+    </button>
+  </div>
 </div>
 `
 
@@ -58,6 +102,10 @@ export class MrujsConfirmElement extends HTMLElement {
 
   boundConfirm = this.confirm.bind(this)
   boundCancel = this.cancel.bind(this)
+
+  public static get observerAttributes (): string[] {
+    return ['confirm-text', 'cancel-text']
+  }
 
   constructor () {
     super()
