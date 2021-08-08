@@ -85,7 +85,9 @@ export class FetchRequest {
   setMethodAndBody (input: Request | RequestInit): void {
     this.method = (input.method?.toLowerCase() ?? 'get') as FetchMethodString
 
-    if (this.isGetRequest) return
+    if (this.isGetRequest) {
+      return
+    }
 
     this.body = (input.body ?? new URLSearchParams()) as FetchRequestBody
   }

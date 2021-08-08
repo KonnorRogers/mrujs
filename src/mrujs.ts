@@ -1,3 +1,4 @@
+import { AJAX_EVENTS, dispatch } from './utils/events'
 import { FormSubmitDispatcher } from './formSubmitDispatcher'
 import { ClickHandler } from './clickHandler'
 import { Csrf } from './csrf'
@@ -20,7 +21,8 @@ import {
   QuerySelectorInterface,
   MimeTypeInterface,
   CustomMimeTypeInterface,
-  Locateable
+  Locateable,
+  ExtendedRequestInit
 } from './types'
 
 export class Mrujs {
@@ -159,9 +161,24 @@ export class Mrujs {
     }
   }
 
-  async fetch (input: Request | Locateable, options: RequestInit = {}): Promise<Response> {
+  fetch (input: Request | Locateable, options: ExtendedRequestInit = {}): void | Promise<Response> {
+    let { element, submitter, dispatchEvents } = options
+    delete options.element
+    delete options.submitter
+    delete options.dispatchEvents
+
     const fetchRequest = new FetchRequest(input, options)
-    return await window.fetch(fetchRequest.request)
+
+    if (dispatchEvents) {
+      if (element == null) element = document.documentElement
+
+      dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
+        detail: { element, fetchRequest, request: fetchRequest.request, submitter }
+      })
+      return
+    }
+
+    return window.fetch(fetchRequest.request)
   }
 
   registerMimeTypes (mimeTypes: CustomMimeTypeInterface[]): MimeTypeInterface {
