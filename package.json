@@ -29,10 +29,10 @@
     "build:watch": "yarn build --watch",
     "changelog": "standard-changelog",
     "deploy": "standard-version",
-    "deploy:beta": "yarn deploy --prerelease beta && yarn push",
-    "deploy:patch": "yarn deploy --release-as patch && yarn push",
-    "deploy:minor": "yarn deploy --release-as minor && yarn push",
-    "deploy:major": "yarn deploy --release-as major && yarn push",
+    "deploy:beta": "yarn deploy --prerelease beta",
+    "deploy:patch": "yarn deploy --release-as patch",
+    "deploy:minor": "yarn deploy --release-as minor",
+    "deploy:major": "yarn deploy --release-as major",
     "push": "git push --follow-tags origin main && yarn publish"
   },
   "dependencies": {
