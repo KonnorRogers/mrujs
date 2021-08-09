@@ -1,5 +1,5 @@
 ---
-title: Programmatically Fetch and send events
+title: Programmatically Fetch with events
 ---
 
 Remember how I said earlier its just fetch? Well there are 3 additional
@@ -42,7 +42,7 @@ Between 1:00 - 2:15 should give you most of the info you need.
 In a nutshell, if youre sending regular data, use `urlEncodeFormData` to wrap your `FormData` for best performance and reduced payload size (`urlEncodeFormData` returns an instance of `URLSearchParams`). If you're sending form data with `File` instances, use `FormData`. If you're sending single files, use a `Blob`, and so on and so forth.
 
 
-### [Example using FormData](#example-using-formdata)
+### [Example using encoded FormData](#example-using-formdata)
 
 ```js
 const formData = new FormData()
@@ -50,5 +50,27 @@ formData.append("param1", "value1")
 
 window.mrujs.fetch("/url", {
   body: window.mrujs.urlEncodeFormData(formData)
+}).then(() => {}).catch((err) => console.error(error))
+```
+
+### [Example using regular FormData](#example-using-formdata)
+
+```js
+const formData = new FormData()
+formData.append("param1", "value1")
+
+window.mrujs.fetch("/url", {
+  body: formData
+}).then(() => {}).catch((err) => console.error(error))
+```
+
+### [Example using JSON](#example-using-json)
+
+```js
+const json = JSON.stringify({ param1: "value1" })
+
+window.mrujs.fetch("/url", {
+  headers: { "Content-Type": "application/json" },
+  body: json
 }).then(() => {}).catch((err) => console.error(error))
 ```
