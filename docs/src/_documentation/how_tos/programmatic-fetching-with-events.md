@@ -26,7 +26,9 @@ window.mrujs.fetch(request, { dispatchEvents: true })
 ## Explanation
 
 `dispatchEvents` is fairly self explanatory :)
+
 The `element` is the element submitting the event (usually a form)
+
 The `submitter` is the element that triggers the submit event (usually an `<input type="submit">`)
 
 ## Supplying your own FormData
