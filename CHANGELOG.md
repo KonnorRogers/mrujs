@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.3.7-beta.1](https://github.com/ParamagicDev/mrujs/compare/v0.3.6...v0.3.7-beta.1) (2021-08-09)
 
+### Features
+
+* mrujs.fetch can now dispatch events! ([#91](https://github.com/ParamagicDev/mrujs/issues/91)) ([92a4e76](https://github.com/ParamagicDev/mrujs/commit/92a4e76d032080e2e968d3417505b267f33c0f05))
 
 ### Bug Fixes
 
