@@ -78,3 +78,9 @@ export interface SnapshotCacheInterface {
   has: (location: URL) => boolean
   [key: string]: unknown
 }
+
+export interface ExtendedRequestInit extends RequestInit {
+  element?: HTMLElement
+  submitter?: HTMLElement
+  dispatchEvents?: boolean
+}

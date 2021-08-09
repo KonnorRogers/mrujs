@@ -33,8 +33,11 @@ export class FetchRequest {
       this.setMethodAndBody(input)
       this.modifyUrl(input.url)
       this.headers = mergeHeaders(this.defaultHeaders, input.headers)
-      const mergedOptions = { ...this.defaultRequestOptions, ...input }
-      mergedOptions.headers = this.headers
+      const mergedOptions: RequestInfo = { ...this.defaultRequestOptions, ...input }
+
+      // @ts-expect-error
+      if (this.isGetRequest) delete mergedOptions.body
+
       this.request = new Request(mergedOptions)
     } else {
       this.setMethodAndBody(options)
@@ -42,6 +45,8 @@ export class FetchRequest {
       this.headers = mergeHeaders(this.defaultHeaders, new Headers(options.headers))
       const mergedOptions = { ...this.defaultRequestOptions, ...options }
       mergedOptions.headers = this.headers
+
+      if (this.isGetRequest) delete mergedOptions.body
 
       // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
       this.request = new Request(this.url, mergedOptions)
@@ -84,21 +89,24 @@ export class FetchRequest {
 
   setMethodAndBody (input: Request | RequestInit): void {
     this.method = (input.method?.toLowerCase() ?? 'get') as FetchMethodString
-
-    if (this.isGetRequest) return
-
     this.body = (input.body ?? new URLSearchParams()) as FetchRequestBody
   }
 
   get defaultRequestOptions (): RequestInit {
-    return {
+    const options: RequestInit = {
       method: this.method,
       headers: this.headers,
       credentials: 'same-origin',
       redirect: 'follow',
-      body: this.body,
       signal: this.abortSignal
     }
+
+    if (this.isGetRequest) {
+      return options
+    }
+
+    options.body = this.body
+    return options
   }
 
   get defaultHeaders (): Headers {

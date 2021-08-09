@@ -1,4 +1,4 @@
-import { formDataToStrings, buildFormElementFormData, formEnctypeFromString, FormEncType } from './utils/form'
+import { buildFormElementFormData, formEnctypeFromString, FormEncType } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
 import { Submitter } from './types'
 import { FetchRequest } from './http/fetchRequest'
@@ -83,7 +83,7 @@ export class FormSubmission {
 
   get body (): URLSearchParams | FormData {
     if (this.enctype === FormEncType.urlEncoded || (this.isGetRequest)) {
-      return new URLSearchParams(formDataToStrings(this.formData))
+      return window.mrujs.urlEncodeFormData(this.formData)
     } else {
       return this.formData
     }
