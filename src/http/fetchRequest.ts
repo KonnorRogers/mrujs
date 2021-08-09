@@ -27,14 +27,19 @@ export class FetchRequest {
   body?: FetchRequestBody
 
   constructor (input: Request | Locateable, options: RequestInit = {}) {
+    console.log(options.body)
     // if we're given a Request, set the method, headers and body first, then we
     // merge with the defaultRequestOptions and clone the instance of Request
     if (input instanceof Request) {
       this.setMethodAndBody(input)
       this.modifyUrl(input.url)
       this.headers = mergeHeaders(this.defaultHeaders, input.headers)
-      const mergedOptions = { ...this.defaultRequestOptions, ...input }
-      mergedOptions.headers = this.headers
+      const mergedOptions: RequestInfo = { ...this.defaultRequestOptions, ...input }
+
+      // @ts-expect-error
+      if (this.isGetRequest) delete mergedOptions.body
+
+      console.log(mergedOptions.body)
       this.request = new Request(mergedOptions)
     } else {
       this.setMethodAndBody(options)
@@ -42,6 +47,8 @@ export class FetchRequest {
       this.headers = mergeHeaders(this.defaultHeaders, new Headers(options.headers))
       const mergedOptions = { ...this.defaultRequestOptions, ...options }
       mergedOptions.headers = this.headers
+
+      if (this.isGetRequest) delete mergedOptions.body
 
       // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
       this.request = new Request(this.url, mergedOptions)
@@ -55,6 +62,7 @@ export class FetchRequest {
   }
 
   get entries (): Array<[string, FormDataEntryValue]> {
+    console.log('body: ', this.body)
     return this.body instanceof URLSearchParams ? Array.from(this.body.entries()) : []
   }
 
@@ -79,28 +87,31 @@ export class FetchRequest {
     if (!this.isGetRequest) return
 
     // Append params to the Url.
+    console.log(this.entries)
     this.url = mergeFormDataEntries(this.url, this.entries)
+    console.log(this.url)
   }
 
   setMethodAndBody (input: Request | RequestInit): void {
     this.method = (input.method?.toLowerCase() ?? 'get') as FetchMethodString
-
-    if (this.isGetRequest) {
-      return
-    }
-
     this.body = (input.body ?? new URLSearchParams()) as FetchRequestBody
   }
 
   get defaultRequestOptions (): RequestInit {
-    return {
+    const options: RequestInit = {
       method: this.method,
       headers: this.headers,
       credentials: 'same-origin',
       redirect: 'follow',
-      body: this.body,
       signal: this.abortSignal
     }
+
+    if (this.isGetRequest) {
+      return options
+    }
+
+    options.body = this.body
+    return options
   }
 
   get defaultHeaders (): Headers {

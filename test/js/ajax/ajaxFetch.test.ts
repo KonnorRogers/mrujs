@@ -16,7 +16,7 @@ describe('Ajax Fetch', (): void => {
   })
 
   it('Should be able to consume body twice', async (): Promise<void> => {
-    const response = new FetchResponse(await mrujs.fetch('/'))
+    const response = new FetchResponse(await mrujs.fetch('/') as Response)
     await response.responseHtml
     await response.responseHtml
   })

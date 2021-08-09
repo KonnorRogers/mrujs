@@ -10,9 +10,9 @@ fetch through the event chain.
 
 ```js
 window.mrujs.fetch("/url", {
-  submitter: HTMLButtonElement | HTMLInputElement (button or input[type="submit"]),
   element: HTMLElement (defaults to document.documentElement),
-  dispatchEvents: boolean (defaults to false)
+  dispatchEvents: boolean (defaults to false),
+  submitter: HTMLButtonElement | HTMLInputElement | undefined (button or input[type="submit"]),
 })
 ```
 

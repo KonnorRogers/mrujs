@@ -9,6 +9,7 @@ import { DisabledElementChecker } from './disabledElementChecker'
 import { ElementEnabler } from './elementEnabler'
 import { ElementDisabler } from './elementDisabler'
 import { AddedNodesObserver } from './addedNodesObserver'
+import { formDataToStrings } from './utils/form'
 
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
@@ -161,7 +162,7 @@ export class Mrujs {
     }
   }
 
-  fetch (input: Request | Locateable, options: ExtendedRequestInit = {}): void | Promise<Response> {
+  fetch (input: Request | Locateable, options: ExtendedRequestInit = {}): undefined | Promise<Response> {
     let { element, submitter, dispatchEvents } = options
     delete options.element
     delete options.submitter
@@ -169,7 +170,7 @@ export class Mrujs {
 
     const fetchRequest = new FetchRequest(input, options)
 
-    if (dispatchEvents) {
+    if (dispatchEvents === true) {
       if (element == null) element = document.documentElement
 
       dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
@@ -179,6 +180,10 @@ export class Mrujs {
     }
 
     return window.fetch(fetchRequest.request)
+  }
+
+  urlEncodeFormData (formData: FormData): URLSearchParams {
+    return new URLSearchParams(formDataToStrings(formData))
   }
 
   registerMimeTypes (mimeTypes: CustomMimeTypeInterface[]): MimeTypeInterface {
