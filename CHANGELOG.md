@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.7-beta.0](https://github.com/ParamagicDev/mrujs/compare/v0.3.6...v0.3.7-beta.0) (2021-08-09)
+
+
+### Bug Fixes
+
+* GET requests now properly submit URLSearchParams ([#91](https://github.com/ParamagicDev/mrujs/issues/91)) ([92a4e76](https://github.com/ParamagicDev/mrujs/commit/92a4e76d032080e2e968d3417505b267f33c0f05))
+
 ### [0.3.6](https://github.com/ParamagicDev/mrujs/compare/v0.3.5...v0.3.6) (2021-07-25)
 
 ### [0.3.5](https://github.com/ParamagicDev/mrujs/compare/v0.3.4...v0.3.5) (2021-07-25)
