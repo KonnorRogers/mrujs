@@ -38,7 +38,8 @@ export class FetchRequest {
       // @ts-expect-error
       if (this.isGetRequest) delete mergedOptions.body
 
-      this.request = new Request(mergedOptions)
+      // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
+      this.request = new Request(this.url, mergedOptions)
     } else {
       this.setMethodAndBody(options)
       this.modifyUrl(input)

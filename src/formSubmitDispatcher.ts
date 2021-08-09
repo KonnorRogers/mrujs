@@ -83,6 +83,7 @@ export class FormSubmitDispatcher {
 
     const { request } = event.detail
 
+    console.log(request)
     try {
       const fetchResponse = new FetchResponse(await window.fetch(request))
       const { response } = fetchResponse
