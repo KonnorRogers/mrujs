@@ -151,18 +151,18 @@ export class MrujsConfirmElement extends HTMLElement {
     this.dispatchEvent(new MrujsConfirmEvent(false))
   }
 
-  attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
+  attributeChangedCallback (name: string, _oldValue: string, newValue: string): void {
     switch (name) {
       case 'confirm-text':
         if (this.confirmButton != null) {
           this.confirmButton.innerText = newValue
         }
-        break;
+        break
       case 'cancel-text':
         if (this.cancelButton != null) {
           this.cancelButton.innerText = newValue
         }
-        break;
+        break
     }
   }
 
@@ -177,10 +177,10 @@ export class MrujsConfirmElement extends HTMLElement {
   }
 
   get confirmText (): string {
-    const confirmText = this.getAttribute("confirm-text")
+    const confirmText = this.getAttribute('confirm-text')
 
     if (confirmText == null) {
-      this.confirmText = "OK"
+      this.confirmText = 'OK'
       return this.confirmText
     }
 
@@ -192,10 +192,10 @@ export class MrujsConfirmElement extends HTMLElement {
   }
 
   get cancelText (): string {
-    const cancelText = this.getAttribute("cancel-text")
+    const cancelText = this.getAttribute('cancel-text')
 
     if (cancelText == null) {
-      this.cancelText = "Cancel"
+      this.cancelText = 'Cancel'
       return this.cancelText
     }
 
