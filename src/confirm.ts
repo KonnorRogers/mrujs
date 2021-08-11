@@ -110,7 +110,7 @@ export class Confirm {
     if (event.currentTarget == null) return // false
 
     const element = event.currentTarget as HTMLElement
-    const message = element.dataset.asyncConfirm
+    const message = element.dataset.ujsConfirm
     const eventType = event.type
 
     if (message == null) return

@@ -23,17 +23,6 @@ export function match (element: Node | Element, { selector, exclude }: SelectorI
   return m.call(element, selector)
 }
 
-export const BASE_MODIFIERS = [
-  'data-confirm',
-  'data-async-confirm',
-  'data-remote',
-  'data-method',
-  'data-disable',
-  'data-disable-with',
-  'data-turbo',
-  'type'
-]
-
 let form = 'form'
 let link = 'a'
 
