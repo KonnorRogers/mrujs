@@ -32,7 +32,6 @@ const template = `
   border-radius: 6px 6px 8px 8px;
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
   overflow: hidden;
-  border-top: 8px solid var(--red);
 }
 
 .text {
@@ -79,17 +78,17 @@ const template = `
 }
 
 </style>
-<div class="window">
-  <div class="text">
+<div part="base" class="window">
+  <div part="text" class="text">
     <slot></slot>
   </div>
 
-  <div class="button-group">
-    <button id="cancel">
+  <div part="buttons" class="button-group">
+    <button part="cancel" id="cancel">
       Cancel
     </button>
 
-    <button id="confirm">
+    <button part="confirm" id="confirm">
       OK
     </button>
   </div>
@@ -110,7 +109,7 @@ export class MrujsConfirmElement extends HTMLElement {
   constructor () {
     super()
 
-    const shadowRoot = this.attachShadow({mode: 'open'});
+    const shadowRoot = this.attachShadow({ mode: 'open' })
     shadowRoot.innerHTML = template
 
     shadowRoot.querySelector('.window')?.addEventListener('click', (e) => {
@@ -126,21 +125,21 @@ export class MrujsConfirmElement extends HTMLElement {
   connectedCallback (): void {
     if (this.shadowRoot == null) return
 
-    this.confirmButton = this.shadowRoot.querySelector("#confirm") as HTMLButtonElement
-    this.cancelButton = this.shadowRoot.querySelector("#cancel") as HTMLButtonElement
+    this.confirmButton = this.shadowRoot.querySelector('#confirm') as HTMLButtonElement
+    this.cancelButton = this.shadowRoot.querySelector('#cancel') as HTMLButtonElement
 
-    this.confirmButton.addEventListener("click", this.boundConfirm)
-    this.cancelButton.addEventListener("click", this.boundCancel)
+    this.confirmButton.addEventListener('click', this.boundConfirm)
+    this.cancelButton.addEventListener('click', this.boundCancel)
   }
 
   disconnectedCallback (): void {
     if (this.shadowRoot == null) return
 
-    this.confirmButton ||= this.shadowRoot.querySelector("#confirm") as HTMLButtonElement
-    this.cancelButton ||= this.shadowRoot.querySelector("#cancel") as HTMLButtonElement
+    this.confirmButton ||= this.shadowRoot.querySelector('#confirm') as HTMLButtonElement
+    this.cancelButton ||= this.shadowRoot.querySelector('#cancel') as HTMLButtonElement
 
-    this.confirmButton.removeEventListener("click", this.boundConfirm)
-    this.cancelButton.removeEventListener("click", this.boundCancel)
+    this.confirmButton.removeEventListener('click', this.boundConfirm)
+    this.cancelButton.removeEventListener('click', this.boundCancel)
   }
 
   close (): void {
@@ -162,7 +161,7 @@ export class MrujsConfirmEvent extends Event {
   answer: boolean | undefined
 
   constructor (answer: boolean) {
-    super("confirm:complete", { bubbles: true, composed: true, cancelable: false })
+    super('confirm:complete', { bubbles: true, composed: true, cancelable: false })
     this.answer = answer
   }
 }

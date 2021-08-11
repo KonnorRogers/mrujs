@@ -44,7 +44,7 @@ export class Confirm {
 
       document.querySelectorAll(selector).forEach((element) => {
         element.addEventListener(event, this.boundHandleConfirm)
-        element.addEventListener(event, this.boundHandleAsyncConfirm)
+        element.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
       })
     })
   }
@@ -55,7 +55,7 @@ export class Confirm {
 
       document.querySelectorAll(selector).forEach((element) => {
         element.removeEventListener(event, this.boundHandleConfirm)
-        element.removeEventListener(event, this.boundHandleAsyncConfirm)
+        element.removeEventListener(event, this.boundHandleAsyncConfirm as EventListener)
       })
     })
   }
@@ -67,13 +67,13 @@ export class Confirm {
       nodeList.forEach((node) => {
         if (match(node, { selector })) {
           node.addEventListener(event, this.boundHandleConfirm)
-          node.addEventListener(event, this.boundHandleAsyncConfirm)
+          node.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
         }
 
         if (node instanceof Element) {
           node.querySelectorAll(selector).forEach((el) => {
             el.addEventListener(event, this.boundHandleConfirm)
-            el.addEventListener(event, this.boundHandleAsyncConfirm)
+            el.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
           })
         }
       })
@@ -123,10 +123,9 @@ export class Confirm {
 
     if (answer) {
       dispatch.call(element, 'confirm:complete', { detail: { answer } })
-      element.removeEventListener(eventType, this.boundHandleAsyncConfirm)
+      element.removeEventListener(eventType, this.boundHandleAsyncConfirm as EventListener)
       element.click()
-      element.addEventListener(eventType, this.boundHandleAsyncConfirm)
-      return
+      element.addEventListener(eventType, this.boundHandleAsyncConfirm as EventListener)
     }
   }
 }

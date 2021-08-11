@@ -9,7 +9,7 @@ export class AddedNodesObserver {
     this.observer = new MutationObserver(callback)
     this.observerOptions = {
       childList: true,
-      subtree: true,
+      subtree: true
     }
   }
 
