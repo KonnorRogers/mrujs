@@ -35,10 +35,10 @@
     "build:watch": "rm -rf dist && microbundle watch",
     "changelog": "standard-changelog",
     "deploy": "standard-version",
-    "deploy:beta": "yarn deploy --prerelease beta",
-    "deploy:patch": "yarn deploy --release-as patch",
-    "deploy:minor": "yarn deploy --release-as minor",
-    "deploy:major": "yarn deploy --release-as major",
+    "deploy:beta": "yarn build && yarn deploy --prerelease beta",
+    "deploy:patch": "yarn build && yarn deploy --release-as patch",
+    "deploy:minor": "yarn build && yarn deploy --release-as minor",
+    "deploy:major": "yarn build && yarn deploy --release-as major",
     "push": "git push --follow-tags origin main && yarn publish"
   },
   "dependencies": {
