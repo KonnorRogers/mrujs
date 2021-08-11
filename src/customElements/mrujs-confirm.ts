@@ -78,6 +78,7 @@ const template = `
 }
 
 </style>
+
 <div part="base" class="window">
   <div part="text" class="text">
     <slot></slot>
@@ -96,13 +97,10 @@ const template = `
 `
 
 export class MrujsConfirmElement extends HTMLElement {
-  confirmButton!: HTMLButtonElement
-  cancelButton!: HTMLButtonElement
-
   boundConfirm = this.confirm.bind(this)
   boundCancel = this.cancel.bind(this)
 
-  public static get observerAttributes (): string[] {
+  public static get observedAttributes (): string[] {
     return ['confirm-text', 'cancel-text']
   }
 
@@ -123,23 +121,20 @@ export class MrujsConfirmElement extends HTMLElement {
   }
 
   connectedCallback (): void {
-    if (this.shadowRoot == null) return
+    if (this.confirmButton != null) {
+      this.confirmButton.innerText = this.confirmText
+      this.confirmButton.addEventListener('click', this.boundConfirm)
+    }
 
-    this.confirmButton = this.shadowRoot.querySelector('#confirm') as HTMLButtonElement
-    this.cancelButton = this.shadowRoot.querySelector('#cancel') as HTMLButtonElement
-
-    this.confirmButton.addEventListener('click', this.boundConfirm)
-    this.cancelButton.addEventListener('click', this.boundCancel)
+    if (this.cancelButton != null) {
+      this.cancelButton.innerText = this.cancelText
+      this.cancelButton.addEventListener('click', this.boundCancel)
+    }
   }
 
   disconnectedCallback (): void {
-    if (this.shadowRoot == null) return
-
-    this.confirmButton ||= this.shadowRoot.querySelector('#confirm') as HTMLButtonElement
-    this.cancelButton ||= this.shadowRoot.querySelector('#cancel') as HTMLButtonElement
-
-    this.confirmButton.removeEventListener('click', this.boundConfirm)
-    this.cancelButton.removeEventListener('click', this.boundCancel)
+    this.confirmButton?.removeEventListener('click', this.boundConfirm)
+    this.cancelButton?.removeEventListener('click', this.boundCancel)
   }
 
   close (): void {
@@ -154,6 +149,61 @@ export class MrujsConfirmElement extends HTMLElement {
   cancel (): void {
     this.close()
     this.dispatchEvent(new MrujsConfirmEvent(false))
+  }
+
+  attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
+    switch (name) {
+      case 'confirm-text':
+        if (this.confirmButton != null) {
+          this.confirmButton.innerText = newValue
+        }
+        break;
+      case 'cancel-text':
+        if (this.cancelButton != null) {
+          this.cancelButton.innerText = newValue
+        }
+        break;
+    }
+  }
+
+  get confirmButton (): HTMLButtonElement | undefined {
+    if (this.shadowRoot == null) return
+    return this.shadowRoot.querySelector('#confirm') as HTMLButtonElement
+  }
+
+  get cancelButton (): HTMLButtonElement | undefined {
+    if (this.shadowRoot == null) return
+    return this.shadowRoot.querySelector('#cancel') as HTMLButtonElement
+  }
+
+  get confirmText (): string {
+    const confirmText = this.getAttribute("confirm-text")
+
+    if (confirmText == null) {
+      this.confirmText = "OK"
+      return this.confirmText
+    }
+
+    return confirmText
+  }
+
+  set confirmText (val: string) {
+    this.setAttribute('confirm-text', val)
+  }
+
+  get cancelText (): string {
+    const cancelText = this.getAttribute("cancel-text")
+
+    if (cancelText == null) {
+      this.cancelText = "Cancel"
+      return this.cancelText
+    }
+
+    return cancelText
+  }
+
+  set cancelText (val: string) {
+    this.setAttribute('cancel-text', val)
   }
 }
 
