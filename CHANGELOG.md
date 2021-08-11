@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.7-beta.3](https://github.com/ParamagicDev/mrujs/compare/v0.3.7-beta.2...v0.3.7-beta.3) (2021-08-11)
+
+
+### Features
+
+* add async confirm dialogs ([#94](https://github.com/ParamagicDev/mrujs/issues/94)) ([aa88306](https://github.com/ParamagicDev/mrujs/commit/aa88306b0e8cf712bc07d1521f61c60c87d8e4da))
+
 ### [0.3.7-beta.2](https://github.com/ParamagicDev/mrujs/compare/v0.3.7-beta.1...v0.3.7-beta.2) (2021-08-09)
 
 ### Bug Fixes
