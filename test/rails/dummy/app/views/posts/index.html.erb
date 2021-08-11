@@ -25,7 +25,7 @@
         <td><%= link_to 'Show', post %></td>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, data: { confirm: 'Are you sure?', method: :delete, turbo: "false"} %></td>
-        <td><%= link_to 'Ajax Destroy', post, data: { turbo: "false", confirm: "Are you sure?", disable_with: "Destroying...", method: :delete } %></td>
+        <td><%= link_to 'Ajax Destroy', post, data: { turbo: "false", "ujs-confirm": "Are you sure?", disable_with: "Destroying...", method: :delete } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -4,6 +4,7 @@ import { EventQueryInterface } from './types'
 
 export class Confirm {
   private readonly boundHandleConfirm = this.handleConfirm.bind(this)
+  private readonly boundHandleAsyncConfirm = this.handleAsyncConfirm.bind(this)
 
   /*
    * An array of queries to run on the document. Each object has an event, and then a queries array.
@@ -43,6 +44,7 @@ export class Confirm {
 
       document.querySelectorAll(selector).forEach((element) => {
         element.addEventListener(event, this.boundHandleConfirm)
+        element.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
       })
     })
   }
@@ -53,6 +55,7 @@ export class Confirm {
 
       document.querySelectorAll(selector).forEach((element) => {
         element.removeEventListener(event, this.boundHandleConfirm)
+        element.removeEventListener(event, this.boundHandleAsyncConfirm as EventListener)
       })
     })
   }
@@ -64,10 +67,14 @@ export class Confirm {
       nodeList.forEach((node) => {
         if (match(node, { selector })) {
           node.addEventListener(event, this.boundHandleConfirm)
+          node.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
         }
 
         if (node instanceof Element) {
-          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.boundHandleConfirm))
+          node.querySelectorAll(selector).forEach((el) => {
+            el.addEventListener(event, this.boundHandleConfirm)
+            el.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
+          })
         }
       })
     })
@@ -97,5 +104,28 @@ export class Confirm {
     }
 
     stopEverything(event)
+  }
+
+  async handleAsyncConfirm (event: Event): Promise<void> {
+    if (event.currentTarget == null) return // false
+
+    const element = event.currentTarget as HTMLElement
+    const message = element.dataset.ujsConfirm
+    const eventType = event.type
+
+    if (message == null) return
+
+    stopEverything(event)
+
+    let answer = false
+
+    answer = await window.mrujs.asyncConfirm(message)
+
+    if (answer) {
+      dispatch.call(element, 'confirm:complete', { detail: { answer } })
+      element.removeEventListener(eventType, this.boundHandleAsyncConfirm as EventListener)
+      element.click()
+      element.addEventListener(eventType, this.boundHandleAsyncConfirm as EventListener)
+    }
   }
 }

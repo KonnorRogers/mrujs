@@ -26,6 +26,9 @@ import {
   ExtendedRequestInit
 } from './types'
 
+import { MrujsConfirmElement, MrujsConfirmEvent } from './customElements/mrujs-confirm'
+window.customElements.define('mrujs-confirm', MrujsConfirmElement)
+
 export class Mrujs {
   connected: boolean
   config: MrujsConfigInterface
@@ -148,6 +151,21 @@ export class Mrujs {
    */
   confirm (message: string): boolean {
     return window.confirm(message)
+  }
+
+  async asyncConfirm (message: string): Promise<boolean> {
+    const dialog = document.createElement('mrujs-confirm')
+    dialog.innerText = message
+    document.body.appendChild(dialog)
+
+    return await new Promise((resolve) => {
+      function handleConfirmComplete (event: MrujsConfirmEvent): void {
+        dialog.removeEventListener('confirm:complete', handleConfirmComplete as EventListener)
+        const answer = !!(event.answer ?? false)
+        resolve(answer)
+      }
+      dialog.addEventListener('confirm:complete', handleConfirmComplete as EventListener)
+    })
   }
 
   /**
