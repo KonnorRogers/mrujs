@@ -3,9 +3,15 @@
   "version": "0.3.7-beta.3",
   "description": "UJS for modern javascript. mrujs stands for Modern Rails UJS",
   "source": "src/index.ts",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "exports": "./dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.module.js"
+    }
+  },
   "types": "dist/index.d.ts",
   "repository": "git@github.com:ParamagicDev/mrujs.git",
   "homepage": "https://mrujs.com",
@@ -25,8 +31,8 @@
     "test:watch": "web-test-runner --watch",
     "start": "tsc -p tsconfig-dev.json && web-dev-server",
     "start:watch": "web-dev-server --watch",
-    "build": "rm -rf dist && tsc",
-    "build:watch": "yarn build --watch",
+    "build": "rm -rf dist && microbundle build",
+    "build:watch": "rm -rf dist && microbundle watch",
     "changelog": "standard-changelog",
     "deploy": "standard-version",
     "deploy:beta": "yarn deploy --prerelease beta",

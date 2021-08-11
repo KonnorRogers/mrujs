@@ -18,7 +18,7 @@ declare global {
 
 const mrujs = new Mrujs()
 
-export { Mrujs }
+export { mrujs, Mrujs }
 export { FetchRequest, FetchResponse }
 export default mrujs
 
