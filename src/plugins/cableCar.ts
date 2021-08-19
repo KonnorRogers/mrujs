@@ -95,15 +95,8 @@ export class CableCar {
 
     if (fetchResponse == null) return
 
-    // const contentTypeMatchesAccept = this.mimeType
-    //   .split(/, */)
-    //   .reduce((result: boolean, s: string) => {
-    //     return result || !((fetchResponse.contentType?.match(s)) == null)
-    //   }, false)
-    // if (!contentTypeMatchesAccept) return
-
     if (fetchResponse.contentType == null) return
-    if (!this.mimeType.includes(fetchResponse.contentType)) return
+    if (!this.isCableReadyResponse(fetchResponse.contentType)) return
 
     fetchResponse.responseJson.then((response: JSON) => {
       this.cableReady.perform(response)
@@ -117,5 +110,11 @@ export class CableCar {
       document.documentElement.hasAttribute('data-turbolinks-preview') ||
       document.documentElement.hasAttribute('data-turbo-preview')
     )
+  }
+
+  isCableReadyResponse (contentType: string): boolean {
+    const responseWithoutEncoding = contentType.split(/;\s+/)[0]
+    const responseRegex = new RegExp(responseWithoutEncoding)
+    return Boolean(this.mimeType.match(responseRegex))
   }
 }
