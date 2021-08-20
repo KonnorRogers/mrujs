@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.7](https://github.com/ParamagicDev/mrujs/compare/v0.3.7-beta.6...v0.3.7) (2021-08-20)
+
+
+### Bug Fixes
+
+* CableCar mime types more permissive. ([#101](https://github.com/ParamagicDev/mrujs/issues/101)) ([1d13a95](https://github.com/ParamagicDev/mrujs/commit/1d13a95fb7be05ba6444ff538eb037f688f9ce86))
+
 ### [0.3.7-beta.6](https://github.com/ParamagicDev/mrujs/compare/v0.3.7-beta.5...v0.3.7-beta.6) (2021-08-11)
 
 ### [0.3.7-beta.5](https://github.com/ParamagicDev/mrujs/compare/v0.3.7-beta.4...v0.3.7-beta.5) (2021-08-11)
