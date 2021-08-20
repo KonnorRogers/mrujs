@@ -29,7 +29,7 @@ export class CableCar {
     this.observer = new MutationObserver(this.boundScanner)
     this.elements = []
     this.cableReady = cableReady
-    this.mimeType = (mimeType ?? 'application/vnd.cable-ready.json')
+    this.mimeType = (mimeType ?? 'application/vnd.cable-ready.json, */*')
   }
 
   get name (): string {
@@ -94,7 +94,9 @@ export class CableCar {
     const fetchResponse = event.detail.fetchResponse
 
     if (fetchResponse == null) return
-    if ((fetchResponse.contentType?.match(this.mimeType)) == null) return
+
+    if (fetchResponse.contentType == null) return
+    if (!this.isCableReadyResponse(fetchResponse.contentType)) return
 
     fetchResponse.responseJson.then((response: JSON) => {
       this.cableReady.perform(response)
@@ -108,5 +110,11 @@ export class CableCar {
       document.documentElement.hasAttribute('data-turbolinks-preview') ||
       document.documentElement.hasAttribute('data-turbo-preview')
     )
+  }
+
+  isCableReadyResponse (contentType: string): boolean {
+    const responseWithoutEncoding = contentType.split(/;\s+/)[0]
+    const responseRegex = new RegExp(responseWithoutEncoding)
+    return Boolean(this.mimeType.match(responseRegex))
   }
 }
