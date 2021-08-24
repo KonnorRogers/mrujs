@@ -1,4 +1,4 @@
-import { addListeners, attachObserverCallback, removeListeners } from "./utils/dom"
+import { addListeners, attachObserverCallback, removeListeners } from './utils/dom'
 import { preventInsignificantClick } from './utils/misc'
 import { EventQueryInterface } from './types'
 

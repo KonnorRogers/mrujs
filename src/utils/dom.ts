@@ -100,7 +100,7 @@ export function removeListeners (conditions: EventQueryInterface[], callbacks: E
 
 export function attachObserverCallback (conditions: EventQueryInterface[], nodeList: Node[], callbacks: EventListener[]): void {
   conditions.forEach((condition) => {
-    const selector = condition.selectors.join(", ")
+    const selector = condition.selectors.join(', ')
 
     nodeList.forEach((node) => {
       if (match(node, { selector })) {
