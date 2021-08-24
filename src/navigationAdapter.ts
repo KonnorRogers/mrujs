@@ -58,13 +58,8 @@ export class NavigationAdapter {
   }
 
   get adapter (): Adapter | undefined {
-    if (this.useTurbolinks) {
-      return window.Turbolinks
-    }
-
-    if (this.useTurbo) {
-      return window.Turbo
-    }
+    if (this.useTurbolinks) return window.Turbolinks
+    if (this.useTurbo) return window.Turbo
 
     return undefined
   }

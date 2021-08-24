@@ -1,5 +1,5 @@
+import { addListeners, match, removeListeners } from "./utils/dom"
 import { Misc } from './utils/misc'
-import { match } from './utils/dom'
 import { EventQueryInterface } from './types'
 
 export class ClickHandler {
@@ -21,23 +21,11 @@ export class ClickHandler {
   }
 
   connect (): void {
-    ClickHandler.queries.forEach((obj) => {
-      obj.selectors.forEach((selector) => {
-        document.querySelectorAll(selector).forEach((element) => {
-          element.addEventListener(obj.event, Misc.preventInsignificantClick as EventListener)
-        })
-      })
-    })
+    addListeners(ClickHandler.queries, Misc.preventInsignificantClick as EventListener)
   }
 
   disconnect (): void {
-    ClickHandler.queries.forEach((obj) => {
-      obj.selectors.forEach((selector) => {
-        document.querySelectorAll(selector).forEach((element) => {
-          element.removeEventListener(obj.event, Misc.preventInsignificantClick as EventListener)
-        })
-      })
-    })
+    removeListeners(ClickHandler.queries, Misc.preventInsignificantClick as EventListener)
   }
 
   observerCallback (nodeList: Node[]): void {
