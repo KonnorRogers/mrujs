@@ -1,3 +1,4 @@
+import analyze from 'rollup-plugin-analyzer'
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
 
@@ -20,7 +21,8 @@ export default [
     ],
     plugins: [
       resolve(),
-      typescript()
+      typescript(),
+      analyze()
     ],
     watch: {
       include: "src/**"

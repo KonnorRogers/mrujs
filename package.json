@@ -71,6 +71,7 @@
     "cable_ready": "*",
     "playwright": "^1.12.2",
     "rollup": "^2.56.3",
+    "rollup-plugin-analyzer": "^4.0.0",
     "sinon": "^9.2.4",
     "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",

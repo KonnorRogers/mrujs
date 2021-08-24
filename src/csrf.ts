@@ -1,5 +1,5 @@
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/csrf.coffee
-import { Misc } from './utils/misc'
+import { getCookieValue, getMetaContent } from './utils/misc'
 
 export class Csrf {
   get name (): string {
@@ -42,11 +42,11 @@ export class Csrf {
 
   // Up-to-date Cross-Site Request Forgery token
   get token (): string | null {
-    return Misc.getCookieValue(this.param) ?? Misc.getMetaContent('csrf-token')
+    return getCookieValue(this.param) ?? getMetaContent('csrf-token')
   }
 
   // URL param that must contain the CSRF token
   get param (): string | null {
-    return Misc.getMetaContent('csrf-param')
+    return getMetaContent('csrf-param')
   }
 }

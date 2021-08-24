@@ -1,5 +1,5 @@
 import { EventQueryInterface, Submitter } from './types'
-import { match, addListeners, removeListeners, findFormElements } from './utils/dom'
+import { attachObserverCallback, addListeners, removeListeners, findFormElements, match } from './utils/dom'
 import { stopEverything } from './utils/events'
 
 export class ElementDisabler {
@@ -18,27 +18,15 @@ export class ElementDisabler {
   }
 
   connect (): void {
-    addListeners(ElementDisabler.queries, this.boundDisableElement)
+    addListeners(ElementDisabler.queries, [this.boundDisableElement])
   }
 
   disconnect (): void {
-    removeListeners(ElementDisabler.queries, this.boundDisableElement)
+    removeListeners(ElementDisabler.queries, [this.boundDisableElement])
   }
 
   observerCallback (nodeList: Node[]): void {
-    ElementDisabler.queries.forEach(({ selectors, event }) => {
-      const selector = selectors.join(', ')
-
-      nodeList.forEach((node) => {
-        if (match(node, { selector })) {
-          node.addEventListener(event, this.boundDisableElement)
-        }
-
-        if (node instanceof Element) {
-          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.boundDisableElement))
-        }
-      })
-    })
+    attachObserverCallback(ElementDisabler.queries, nodeList, [this.boundDisableElement])
   }
 
   /**

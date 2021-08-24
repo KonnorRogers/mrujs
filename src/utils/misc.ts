@@ -1,12 +1,6 @@
 import { stopEverything } from '../utils/events'
 
-export const Misc = {
-  getMetaContent,
-  getCookieValue,
-  preventInsignificantClick
-}
-
-function isInsignificantClick (event: MouseEvent): boolean {
+export function isInsignificantClick (event: MouseEvent): boolean {
   return (
     ((event.target != null) && (event.target as HTMLElement).isContentEditable) ||
       event.defaultPrevented ||
@@ -18,17 +12,17 @@ function isInsignificantClick (event: MouseEvent): boolean {
   )
 }
 
-function isSignificantClick (event: MouseEvent): boolean {
+export function isSignificantClick (event: MouseEvent): boolean {
   return !isInsignificantClick(event)
 }
 
-function preventInsignificantClick (event: MouseEvent): void {
+export function preventInsignificantClick (event: MouseEvent): void {
   if (isSignificantClick(event)) return
 
   stopEverything(event)
 }
 
-function getCookieValue (cookieName: string | null): string | null {
+export function getCookieValue (cookieName: string | null): string | null {
   if (cookieName != null) {
     const cookies = document.cookie.trim() !== '' ? document.cookie.split('; ') : []
     const cookie = cookies.find((cookie) => cookie.startsWith(cookieName))
@@ -41,7 +35,7 @@ function getCookieValue (cookieName: string | null): string | null {
   return null
 }
 
-function getMetaContent (str: string): string | null {
+export function getMetaContent (str: string): string | null {
   const element: HTMLMetaElement | null = document.querySelector(`meta[name="${str}"]`)
   return element?.content ?? null
 }

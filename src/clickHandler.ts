@@ -1,16 +1,18 @@
-import { addListeners, match, removeListeners } from "./utils/dom"
-import { Misc } from './utils/misc'
+import { addListeners, attachObserverCallback, removeListeners } from "./utils/dom"
+import { preventInsignificantClick } from './utils/misc'
 import { EventQueryInterface } from './types'
 
 export class ClickHandler {
   static get queries (): EventQueryInterface[] {
+    const { querySelectors } = window.mrujs
+
     return [
       {
         event: 'click',
         selectors: [
-          window.mrujs.querySelectors.linkClickSelector.selector,
-          window.mrujs.querySelectors.buttonClickSelector.selector,
-          window.mrujs.querySelectors.formInputClickSelector.selector
+          querySelectors.linkClickSelector.selector,
+          querySelectors.buttonClickSelector.selector,
+          querySelectors.formInputClickSelector.selector
         ]
       }
     ]
@@ -21,26 +23,14 @@ export class ClickHandler {
   }
 
   connect (): void {
-    addListeners(ClickHandler.queries, Misc.preventInsignificantClick as EventListener)
+    addListeners(ClickHandler.queries, [preventInsignificantClick] as EventListener[])
   }
 
   disconnect (): void {
-    removeListeners(ClickHandler.queries, Misc.preventInsignificantClick as EventListener)
+    removeListeners(ClickHandler.queries, [preventInsignificantClick] as EventListener[])
   }
 
   observerCallback (nodeList: Node[]): void {
-    ClickHandler.queries.forEach((obj) => {
-      obj.selectors.forEach((selector) => {
-        nodeList.forEach((node) => {
-          if (match(node, { selector })) {
-            node.addEventListener(obj.event, Misc.preventInsignificantClick as EventListener)
-          }
-
-          if (node instanceof Element) {
-            node.querySelectorAll(selector).forEach((el) => el.addEventListener(obj.event, Misc.preventInsignificantClick as EventListener))
-          }
-        })
-      })
-    })
+    attachObserverCallback(ClickHandler.queries, nodeList, [preventInsignificantClick] as EventListener[])
   }
 }

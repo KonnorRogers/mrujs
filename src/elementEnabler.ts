@@ -1,4 +1,4 @@
-import { match, addListeners, removeListeners, findFormElements } from './utils/dom'
+import { attachObserverCallback, match, addListeners, removeListeners, findFormElements } from './utils/dom'
 import { stopEverything, AJAX_EVENTS } from './utils/events'
 import { EventQueryInterface } from './types'
 
@@ -19,36 +19,22 @@ export class ElementEnabler {
   }
 
   connect (): void {
-    addListeners(ElementEnabler.queries, this.boundEnableElement)
+    addListeners(ElementEnabler.queries, [this.boundEnableElement])
   }
 
   disconnect (): void {
-    removeListeners(ElementEnabler.queries, this.boundEnableElement)
+    removeListeners(ElementEnabler.queries, [this.boundEnableElement])
   }
 
   observerCallback (nodeList: Node[]): void {
-    ElementEnabler.queries.forEach(({ selectors, event }) => {
-      const selector = selectors.join(', ')
-
-      nodeList.forEach((node) => {
-        if (match(node, { selector })) {
-          node.addEventListener(event, this.boundEnableElement)
-        }
-
-        if (node instanceof Element) {
-          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.boundEnableElement))
-        }
-      })
-    })
+    attachObserverCallback(ElementEnabler.queries, nodeList, [this.boundEnableElement])
   }
 
   // Unified function to enable an element (link, button and form)
   enableElement (trigger: Event | HTMLElement): void {
     let element = trigger as HTMLElement
 
-    if (trigger instanceof Event) {
-      element = trigger.target as HTMLElement
-    }
+    if (trigger instanceof Event) element = trigger.target as HTMLElement
 
     if (match(element, window.mrujs.querySelectors.linkDisableSelector)) {
       this.enableLinkElement(element)

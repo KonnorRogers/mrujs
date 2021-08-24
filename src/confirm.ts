@@ -1,5 +1,5 @@
 import { dispatch, stopEverything } from './utils/events'
-import { match } from './utils/dom'
+import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
 import { EventQueryInterface } from './types'
 
 export class Confirm {
@@ -10,25 +10,26 @@ export class Confirm {
    * An array of queries to run on the document. Each object has an event, and then a queries array.
    */
   static get queries (): EventQueryInterface[] {
+    const { querySelectors } = window.mrujs
     return [
       {
         event: 'click',
         selectors: [
-          window.mrujs.querySelectors.linkClickSelector.selector,
-          window.mrujs.querySelectors.buttonClickSelector.selector,
-          window.mrujs.querySelectors.formInputClickSelector.selector
+          querySelectors.linkClickSelector.selector,
+          querySelectors.buttonClickSelector.selector,
+          querySelectors.formInputClickSelector.selector
         ]
       },
       {
         event: 'change',
         selectors: [
-          window.mrujs.querySelectors.inputChangeSelector.selector
+          querySelectors.inputChangeSelector.selector
         ]
       },
       {
         event: 'submit',
         selectors: [
-          window.mrujs.querySelectors.formSubmitSelector.selector
+          querySelectors.formSubmitSelector.selector
         ]
       }
     ]
@@ -39,45 +40,15 @@ export class Confirm {
   }
 
   connect (): void {
-    Confirm.queries.forEach(({ event, selectors }) => {
-      const selector = selectors.join(', ')
-
-      document.querySelectorAll(selector).forEach((element) => {
-        element.addEventListener(event, this.boundHandleConfirm)
-        element.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
-      })
-    })
+    addListeners(Confirm.queries, [this.boundHandleConfirm, this.boundHandleAsyncConfirm] as EventListener[])
   }
 
   disconnect (): void {
-    Confirm.queries.forEach(({ event, selectors }) => {
-      const selector = selectors.join(', ')
-
-      document.querySelectorAll(selector).forEach((element) => {
-        element.removeEventListener(event, this.boundHandleConfirm)
-        element.removeEventListener(event, this.boundHandleAsyncConfirm as EventListener)
-      })
-    })
+    removeListeners(Confirm.queries, [this.boundHandleConfirm, this.boundHandleAsyncConfirm] as EventListener[])
   }
 
   observerCallback (nodeList: Node[]): void {
-    Confirm.queries.forEach(({ event, selectors }) => {
-      const selector = selectors.join(', ')
-
-      nodeList.forEach((node) => {
-        if (match(node, { selector })) {
-          node.addEventListener(event, this.boundHandleConfirm)
-          node.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
-        }
-
-        if (node instanceof Element) {
-          node.querySelectorAll(selector).forEach((el) => {
-            el.addEventListener(event, this.boundHandleConfirm)
-            el.addEventListener(event, this.boundHandleAsyncConfirm as EventListener)
-          })
-        }
-      })
-    })
+    attachObserverCallback(Confirm.queries, nodeList, [this.boundHandleConfirm, this.boundHandleAsyncConfirm] as EventListener[])
   }
 
   handleConfirm (event: Event | CustomEvent): void {
@@ -86,9 +57,7 @@ export class Confirm {
     const element = event.target as HTMLElement
     const message = element.dataset.confirm
 
-    if (message == null) {
-      return
-    }
+    if (message == null) return
 
     let answer = false
 

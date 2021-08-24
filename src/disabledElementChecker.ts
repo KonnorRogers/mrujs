@@ -1,5 +1,5 @@
 import { EventQueryInterface } from './types'
-import { match, addListeners, removeListeners } from './utils/dom'
+import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
 import { stopEverything } from './utils/events'
 
 export class DisabledElementChecker {
@@ -18,27 +18,15 @@ export class DisabledElementChecker {
   }
 
   connect (): void {
-    addListeners(DisabledElementChecker.queries, this.handleDisabledElement)
+    addListeners(DisabledElementChecker.queries, [this.handleDisabledElement])
   }
 
   disconnect (): void {
-    removeListeners(DisabledElementChecker.queries, this.handleDisabledElement)
+    removeListeners(DisabledElementChecker.queries, [this.handleDisabledElement])
   }
 
   observerCallback (nodeList: Node[]): void {
-    DisabledElementChecker.queries.forEach(({ selectors, event }) => {
-      const selector = selectors.join(', ')
-
-      nodeList.forEach((node) => {
-        if (match(node, { selector })) {
-          node.addEventListener(event, this.handleDisabledElement)
-        }
-
-        if (node instanceof Element) {
-          node.querySelectorAll(selector).forEach((el) => el.addEventListener(event, this.handleDisabledElement))
-        }
-      })
-    })
+    attachObserverCallback(DisabledElementChecker.queries, nodeList, [this.handleDisabledElement])
   }
 
   handleDisabledElement (this: HTMLFormElement, event: Event): void {
