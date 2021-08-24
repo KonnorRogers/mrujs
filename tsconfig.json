@@ -6,6 +6,7 @@
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
+    "importHelpers": true,
     "experimentalDecorators": true,
     "lib": ["es6", "dom", "dom.iterable"],
     "module": "ESNext",
