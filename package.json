@@ -1,6 +1,6 @@
 {
   "name": "mrujs",
-  "version": "0.3.7",
+  "version": "0.3.8-beta.0",
   "description": "UJS for modern javascript.",
   "main": "./dist/mrujs.umd.js",
   "module": "./dist/mrujs.module.js",
