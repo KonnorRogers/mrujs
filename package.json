@@ -55,8 +55,7 @@
     "push": "git push --follow-tags origin main && yarn publish"
   },
   "dependencies": {
-    "morphdom": ">=2.6.0 <3.0.0",
-    "tslib": "^2.3.1"
+    "morphdom": ">=2.6.0 <3.0.0"
   },
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
@@ -72,12 +71,13 @@
     "cable_ready": "*",
     "playwright": "^1.12.2",
     "rollup": "^2.56.3",
-    "rollup-plugin-analyzer": "^4.0.0",
+    "rollup-plugin-gzip": "^2.5.0",
     "rollup-plugin-html-literals": "^1.1.4",
     "rollup-plugin-terser": "^7.0.2",
     "sinon": "^9.2.4",
     "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",
+    "tslib": "^2.3.1",
     "typescript": "^4.2.3"
   },
   "ts-standard": {
