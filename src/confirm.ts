@@ -1,100 +1,97 @@
 import { dispatch, stopEverything } from './utils/events'
 import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
-import { EventQueryInterface } from './types'
+import { EventQueryInterface, MrujsPluginInterface } from './types'
 
-export class Confirm {
-  private readonly boundHandleConfirm = this.handleConfirm.bind(this)
-  private readonly boundHandleAsyncConfirm = this.handleAsyncConfirm.bind(this)
+export function Confirm (): MrujsPluginInterface {
+  return {
+    name: 'Confirm',
+    connect,
+    disconnect,
+    observerCallback
+  }
+}
 
-  /*
-   * An array of queries to run on the document. Each object has an event, and then a queries array.
-   */
-  static get queries (): EventQueryInterface[] {
-    const { querySelectors } = window.mrujs
-    return [
-      {
-        event: 'click',
-        selectors: [
-          querySelectors.linkClickSelector.selector,
-          querySelectors.buttonClickSelector.selector,
-          querySelectors.formInputClickSelector.selector
-        ]
-      },
-      {
-        event: 'change',
-        selectors: [
-          querySelectors.inputChangeSelector.selector
-        ]
-      },
-      {
-        event: 'submit',
-        selectors: [
-          querySelectors.formSubmitSelector.selector
-        ]
-      }
-    ]
+function connect (): void {
+  addListeners(queries(), [handleConfirm] as EventListener[])
+}
+
+function disconnect (): void {
+  removeListeners(queries(), [handleConfirm] as EventListener[])
+}
+
+function observerCallback (nodeList: Node[]): void {
+  attachObserverCallback(queries(), nodeList, [handleConfirm] as EventListener[])
+}
+
+function handleConfirm (event: Event | CustomEvent): void {
+  if (event.currentTarget == null) return
+
+  const element = event.currentTarget as HTMLElement
+  const message = element.dataset.confirm
+
+  if (message == null) return
+
+  let answer = false
+
+  try {
+    answer = window.mrujs.confirm(message)
+  } catch (e) {
+    console.warn('there was an error with mrujs.confirm')
   }
 
-  get name (): string {
-    return Confirm.name
+  if (answer) {
+    dispatch.call(element, 'confirm:complete', { detail: { answer } })
+    return
   }
 
-  connect (): void {
-    addListeners(Confirm.queries, [this.boundHandleConfirm, this.boundHandleAsyncConfirm] as EventListener[])
-  }
+  stopEverything(event)
+}
 
-  disconnect (): void {
-    removeListeners(Confirm.queries, [this.boundHandleConfirm, this.boundHandleAsyncConfirm] as EventListener[])
-  }
+// async function handleAsyncConfirm (event: Event): Promise<void> {
+//   if (event.currentTarget == null) return
 
-  observerCallback (nodeList: Node[]): void {
-    attachObserverCallback(Confirm.queries, nodeList, [this.boundHandleConfirm, this.boundHandleAsyncConfirm] as EventListener[])
-  }
+//   const element = event.currentTarget as HTMLElement
+//   const message = element.dataset.ujsConfirm
 
-  handleConfirm (event: Event | CustomEvent): void {
-    if (event.target == null) return // false
+//   if (message == null) return
 
-    const element = event.target as HTMLElement
-    const message = element.dataset.confirm
+//   const eventType = event.type
+//   stopEverything(event)
 
-    if (message == null) return
+//   let answer = false
 
-    let answer = false
+//   answer = await window.mrujs.asyncConfirm(message)
 
-    try {
-      answer = window?.mrujs?.confirm(message)
-    } catch (e) {
-      console.warn('there was an error with mrujs.confirm')
+//   if (answer) {
+//     dispatch.call(element, 'confirm:complete', { detail: { answer } })
+//     element.removeEventListener(eventType, handleAsyncConfirm as EventListener)
+//     element.click()
+//     element.addEventListener(eventType, handleAsyncConfirm as EventListener)
+//   }
+// }
+
+function queries (): EventQueryInterface[] {
+  const { querySelectors } = window.mrujs
+  return [
+    {
+      event: 'click',
+      selectors: [
+        querySelectors.linkClickSelector.selector,
+        querySelectors.buttonClickSelector.selector,
+        querySelectors.formInputClickSelector.selector
+      ]
+    },
+    {
+      event: 'change',
+      selectors: [
+        querySelectors.inputChangeSelector.selector
+      ]
+    },
+    {
+      event: 'submit',
+      selectors: [
+        querySelectors.formSubmitSelector.selector
+      ]
     }
-
-    if (answer) {
-      dispatch.call(element, 'confirm:complete', { detail: { answer } })
-      return
-    }
-
-    stopEverything(event)
-  }
-
-  async handleAsyncConfirm (event: Event): Promise<void> {
-    if (event.currentTarget == null) return // false
-
-    const element = event.currentTarget as HTMLElement
-    const message = element.dataset.ujsConfirm
-    const eventType = event.type
-
-    if (message == null) return
-
-    stopEverything(event)
-
-    let answer = false
-
-    answer = await window.mrujs.asyncConfirm(message)
-
-    if (answer) {
-      dispatch.call(element, 'confirm:complete', { detail: { answer } })
-      element.removeEventListener(eventType, this.boundHandleAsyncConfirm as EventListener)
-      element.click()
-      element.addEventListener(eventType, this.boundHandleAsyncConfirm as EventListener)
-    }
-  }
+  ]
 }

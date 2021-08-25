@@ -1,36 +1,38 @@
 import { addListeners, attachObserverCallback, removeListeners } from './utils/dom'
 import { preventInsignificantClick } from './utils/misc'
-import { EventQueryInterface } from './types'
+import { EventQueryInterface, MrujsPluginInterface } from './types'
 
-export class ClickHandler {
-  static get queries (): EventQueryInterface[] {
-    const { querySelectors } = window.mrujs
-
-    return [
-      {
-        event: 'click',
-        selectors: [
-          querySelectors.linkClickSelector.selector,
-          querySelectors.buttonClickSelector.selector,
-          querySelectors.formInputClickSelector.selector
-        ]
-      }
-    ]
+export function ClickHandler (): MrujsPluginInterface {
+  return {
+    name: 'ClickHandler',
+    connect,
+    disconnect,
+    observerCallback
   }
+}
 
-  get name (): string {
-    return ClickHandler.name
-  }
+function connect (): void {
+  addListeners(queries(), [preventInsignificantClick] as EventListener[])
+}
 
-  connect (): void {
-    addListeners(ClickHandler.queries, [preventInsignificantClick] as EventListener[])
-  }
+function disconnect (): void {
+  removeListeners(queries(), [preventInsignificantClick] as EventListener[])
+}
 
-  disconnect (): void {
-    removeListeners(ClickHandler.queries, [preventInsignificantClick] as EventListener[])
-  }
+function observerCallback (nodeList: Node[]): void {
+  attachObserverCallback(queries(), nodeList, [preventInsignificantClick] as EventListener[])
+}
 
-  observerCallback (nodeList: Node[]): void {
-    attachObserverCallback(ClickHandler.queries, nodeList, [preventInsignificantClick] as EventListener[])
-  }
+function queries (): EventQueryInterface[] {
+  const { querySelectors } = window.mrujs
+  return [
+    {
+      event: 'click',
+      selectors: [
+        querySelectors.linkClickSelector.selector,
+        querySelectors.buttonClickSelector.selector,
+        querySelectors.formInputClickSelector.selector
+      ]
+    }
+  ]
 }

@@ -1,11 +1,9 @@
-import template from "rollup-plugin-html-literals";
-// import analyze from 'rollup-plugin-analyzer'
+import analyze from 'rollup-plugin-analyzer'
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
 import { terser } from "rollup-plugin-terser";
 import { brotliCompressSync } from 'zlib'
 import gzipPlugin from 'rollup-plugin-gzip'
-
 
 export default [
   {
@@ -26,7 +24,6 @@ export default [
     ],
     plugins: [
       resolve(),
-      template(),
       typescript(),
       terser({
         compress: {
@@ -41,7 +38,7 @@ export default [
               brotliCompressSync(Buffer.from(content)),
           fileName: '.br',
       }),
-      // analyze()
+      analyze()
     ],
     watch: {
       include: "src/**"

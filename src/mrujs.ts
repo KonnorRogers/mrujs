@@ -1,15 +1,15 @@
 import { AJAX_EVENTS, dispatch } from './utils/events'
 import { FormSubmitDispatcher } from './formSubmitDispatcher'
 import { ClickHandler } from './clickHandler'
-import { Csrf } from './csrf'
+import { Csrf, getToken, getParam } from './csrf'
 import { Confirm } from './confirm'
 import { Method } from './method'
 import { NavigationAdapter } from './navigationAdapter'
 import { DisabledElementChecker } from './disabledElementChecker'
-import { ElementEnabler } from './elementEnabler'
-import { ElementDisabler } from './elementDisabler'
+import { ElementEnabler, enableElement } from './elementEnabler'
+import { ElementDisabler, disableElement } from './elementDisabler'
 import { AddedNodesObserver } from './addedNodesObserver'
-import { formDataToStrings } from './utils/form'
+import { urlEncodeFormData } from './utils/form'
 
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
@@ -26,28 +26,25 @@ import {
   ExtendedRequestInit
 } from './types'
 
-import { MrujsConfirmElement, MrujsConfirmEvent } from './customElements/mrujs-confirm'
-window.customElements.define('mrujs-confirm', MrujsConfirmElement)
-
 export class Mrujs {
   connected: boolean
   config: MrujsConfigInterface
 
   readonly boundReEnableDisabledElements = this.reEnableDisabledElements.bind(this) as EventListener
 
-  readonly elementEnabler = new ElementEnabler()
-  readonly elementDisabler = new ElementDisabler()
-  readonly disabledElementChecker = new DisabledElementChecker()
-  readonly navigationAdapter = new NavigationAdapter()
-  readonly clickHandler = new ClickHandler()
-  readonly confirmClass = new Confirm()
-  readonly csrf = new Csrf()
-  readonly method = new Method()
+  readonly elementEnabler = ElementEnabler()
+  readonly elementDisabler = ElementDisabler()
+  readonly disabledElementChecker = DisabledElementChecker()
+  readonly navigationAdapter = NavigationAdapter()
+  readonly clickHandler = ClickHandler()
+  readonly confirmClass = Confirm()
+  readonly csrf = Csrf()
+  readonly method = Method()
 
   private readonly corePlugins: MrujsPluginInterface[]
-  private readonly formSubmitDispatcher = new FormSubmitDispatcher()
+  private readonly formSubmitDispatcher = FormSubmitDispatcher()
   private readonly boundAddedNodesCallback = this.addedNodesCallback.bind(this)
-  private readonly addedNodesObserver = new AddedNodesObserver(this.boundAddedNodesCallback)
+  private readonly addedNodesObserver = AddedNodesObserver(this.boundAddedNodesCallback)
 
   constructor () {
     this.config = {
@@ -153,21 +150,6 @@ export class Mrujs {
     return window.confirm(message)
   }
 
-  async asyncConfirm (message: string): Promise<boolean> {
-    const dialog = document.createElement('mrujs-confirm')
-    dialog.innerText = message
-    document.body.appendChild(dialog)
-
-    return await new Promise((resolve) => {
-      function handleConfirmComplete (event: MrujsConfirmEvent): void {
-        dialog.removeEventListener('confirm:complete', handleConfirmComplete as EventListener)
-        const answer = !!(event.answer ?? false)
-        resolve(answer)
-      }
-      dialog.addEventListener('confirm:complete', handleConfirmComplete as EventListener)
-    })
-  }
-
   /**
    * Utilities generally not used for general purpose, but instead used for things like
    *   plugins or advanced features.
@@ -194,14 +176,14 @@ export class Mrujs {
       dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
         detail: { element, fetchRequest, request: fetchRequest.request, submitter }
       })
-      return
+      return undefined
     }
 
     return window.fetch(fetchRequest.request)
   }
 
   urlEncodeFormData (formData: FormData): URLSearchParams {
-    return new URLSearchParams(formDataToStrings(formData))
+    return urlEncodeFormData(formData)
   }
 
   registerMimeTypes (mimeTypes: CustomMimeTypeInterface[]): MimeTypeInterface {
@@ -221,11 +203,11 @@ export class Mrujs {
   }
 
   get enableElement (): EventListener {
-    return this.elementEnabler.boundEnableElement
+    return enableElement
   }
 
   get disableElement (): EventListener {
-    return this.elementDisabler.boundDisableElement
+    return disableElement
   }
 
   get mimeTypes (): MimeTypeInterface {
@@ -245,11 +227,11 @@ export class Mrujs {
   }
 
   get csrfToken (): string | null {
-    return this.csrf.token
+    return getToken()
   }
 
   get csrfParam (): string | null {
-    return this.csrf.param
+    return getParam()
   }
 
   private reEnableDisabledElements (): void {
@@ -258,7 +240,7 @@ export class Mrujs {
       .forEach(element => {
         const el = element as HTMLInputElement
         // Reenable any elements previously disabled
-        this.elementEnabler.enableElement(el)
+        enableElement(el)
       })
   }
 }

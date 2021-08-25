@@ -215,3 +215,22 @@ export class MrujsConfirmEvent extends Event {
     this.answer = answer
   }
 }
+
+
+window.customElements.define('mrujs-confirm', MrujsConfirmElement)
+
+export function asyncConfirm (message: string): Promise<boolean> {
+  const dialog = document.createElement('mrujs-confirm')
+  dialog.innerText = message
+  document.body.appendChild(dialog)
+
+  return new Promise((resolve) => {
+    function handleConfirmComplete (event: MrujsConfirmEvent): void {
+      dialog.removeEventListener('confirm:complete', handleConfirmComplete as EventListener)
+      const answer = !!(event.answer ?? false)
+      resolve(answer)
+    }
+    dialog.addEventListener('confirm:complete', handleConfirmComplete as EventListener)
+  })
+}
+

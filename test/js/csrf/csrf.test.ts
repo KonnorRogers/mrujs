@@ -1,17 +1,17 @@
 import { assert } from '@esm-bundle/chai'
-import { Csrf } from '../../../src/csrf.js'
+import { Csrf, getToken, getParam } from '../../../src/csrf.js'
 
 describe('Csrf', () => {
   it('Should properly set the authenticity token value in the form', () => {
-    const csrf = new Csrf()
-    csrf.refresh()
-    assert.equal(csrf.token, '1234')
+    const csrf = Csrf()
+    csrf.connect()
+    assert.equal(getToken(), '1234')
   })
 
   it('Should properly find the csrf-param', () => {
-    const csrf = new Csrf()
-    csrf.refresh()
-    assert.equal(csrf.param, 'authenticity_token')
+    const csrf = Csrf()
+    csrf.connect()
+    assert.equal(getParam(), 'authenticity_token')
   })
 
   it('Should properly set all authenticity_tokens to 1234', () => {
