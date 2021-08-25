@@ -2,6 +2,7 @@ import template from "rollup-plugin-html-literals";
 import analyze from 'rollup-plugin-analyzer'
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
+import { terser } from "rollup-plugin-terser";
 
 export default [
   {
@@ -24,6 +25,11 @@ export default [
       resolve(),
       template(),
       typescript(),
+      terser({
+        compress: {
+          passes: 10
+        }
+      }),
       analyze()
     ],
     watch: {
