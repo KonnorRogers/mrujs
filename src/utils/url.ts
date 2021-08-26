@@ -12,17 +12,6 @@ function urlExpanded (locateable: Locateable): boolean {
   return /^http/.test(locateable.toString())
 }
 
-export function getAnchor (url: URL): string {
-  let anchorMatch
-  if (url.hash != null && url.hash !== '') {
-    return url.hash.slice(1)
-  } else if ((anchorMatch = url.href.match(/#(.*)$/)) != null) {
-    return anchorMatch[1]
-  } else {
-    return ''
-  }
-}
-
 export function urlsAreEqual (left: Locateable, right: Locateable): boolean {
   return expandUrl(left).href === expandUrl(right).href
 }
