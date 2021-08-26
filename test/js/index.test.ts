@@ -1,12 +1,12 @@
 import { assert } from '@esm-bundle/chai'
 
-import mrujs, { Mrujs } from '../../src/index'
+import mrujs from '../../src/index'
 import { BASE_ACCEPT_HEADERS } from '../../src/utils/headers'
 
 describe('index', () => {
   it('Should set a top level mrujs on the window', () => {
     mrujs.start()
-    assert(window.mrujs instanceof Mrujs)
+    assert(window.mrujs)
     mrujs.stop()
   })
 

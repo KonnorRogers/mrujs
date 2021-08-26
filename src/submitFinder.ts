@@ -6,6 +6,7 @@ export interface ExtendedSubmitEvent extends CustomEvent {
     submitter?: Submitter
   }
 }
+
 export function findSubmitter (event: ExtendedSubmitEvent): Submitter | undefined {
   // Not supported by webkit
   if (event.submitter instanceof HTMLElement) {

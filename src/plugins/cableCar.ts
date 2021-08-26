@@ -98,7 +98,7 @@ export class CableCar {
     if (fetchResponse.contentType == null) return
     if (!this.isCableReadyResponse(fetchResponse.contentType)) return
 
-    fetchResponse.responseJson.then((response: JSON) => {
+    fetchResponse.json().then((response: JSON) => {
       this.cableReady.perform(response)
     }).catch((err: Error) => {
       console.error(err)

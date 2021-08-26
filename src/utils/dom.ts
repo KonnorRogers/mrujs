@@ -77,20 +77,42 @@ export const BASE_SELECTORS: QuerySelectorInterface = {
   buttonDisableSelector: { selector: buttonDisableSelector }
 }
 
-export function addListeners (conditions: EventQueryInterface[], callback: EventListener): void {
+export function addListeners (conditions: EventQueryInterface[], callbacks: EventListener[]): void {
   conditions.forEach((condition) => {
     const { selectors, event } = condition
 
-    document.querySelectorAll(selectors.join(', ')).forEach((el: Element) => el.addEventListener(event, callback))
+    document.querySelectorAll(selectors.join(', ')).forEach((el: Element) => {
+      callbacks.forEach((callback) => el.addEventListener(event, callback))
+    })
   })
 }
 
-export function removeListeners (conditions: EventQueryInterface[], callback: EventListener): void {
+export function removeListeners (conditions: EventQueryInterface[], callbacks: EventListener[]): void {
   conditions.forEach((condition) => {
     const { selectors, event } = condition
     const selector = selectors.join(', ')
 
-    document.querySelectorAll(selector).forEach((el: Element) => el.removeEventListener(event, callback))
+    document.querySelectorAll(selector).forEach((el: Element) => {
+      callbacks.forEach((callback) => el.addEventListener(event, callback))
+    })
+  })
+}
+
+export function attachObserverCallback (conditions: EventQueryInterface[], nodeList: Node[], callbacks: EventListener[]): void {
+  conditions.forEach((condition) => {
+    const selector = condition.selectors.join(', ')
+
+    nodeList.forEach((node) => {
+      if (match(node, { selector })) {
+        callbacks.forEach((cb) => node.addEventListener(condition.event, cb))
+      }
+
+      if (node instanceof Element) {
+        node.querySelectorAll(selector).forEach((el) => {
+          callbacks.forEach((cb) => el.addEventListener(condition.event, cb))
+        })
+      }
+    })
   })
 }
 

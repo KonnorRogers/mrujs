@@ -1,100 +1,102 @@
-import { buildFormElementFormData, formEnctypeFromString, FormEncType } from './utils/form'
+import { buildFormElementFormData, formEnctypeFromString, FormEncType, FormEncTypes, urlEncodeFormData } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
-import { Submitter } from './types'
+import { FetchRequestInterface, Submitter } from './types'
 import { FetchRequest } from './http/fetchRequest'
+import { isGetRequest, expandUrl } from './utils/url'
+
+export interface FormSubmissionInterface {
+  fetchRequest: FetchRequestInterface
+  request: Request
+  element: HTMLFormElement
+  submitter?: Submitter
+}
 
 /**
- * This class handles FormSubmissions on forms that use data-remote="true"
- * This class should not be interacted with directly and instead is merely meant for
+ * This handles FormSubmissions on forms that use data-remote="true"
+ * This should not be interacted with directly and instead is merely meant for
  * connecting to the DOM.
  */
-export class FormSubmission {
-  submitter: Submitter | undefined
-  element: HTMLFormElement
-  fetchRequest: FetchRequest
+export function FormSubmission (element: HTMLFormElement, submitter?: Submitter): FormSubmissionInterface {
+  const url = expandUrl(getAction(element, submitter))
+  const options = getOptions(element, submitter)
+  const fetchRequest = FetchRequest(url, options)
+  const request = fetchRequest.request
 
-  constructor (element: HTMLFormElement, submitter?: Submitter) {
-    this.element = element
+  return {
+    fetchRequest,
+    request,
+    element,
+    submitter
+  }
+}
 
-    if (submitter != null) {
-      this.submitter = submitter
-    }
+function getOptions (element: HTMLFormElement, submitter?: Submitter): RequestInit {
+  const method = getMethod(element, submitter)
+  const headers = getHeaders()
 
-    const options: RequestInit = {
-      method: this.method,
-      headers: this.headers
-    }
-
-    if (!this.isGetRequest) options.body = this.body
-
-    this.fetchRequest = new FetchRequest(this.url, options)
+  const options: RequestInit = {
+    method,
+    headers
   }
 
-  get request (): Request {
-    return this.fetchRequest.request
+  if (!isGetRequest(method)) options.body = getBody(element, method, submitter)
+
+  return options
+}
+
+/**
+  * Headers to send to the request object
+  */
+function getHeaders (element?: HTMLFormElement): Headers {
+  let responseType
+
+  if (element != null) {
+    responseType = element.dataset.type
   }
 
-  /**
-   * Headers to send to the request object
-   */
-  get headers (): Headers {
-    let responseType
+  const acceptHeader = findResponseTypeHeader(responseType)
 
-    if (this.element != null) {
-      responseType = this.element.dataset.type
-    }
+  const headers = new Headers({ Accept: acceptHeader })
 
-    const acceptHeader = findResponseTypeHeader(responseType)
+  headers.set('Accept', acceptHeader)
 
-    const headers = new Headers({ Accept: acceptHeader })
+  return headers
+}
 
-    headers.set('Accept', acceptHeader)
+/**
+  * Returns properly built FormData
+  */
+function getFormData (element: HTMLFormElement, submitter?: Submitter): FormData {
+  return buildFormElementFormData(element, submitter)
+}
 
-    return headers
+/**
+  * Finds how to send the fetch request
+  * get, post, put, patch, etc
+  */
+function getMethod (element: HTMLFormElement, submitter?: HTMLElement): string {
+  const method = submitter?.getAttribute('formmethod') ?? element.getAttribute('method') ?? 'get'
+  return method.toLowerCase()
+}
+
+function getAction (element: HTMLElement, submitter?: HTMLElement): string {
+  const action = submitter?.getAttribute('formaction') ?? element.getAttribute('action') ?? ''
+  return action
+}
+
+function getBody (element: HTMLFormElement, method: string, submitter?: Submitter): URLSearchParams | FormData {
+  const formData = getFormData(element, submitter)
+
+  if (getEncType(element, submitter) === FormEncTypes.urlEncoded || (isGetRequest(method))) {
+    return urlEncodeFormData(formData)
+  } else {
+    return formData
   }
+}
 
-  /**
-   * Returns properly built FormData
-   */
-  get formData (): FormData {
-    return buildFormElementFormData(this.element, this.submitter)
-  }
-
-  /**
-   * Finds how to send the fetch request
-   * get, post, put, patch, etc
-   */
-  get method (): string {
-    const method = this.submitter?.getAttribute('formmethod') ?? this.element.getAttribute('method') ?? 'get'
-    return method.toLowerCase()
-  }
-
-  get action (): string {
-    return this.submitter?.getAttribute('formaction') ?? this.element.action
-  }
-
-  /**
-   * URL to send to. Is pulled from action=""
-   * Throws an error of action="" is not defined on an element.
-   */
-  get url (): URL {
-    return new URL(this.action)
-  }
-
-  get body (): URLSearchParams | FormData {
-    if (this.enctype === FormEncType.urlEncoded || (this.isGetRequest)) {
-      return window.mrujs.urlEncodeFormData(this.formData)
-    } else {
-      return this.formData
-    }
-  }
-
-  get isGetRequest (): boolean {
-    return this.method.toLowerCase() === 'get'
-  }
-
-  get enctype (): FormEncType {
-    const elementEncType = (this.element).enctype
-    return formEnctypeFromString(this.submitter?.getAttribute('formenctype') ?? elementEncType)
-  }
+function getEncType (element: HTMLElement, submitter?: Submitter): FormEncType {
+  const elementEncType = element.getAttribute('enctype')
+  const encType = submitter?.getAttribute('formenctype') ?? elementEncType ?? FormEncTypes.urlEncoded
+  const encString = formEnctypeFromString(encType)
+  return encString
 }

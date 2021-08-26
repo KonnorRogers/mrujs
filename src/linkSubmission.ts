@@ -1,106 +1,95 @@
-import { formDataToStrings, FormEncType } from './utils/form'
+import { urlEncodeFormData } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
 import { FetchRequest } from './http/fetchRequest'
+import { FetchRequestInterface } from './types'
+import { isGetRequest } from './utils/url'
+
+export interface LinkSubmissionInterface {
+  request: Request
+  fetchRequest: FetchRequestInterface
+}
 
 /**
  * This class handles LinkSubmissions (<a data-remote"true">)
   */
-export class LinkSubmission {
-  element: HTMLAnchorElement
-  fetchRequest: FetchRequest
+export function LinkSubmission (element: HTMLAnchorElement): LinkSubmissionInterface {
+  const method = getElementMethod(element)
+  let maskedMethod
 
-  constructor (element: HTMLAnchorElement) {
-    this.element = element
-
-    let method = this.method
-
-    if (window.mrujs.config.maskLinkMethods) {
-      method = this.maskMethod
-    }
-
-    const options: RequestInit = {
-      method,
-      headers: this.headers
-    }
-
-    if (!this.isGetRequest) options.body = this.body
-
-    this.fetchRequest = new FetchRequest(this.url, options)
+  if (window.mrujs.config.maskLinkMethods) {
+    maskedMethod = getMaskedMethod(method)
   }
 
-  get request (): Request {
-    return this.fetchRequest.request
+  const href = element.href
+  const url = new URL(href)
+
+  const options: RequestInit = {
+    headers: getHeaders(element)
   }
 
-  /**
-   * Headers to send to the request object
-   */
-  get headers (): Headers {
-    let responseType
+  options.method = maskedMethod ?? method
+  if (!isGetRequest(method)) options.body = getBody(method)
 
-    if (this.element != null) {
-      responseType = this.element.dataset.type
-    }
+  const fetchRequest = FetchRequest(url, options)
 
-    const acceptHeader = findResponseTypeHeader(responseType)
+  return {
+    request: fetchRequest.request,
+    fetchRequest
+  }
+}
 
-    const headers = new Headers({ Accept: acceptHeader })
+/**
+ * Headers to send to the request object
+ */
+function getHeaders (element: HTMLElement | undefined): Headers {
+  let responseType
 
-    headers.set('Accept', acceptHeader)
-
-    return headers
+  if (element != null) {
+    responseType = element.dataset.type
   }
 
-  /**
-   * Returns properly built FormData
-   */
-  get formData (): FormData {
-    const formData = new FormData()
-    formData.append('_method', this.method)
-    return formData
+  const acceptHeader = findResponseTypeHeader(responseType)
+
+  const headers = new Headers({ Accept: acceptHeader })
+
+  headers.set('Accept', acceptHeader)
+
+  return headers
+}
+
+/**
+  * Returns properly built FormData
+  */
+function getFormData (method: string): FormData {
+  const formData = new FormData()
+
+  if (window.mrujs.config.maskLinkMethods) {
+    formData.append('_method', method)
   }
 
-  /**
-   * Finds how to send the fetch request
-   * get, post, put, patch, etc
-   */
-  get method (): string {
-    const method = this.element.dataset.method ?? 'get'
-    return method.toLowerCase()
-  }
+  return formData
+}
 
-  /**
-   * If its a get request, leave it, everything else is masked as a POST.
-   */
-  get maskMethod (): string {
-    return this.isGetRequest ? 'get' : 'post'
-  }
+/**
+  * Finds how to send the fetch request
+  * get, post, put, patch, etc
+  */
+function getElementMethod (element: HTMLElement): string {
+  const method = element.dataset.method ?? 'get'
+  return method.toLowerCase()
+}
 
-  get href (): string {
-    return this.element.href
-  }
+/**
+  * If its a get request, leave it, everything else is masked as a POST.
+  */
+function getMaskedMethod (method: string): string {
+  return isGetRequest(method) ? 'get' : 'post'
+}
 
-  /**
-   * URL to send to. Is pulled from action=""
-   * Throws an error of action="" is not defined on an element.
-   */
-  get url (): URL {
-    return new URL(this.href)
-  }
-
-  get body (): URLSearchParams | FormData {
-    if (this.enctype === FormEncType.urlEncoded || (this.isGetRequest)) {
-      return new URLSearchParams(formDataToStrings(this.formData))
-    } else {
-      return this.formData
-    }
-  }
-
-  get isGetRequest (): boolean {
-    return this.method.toLowerCase() === 'get'
-  }
-
-  get enctype (): FormEncType {
-    return FormEncType.urlEncoded
+function getBody (method: string): URLSearchParams | FormData {
+  if (isGetRequest(method)) {
+    return urlEncodeFormData(getFormData(method))
+  } else {
+    return getFormData(method)
   }
 }

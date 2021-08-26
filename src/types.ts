@@ -1,5 +1,3 @@
-import { FetchResponse } from './http/fetchResponse'
-import { FetchRequest } from './http/fetchRequest'
 export type Locateable = URL | string
 export type AddOrRemoveListeners = 'addEventListener' | 'removeEventListener'
 export type Submitter = HTMLInputElement | HTMLButtonElement
@@ -15,9 +13,9 @@ export interface AjaxEvent extends CustomEvent, Event {
 
 export interface AjaxEventDetail {
   element: HTMLFormElement
-  fetchRequest: FetchRequest
+  fetchRequest: FetchRequestInterface
   request: Request
-  fetchResponse?: FetchResponse
+  fetchResponse?: FetchResponseInterface
   response?: Response
   submitter?: Submitter
   error?: Error
@@ -64,12 +62,6 @@ export interface MrujsPluginInterface {
   observerCallback?: (addedNodes: Node[]) => void
 }
 
-export interface ExposedUtilsInterface {
-  match: Function
-  FetchRequest: FetchRequest['constructor']
-  FetchResponse: FetchResponse['constructor']
-}
-
 export interface SnapshotCacheInterface {
   size: number
   keys: string[]
@@ -83,4 +75,74 @@ export interface ExtendedRequestInit extends RequestInit {
   element?: HTMLElement
   submitter?: HTMLElement
   dispatchEvents?: boolean
+}
+
+export interface MrujsInterface {
+  connected: boolean
+  config: MrujsConfigInterface
+
+  corePlugins: MrujsPluginInterface[]
+  plugins: MrujsPluginInterface[]
+  allPlugins: MrujsPluginInterface[]
+
+  // Core Plugins
+  addedNodesObserver: MrujsPluginInterface
+  elementEnabler: MrujsPluginInterface
+  elementDisabler: MrujsPluginInterface
+  disabledElementChecker: MrujsPluginInterface
+  navigationAdapter: MrujsPluginInterface
+  clickHandler: MrujsPluginInterface
+  confirmClass: MrujsPluginInterface
+  csrf: MrujsPluginInterface
+  method: MrujsPluginInterface
+  formSubmitDispatcher: MrujsPluginInterface
+
+  querySelectors: QuerySelectorInterface
+  mimeTypes: MimeTypeInterface
+  csrfToken?: string
+  csrfParam?: string
+
+  // Functions
+  start: (this: MrujsInterface, config: Partial<MrujsConfigInterface>) => MrujsInterface
+  confirm: (message: string) => boolean
+  stop: () => void
+  fetch: (input: Request | Locateable, options: ExtendedRequestInit) => undefined | Promise<Response>
+  restart: () => void
+  urlEncodeFormData: (formData: FormData) => URLSearchParams
+  registerMimeTypes: (mimeTypes: CustomMimeTypeInterface[]) => MimeTypeInterface
+  enableElement: (trigger: Event | HTMLElement) => void
+  disableElement: (event: Event | HTMLFormElement | Submitter) => void
+}
+
+export interface FetchResponseInterface {
+  succeeded: boolean
+  failed: boolean
+  redirected: boolean
+  clientError: boolean
+  serverError: boolean
+  location: URL
+  contentType: string | null
+  isHtml: boolean
+  isJson: boolean
+  response: Response
+
+  getHeader: (name: string) => string | null
+  text: () => Promise<string>
+  html: () => Promise<string>
+  json: () => Promise<JSON>
+}
+
+export type RequestInfo = Request | string | URL
+export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
+
+export interface FetchRequestInterface {
+  request: Request
+  method: string
+  url: URL
+  body: FetchRequestBody
+  params: URLSearchParams
+  abortController: AbortController
+  abortSignal: AbortSignal
+  isGetRequest: boolean
+  cancel: (event?: CustomEvent) => void
 }

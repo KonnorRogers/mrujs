@@ -1,27 +1,22 @@
+import { MrujsPluginInterface } from './types'
+
 /**
  * Mutation observer for added nodes.
  */
-export class AddedNodesObserver {
-  readonly observer: MutationObserver
-  readonly observerOptions: MutationObserverInit
+export function AddedNodesObserver (callback: MutationCallback): MrujsPluginInterface {
+  const observer = new MutationObserver(callback)
 
-  constructor (callback: MutationCallback) {
-    this.observer = new MutationObserver(callback)
-    this.observerOptions = {
-      childList: true,
-      subtree: true
-    }
+  function connect (): void {
+    observer.observe(document, { childList: true, subtree: true })
   }
 
-  get name (): string {
-    return AddedNodesObserver.name
+  function disconnect (): void {
+    observer.disconnect()
   }
 
-  connect (): void {
-    this.observer.observe(document, this.observerOptions)
-  }
-
-  disconnect (): void {
-    this.observer.disconnect()
+  return {
+    name: 'AddedNodesObserver',
+    connect,
+    disconnect
   }
 }
