@@ -1,7 +1,7 @@
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
 
-import analyze from 'rollup-plugin-analyzer'
+// import analyze from 'rollup-plugin-analyzer'
 import { terser } from "rollup-plugin-terser";
 import { brotliCompressSync } from 'zlib'
 import gzipPlugin from 'rollup-plugin-gzip'
@@ -26,6 +26,27 @@ export default [
     plugins: [
       resolve(),
       typescript(),
+    ]
+  },
+  {
+    input: "src/index.ts",
+    output: [
+      {
+        name: "mrujs",
+        file: "dist/mrujs.umd.min.js",
+        format: "umd",
+        sourcemap: true,
+        exports: "named"
+      },
+      {
+        file: "dist/mrujs.module.min.js",
+        format: "es",
+        sourcemap: true,
+      }
+    ],
+    plugins: [
+      resolve(),
+      typescript(),
       terser({
         compress: {
           passes: 10
@@ -39,7 +60,7 @@ export default [
               brotliCompressSync(Buffer.from(content)),
           fileName: '.br',
       }),
-      analyze()
+      // analyze()
     ],
     watch: {
       include: "src/**"
