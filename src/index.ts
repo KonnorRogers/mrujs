@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-const mrujs = Mrujs.call({} as MrujsInterface)
+const mrujs = Mrujs()
 
 export { mrujs, Mrujs }
 export { FetchRequest, FetchResponse }

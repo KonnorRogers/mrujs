@@ -25,7 +25,7 @@ import {
   MrujsInterface
 } from './types'
 
-export function Mrujs(obj: Record<string, unknown> = {}) {
+export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.connected = false
 
   obj.addedNodesObserver = AddedNodesObserver(addedNodesCallback)
@@ -55,8 +55,8 @@ export function Mrujs(obj: Record<string, unknown> = {}) {
 
   obj.corePlugins = corePlugins
 
-  const plugins = obj.plugins || []
-  obj.plugins = plugins || []
+  const plugins = obj.plugins ?? []
+  obj.plugins = plugins
 
   const allPlugins = corePlugins.concat(plugins)
   obj.allPlugins = allPlugins
@@ -65,7 +65,7 @@ export function Mrujs(obj: Record<string, unknown> = {}) {
     maskLinkMethods: true,
     querySelectors: { ...BASE_SELECTORS },
     mimeTypes: { ...BASE_ACCEPT_HEADERS },
-    plugins: plugins
+    plugins
   }
 
   obj.confirm = confirm
@@ -84,10 +84,13 @@ export function Mrujs(obj: Record<string, unknown> = {}) {
     querySelectors: {
       get: function (): QuerySelectorInterface { return this.config.querySelectors },
       set: function (querySelectors: QuerySelectorInterface) { this.config.querySelectors = querySelectors }
+    },
+    mimeTypes: {
+      get: function (): MimeTypeInterface { return this.config.mimeTypes }
     }
   })
 
-  return obj
+  return obj as MrujsInterface
 }
 
 function start (this: MrujsInterface, config: Partial<MrujsConfigInterface> = {}): MrujsInterface {
@@ -99,9 +102,10 @@ function start (this: MrujsInterface, config: Partial<MrujsConfigInterface> = {}
   }
 
   this.config = { ...this.config, ...config }
-  this.plugins = this.config.plugins || []
+  this.plugins = this.config.plugins
+  this.allPlugins = this.corePlugins.concat(this.plugins)
 
-  this.plugins.forEach((plugin) => {
+  this.allPlugins.forEach((plugin) => {
     if (typeof plugin.initialize === 'function') {
       plugin.initialize()
     }
