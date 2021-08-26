@@ -40,6 +40,6 @@ export function formDataToStrings (formData: FormData): Array<[string, string]> 
   }, [])
 }
 
-export function urlEncodeFormData (formData: FormData) {
+export function urlEncodeFormData (formData: FormData): URLSearchParams {
   return new URLSearchParams(formDataToStrings(formData))
 }

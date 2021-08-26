@@ -64,12 +64,6 @@ export interface MrujsPluginInterface {
   observerCallback?: (addedNodes: Node[]) => void
 }
 
-export interface ExposedUtilsInterface {
-  match: Function
-  FetchRequest: FetchRequest['constructor']
-  FetchResponse: FetchResponse['constructor']
-}
-
 export interface SnapshotCacheInterface {
   size: number
   keys: string[]
@@ -83,4 +77,41 @@ export interface ExtendedRequestInit extends RequestInit {
   element?: HTMLElement
   submitter?: HTMLElement
   dispatchEvents?: boolean
+}
+
+export interface MrujsInterface {
+  connected: boolean
+  config: MrujsConfigInterface
+
+  corePlugins: MrujsPluginInterface[]
+  plugins: MrujsPluginInterface[]
+  allPlugins: MrujsPluginInterface[]
+
+  // Core Plugins
+  addedNodesObserver: MrujsPluginInterface
+  elementEnabler: MrujsPluginInterface
+  elementDisabler: MrujsPluginInterface
+  disabledElementChecker: MrujsPluginInterface
+  navigationAdapter: MrujsPluginInterface
+  clickHandler: MrujsPluginInterface
+  confirmClass: MrujsPluginInterface
+  csrf: MrujsPluginInterface
+  method: MrujsPluginInterface
+  formSubmitDispatcher: MrujsPluginInterface
+
+  querySelectors: QuerySelectorInterface
+  mimeTypes: MimeTypeInterface
+  csrfToken?: string
+  csrfParam?: string
+
+  // Functions
+  start: (this: MrujsInterface, config: Partial<MrujsConfigInterface>) => MrujsInterface
+  confirm: (message: string) => boolean
+  stop: () => void
+  fetch: (input: Request | Locateable, options: ExtendedRequestInit) => undefined | Promise<Response>
+  restart: () => void
+  urlEncodeFormData: (formData: FormData) => URLSearchParams
+  registerMimeTypes: (mimeTypes: CustomMimeTypeInterface[]) => MimeTypeInterface
+  enableElement: (trigger: Event | HTMLElement) => void
+  disableElement: (event: Event | HTMLFormElement | Submitter) => void
 }

@@ -1,6 +1,7 @@
-import analyze from 'rollup-plugin-analyzer'
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
+
+import analyze from 'rollup-plugin-analyzer'
 import { terser } from "rollup-plugin-terser";
 import { brotliCompressSync } from 'zlib'
 import gzipPlugin from 'rollup-plugin-gzip'

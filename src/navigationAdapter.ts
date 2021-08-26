@@ -70,7 +70,7 @@ function prefetch ({ html, url }: {html: string, url: Locateable}): void {
 }
 
 function findSnapshotCache (adapter: Adapter | undefined): SnapshotCacheInterface | undefined {
-  if (adapter == null) return
+  if (adapter == null) return undefined
   if (useTurbolinks()) return adapter.controller.cache
   if (useTurbo()) return adapter.navigator.view.snapshotCache
   return undefined

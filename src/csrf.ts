@@ -49,11 +49,11 @@ function isCsrfToken (node: Node): boolean {
 }
 
 // Up-to-date Cross-Site Request Forgery token
-export function getToken (): string | null {
+export function getToken (): string | undefined {
   return getCookieValue(getParam()) ?? getMetaContent('csrf-token')
 }
 
 // URL param that must contain the CSRF token
-export function getParam (): string | null {
+export function getParam (): string | undefined {
   return getMetaContent('csrf-param')
 }

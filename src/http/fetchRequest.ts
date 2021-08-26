@@ -126,11 +126,11 @@ export class FetchRequest {
   }
 
   get csrfToken (): string | undefined {
-    if (this.isGetRequest) return
+    if (this.isGetRequest) return undefined
 
     const token = window.mrujs.csrfToken
 
-    if (token == null) return
+    if (token == null) return undefined
 
     return token
   }

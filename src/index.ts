@@ -5,18 +5,19 @@ import { Mrujs } from './mrujs'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
 import { Adapter } from './navigationAdapter'
+import { MrujsInterface } from './types'
 
 // This is required for typescript checking in tests
 declare global {
   interface Window {
-    mrujs: Mrujs
-    Rails: Mrujs
+    mrujs: MrujsInterface
+    Rails: MrujsInterface
     Turbolinks?: Adapter
     Turbo?: Adapter
   }
 }
 
-const mrujs = new Mrujs()
+const mrujs = Mrujs.call({} as MrujsInterface)
 
 export { mrujs, Mrujs }
 export { FetchRequest, FetchResponse }

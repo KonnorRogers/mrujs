@@ -22,20 +22,20 @@ export function preventInsignificantClick (event: MouseEvent): void {
   stopEverything(event)
 }
 
-export function getCookieValue (cookieName: string | null): string | null {
+export function getCookieValue (cookieName?: string): string | undefined {
   if (cookieName != null) {
     const cookies = document.cookie.trim() !== '' ? document.cookie.split('; ') : []
     const cookie = cookies.find((cookie) => cookie.startsWith(cookieName))
     if (cookie != null) {
       const value = cookie.split('=').slice(1).join('=')
-      return (value.trim() !== '' ? decodeURIComponent(value) : null)
+      return (value.trim() !== '' ? decodeURIComponent(value) : undefined)
     }
   }
 
-  return null
+  return undefined
 }
 
-export function getMetaContent (str: string): string | null {
+export function getMetaContent (str: string): string | undefined {
   const element: HTMLMetaElement | null = document.querySelector(`meta[name="${str}"]`)
-  return element?.content ?? null
+  return element?.content ?? undefined
 }
