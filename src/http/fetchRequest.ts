@@ -1,12 +1,7 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from '../utils/events'
-import { mergeHeaders, expandUrl } from '../utils/url'
-import { Locateable } from '../types'
-
-export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
-
-export type FetchMethodString = 'get' | 'put' | 'post' | 'patch' | 'delete'
-
-export type RequestInfo = Request | string | URL
+import { isGetRequest, mergeHeaders, expandUrl } from '../utils/url'
+import { getToken } from '../csrf'
+import { RequestInfo, FetchRequestBody, FetchRequestInterface, Locateable } from '../types'
 
 /**
  * Fetch Request is essentially an "proxy" class meant to wrap a standard Request
@@ -16,56 +11,78 @@ export type RequestInfo = Request | string | URL
  *   It can either take in a Request object, or be giving a url and then an object
  *   with all the fetch options.
  */
-export class FetchRequest {
-  abortController = new AbortController()
-  request: Request
+export function FetchRequest (input: Request | Locateable, options: RequestInit = {}): FetchRequestInterface {
+  const abortController = new AbortController()
+  const abortSignal = abortController.signal
 
-  headers: Headers
-  method!: FetchMethodString
-  url!: URL
+  let headers: Headers
+  let url
+  let body: FetchRequestBody | undefined
+  let method = 'get'
+  let request
 
-  body?: FetchRequestBody
+  let _isGetRequest = false
 
-  constructor (input: Request | Locateable, options: RequestInit = {}) {
-    // if we're given a Request, set the method, headers and body first, then we
-    // merge with the defaultRequestOptions and clone the instance of Request
-    if (input instanceof Request) {
-      this.setMethodAndBody(input)
-      this.modifyUrl(input.url)
-      this.headers = mergeHeaders(this.defaultHeaders, input.headers)
-      const mergedOptions: RequestInfo = { ...this.defaultRequestOptions, ...input }
+  if (input instanceof Request) {
+    method = getMethod(input)
+    _isGetRequest = isGetRequest(method)
+    body = getBody(input)
+    url = getUrl(input.url, _isGetRequest, body)
+    headers = mergeHeaders(defaultHeaders(), input.headers)
+    const mergedOptions: RequestInfo = { ...defaultRequestOptions(), ...input }
 
-      // @ts-expect-error
-      if (this.isGetRequest) delete mergedOptions.body
+    // @ts-expect-error
+    if (_isGetRequest) delete mergedOptions.body
 
-      // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
-      this.request = new Request(this.url, mergedOptions)
-    } else {
-      this.setMethodAndBody(options)
-      this.modifyUrl(input)
-      this.headers = mergeHeaders(this.defaultHeaders, new Headers(options.headers))
-      const mergedOptions = { ...this.defaultRequestOptions, ...options }
-      mergedOptions.headers = this.headers
+    // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
+    request = new Request(url, mergedOptions)
+  } else {
+    method = getMethod(options)
+    _isGetRequest = isGetRequest(method)
+    body = getBody(options)
+    url = getUrl(input, _isGetRequest, body)
+    headers = mergeHeaders(defaultHeaders(), new Headers(options.headers))
+    const mergedOptions = { ...defaultRequestOptions(), ...options }
+    mergedOptions.headers = headers
 
-      if (this.isGetRequest) delete mergedOptions.body
+    if (_isGetRequest) delete mergedOptions.body
 
-      // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
-      this.request = new Request(this.url, mergedOptions)
+    // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
+    request = new Request(url, mergedOptions)
+  }
+
+  headers = request.headers
+  const params = url.searchParams
+
+  return {
+    request,
+    method,
+    url,
+    body,
+    params,
+    abortController,
+    abortSignal,
+    cancel,
+    isGetRequest: _isGetRequest
+  }
+
+  function defaultHeaders (): Headers {
+    const headers: Headers = new Headers({
+      Accept: '*/*',
+      'X-REQUESTED-WITH': 'XmlHttpRequest'
+    })
+
+    const token = getToken()
+
+    if (token != null) {
+      headers.set('X-CSRF-TOKEN', token)
     }
 
-    this.headers = this.request.headers
+    return headers
   }
 
-  get params (): URLSearchParams {
-    return this.url.searchParams
-  }
-
-  get entries (): Array<[string, FormDataEntryValue]> {
-    return this.body instanceof URLSearchParams ? Array.from(this.body.entries()) : []
-  }
-
-  cancel (event?: CustomEvent): void {
-    this.abortController.abort()
+  function cancel (event?: CustomEvent): void {
+    abortController.abort()
 
     // trigger event dispatching if an event gets passed in.
     if (event != null) {
@@ -79,69 +96,43 @@ export class FetchRequest {
     }
   }
 
-  modifyUrl (url: Locateable): void {
-    this.url = expandUrl(url)
-
-    if (!this.isGetRequest) return
-
-    // Append params to the Url.
-    this.url = mergeFormDataEntries(this.url, this.entries)
-  }
-
-  setMethodAndBody (input: Request | RequestInit): void {
-    this.method = (input.method?.toLowerCase() ?? 'get') as FetchMethodString
-    this.body = (input.body ?? new URLSearchParams()) as FetchRequestBody
-  }
-
-  get defaultRequestOptions (): RequestInit {
+  function defaultRequestOptions (): RequestInit {
     const options: RequestInit = {
-      method: this.method,
-      headers: this.headers,
+      method,
+      headers,
       credentials: 'same-origin',
       redirect: 'follow',
-      signal: this.abortSignal
+      signal: abortSignal
     }
 
-    if (this.isGetRequest) {
+    if (_isGetRequest) {
       return options
     }
 
-    options.body = this.body
+    options.body = body
     return options
   }
+}
 
-  get defaultHeaders (): Headers {
-    const headers: Headers = new Headers({
-      Accept: '*/*',
-      'X-REQUESTED-WITH': 'XmlHttpRequest'
-    })
+function getUrl (url: Locateable, getRequest: boolean, body: FetchRequestBody): URL {
+  const location = expandUrl(url)
 
-    const token = this.csrfToken
+  if (getRequest) return location
 
-    if (token != null) {
-      headers.set('X-CSRF-TOKEN', token)
-    }
+  // Append params to the Url.
+  return mergeFormDataEntries(location, entries(body))
+}
 
-    return headers
-  }
+function entries (body: URLSearchParams | unknown): Array<[string, FormDataEntryValue]> {
+  return body instanceof URLSearchParams ? Array.from(body.entries()) : []
+}
 
-  get csrfToken (): string | undefined {
-    if (this.isGetRequest) return undefined
+function getBody (input: Request | RequestInit): FetchRequestBody {
+  return (input.body ?? new URLSearchParams()) as FetchRequestBody
+}
 
-    const token = window.mrujs.csrfToken
-
-    if (token == null) return undefined
-
-    return token
-  }
-
-  get isGetRequest (): boolean {
-    return this.method.toLowerCase() === 'get'
-  }
-
-  get abortSignal (): AbortSignal {
-    return this.abortController.signal
-  }
+function getMethod (input: Request | RequestInit): string {
+  return (input.method?.toLowerCase() ?? 'get')
 }
 
 function mergeFormDataEntries (url: URL, entries: Array<[string, FormDataEntryValue]>): URL {

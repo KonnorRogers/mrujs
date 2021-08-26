@@ -74,7 +74,7 @@ function sendFetchRequest (event: CustomEvent): void {
   const { request } = event.detail
 
   window.fetch(request).then((resp) => {
-    const fetchResponse = new FetchResponse(resp)
+    const fetchResponse = FetchResponse(resp)
     const { response } = fetchResponse
     dispatchResponse({ ...event.detail, fetchResponse, response })
   }).catch((error) => dispatchRequestError({ ...event.detail, error }))

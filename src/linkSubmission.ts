@@ -1,10 +1,12 @@
 import { urlEncodeFormData } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
 import { FetchRequest } from './http/fetchRequest'
+import { FetchRequestInterface } from './types'
+import { isGetRequest } from './utils/url'
 
 export interface LinkSubmissionInterface {
   request: Request
-  fetchRequest: FetchRequest
+  fetchRequest: FetchRequestInterface
 }
 
 /**
@@ -28,7 +30,7 @@ export function LinkSubmission (element: HTMLAnchorElement): LinkSubmissionInter
   options.method = maskedMethod ?? method
   if (!isGetRequest(method)) options.body = getBody(method)
 
-  const fetchRequest = new FetchRequest(url, options)
+  const fetchRequest = FetchRequest(url, options)
 
   return {
     request: fetchRequest.request,
@@ -90,8 +92,4 @@ function getBody (method: string): URLSearchParams | FormData {
   } else {
     return getFormData(method)
   }
-}
-
-function isGetRequest (method: string): boolean {
-  return method.toLowerCase() === 'get'
 }

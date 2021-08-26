@@ -31,3 +31,7 @@ export function mergeHeaders (...sources: Headers[]): Headers {
 
   return new Headers(main)
 }
+
+export function isGetRequest (method: string): boolean {
+  return method.toLowerCase() === 'get'
+}

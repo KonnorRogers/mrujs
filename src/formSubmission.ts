@@ -1,11 +1,11 @@
 import { buildFormElementFormData, formEnctypeFromString, FormEncType, FormEncTypes, urlEncodeFormData } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
-import { Submitter } from './types'
+import { FetchRequestInterface, Submitter } from './types'
 import { FetchRequest } from './http/fetchRequest'
-import { expandUrl } from './utils/url'
+import { isGetRequest, expandUrl } from './utils/url'
 
 export interface FormSubmissionInterface {
-  fetchRequest: FetchRequest
+  fetchRequest: FetchRequestInterface
   request: Request
   element: HTMLFormElement
   submitter?: Submitter
@@ -19,8 +19,7 @@ export interface FormSubmissionInterface {
 export function FormSubmission (element: HTMLFormElement, submitter?: Submitter): FormSubmissionInterface {
   const url = expandUrl(getAction(element, submitter))
   const options = getOptions(element, submitter)
-  console.log(options)
-  const fetchRequest = new FetchRequest(url, options)
+  const fetchRequest = FetchRequest(url, options)
   const request = fetchRequest.request
 
   return {
@@ -95,14 +94,9 @@ function getBody (element: HTMLFormElement, method: string, submitter?: Submitte
   }
 }
 
-function isGetRequest (method: string): boolean {
-  return method.toLowerCase() === 'get'
-}
-
 function getEncType (element: HTMLElement, submitter?: Submitter): FormEncType {
   const elementEncType = element.getAttribute('enctype')
   const encType = submitter?.getAttribute('formenctype') ?? elementEncType ?? FormEncTypes.urlEncoded
   const encString = formEnctypeFromString(encType)
-  console.log(encString)
   return encString
 }

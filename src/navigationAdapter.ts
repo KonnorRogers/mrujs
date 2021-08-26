@@ -1,10 +1,7 @@
 import { expandUrl, urlsAreEqual } from './utils/url'
 import morphdom from 'morphdom'
 
-import { FetchRequest } from './http/fetchRequest'
-import { FetchResponse } from './http/fetchResponse'
-
-import { MrujsPluginInterface, SnapshotCacheInterface, Locateable } from './types'
+import { MrujsPluginInterface, SnapshotCacheInterface, Locateable, FetchRequestInterface, FetchResponseInterface } from './types'
 
 const ALLOWABLE_ACTIONS = [
   'advance',
@@ -95,7 +92,7 @@ function navigateViaEvent (event: CustomEvent): void {
   navigate(fetchResponse, element, fetchRequest)
 }
 
-function shouldNavigate (element: HTMLElement, fetchRequest: FetchRequest, fetchResponse: FetchResponse): boolean {
+function shouldNavigate (element: HTMLElement, fetchRequest: FetchRequestInterface, fetchResponse: FetchResponseInterface): boolean {
   if (element.dataset.ujsNavigate === 'false') return false
   if (fetchResponse == null) return false
 
@@ -116,7 +113,7 @@ function shouldNavigate (element: HTMLElement, fetchRequest: FetchRequest, fetch
 /**
   * This is a manual navigation triggered by something like `method: :delete`
   */
-function navigate (response: FetchResponse, element: HTMLElement, request: FetchRequest, action?: VisitAction): void {
+function navigate (response: FetchResponseInterface, element: HTMLElement, request: FetchRequestInterface, action?: VisitAction): void {
   if (!response.isHtml) return
   // If we get redirected, use Turbolinks
   // This needs to be reworked to not trigger 2 HTML responses or find a
@@ -196,24 +193,24 @@ function canSnapshot (): boolean {
   return false
 }
 
-function preventDoubleVisit (response: FetchResponse, location: Locateable, action: VisitAction): void {
+function preventDoubleVisit (response: FetchResponseInterface, location: Locateable, action: VisitAction): void {
   const adapter = findAdapter()
 
   if (adapter == null) return
 
   // This is a fun wrapper to avoid double visits with Turbolinks
-  response.responseHtml.then((html) => {
+  response.html().then((html) => {
     prefetch({ html, url: location })
     action = 'restore'
     adapter.visit(location, { action })
   }).catch((error) => console.error(error))
 }
 
-function morphResponse (response: FetchResponse, pushState: boolean = false): void {
+function morphResponse (response: FetchResponseInterface, pushState: boolean = false): void {
   // Dont pass go if its not HTML.
   if (!response.isHtml) return
 
-  response.responseHtml
+  response.html()
     .then((html: string) => {
       morphHtml(html)
 

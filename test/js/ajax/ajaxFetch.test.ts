@@ -15,9 +15,8 @@ describe('Ajax Fetch', (): void => {
     assert(stub.calledOnce)
   })
 
-  it('Should be able to consume body twice', async (): Promise<void> => {
-    const response = new FetchResponse(await mrujs.fetch('/') as Response)
-    await response.responseHtml
-    await response.responseHtml
+  it('Should be able to consume body only once', async (): Promise<void> => {
+    const response = FetchResponse(await mrujs.fetch('/') as Response)
+    await response.html()
   })
 })

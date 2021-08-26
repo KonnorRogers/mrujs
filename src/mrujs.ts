@@ -178,7 +178,7 @@ function fetch (input: Request | Locateable, options: ExtendedRequestInit = {}):
   delete options.submitter
   delete options.dispatchEvents
 
-  const fetchRequest = new FetchRequest(input, options)
+  const fetchRequest = FetchRequest(input, options)
 
   if (dispatchEvents === true) {
     if (element == null) element = document.documentElement

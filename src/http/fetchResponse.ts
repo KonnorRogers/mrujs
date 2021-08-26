@@ -1,85 +1,54 @@
 import { expandUrl } from '../utils/url'
+import { FetchResponseInterface } from '../types'
 
 // Shamelessly stolen from Turbo.
 // https://github.com/hotwired/turbo/blob/main/src/http/fetch_response.ts
-export class FetchResponse {
-  readonly response: Response
-  private __responseHtml__!: Promise<string>
-  private __responseText__!: Promise<string>
-  private __responseJson__!: Promise<JSON>
+export function FetchResponse (response: Response): FetchResponseInterface {
+  const succeeded = response.ok
+  const failed = !succeeded
+  const clientError = (response.status >= 400 && response.status <= 499)
+  const serverError = (response.status >= 500 && response.status <= 599)
+  const redirected = response.redirected
+  const location = expandUrl(response.url)
+  const contentType = getHeader('content-type')
 
-  constructor (response: Response) {
-    this.response = response
+  const isHtml = Boolean(contentType?.match(/^(?:text\/([^\s;,]+\b)?html|application\/xhtml\+xml)\b/))
+  const isJson = Boolean(contentType?.toLowerCase().match(/(^application\/json|\.json)/))
+
+  async function text (): Promise<string> {
+    return await response.text()
   }
 
-  get succeeded (): boolean {
-    return this.response.ok
+  async function html (): Promise<string> {
+    if (isHtml) return await response.text()
+
+    return await Promise.reject(response)
   }
 
-  get failed (): boolean {
-    return !this.succeeded
+  async function json (): Promise<JSON> {
+    if (isJson) return await response.json()
+
+    return await Promise.reject(response)
   }
 
-  get clientError (): boolean {
-    return this.statusCode >= 400 && this.statusCode <= 499
+  function getHeader (name: string): string | null {
+    return response.headers.get(name)
   }
 
-  get serverError (): boolean {
-    return this.statusCode >= 500 && this.statusCode <= 599
-  }
-
-  get redirected (): boolean {
-    return this.response.redirected
-  }
-
-  get location (): URL {
-    return expandUrl(this.response.url)
-  }
-
-  get isHtml (): boolean {
-    return Boolean(this.contentType?.match(/^(?:text\/([^\s;,]+\b)?html|application\/xhtml\+xml)\b/))
-  }
-
-  get statusCode (): number {
-    return this.response.status
-  }
-
-  get contentType (): string | null {
-    return this.getHeader('Content-Type')
-  }
-
-  get responseText (): Promise<string> {
-    if (this.__responseText__ != null) return this.__responseText__
-
-    return (this.__responseText__ = this.response.text())
-  }
-
-  get responseHtml (): Promise<string> {
-    if (this.isHtml) {
-      if (this.__responseHtml__ != null) return this.__responseHtml__
-
-      return (this.__responseHtml__ = this.responseText)
-    }
-
-    return Promise.reject(this.response)
-  }
-
-  get responseJson (): Promise<JSON> {
-    if (this.isJson) {
-      if (this.__responseJson__ != null) return this.__responseJson__
-
-      return (this.__responseJson__ = this.response.json())
-    }
-
-    return Promise.reject(this.response)
-  }
-
-  // https://fetch.spec.whatwg.org/#fetch-api
-  get isJson (): boolean {
-    return Boolean(this.contentType?.toLowerCase().match(/(^application\/json|\.json)/))
-  }
-
-  getHeader (name: string): string | null {
-    return this.response.headers.get(name)
+  return {
+    succeeded,
+    failed,
+    redirected,
+    clientError,
+    serverError,
+    location,
+    contentType,
+    getHeader,
+    isHtml,
+    isJson,
+    text,
+    html,
+    json,
+    response
   }
 }
