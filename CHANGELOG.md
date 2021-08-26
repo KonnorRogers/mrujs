@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [0.4.0](https://github.com/ParamagicDev/mrujs/compare/v0.3.8-beta.0...v0.4.0) (2021-08-26)
 
+### BREAKING CHANGES
+
+* API Changes:
+  - `FetchResponse.responseHtml -> FetchResponse.html()`
+  - `FetchResponse.responseText -> FetchResponse.text()`
+  - `FetchResponse.responseJson -> FetchResponse.json()`
+  - responses are no longer stored so they cannot be consumed twice.
+  - ([#103](https://github.com/ParamagicDev/mrujs/issues/103)) ([6ff3a6f](https://github.com/ParamagicDev/mrujs/commit/6ff3a6f540441834159f93cbb2a35d72e7c4f41f))
+
+
 
 ### Features
 
