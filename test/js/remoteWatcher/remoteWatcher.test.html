@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <form class="remote" data-remote="true">
+  </form>
+
+  <form class="not-remote" data-remote="false">
+  </form>
+
+  <form class="not-remote">
+  </form>
+
+  <a class="remote" href="/blah" data-remote="true">Remote</a>
+  <a class="not-remote" href="/blah" data-remote="false">Not Remote </a>
+  <a class="remote" data-method="get">Remote</a>
+  <a class="not-remote">Not Remote</a>
+  <script type="module">
+    import { runTests } from '@web/test-runner-mocha';
+
+    runTests(async () => {
+      await import('./remoteWatcher.test');
+    });
+  </script>
+
+</body>
+</html>

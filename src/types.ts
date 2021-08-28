@@ -29,6 +29,7 @@ export interface MrujsConfigInterface {
 }
 
 export interface QuerySelectorInterface {
+  remoteSelector: SelectorInterface
   linkClickSelector: SelectorInterface
   buttonClickSelector: SelectorInterface
   inputChangeSelector: SelectorInterface
@@ -87,6 +88,7 @@ export interface MrujsInterface {
 
   // Core Plugins
   addedNodesObserver: MrujsPluginInterface
+  remoteWatcher: MrujsPluginInterface
   elementEnabler: MrujsPluginInterface
   elementDisabler: MrujsPluginInterface
   disabledElementChecker: MrujsPluginInterface

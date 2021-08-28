@@ -4,7 +4,7 @@ import { match } from './utils/dom'
 import { LinkSubmission } from './linkSubmission'
 
 /**
- * Handles `data-method="method" submissions.`
+ * Handles `data-method="method"` submissions.
  */
 export function Method (): MrujsPluginInterface {
   return {
@@ -35,7 +35,9 @@ function observerCallback (nodeList: Node[]): void {
     }
 
     if (node instanceof Element) {
-      node.querySelectorAll(linkClickSelector.selector).forEach((el) => el.addEventListener('click', handle))
+      node.querySelectorAll(linkClickSelector.selector).forEach((el) => {
+        el.addEventListener('click', handle)
+      })
     }
   })
 }

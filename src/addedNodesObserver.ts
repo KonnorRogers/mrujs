@@ -7,7 +7,7 @@ export function AddedNodesObserver (callback: MutationCallback): MrujsPluginInte
   const observer = new MutationObserver(callback)
 
   function connect (): void {
-    observer.observe(document, { childList: true, subtree: true })
+    observer.observe(document, { childList: true, subtree: true, attributes: true })
   }
 
   function disconnect (): void {

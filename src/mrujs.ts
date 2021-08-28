@@ -1,5 +1,6 @@
 import { AJAX_EVENTS, dispatch } from './utils/events'
 import { FormSubmitDispatcher } from './formSubmitDispatcher'
+import { RemoteWatcher } from './remoteWatcher'
 import { ClickHandler } from './clickHandler'
 import { Csrf, getToken, getParam } from './csrf'
 import { Confirm } from './confirm'
@@ -29,6 +30,7 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.connected = false
 
   obj.addedNodesObserver = AddedNodesObserver(addedNodesCallback)
+  obj.remoteWatcher = RemoteWatcher()
   obj.elementEnabler = ElementEnabler()
   obj.elementDisabler = ElementDisabler()
   obj.disabledElementChecker = DisabledElementChecker()
@@ -42,6 +44,7 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   // Order matters here!
   const corePlugins = [
     obj.addedNodesObserver,
+    obj.remoteWatcher,
     obj.csrf,
     obj.elementEnabler,
     obj.clickHandler,
