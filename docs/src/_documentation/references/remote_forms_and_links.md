@@ -87,10 +87,17 @@ data-type="<mimeType>"
 ## [Working with Turbo](#working-with-turbo)
 
 Turbo and mrujs have some conflicting pieces of functionality. In order
-to avoid clashing with Turbo, some data attributes require explicitly
-setting `data-turbo="false"`
+to avoid clashing with Turbo, remote elements and forms require
+setting `data-turbo="false"`, mrujs will do this automatically for you
+when it detects `data-remote="true"`, or `data-method="<method>"` on a
+link or form.
 
 ### [Attributes that need `data-turbo="false"`](#attributes-that-need-data-turbofalse)
+
+<%= render(Alert.new(title: "Note:", type: :primary)) do %>
+  As of `v0.4.2`, mrujs will automatically attach `data-turbo="false"` on
+  these elements if `data-turbo` is not already set.
+<% end %>
 
 ```
 data-remote="true"
