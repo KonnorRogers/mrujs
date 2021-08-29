@@ -12,26 +12,27 @@ const ALLOWABLE_ACTIONS = [
 export type VisitAction = 'advance' | 'replace' | 'restore'
 
 export interface NavigationAdapterInterface extends MrujsPluginInterface {
-  adapter: Adapter | undefined
   cacheContains: (url: Locateable) => boolean
-  snapshotCache?: SnapshotCacheInterface
   prefetch: ({ html, url }: {html: string, url: Locateable}) => void
 }
 
 export function NavigationAdapter (): NavigationAdapterInterface {
-  const adapter = findAdapter()
-  const snapshotCache = findSnapshotCache(adapter)
-
-  return {
+  const obj = {
     name: 'NavigationAdapter',
     connect,
     disconnect,
-    adapter,
     cacheContains,
-    snapshotCache,
     prefetch
   }
+
+  Object.defineProperties(obj, {
+    adapter: { get: function (): Adapter | undefined { return findAdapter() } },
+    snapshotCache: { get: function (): SnapshotCacheInterface | undefined { return findSnapshotCache(findAdapter()) } }
+  })
+
+  return obj
 }
+
 
 function connect (): void {
   document.addEventListener('ajax:complete', navigateViaEvent as EventListener)
