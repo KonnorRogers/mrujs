@@ -33,7 +33,6 @@ export function NavigationAdapter (): NavigationAdapterInterface {
   return obj
 }
 
-
 function connect (): void {
   document.addEventListener('ajax:complete', navigateViaEvent as EventListener)
 }
