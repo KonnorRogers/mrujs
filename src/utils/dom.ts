@@ -23,12 +23,20 @@ export function match (element: Node | Element, { selector, exclude }: SelectorI
   return m.call(element, selector)
 }
 
+let form = 'form'
+let link = 'a'
+
+if (window.Turbo != null) {
+  form = 'form[data-turbo="false"]'
+  link = 'a[data-turbo="false"]'
+}
+
 // data-confirm doesnt matter with Turbo.
 const remoteSelector = 'a[data-remote="true"], a[data-method], form[data-remote="true"]'
-const linkClickSelector = 'a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]'
+ const linkClickSelector = `a[data-confirm], ${link}[data-method], ${link}[data-remote]:not([disabled]), ${link}[data-disable-with], ${link}[data-disable]`
 const buttonClickSelector = 'button[data-remote]:not([form]), button[data-confirm]:not([form]), button[data-disable-with]:not([form]), button[data-disable]:not([form])'
 const inputChangeSelector = 'select[data-remote], input[data-remote], textarea[data-remote]'
-const formSubmitSelector = 'form'
+const formSubmitSelector = `${form}`
 const formInputClickSelector = 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])'
 
 const formDisableSelector = 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled'
