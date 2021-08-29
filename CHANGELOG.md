@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/ParamagicDev/mrujs/compare/v0.4.1...v0.4.2) (2021-08-29)
+
+
+### Features
+
+* auto attach data-turbo="false" ([#108](https://github.com/ParamagicDev/mrujs/issues/108)) ([7612aba](https://github.com/ParamagicDev/mrujs/commit/7612aba151015650d7625c966e3758cf05fff46f))
+
 ### [0.4.1](https://github.com/ParamagicDev/mrujs/compare/v0.4.0...v0.4.1) (2021-08-26)
 
 ## [0.4.0](https://github.com/ParamagicDev/mrujs/compare/v0.3.8-beta.0...v0.4.0) (2021-08-26)
