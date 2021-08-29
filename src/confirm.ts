@@ -47,29 +47,6 @@ function handleConfirm (event: Event | CustomEvent): void {
   stopEverything(event)
 }
 
-// async function handleAsyncConfirm (event: Event): Promise<void> {
-//   if (event.currentTarget == null) return
-
-//   const element = event.currentTarget as HTMLElement
-//   const message = element.dataset.ujsConfirm
-
-//   if (message == null) return
-
-//   const eventType = event.type
-//   stopEverything(event)
-
-//   let answer = false
-
-//   answer = await window.mrujs.asyncConfirm(message)
-
-//   if (answer) {
-//     dispatch.call(element, 'confirm:complete', { detail: { answer } })
-//     element.removeEventListener(eventType, handleAsyncConfirm as EventListener)
-//     element.click()
-//     element.addEventListener(eventType, handleAsyncConfirm as EventListener)
-//   }
-// }
-
 function queries (): EventQueryInterface[] {
   const { querySelectors } = window.mrujs
   return [

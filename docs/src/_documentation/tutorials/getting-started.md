@@ -42,12 +42,17 @@ Turbolinks.start();
   <strong>Warning:</strong>
   If using Turbo, make sure to set <code>data-turbo="false"</code> to avoid any event
   conflicts.
+
+  <br>
+
+  As of <code>v0.4.2</code>, <code>data-turbo="false"</code> will automatically be
+  set for you.
 </sl-alert>
 
 ### [With Rails form helpers](#with-rails-form-helpers)
 
 ```erb
-<%%= form_with scope: Model, local: false, data: {turbo: "false"} do |form| %>
+<%%= form_with scope: Model, local: false do |form| %>
   <%%= form.label :name %>
   <%%= form.text_field :name %>
 
@@ -58,7 +63,7 @@ Turbolinks.start();
 ### [With regular HTML](#with-regular-html)
 
 ```html
-<form method="post" action="/users" data-remote="true" data-turbo="false">
+<form method="post" action="/users" data-remote="true">
   <label for="user[name]">Name</label>
   <input id="user[name]">
 
@@ -71,7 +76,7 @@ Turbolinks.start();
 ## [4. Sending an Ajax `DELETE` request from a link](#4-sending-an-ajax-delete-request-from-a-link)
 
 ```html
-<a href="/" data-method="delete" data-turbo="false">Ajax delete request</a>
+<a href="/" data-method="delete">Ajax delete request</a>
 ```
 
 ## [5. Stopping Mrujs](#5-stopping-mrujs)

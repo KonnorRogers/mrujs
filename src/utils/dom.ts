@@ -32,6 +32,7 @@ if (window.Turbo != null) {
 }
 
 // data-confirm doesnt matter with Turbo.
+const remoteSelector = 'a[data-remote="true"], a[data-method], form[data-remote="true"]'
 const linkClickSelector = `a[data-confirm], ${link}[data-method], ${link}[data-remote]:not([disabled]), ${link}[data-disable-with], ${link}[data-disable]`
 const buttonClickSelector = 'button[data-remote]:not([form]), button[data-confirm]:not([form]), button[data-disable-with]:not([form]), button[data-disable]:not([form])'
 const inputChangeSelector = 'select[data-remote], input[data-remote], textarea[data-remote]'
@@ -46,6 +47,8 @@ const linkDisableSelector = 'a[data-disable-with], a[data-disable]'
 const buttonDisableSelector = 'button[data-disable-with], button[data-disable]'
 
 export const BASE_SELECTORS: QuerySelectorInterface = {
+  remoteSelector: { selector: remoteSelector },
+
   // Link elements bound by rails-ujs
   linkClickSelector: { selector: linkClickSelector },
 
