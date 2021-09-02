@@ -122,6 +122,7 @@ export interface FetchResponseInterface {
   redirected: boolean
   clientError: boolean
   serverError: boolean
+  status: number
   location: URL
   contentType: string | null
   isHtml: boolean

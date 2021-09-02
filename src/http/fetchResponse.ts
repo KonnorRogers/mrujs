@@ -5,6 +5,7 @@ import { FetchResponseInterface } from '../types'
 // https://github.com/hotwired/turbo/blob/main/src/http/fetch_response.ts
 export function FetchResponse (response: Response): FetchResponseInterface {
   const succeeded = response.ok
+  const status = response.status
   const failed = !succeeded
   const clientError = (response.status >= 400 && response.status <= 499)
   const serverError = (response.status >= 500 && response.status <= 599)
@@ -49,6 +50,7 @@ export function FetchResponse (response: Response): FetchResponseInterface {
     text,
     html,
     json,
-    response
+    response,
+    status
   }
 }

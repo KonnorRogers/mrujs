@@ -87,12 +87,12 @@ function navigateViaEvent (event: CustomEvent): void {
 
   const { element, fetchResponse, fetchRequest } = event.detail
 
-  if (!shouldNavigate(element, fetchRequest, fetchResponse)) return
+  if (!shouldNavigate(element, fetchResponse)) return
 
   navigate(fetchResponse, element, fetchRequest)
 }
 
-function shouldNavigate (element: HTMLElement, fetchRequest: FetchRequestInterface, fetchResponse: FetchResponseInterface): boolean {
+function shouldNavigate (element: HTMLElement, fetchResponse: FetchResponseInterface): boolean {
   if (element.dataset.ujsNavigate === 'false') return false
   if (fetchResponse == null) return false
 
@@ -103,9 +103,6 @@ function shouldNavigate (element: HTMLElement, fetchRequest: FetchRequestInterfa
     console.error('Successful form submissions must redirect')
     return false
   }
-
-  // Dont navigate on <a data-method="get"> for links.
-  if (element instanceof HTMLAnchorElement && fetchRequest.isGetRequest) return false
 
   return true
 }
