@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.4.3](https://github.com/ParamagicDev/mrujs/compare/v0.4.2...v0.4.3) (2021-09-02)
 
+### Bug Fixes
+
+* Remote GET links now navigate. ([#111](https://github.com/ParamagicDev/mrujs/pull/111)) ([b748e60](https://github.com/ParamagicDev/mrujs/commit/b748e6000bb7e83c8f1cbb028fd3a02609f413f4))
+
 ### [0.4.2](https://github.com/ParamagicDev/mrujs/compare/v0.4.1...v0.4.2) (2021-08-29)
 
 
