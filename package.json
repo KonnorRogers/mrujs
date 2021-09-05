@@ -1,6 +1,6 @@
 {
   "name": "mrujs",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "UJS for modern javascript.",
   "source": "src/mrujs.ts",
   "main": "./dist/mrujs.js",
