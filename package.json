@@ -18,7 +18,7 @@
     "./plugins": {
       "browser": "./plugins/dist/mrujs.module.js",
       "umd": "./plugins/dist/mrujs.umd.js",
-      "import": "./plugins/dist/mrujs.mjs",
+      "import": "./plugins/dist/mrujs.module.js",
       "require": "./plugins/dist/mrujs.js"
     }
   },
