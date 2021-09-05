@@ -40,7 +40,7 @@ export class CableCar {
     document.addEventListener('DOMContentLoaded', this.boundScanner)
     document.addEventListener('turbolinks:load', this.boundScanner)
     document.addEventListener('turbo:load', this.boundScanner)
-    document.addEventListener("ajax:complete", this.boundPerform)
+    document.addEventListener('ajax:complete', this.boundPerform)
 
     this.observer.observe(document.documentElement, {
       attributeFilter: ['data-cable-car'],
@@ -57,7 +57,7 @@ export class CableCar {
     document.removeEventListener('DOMContentLoaded', this.boundScanner)
     document.removeEventListener('turbolinks:load', this.boundScanner)
     document.removeEventListener('turbo:load', this.boundScanner)
-    document.removeEventListener("ajax:complete", this.boundPerform)
+    document.removeEventListener('ajax:complete', this.boundPerform)
   }
 
   scanner (): void {

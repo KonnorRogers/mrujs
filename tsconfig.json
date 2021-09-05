@@ -1,6 +1,6 @@
 {
-  "include": ["./src", "./plugins"],
-  "exclude": ["./dist", "./plugins/dist"],
+  "include": ["./src"],
+  "exclude": ["./dist"],
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
@@ -12,6 +12,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "noEmit": true,
+    "outDir": "./dist",
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
