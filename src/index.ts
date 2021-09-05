@@ -22,5 +22,3 @@ const mrujs = Mrujs()
 export { mrujs, Mrujs }
 export { FetchRequest, FetchResponse }
 export default mrujs
-
-// export { CableCar } from './plugins/cableCar'

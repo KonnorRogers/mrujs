@@ -9,7 +9,6 @@
   "module": "./dist/index.module.js",
   "umd:main": "./dist/index.umd.js",
   "license": "MIT",
-  "types": "src/index.d.ts",
   "peerDependencies": {
     "mrujs": ">= 0.4.6"
   }

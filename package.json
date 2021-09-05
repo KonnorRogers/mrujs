@@ -57,7 +57,7 @@
     "start": "yarn clean && web-dev-server",
     "start:watch": "web-dev-server --watch",
     "build": "yarn fix && yarn build:core && yarn build:plugins",
-    "build:core": "yarn clean:core && microbundle build --name mrujs",
+    "build:core": "yarn clean:core && microbundle build",
     "build:plugins": "yarn clean:plugins && microbundle build --cwd plugins --tsconfig ./tsconfig-plugins.json",
     "changelog": "standard-changelog",
     "deploy:beta": "yarn build && standard-version --prerelease beta",
