@@ -38,7 +38,8 @@
     "src",
     "dist",
     "plugins/src",
-    "plugins/dist"
+    "plugins/dist",
+    "plugins/package.json"
   ],
   "sideEffects": [
     "./src/index.ts",
