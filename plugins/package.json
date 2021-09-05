@@ -1,5 +1,6 @@
 {
   "name": "mrujs-plugins",
+  "amdName": "mrujsPlugins",
   "version": "1.0.0",
   "private": true,
   "description": "A collection of first part mrujs plugins",
