@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["./plugins"],
+  "compilerOptions": {
+    "outDir": "./plugins/dist"
+  }
+}
