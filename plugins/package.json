@@ -1,0 +1,17 @@
+{
+  "name": "mrujs-plugins",
+  "amdName": "mrujsPlugins",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A collection of first part mrujs plugins",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.module.js",
+  "umd:main": "dist/index.umd.js",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "types": "src/index.d.ts",
+  "peerDependencies": {
+    "mrujs": ">= 0.4.6"
+  }
+}

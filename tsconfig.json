@@ -1,6 +1,6 @@
 {
-  "include": ["./src"],
-  "exclude": ["./dist"],
+  "include": ["./src", "./plugins"],
+  "exclude": ["./dist", "./plugins/dist"],
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
@@ -11,8 +11,7 @@
     "lib": ["es6", "dom", "dom.iterable"],
     "module": "ESNext",
     "moduleResolution": "node",
-    "noEmit": false,
-    "outDir": "./dist",
+    "noEmit": true,
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
