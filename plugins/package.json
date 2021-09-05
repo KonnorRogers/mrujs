@@ -5,9 +5,9 @@
   "private": true,
   "description": "A collection of first part mrujs plugins",
   "source": "./src/index.ts",
-  "main": "./dist/index.js",
-  "module": "./dist/index.module.js",
-  "umd:main": "./dist/index.umd.js",
+  "main": "./dist/mrujs.js",
+  "module": "./dist/mrujs.module.js",
+  "umd:main": "./dist/mrujs.umd.js",
   "license": "MIT",
   "peerDependencies": {
     "mrujs": ">= 0.4.6"
