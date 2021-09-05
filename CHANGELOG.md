@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.4.4](https://github.com/ParamagicDev/mrujs/compare/v0.4.3...v0.4.4) (2021-09-05)
 
+### Breaking Changes
+
+CableCar plugin has been moved into its own seperate entrypoint at
+"mrujs/plugins"
+
 ### [0.4.3](https://github.com/ParamagicDev/mrujs/compare/v0.4.2...v0.4.3) (2021-09-02)
 
 ### Bug Fixes
