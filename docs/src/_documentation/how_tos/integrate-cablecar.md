@@ -23,7 +23,8 @@ normal, but then pass in a configuration defining plugins.
 
 ```js
 import CableReady from "cable_ready"
-import mrujs, { CableCar } from "mrujs"
+import mrujs from "mrujs"
+import { CableCar } from "mrujs/plugins"
 
 mrujs.start({
   plugins: [

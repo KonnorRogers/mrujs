@@ -1,14 +1,25 @@
 {
   "name": "mrujs",
+  "amdName": "mrujs",
   "version": "0.4.3",
   "description": "UJS for modern javascript.",
-  "main": "./dist/mrujs.umd.js",
+  "source": "src/mrujs.ts",
+  "main": "./dist/mrujs.js",
+  "umd:main": "./dist/mrujs.umd.js",
   "module": "./dist/mrujs.module.js",
+  "unpkg": "./dist/mrujs.min.js",
   "exports": {
     ".": {
-      "import": "./dist/mrujs.module.js",
-      "require": "./dist/mrujs.umd.js",
-      "default": "./dist/mrujs.umd.js"
+      "browser": "./dist/mrujs.module.js",
+      "umd": "./dist/mrujs.umd.js",
+      "import": "./dist/mrujs.mjs",
+      "require": "./dist/mrujs.js"
+    },
+    "./plugins": {
+      "browser": "./plugins/dist/mrujs.module.js",
+      "umd": "./plugins/dist/mrujs.umd.js",
+      "import": "./plugins/dist/mrujs.mjs",
+      "require": "./plugins/dist/mrujs.js"
     }
   },
   "types": "dist/index.d.ts",
@@ -24,9 +35,10 @@
     "access": "public"
   },
   "files": [
-    "dist/*.js",
-    "dist/*.js.map",
-    "dist/types/**/*"
+    "src",
+    "dist",
+    "plugins/src",
+    "plugins/dist"
   ],
   "sideEffects": [
     "./src/index.ts",
@@ -36,17 +48,17 @@
     "url": "https://github.com/paramagicdev/mrujs/issues"
   },
   "scripts": {
-    "clean": "rm -fr dist",
-    "clean:win": "rmdir /s /q dist",
-    "lint": "ts-standard src/ test/js ",
-    "fix": "ts-standard src/ test/js --fix",
+    "clean:core": "rm -fr dist",
+    "clean:plugins": "rm -fr plugins/dist",
+    "lint": "ts-standard plugins/ src/ test/js",
+    "fix": "ts-standard plugins/ src/ test/js --fix",
     "test": "yarn fix && yarn build && web-test-runner",
     "test:watch": "yarn fix && yarn build && web-test-runner --watch",
     "start": "yarn clean && web-dev-server",
     "start:watch": "web-dev-server --watch",
-    "build": "yarn clean && tsc --emitDeclarationOnly true --outDir dist/types && rollup -c",
-    "build:win": "yarn clean:win && tsc --noEmit false --declaration true --emitDeclarationOnly true --outDir dist/types & rollup -c",
-    "build:watch": "rollup -wc",
+    "build": "yarn fix && yarn build:core && yarn build:plugins",
+    "build:core": "yarn clean:core && microbundle build",
+    "build:plugins": "yarn clean:plugins && microbundle build --cwd plugins --tsconfig ./tsconfig-plugins.json",
     "changelog": "standard-changelog",
     "deploy:beta": "yarn build && standard-version --prerelease beta",
     "deploy:patch": "yarn build && standard-version --release-as patch",
@@ -60,8 +72,6 @@
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
     "@open-wc/testing": "^3.0.0-next.2",
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "@rollup/plugin-typescript": "^8.2.5",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
     "@web/dev-server": "^0.1.8",
@@ -69,12 +79,8 @@
     "@web/test-runner": "^0.12.15",
     "@web/test-runner-playwright": "^0.8.4",
     "cable_ready": "*",
+    "microbundle": "^0.13.3",
     "playwright": "^1.12.2",
-    "rollup": "^2.56.3",
-    "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-gzip": "^2.5.0",
-    "rollup-plugin-html-literals": "^1.1.4",
-    "rollup-plugin-terser": "^7.0.2",
     "sinon": "^9.2.4",
     "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",
@@ -85,6 +91,6 @@
     "ignore": [
       "dist"
     ],
-    "project": "./tsconfig-dev.json"
+    "project": "./tsconfig-lint.json"
   }
 }
