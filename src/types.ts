@@ -62,6 +62,7 @@ export interface MrujsPluginInterface {
   disconnect: () => void
   observerCallback?: (addedNodes: Node[]) => void
   queries?: () => EventQueryInterface[]
+  callbacks?: Function[]
 }
 
 export interface SnapshotCacheInterface {
@@ -121,6 +122,7 @@ export interface MrujsInterface {
   stopEverything: (event: Event) => void
   dispatch: (this: Node, name: string, options: CustomEventInit) => CustomEvent
   appendToQuerySelector: (key: string, { selector, exclude }: { selector?: string, exclude?: string }) => void
+  registerConfirm: (attribute: string, callback: Function) => void
 }
 
 export interface FetchResponseInterface {

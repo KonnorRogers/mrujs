@@ -86,6 +86,7 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.removeListeners = removeListeners
   obj.attachObserverCallback = attachObserverCallback
   obj.appendToQuerySelector = appendToQuerySelector
+  obj.registerConfirm = registerConfirm
 
   Object.defineProperties(obj, {
     csrfToken: { get: function (): string | undefined { return getToken() } },
@@ -229,6 +230,22 @@ function appendToQuerySelector (key: string, { selector, exclude }: { selector?:
       querySelectors[key].exclude += `, ${exclude}` // eslint-disable-line
     }
   }
+}
+
+function registerConfirm (attribute: string, callback: Function): void {
+  const confirmSelectors = [
+    'linkClickSelector',
+    'buttonClickSelector',
+    'formInputClickSelector',
+    'inputChangeSelector',
+    'formSubmitSelector'
+  ]
+
+  confirmSelectors.forEach((selector) => {
+    appendToQuerySelector(selector, { selector: `[${attribute}]` })
+  })
+
+  window.mrujs?.confirmClass?.callbacks?.push(callback)
 }
 
 function reEnableDisabledElements (): void {

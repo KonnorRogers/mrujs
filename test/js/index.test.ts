@@ -63,4 +63,12 @@ describe('index', () => {
     assert(mrujs.querySelectors[name].exclude.endsWith(exclude))
     mrujs.stop()
   })
+
+  it('Should register a new callback on confirms', (): void => {
+    mrujs.start()
+    function myCallback (): void {}
+    mrujs.registerConfirm('lol', myCallback)
+    assert(mrujs.confirmClass.callbacks.includes(myCallback))
+    mrujs.stop()
+  })
 })
