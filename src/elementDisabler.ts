@@ -7,7 +7,8 @@ export function ElementDisabler (): MrujsPluginInterface {
     name: 'ElementDisabler',
     connect,
     disconnect,
-    observerCallback
+    observerCallback,
+    queries
   }
 }
 

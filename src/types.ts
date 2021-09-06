@@ -61,6 +61,7 @@ export interface MrujsPluginInterface {
   connect: () => void
   disconnect: () => void
   observerCallback?: (addedNodes: Node[]) => void
+  queries?: () => EventQueryInterface[]
 }
 
 export interface SnapshotCacheInterface {
@@ -114,6 +115,12 @@ export interface MrujsInterface {
   registerMimeTypes: (mimeTypes: CustomMimeTypeInterface[]) => MimeTypeInterface
   enableElement: (trigger: Event | HTMLElement) => void
   disableElement: (event: Event | HTMLFormElement | Submitter) => void
+  addListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
+  removeListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
+  attachObserverCallback: (conditions: EventQueryInterface[], nodeList: Node[], callbacks: EventListener[]) => void
+  stopEverything: (event: Event) => void
+  dispatch: (this: Node, name: string, options: CustomEventInit) => CustomEvent
+  appendToQuerySelector: (key: string, { selector, exclude }: { selector?: string, exclude?: string }) => void
 }
 
 export interface FetchResponseInterface {

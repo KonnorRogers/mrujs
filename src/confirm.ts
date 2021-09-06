@@ -7,7 +7,8 @@ export function Confirm (): MrujsPluginInterface {
     name: 'Confirm',
     connect,
     disconnect,
-    observerCallback
+    observerCallback,
+    queries
   }
 }
 
