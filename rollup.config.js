@@ -33,6 +33,7 @@ function compressionPlugins(tsconfig = "tsconfig.json") {
 
 export default [
   {
+    external: ["morphdom"],
     input: "src/index.ts",
     output: [
       {
@@ -40,7 +41,7 @@ export default [
         file: "dist/mrujs.umd.js",
         format: "umd",
         sourcemap: true,
-        exports: "named"
+        exports: "named",
       },
       {
         file: "dist/mrujs.module.js",
@@ -60,7 +61,7 @@ export default [
         file: "plugins/dist/mrujs.umd.js",
         format: "umd",
         sourcemap: true,
-        exports: "named"
+        exports: "named",
       },
       {
         file: "plugins/dist/mrujs.module.js",

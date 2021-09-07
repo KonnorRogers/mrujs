@@ -28,6 +28,9 @@ function clickCaptured (event: Event): void {
   // No need to continue, polyfill not needed.
   if ('SubmitEvent' in window) return
 
+  // Polyfill has already been run, do not pass go.
+  if ('submitter' in Event.prototype) return
+
   addEventListener('click', clickCaptured, true)
 
   Object.defineProperty(Event.prototype, 'submitter', {
