@@ -7,12 +7,11 @@
   "main": "./dist/mrujs.js",
   "umd:main": "./dist/mrujs.umd.js",
   "module": "./dist/mrujs.module.js",
-  "unpkg": "./dist/mrujs.min.js",
   "exports": {
     ".": {
       "browser": "./dist/mrujs.module.js",
       "umd": "./dist/mrujs.umd.js",
-      "import": "./dist/mrujs.mjs",
+      "import": "./dist/mrujs.module.js",
       "require": "./dist/mrujs.js"
     },
     "./plugins": {
@@ -49,6 +48,7 @@
     "url": "https://github.com/paramagicdev/mrujs/issues"
   },
   "scripts": {
+    "clean": "rm -rf dist plugins/dist",
     "clean:core": "rm -fr dist",
     "clean:plugins": "rm -fr plugins/dist",
     "lint": "ts-standard plugins/ src/ test/js",
@@ -57,9 +57,8 @@
     "test:watch": "yarn fix && yarn build && web-test-runner --watch",
     "start": "yarn clean && web-dev-server",
     "start:watch": "web-dev-server --watch",
-    "build": "yarn fix && yarn build:core && yarn build:plugins",
-    "build:core": "yarn clean:core && microbundle build",
-    "build:plugins": "yarn clean:plugins && microbundle build --cwd plugins --tsconfig ./tsconfig-plugins.json",
+    "build": "yarn fix && rollup -c",
+    "build:watch": "rollup -wc",
     "changelog": "standard-changelog",
     "deploy:beta": "yarn build && standard-version --prerelease beta",
     "deploy:patch": "yarn build && standard-version --release-as patch",
@@ -73,6 +72,8 @@
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
     "@open-wc/testing": "^3.0.0-next.2",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-typescript": "^8.2.5",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
     "@web/dev-server": "^0.1.8",
@@ -80,13 +81,16 @@
     "@web/test-runner": "^0.12.15",
     "@web/test-runner-playwright": "^0.8.4",
     "cable_ready": "*",
-    "microbundle": "^0.13.3",
     "playwright": "^1.12.2",
+    "rollup": "^2.56.3",
+    "rollup-plugin-gzip": "^2.5.0",
+    "rollup-plugin-terser": "^7.0.2",
     "sinon": "^9.2.4",
     "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "zlib": "^1.0.5"
   },
   "ts-standard": {
     "ignore": [
