@@ -1,4 +1,5 @@
 import Rails from 'mrujs'
+import { AsyncConfirm } from "mrujs/plugins"
 
 (async () => {
   if (window.useTurbo === true) {

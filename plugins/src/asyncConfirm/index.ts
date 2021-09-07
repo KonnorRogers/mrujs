@@ -1,7 +1,7 @@
 import { MrujsInterface, MrujsPluginInterface } from '../../../src/types'
 import { MrujsConfirmEvent, MrujsConfirmElement } from './customElement'
 
-export const plugin: MrujsPluginInterface = {
+export const AsyncConfirm: MrujsPluginInterface = {
   name: 'AsyncConfirm',
   initialize,
   connect,
