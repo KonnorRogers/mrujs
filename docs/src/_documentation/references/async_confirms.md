@@ -11,7 +11,7 @@ To use it, do the following:
 
 ```js
 import mrujs from "mrujs"
-import { AsyncConfirm } from "mrujs"
+import { AsyncConfirm } from "mrujs/plugins"
 
 mrujs.start({
   plugins: [
