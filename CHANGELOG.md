@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.13](https://github.com/ParamagicDev/mrujs/compare/v0.4.12...v0.4.13) (2021-09-08)
+
+
+### Features
+
+* re-add async confirms ([#115](https://github.com/ParamagicDev/mrujs/issues/115)) ([810c5e6](https://github.com/ParamagicDev/mrujs/commit/810c5e6738804ecfb1e7d34c1c34afc32bfce9e6))
+
 ### [0.4.12](https://github.com/ParamagicDev/mrujs/compare/v0.4.11...v0.4.12) (2021-09-07)
 
 
