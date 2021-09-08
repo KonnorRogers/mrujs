@@ -233,17 +233,17 @@ function appendToQuerySelector (key: string, { selector, exclude }: { selector?:
 }
 
 function registerConfirm (attribute: string, callback: Function): void {
-  const confirmSelectors = [
-    'linkClickSelector',
-    'buttonClickSelector',
-    'formInputClickSelector',
-    'inputChangeSelector',
-    'formSubmitSelector'
-  ]
+  // click selectors
+  appendToQuerySelector('buttonClickSelector', { selector: `a[${attribute}]` })
+  appendToQuerySelector('linkClickSelector', { selector: `button[${attribute}]:not([form])` })
 
-  confirmSelectors.forEach((selector) => {
-    appendToQuerySelector(selector, { selector: `[${attribute}]` })
-  })
+  // change selectors. Original only requires "[data-remote]" not sure about this.
+  // const inputChangeSelector = ['select', 'input', 'textarea'].map((el) => `${el}[${attribute}]`).join(", ")
+  // appendToQuerySelector('inputChangeSelector', { selector: inputChangeSelector })
+
+  // submit selectors. Original only requires "form" not sure about this.
+  // const formSubmitSelector = `form[${attribute}]`
+  // appendToQuerySelector('formSubmitSelector', { selector: formSubmitSelector })
 
   window.mrujs?.confirmClass?.callbacks?.push(callback)
 }

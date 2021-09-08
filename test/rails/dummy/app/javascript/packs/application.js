@@ -11,4 +11,8 @@ import { AsyncConfirm } from "mrujs/plugins"
   }
 })()
 
-Rails.start()
+Rails.start({
+  plugins: [
+    AsyncConfirm()
+  ]
+})

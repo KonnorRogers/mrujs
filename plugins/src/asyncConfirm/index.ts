@@ -1,18 +1,18 @@
-import { MrujsInterface, MrujsPluginInterface } from '../../../src/types'
 import { MrujsConfirmEvent, MrujsConfirmElement } from './customElement'
 
-export const AsyncConfirm: MrujsPluginInterface = {
-  name: 'AsyncConfirm',
-  initialize,
-  connect,
-  disconnect
+export function AsyncConfirm (): Record<string, unknown> {
+  return {
+    name: 'AsyncConfirm',
+    initialize,
+    connect,
+    disconnect
+  }
 }
-
-// const mrujs = window.mrujs
 
 function initialize (): void {
   window.customElements.define('mrujs-confirm', MrujsConfirmElement)
 
+  // @ts-expect-error
   window.mrujs.registerConfirm('data-async-confirm', handleAsyncConfirm)
 }
 
@@ -20,15 +20,20 @@ function connect (): void {}
 function disconnect (): void {}
 
 async function handleAsyncConfirm (event: Event): Promise<void> {
-  if (event.currentTarget == null) return // false
-  const mrujs = window.mrujs
-
   const element = event.currentTarget as HTMLElement
+
+  if (event.currentTarget == null) return
+
   const message = element.dataset.asyncConfirm
-  const eventType = event.type
 
   if (message == null) return
 
+  // this requires some thought.
+  const eventType = event.type
+  if (eventType === 'change') return
+
+  // @ts-expect-error
+  const mrujs = window.mrujs
   mrujs.stopEverything(event)
 
   let answer = false
@@ -36,10 +41,13 @@ async function handleAsyncConfirm (event: Event): Promise<void> {
   answer = await asyncConfirm(message)
 
   if (answer) {
-    mrujs.dispatch.call(element, 'confirm:complete', { detail: { answer } })
     element.removeEventListener(eventType, handleAsyncConfirm as EventListener)
-    mrujs.dispatch.call(event.target, event)
-    element.addEventListener(eventType, handleAsyncConfirm as EventListener)
+    mrujs.dispatch.call(element, 'confirm:complete', { detail: { answer } })
+
+    if (eventType === 'click') element.click()
+    if (eventType === 'submit') (element as HTMLFormElement).requestSubmit()
+    // Need to think through change events.
+    // if (eventType === 'change') { element.addEventListener(eventType, handleAsyncConfirm as EventListener) }
   }
 }
 
@@ -56,10 +64,4 @@ async function asyncConfirm (message: string): Promise<boolean> {
     }
     dialog.addEventListener('confirm:complete', handleConfirmComplete as EventListener)
   })
-}
-
-declare global {
-  interface Window {
-    mrujs: MrujsInterface
-  }
 }

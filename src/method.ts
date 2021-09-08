@@ -55,6 +55,10 @@ function handle (event: Event): void {
   stopEverything(event)
 
   const link = event.currentTarget as HTMLAnchorElement
+
+  // no href? Do not pass go.
+  if (link.href == null) return
+
   const submitter = event.target
 
   const linkSubmission = LinkSubmission(link)
