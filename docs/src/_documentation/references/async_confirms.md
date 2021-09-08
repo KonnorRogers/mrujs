@@ -4,7 +4,7 @@ doc_order: 120
 ---
 
 Mrujs offers an alternative to `window.confirm()` dialogs in the form of
-`data-ujs-confirm="<text>"` which will display a modal which will not block the
+`data-async-confirm="<text>"` which will display a modal which will not block the
 main thread.
 
 To use it, do the following:
