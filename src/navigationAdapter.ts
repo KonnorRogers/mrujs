@@ -14,6 +14,7 @@ export type VisitAction = 'advance' | 'replace' | 'restore'
 export interface NavigationAdapterInterface extends MrujsPluginInterface {
   cacheContains: (url: Locateable) => boolean
   prefetch: ({ html, url }: {html: string, url: Locateable}) => void
+  navigate: (element: HTMLElement, request: FetchRequestInterface, response: FetchResponseInterface, action?: VisitAction) => void
 }
 
 export function NavigationAdapter (): NavigationAdapterInterface {
@@ -22,7 +23,8 @@ export function NavigationAdapter (): NavigationAdapterInterface {
     connect,
     disconnect,
     cacheContains,
-    prefetch
+    prefetch,
+    navigate
   }
 
   Object.defineProperties(obj, {
@@ -89,7 +91,7 @@ function navigateViaEvent (event: CustomEvent): void {
 
   if (!shouldNavigate(element, fetchResponse)) return
 
-  navigate(fetchResponse, element, fetchRequest)
+  navigate(element, fetchRequest, fetchResponse)
 }
 
 function shouldNavigate (element: HTMLElement, fetchResponse: FetchResponseInterface): boolean {
@@ -110,8 +112,7 @@ function shouldNavigate (element: HTMLElement, fetchResponse: FetchResponseInter
 /**
   * This is a manual navigation triggered by something like `method: :delete`
   */
-function navigate (response: FetchResponseInterface, element: HTMLElement, request: FetchRequestInterface, action?: VisitAction): void {
-  if (!response.isHtml) return
+function navigate (element: HTMLElement, request: FetchRequestInterface, response: FetchResponseInterface, action?: VisitAction): void {
   // If we get redirected, use Turbolinks
   // This needs to be reworked to not trigger 2 HTML responses or find a
   // way to not refetch a page.

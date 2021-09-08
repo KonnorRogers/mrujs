@@ -1,9 +1,13 @@
 import { expandUrl } from '../utils/url'
 import { FetchResponseInterface } from '../types'
 
+
 // Shamelessly stolen from Turbo.
 // https://github.com/hotwired/turbo/blob/main/src/http/fetch_response.ts
 export function FetchResponse (response: Response): FetchResponseInterface {
+  let _text: string
+  let _json: JSON
+
   const succeeded = response.ok
   const status = response.status
   const failed = !succeeded
@@ -17,19 +21,27 @@ export function FetchResponse (response: Response): FetchResponseInterface {
   const isJson = Boolean(contentType?.toLowerCase().match(/(^application\/json|\.json)/))
 
   async function text (): Promise<string> {
-    return await response.text()
+    if (_text != null) return _text
+
+    _text = await response.text()
+    return _text
   }
 
   async function html (): Promise<string> {
-    if (isHtml) return await response.text()
+    if (isHtml) return await text()
 
-    return await Promise.reject(response)
+    return Promise.reject(response)
   }
 
   async function json (): Promise<JSON> {
-    if (isJson) return await response.json()
+    if (isJson) {
+      if (_json != null) return _json
 
-    return await Promise.reject(response)
+      _json = await response.json()
+      return _json
+    }
+
+    return Promise.reject(response)
   }
 
   function getHeader (name: string): string | null {
