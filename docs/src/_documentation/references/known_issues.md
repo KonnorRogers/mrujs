@@ -16,11 +16,9 @@ When returning a `204 No Content`, mrujs will not automatically
 redirect via Turbolinks. It's up to you to handle redirects. This is
 because 204's do not return HTML.
 
-## [Turbo Integration](#turbo-integration)
+## [Turbo Beta Integration](#turbo-integration)
 
-Currently, Turbo will show pages twice on successful form submission
-that redirects causing notifications to disappear. This is fixed on
-`main` by this PR:
-
-[https://github.com/hotwired/turbo/pull/301](https://github.com/hotwired/turbo/pull/301)
+Beta versions of Turbo (`v7.0.0-beta-8` and below) will show pages twice on successful
+form submission that redirects causing notifications to disappear. This is fixed in
+`v7.0.0-rc1` and above.
 
