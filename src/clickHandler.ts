@@ -7,7 +7,8 @@ export function ClickHandler (): MrujsPluginInterface {
     name: 'ClickHandler',
     connect,
     disconnect,
-    observerCallback
+    observerCallback,
+    queries
   }
 }
 

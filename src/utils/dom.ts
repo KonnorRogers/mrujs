@@ -31,53 +31,45 @@ if (window.Turbo != null) {
   link = 'a[data-turbo="false"]'
 }
 
-// data-confirm doesnt matter with Turbo.
-const remoteSelector = 'a[data-remote="true"], a[data-method], form[data-remote="true"]'
-const linkClickSelector = `a[data-confirm], ${link}[data-method], ${link}[data-remote]:not([disabled]), ${link}[data-disable-with], ${link}[data-disable]`
-const buttonClickSelector = 'button[data-remote]:not([form]), button[data-confirm]:not([form]), button[data-disable-with]:not([form]), button[data-disable]:not([form])'
-const inputChangeSelector = 'select[data-remote], input[data-remote], textarea[data-remote]'
-const formSubmitSelector = `${form}`
-const formInputClickSelector = 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])'
-
-const formDisableSelector = 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled'
-
-const formEnableSelector = 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled'
-
-const linkDisableSelector = 'a[data-disable-with], a[data-disable]'
-const buttonDisableSelector = 'button[data-disable-with], button[data-disable]'
+const data = 'data-'
+const remote = `${data}remote`
+const method = `${data}method`
+const confirm = `${data}confirm`
+const disable = `${data}disable`
+const disableWith = `${disable}-with`
 
 export const BASE_SELECTORS: QuerySelectorInterface = {
-  remoteSelector: { selector: remoteSelector },
+  remoteSelector: { selector: `a[${remote}="true"], a[${method}], form[${remote}="true"]` },
 
   // Link elements bound by rails-ujs
-  linkClickSelector: { selector: linkClickSelector },
+  linkClickSelector: { selector: `a[${confirm}], ${link}[${method}], ${link}[${remote}]:not([disabled]), ${link}[${disableWith}], ${link}[${disable}]` },
 
   // Button elements bound by rails-ujs
   buttonClickSelector: {
-    selector: buttonClickSelector,
+    selector: `button[${remote}]:not([form]), button[${confirm}]:not([form]), button[${disableWith}]:not([form]), button[${disable}]:not([form])`,
     exclude: 'form button'
   },
 
   // Select elements bound by rails-ujs
-  inputChangeSelector: { selector: inputChangeSelector },
+  inputChangeSelector: { selector: `select[${remote}], input[${remote}], textarea[${remote}]` },
 
   // Form elements bound by rails-ujs
-  formSubmitSelector: { selector: formSubmitSelector },
+  formSubmitSelector: { selector: `${form}` },
 
   // Form input elements bound by rails-ujs
-  formInputClickSelector: { selector: formInputClickSelector },
+  formInputClickSelector: { selector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])' },
 
   // Form input elements disabled during form submission
-  formDisableSelector: { selector: formDisableSelector },
+  formDisableSelector: { selector: `input[${disableWith}]:enabled, button[${disableWith}]:enabled, textarea[${disableWith}]:enabled, input[${disable}]:enabled, button[${disable}]:enabled, textarea[${disable}]:enabled` },
 
   // Form input elements re-enabled after form submission
-  formEnableSelector: { selector: formEnableSelector },
+  formEnableSelector: { selector: `input[${disableWith}]:disabled, button[${disableWith}]:disabled, textarea[${disableWith}]:disabled, input[${disable}]:disabled, button[${disable}]:disabled, textarea[${disable}]:disabled` },
 
   // Link onClick disable selector with possible reenable after remote submission
-  linkDisableSelector: { selector: linkDisableSelector },
+  linkDisableSelector: { selector: `a[${disableWith}], a[${disable}]` },
 
   // Button onClick disable selector with possible reenable after remote submission
-  buttonDisableSelector: { selector: buttonDisableSelector }
+  buttonDisableSelector: { selector: `button[${disableWith}], button[${disable}]` }
 }
 
 export function addListeners (conditions: EventQueryInterface[], callbacks: EventListener[]): void {

@@ -1,4 +1,5 @@
 import Rails from 'mrujs'
+import { AsyncConfirm } from "mrujs/plugins"
 
 (async () => {
   if (window.useTurbo === true) {
@@ -10,4 +11,8 @@ import Rails from 'mrujs'
   }
 })()
 
-Rails.start()
+Rails.start({
+  plugins: [
+    AsyncConfirm()
+  ]
+})

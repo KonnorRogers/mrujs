@@ -9,20 +9,16 @@ extended with the following API:
 ```js
 import mrujs from "mrujs"
 
-// Save the original
-const originalSelectors = mrujs.querySelectors
-
-// Modify it.
-originalSelectors.linkDisableSelector.selector += ", my-custom-element"
-
-// Push it back in.
-mrujs.querySelectors = originalSelectors
+// Append it to a known querySelector
+window.mrujs.appendToQuerySelector("linkDisableSelector", { selector: "my-custom-element", exclude: "other-element" })
 
 // Now start!
 mrujs.start()
 ```
 
-Important to note, you must set these before starting mrujs.
+Important to note, you must set these before starting mrujs or in the
+"initialize" callback of a plugin.
+
 If you want to set the querySelectors mid-session, you will have to
 follow the above steps, but instead of calling `start`, you would call `mrujs.restart()`.
 

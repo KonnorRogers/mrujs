@@ -26,6 +26,8 @@
         <td><%= link_to 'Edit', edit_post_path(post) %></td>
         <td><%= link_to 'Destroy', post, data: { confirm: 'Are you sure?', method: :delete } %></td>
         <td><%= link_to 'Ajax Destroy', post, data: { "confirm": "Are you sure?", disable_with: "Destroying...", method: :delete } %></td>
+
+        <td><%= link_to 'Async Destroy', post, data: { "async-confirm": "Are you sure?", disable_with: "Destroying...", method: :delete } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -34,3 +36,10 @@
 <br>
 
 <%= link_to 'New Post', new_post_path %>
+
+<select value="1" data-remote="true" data-async-confirm="You wanna pick that?">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+</select>

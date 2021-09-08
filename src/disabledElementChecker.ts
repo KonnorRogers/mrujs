@@ -7,7 +7,8 @@ export function DisabledElementChecker (): MrujsPluginInterface {
     name: 'DisabledElementChecker',
     connect,
     disconnect,
-    observerCallback
+    observerCallback,
+    queries
   }
 }
 

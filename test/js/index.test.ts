@@ -16,16 +16,6 @@ describe('index', () => {
     mrujs.stop()
   })
 
-  it('Should allow for custom querySelectors', () => {
-    const qs = mrujs.querySelectors
-    qs.linkClickSelector.selector += ', my-custom-element'
-    mrujs.querySelectors = qs
-
-    mrujs.start()
-    assert.include(mrujs.querySelectors.linkClickSelector.selector, 'my-custom-element')
-    mrujs.stop()
-  })
-
   it('Should allow for custom mimetypes', () => {
     const customMime = { shortcut: 'my-custom-mime', header: 'text/vnd.custom' }
     mrujs.registerMimeTypes([customMime])
@@ -49,6 +39,36 @@ describe('index', () => {
     assert(mrujs.mimeTypes[customMime.shortcut] === customMime.header)
     assert(mrujs.mimeTypes.any !== BASE_ACCEPT_HEADERS.any)
 
+    mrujs.stop()
+  })
+
+  it('should probably append a querySelector', () => {
+    mrujs.start()
+
+    let name = 'linkClickSelector'
+    let selector = 'blah'
+    mrujs.appendToQuerySelector(name, { selector })
+    assert(mrujs.querySelectors[name].selector.endsWith(selector))
+
+    let exclude = 'lolololol'
+    name = 'buttonClickSelector'
+    mrujs.appendToQuerySelector('buttonClickSelector', { exclude })
+    assert(mrujs.querySelectors[name].exclude.endsWith(exclude))
+
+    selector = 'ohmylord'
+    exclude = 'trololol'
+    name = 'inputChangeSelector'
+    mrujs.appendToQuerySelector(name, { selector, exclude })
+    assert(mrujs.querySelectors[name].selector.endsWith(selector))
+    assert(mrujs.querySelectors[name].exclude.endsWith(exclude))
+    mrujs.stop()
+  })
+
+  it('Should register a new callback on confirms', (): void => {
+    mrujs.start()
+    function myCallback (): void {}
+    mrujs.registerConfirm('lol', myCallback)
+    assert(mrujs.confirmClass.callbacks.includes(myCallback))
     mrujs.stop()
   })
 })

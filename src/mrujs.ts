@@ -1,4 +1,4 @@
-import { AJAX_EVENTS, dispatch } from './utils/events'
+import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
 import { FormSubmitDispatcher } from './formSubmitDispatcher'
 import { RemoteWatcher } from './remoteWatcher'
 import { ClickHandler } from './clickHandler'
@@ -13,7 +13,7 @@ import { AddedNodesObserver } from './addedNodesObserver'
 import { urlEncodeFormData } from './utils/form'
 
 import { FetchRequest } from './http/fetchRequest'
-import { BASE_SELECTORS } from './utils/dom'
+import { addListeners, removeListeners, attachObserverCallback, BASE_SELECTORS } from './utils/dom'
 import { BASE_ACCEPT_HEADERS } from './utils/headers'
 import {
   MrujsPluginInterface,
@@ -80,13 +80,19 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.registerMimeTypes = registerMimeTypes
   obj.enableElement = enableElement
   obj.disableElement = disableElement
+  obj.stopEverything = stopEverything
+  obj.dispatch = dispatch
+  obj.addListeners = addListeners
+  obj.removeListeners = removeListeners
+  obj.attachObserverCallback = attachObserverCallback
+  obj.appendToQuerySelector = appendToQuerySelector
+  obj.registerConfirm = registerConfirm
 
   Object.defineProperties(obj, {
     csrfToken: { get: function (): string | undefined { return getToken() } },
     csrfParam: { get: function (): string | undefined { return getParam() } },
     querySelectors: {
-      get: function (): QuerySelectorInterface { return this.config.querySelectors },
-      set: function (querySelectors: QuerySelectorInterface) { this.config.querySelectors = querySelectors }
+      get: function (): QuerySelectorInterface { return this.config.querySelectors }
     },
     mimeTypes: {
       get: function (): MimeTypeInterface { return this.config.mimeTypes }
@@ -209,6 +215,37 @@ function registerMimeTypes (mimeTypes: CustomMimeTypeInterface[]): MimeTypeInter
   }
 
   return window.mrujs.config.mimeTypes
+}
+
+function appendToQuerySelector (key: string, { selector, exclude }: { selector?: string, exclude?: string }): void {
+  const { querySelectors } = window.mrujs
+  if (Object.keys(querySelectors).includes(key)) {
+    if (selector != null) {
+      // @ts-expect-error
+      // @eslint-ignore
+      querySelectors[key].selector += `, ${selector}` // eslint-disable-line
+    }
+    if (exclude != null) {
+      // @ts-expect-error
+      querySelectors[key].exclude += `, ${exclude}` // eslint-disable-line
+    }
+  }
+}
+
+function registerConfirm (attribute: string, callback: Function): void {
+  // click selectors
+  appendToQuerySelector('buttonClickSelector', { selector: `a[${attribute}]` })
+  appendToQuerySelector('linkClickSelector', { selector: `button[${attribute}]:not([form])` })
+
+  // change selectors. Original only requires "[data-remote]" not sure about this.
+  // const inputChangeSelector = ['select', 'input', 'textarea'].map((el) => `${el}[${attribute}]`).join(", ")
+  // appendToQuerySelector('inputChangeSelector', { selector: inputChangeSelector })
+
+  // submit selectors. Original only requires "form" not sure about this.
+  // const formSubmitSelector = `form[${attribute}]`
+  // appendToQuerySelector('formSubmitSelector', { selector: formSubmitSelector })
+
+  window.mrujs?.confirmClass?.callbacks?.push(callback)
 }
 
 function reEnableDisabledElements (): void {
