@@ -1,7 +1,6 @@
 import { expandUrl } from '../utils/url'
 import { FetchResponseInterface } from '../types'
 
-
 // Shamelessly stolen from Turbo.
 // https://github.com/hotwired/turbo/blob/main/src/http/fetch_response.ts
 export function FetchResponse (response: Response): FetchResponseInterface {
@@ -30,7 +29,7 @@ export function FetchResponse (response: Response): FetchResponseInterface {
   async function html (): Promise<string> {
     if (isHtml) return await text()
 
-    return Promise.reject(response)
+    return await Promise.reject(response)
   }
 
   async function json (): Promise<JSON> {
@@ -41,7 +40,7 @@ export function FetchResponse (response: Response): FetchResponseInterface {
       return _json
     }
 
-    return Promise.reject(response)
+    return await Promise.reject(response)
   }
 
   function getHeader (name: string): string | null {

@@ -1,5 +1,5 @@
 export function JsErb (): Record<string, unknown> {
-  const name = "JsErb"
+  const name = 'JsErb'
   return {
     name,
     connect,
@@ -8,30 +8,34 @@ export function JsErb (): Record<string, unknown> {
 }
 
 function connect (): void {
-  document.addEventListener("ajax:complete", injectScriptIntoHead)
+  document.addEventListener('ajax:complete', injectScriptIntoHead as EventListener)
 }
 
 function disconnect (): void {
-  document.removeEventListener("ajax:complete", injectScriptIntoHead)
+  document.removeEventListener('ajax:complete', injectScriptIntoHead as EventListener)
 }
 
 function cspNonce (): string | undefined {
-  return ((document.querySelector("meta[name=csp-nonce]") as HTMLMetaElement)?.content)
+  return ((document.querySelector('meta[name=csp-nonce]') as HTMLMetaElement)?.content)
 }
 
-async function injectScriptIntoHead (event: CustomEvent): Promise<void> {
+function injectScriptIntoHead (event: CustomEvent): void {
   if (!isJavascriptResponse(event.detail?.fetchResponse?.contentType)) return
 
   // https://github.com/rails/rails/blob/fa1a4b657c7167a8671a359a55de3f9b37f4330b/actionview/app/assets/javascripts/rails-ujs/utils/ajax.coffee#L13
   const script = document.createElement('script')
-  script.setAttribute('nonce', cspNonce())
-  script.text = await event.detail?.fetchResponse?.text()
-  document.head.appendChild(script).parentNode.removeChild(script)
 
-  const { element, fetchRequest, fetchResponse } = event.detail
+  const csp = cspNonce()
 
-  // @ts-expect-error
-  window.mrujs.navigationAdapter.navigate(element, fetchRequest, fetchResponse)
+  if (csp != null) script.setAttribute('nonce', csp)
+
+  event.detail?.fetchResponse?.text().then((html: string) => {
+    script.text = html
+    document.head.appendChild(script)?.parentNode?.removeChild(script)
+    const { element, fetchRequest, fetchResponse } = event.detail
+    // @ts-expect-error
+    window.mrujs.navigationAdapter.navigate(element, fetchRequest, fetchResponse)
+  }).catch((err: Error) => console.error(err))
 }
 
 function isJavascriptResponse (contentType: string | undefined): boolean {
@@ -42,4 +46,3 @@ function isJavascriptResponse (contentType: string | undefined): boolean {
   const responseRegex = new RegExp(responseWithoutEncoding)
   return Boolean(mimeType.match(responseRegex))
 }
-
