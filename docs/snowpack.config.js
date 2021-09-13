@@ -28,7 +28,8 @@ module.exports = {
     out: "output",
   },
   packageOptions: {
-    NODE_ENV: true
+    NODE_ENV: true,
+    knownEntrypoints: ["mrujs", "mrujs/plugins"]
   },
   optimize: {
     bundle: false,

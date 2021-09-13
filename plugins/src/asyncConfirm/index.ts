@@ -16,8 +16,8 @@ function initialize (): void {
   window.mrujs.registerConfirm('data-async-confirm', handleAsyncConfirm)
 }
 
-function connect (): void {}
-function disconnect (): void {}
+function connect (): void { }
+function disconnect (): void { }
 
 async function handleAsyncConfirm (event: Event): Promise<void> {
   const element = event.currentTarget as HTMLElement
@@ -38,22 +38,30 @@ async function handleAsyncConfirm (event: Event): Promise<void> {
 
   let answer = false
 
-  answer = await asyncConfirm(message)
+  answer = await asyncConfirm(message, element)
 
   if (answer) {
     element.removeEventListener(eventType, handleAsyncConfirm as EventListener)
     mrujs.dispatch.call(element, 'confirm:complete', { detail: { answer } })
 
     if (eventType === 'click') element.click()
-    if (eventType === 'submit') (element as HTMLFormElement).requestSubmit()
+
+    // @ts-expect-error
+    if (eventType === 'submit') (event.submitter as HTMLElement).click()
     // Need to think through change events.
     // if (eventType === 'change') { element.addEventListener(eventType, handleAsyncConfirm as EventListener) }
   }
 }
 
-async function asyncConfirm (message: string): Promise<boolean> {
+async function asyncConfirm (message: string, element?: HTMLElement): Promise<boolean> {
   const dialog = document.createElement('mrujs-confirm')
   dialog.innerText = message
+
+  if (element != null) {
+    dialog.setAttribute('confirm-text', element.dataset.asyncConfirmOk)
+    dialog.setAttribute('cancel-text', element.dataset.asyncConfirmCancel)
+  }
+
   document.body.appendChild(dialog)
 
   return await new Promise((resolve) => {

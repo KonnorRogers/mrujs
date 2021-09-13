@@ -1283,9 +1283,9 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   integrity sha512-Y8YRbAEP3eKykroIBWrjcfMw7mmwJfjhqdpSvoqinu8Y702nAwikpXcNFDiIkyvfCLxLM9Wu95RZqo4a9jFBaA==
 
 mrujs@*:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/mrujs/-/mrujs-0.3.6.tgz#cbaf97ef3d4c82ad7e273215c8f0f4261d7eae9e"
-  integrity sha512-kIecKMVqtSxTG6abJGYoWwDldjl7DOs+urVoC/5SFD2enBgE2E4YaHVJ+uUnS/tBaRLzxlmBHcOYUq/IDzNN6A==
+  version "0.4.14"
+  resolved "https://registry.yarnpkg.com/mrujs/-/mrujs-0.4.14.tgz#eff3a58c7985698ac155349ecb6807de40ca19e9"
+  integrity sha512-x2lAiU4nmfR8uaWmykHTFZ8iS702HMZAt8cmRWNrUkJW17lQ+EFAwsVqb1NGdTkNKIAw3I06z1SWomA2Ln+y9w==
   dependencies:
     morphdom ">=2.6.0 <3.0.0"
 
