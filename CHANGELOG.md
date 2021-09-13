@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.18](https://github.com/ParamagicDev/mrujs/compare/v0.4.17...v0.4.18) (2021-09-13)
+
 ### [0.4.17](https://github.com/ParamagicDev/mrujs/compare/v0.4.16...v0.4.17) (2021-09-13)
 
 ### [0.4.16](https://github.com/ParamagicDev/mrujs/compare/v0.4.15...v0.4.16) (2021-09-13)
