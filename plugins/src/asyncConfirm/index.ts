@@ -58,7 +58,7 @@ async function handleAsyncConfirm (event: Event): Promise<void> {
     element.click()
 
     setTimeout(() => {
-      element.removeAttribute("data-async-confirm-skip")
+      element.removeAttribute('data-async-confirm-skip')
     }, 50)
 
     // Need to think through change events.
