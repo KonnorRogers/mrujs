@@ -11,8 +11,9 @@ export function findSubmitter (event: ExtendedSubmitEvent): Submitter | undefine
   // Not supported by webkit
   if (event.submitter instanceof HTMLElement) {
     return event.submitter
+  } else if (event?.detail?.submitter !== undefined) {
+    // we have a polyfill that adds submitter on event.detail
+    return event.detail.submitter
   }
-
-  // we have a polyfill that adds submitter on event.detail
-  return event.detail.submitter
+  return undefined
 }
