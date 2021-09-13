@@ -26,10 +26,17 @@ experimental until the API is improved and iterated upon.
 Example:
 
 ```html
-<a href="/logout" data-method="delete" data-async-confirm="Are you sure?">
+<button data-method="delete"
+   data-async-confirm="Are you sure?"
+   data-async-confirm-text="Yes, Logout!"
+   data-async-cancel-text="Absolutely not!">
   Log out
-</a>
+</button>
 ```
 
-There are some issues around I18n which will need to be addressed with
-this component.
+<button data-method="delete"
+   data-async-confirm="Are you sure?"
+   data-async-confirm-ok="Yes, Logout!"
+   data-async-confirm-cancel="No! Absolutely not!">
+  Log out
+</button>

@@ -28,7 +28,7 @@ module.exports = {
     out: "output",
   },
   packageOptions: {
-    NODE_ENV: true
+    NODE_ENV: true,
   },
   optimize: {
     bundle: false,
