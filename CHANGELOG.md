@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.14](https://github.com/ParamagicDev/mrujs/compare/v0.4.13...v0.4.14) (2021-09-13)
+
+
+### Features
+
+* support js.erb ([#116](https://github.com/ParamagicDev/mrujs/issues/116)) ([544c458](https://github.com/ParamagicDev/mrujs/commit/544c4581fba377fb1c065a68c4b3a3b0d01fc9ca))
+
+
+### Bug Fixes
+
+* getHeaders not receiving element ([#118](https://github.com/ParamagicDev/mrujs/issues/118)) ([9122a80](https://github.com/ParamagicDev/mrujs/commit/9122a807a18371b9e813a0f6eb77a06a7b55cb68))
+
 ### [0.4.13](https://github.com/ParamagicDev/mrujs/compare/v0.4.12...v0.4.13) (2021-09-08)
 
 
