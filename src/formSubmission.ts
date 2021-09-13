@@ -32,7 +32,7 @@ export function FormSubmission (element: HTMLFormElement, submitter?: Submitter)
 
 function getOptions (element: HTMLFormElement, submitter?: Submitter): RequestInit {
   const method = getMethod(element, submitter)
-  const headers = getHeaders()
+  const headers = getHeaders(element)
 
   const options: RequestInit = {
     method,
