@@ -20,9 +20,14 @@ function connect (): void { }
 function disconnect (): void { }
 
 async function handleAsyncConfirm (event: Event): Promise<void> {
-  const element = event.currentTarget as HTMLElement
+  let element = event.currentTarget as HTMLElement
 
   if (event.currentTarget == null) return
+
+  // @ts-expect-error
+  if (element.dataset.asyncSkipConfirm === "true" || event.submitter.asyncSkipConfirm === "true") {
+    return
+  }
 
   const message = element.dataset.asyncConfirm
 
@@ -41,13 +46,18 @@ async function handleAsyncConfirm (event: Event): Promise<void> {
   answer = await asyncConfirm(message, element)
 
   if (answer) {
-    element.removeEventListener(eventType, handleAsyncConfirm as EventListener)
     mrujs.dispatch.call(element, 'confirm:complete', { detail: { answer } })
 
-    if (eventType === 'click') element.click()
+    // if (eventType === "click")
+    if (eventType === 'submit') {
+      // @ts-expect-error
+      element = event.submitter
+    }
 
-    // @ts-expect-error
-    if (eventType === 'submit') (event.submitter as HTMLElement).click()
+    element.dataset.asyncConfirmSkip = "true"
+    element.click()
+    element.dataset.asyncConfirmSkip = undefined
+
     // Need to think through change events.
     // if (eventType === 'change') { element.addEventListener(eventType, handleAsyncConfirm as EventListener) }
   }
