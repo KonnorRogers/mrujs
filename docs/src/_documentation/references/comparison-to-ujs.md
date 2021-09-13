@@ -40,7 +40,7 @@ Popular use-cases include:
 
 ## [What is incompatible with mrujs?](#what-is-incompatible-with-mrujs)
 
-- `.js.erb` is a relic of the past.
+- `.js.erb` is a relic of the past (but a plugin does exist [here](/how-tos/use-js-erb))
 - `Rails.ajax()` is out, fetch support is in! (Stop trying to make fetch happen!)
 - Event details. Event details got a revamp and now contain much more info.
 - No more Turbolinks gem.
@@ -51,7 +51,7 @@ Popular use-cases include:
 
 For a multitude of reasons.
 
-Rails 6.1+ requires a change in the content-security policy in relation to running
+Rails 5.2+ requires a change in the content-security policy in relation to running
 arbitrary javascript through script tags which means `.js.erb` is not supported.
 
 `.js.erb` is a security concern, and also requires a lot of `nonce` code generation and checks to work properly.
@@ -59,3 +59,6 @@ arbitrary javascript through script tags which means `.js.erb` is not supported.
 Generally injecting javascript from the server into the DOM is frowned upon. I cannot
 in good conscious support this method of writing views.
 
+Feel free to read more by DHH here:
+
+<https://twitter.com/dhh/status/1252751363219419136?s=21>

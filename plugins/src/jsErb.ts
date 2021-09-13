@@ -29,20 +29,21 @@ function injectScriptIntoHead (event: CustomEvent): void {
 
   if (csp != null) script.setAttribute('nonce', csp)
 
+  // @ts-expect-error
+  window.mrujs.enableElement(event)
+
   event.detail?.fetchResponse?.text().then((html: string) => {
     script.text = html
     document.head.appendChild(script)?.parentNode?.removeChild(script)
     const { element, fetchRequest, fetchResponse } = event.detail
     // @ts-expect-error
     window.mrujs.navigationAdapter.navigate(element, fetchRequest, fetchResponse)
+    // ^ not sure this is actually needed, but we'll leave it just in case.
   }).catch((err: Error) => console.error(err))
 }
 
 function isJavascriptResponse (contentType: string | undefined): boolean {
   if (contentType == null) return false
 
-  const mimeType = 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01'
-  const responseWithoutEncoding = contentType.split(/;\s+/)[0]
-  const responseRegex = new RegExp(responseWithoutEncoding)
-  return Boolean(mimeType.match(responseRegex))
+  return Boolean(contentType.match(/\b(?:java|ecma)script\b/))
 }

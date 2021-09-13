@@ -26,7 +26,7 @@ export class CableCar {
     this.observer = new MutationObserver(this.boundScanner)
     this.elements = []
     this.cableReady = cableReady
-    this.mimeType = (mimeType ?? 'application/vnd.cable-ready.json, */*')
+    this.mimeType = (mimeType ?? 'application/vnd.cable-ready.json')
   }
 
   get name (): string {

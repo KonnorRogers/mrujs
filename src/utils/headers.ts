@@ -6,7 +6,8 @@ export const BASE_ACCEPT_HEADERS: MimeTypeInterface = {
   text: 'text/plain',
   html: 'text/html',
   xml: 'application/xml, text/xml',
-  json: 'application/json, text/javascript'
+  json: 'application/json, text/javascript',
+  script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'
 }
 
 export function findResponseTypeHeader (responseType: string | undefined): string {
@@ -21,8 +22,10 @@ export function findResponseTypeHeader (responseType: string | undefined): strin
   responseType = responseType.trim()
 
   if (Object.keys(acceptHeaders).includes(responseType)) {
-    return acceptHeaders[responseType]
+    responseType = acceptHeaders[responseType]
   }
 
-  return responseType
+  if (responseType.includes('*/*')) return responseType
+
+  return `${responseType}, */*; q=0.01`
 }
