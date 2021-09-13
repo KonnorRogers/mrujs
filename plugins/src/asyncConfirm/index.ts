@@ -25,7 +25,7 @@ async function handleAsyncConfirm (event: Event): Promise<void> {
   if (event.currentTarget == null) return
 
   // @ts-expect-error
-  if (element.dataset.asyncSkipConfirm === 'true' || event.submitter.asyncSkipConfirm === 'true') {
+  if (element.dataset.asyncSkipConfirm === 'true' || event?.submitter?.asyncSkipConfirm === 'true') {
     return
   }
 
