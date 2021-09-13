@@ -58,8 +58,8 @@ async function asyncConfirm (message: string, element?: HTMLElement): Promise<bo
   dialog.innerText = message
 
   if (element != null) {
-    dialog.setAttribute('confirm-text', element.dataset.asyncConfirmOk)
-    dialog.setAttribute('cancel-text', element.dataset.asyncConfirmCancel)
+    if (element.dataset.asyncConfirmOk != null) dialog.setAttribute('confirm-text', element.dataset.asyncConfirmOk)
+    if (element.dataset.asyncConfirmCancel != null) dialog.setAttribute('cancel-text', element.dataset.asyncConfirmCancel)
   }
 
   document.body.appendChild(dialog)
