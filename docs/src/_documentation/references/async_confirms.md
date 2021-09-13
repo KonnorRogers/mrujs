@@ -40,7 +40,3 @@ Example:
    data-async-confirm-cancel="No! Absolutely not!">
   Log out
 </button>
-
-There are some issues around I18n which will need to be addressed with
-this component. If you notice you can supply both "confirm-text" and
-"cancel-text" to allow a user what will display in the buttons.
