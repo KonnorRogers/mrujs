@@ -34,7 +34,8 @@ Example:
 </button>
 ```
 
-<button data-method="delete"
+<button class="btn btn--primary"
+   data-method="delete"
    data-async-confirm="Are you sure?"
    data-async-confirm-ok="Yes, Logout!"
    data-async-confirm-cancel="No! Absolutely not!">
