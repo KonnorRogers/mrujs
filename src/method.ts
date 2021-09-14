@@ -52,13 +52,15 @@ function observerCallback (nodeList: Node[]): void {
   *   <a href="/users/5" data-method="delete" rel="nofollow">Delete</a>
   */
 function handle (event: Event): void {
-  stopEverything(event)
-
   const link = event.currentTarget as HTMLAnchorElement
+
+  if (link.dataset.remote === "false") return
+  if (link.dataset.method == null || link.dataset.remote !== "true") return
 
   // no href? Do not pass go.
   if (link.href == null) return
 
+  stopEverything(event)
   const submitter = event.target
 
   const linkSubmission = LinkSubmission(link)

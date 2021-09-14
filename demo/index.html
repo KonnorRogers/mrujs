@@ -9,6 +9,8 @@
       import mrujs from '../src/index';
       import { AsyncConfirm }  from '../plugins/src/asyncConfirm';
       window.mrujs = mrujs.start({ plugins: [ AsyncConfirm() ] })
+
+      document.querySelector("button").addEventListener("click", () => console.log("hi"))
     </script>
   </head>
   <body>
@@ -78,8 +80,5 @@
     <button data-async-confirm="Hi">
       Yo
     </button>
-        <script>
-          setTimeout(() => document.querySelector("button").addEventListener("click", () => console.log("hi")))
-        </script>
   </body>
 </html>
