@@ -26,20 +26,29 @@ experimental until the API is improved and iterated upon.
 Example:
 
 ```html
-<button data-method="delete"
+<button
    data-async-confirm="Are you sure?"
-   data-async-confirm-text="Yes, Logout!"
-   data-async-cancel-text="Absolutely not!">
-  Log out
+   data-async-confirm-text="Yes, I'm sure!"
+   data-async-cancel-text="No! I'm not sure...">
+  Do stuff
 </button>
+
+const btn = document.querySelector("button")
+btn.addEventListener("confirm:complete", (event) => console.log(event.detail.answer))
 ```
 
 <p align="middle">
-  <button class="btn btn--primary"
-    data-method="delete"
-    data-async-confirm="Are you sure?"
-    data-async-confirm-ok="Yes, Logout!"
-    data-async-confirm-cancel="No! Absolutely not!">
-    Log out
+  Check the console!
+
+  <button id="example-button" class="btn btn--primary"
+          data-async-confirm="Are you sure?"
+          data-async-confirm-text="Yes, I'm sure!"
+          data-async-cancel-text="No! I'm not sure...">
+    Do stuff
   </button>
 </p>
+
+<script>
+  const btn = document.querySelector("#example-button")
+  btn.addEventListener("confirm:complete", (event) => console.log(event.detail.answer))
+</script>
