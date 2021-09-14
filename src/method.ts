@@ -54,8 +54,8 @@ function observerCallback (nodeList: Node[]): void {
 function handle (event: Event): void {
   const link = event.currentTarget as HTMLAnchorElement
 
-  if (link.dataset.remote === "false") return
-  if (link.dataset.method == null || link.dataset.remote !== "true") return
+  if (link.dataset.remote === 'false') return
+  if (link.dataset.method == null && link.dataset.remote !== 'true') return
 
   // no href? Do not pass go.
   if (link.href == null) return
