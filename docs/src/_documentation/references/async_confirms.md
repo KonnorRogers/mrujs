@@ -40,6 +40,8 @@ btn.addEventListener("confirm:complete", (event) => console.log(event.detail.ans
 <p align="middle">
   Check the console!
 
+  <br>
+
   <button id="example-button" class="btn btn--primary"
           data-async-confirm="Are you sure?"
           data-async-confirm-text="Yes, I'm sure!"

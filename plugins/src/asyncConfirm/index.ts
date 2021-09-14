@@ -55,10 +55,9 @@ function handleAsyncConfirm (event: Event): void {
 
       // Need to think through change events.
       // if (eventType === 'change') { element.addEventListener(eventType, handleAsyncConfirm as EventListener) }
-      return
+    } else {
+      mrujs.dispatch.call(element, 'confirm:complete', { detail: { answer } })
     }
-
-    mrujs.stopEverything(event)
   }).catch((_) => mrujs.stopEverything(event))
 }
 
