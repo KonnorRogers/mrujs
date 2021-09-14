@@ -27,14 +27,16 @@ Example:
 
 ```html
 <button
-   data-async-confirm="Are you sure?"
-   data-async-confirm-text="Yes, I'm sure!"
-   data-async-cancel-text="No! I'm not sure...">
+    data-async-confirm="Are you sure?"
+    data-async-confirm-ok="Yes, I'm sure!"
+    data-async-confirm-cancel="No! I'm not sure...">
   Do stuff
 </button>
 
-const btn = document.querySelector("button")
-btn.addEventListener("confirm:complete", (event) => console.log(event.detail.answer))
+<script>
+  const btn = document.querySelector("button")
+  btn.addEventListener("confirm:complete", (event) => console.log(event.detail.answer))
+</script>
 ```
 
 <p align="middle">
@@ -44,8 +46,8 @@ btn.addEventListener("confirm:complete", (event) => console.log(event.detail.ans
 
   <button id="example-button" class="btn btn--primary"
           data-async-confirm="Are you sure?"
-          data-async-confirm-text="Yes, I'm sure!"
-          data-async-cancel-text="No! I'm not sure...">
+          data-async-confirm-ok="Yes, I'm sure!"
+          data-async-confirm-cancel="No! I'm not sure...">
     Do stuff
   </button>
 </p>
@@ -53,4 +55,4 @@ btn.addEventListener("confirm:complete", (event) => console.log(event.detail.ans
 <script>
   const btn = document.querySelector("#example-button")
   btn.addEventListener("confirm:complete", (event) => console.log(event.detail.answer))
-</script>
+</script
