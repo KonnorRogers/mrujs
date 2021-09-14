@@ -128,14 +128,14 @@ function navigate (element: HTMLElement, request: FetchRequestInterface, respons
 
   if (response.failed || isSamePage) {
     // Use morphdom to dom diff the response if the response is HTML.
-    morphResponse(response, !isSamePage)
+    morphResponse(response, element, !isSamePage)
     return
   }
 
   const adapter = findAdapter()
 
   if (adapter == null) {
-    morphResponse(response, isSamePage)
+    morphResponse(response, element, isSamePage)
     return
   }
 
@@ -204,13 +204,18 @@ function preventDoubleVisit (response: FetchResponseInterface, location: Locatea
   }).catch((error) => console.error(error))
 }
 
-function morphResponse (response: FetchResponseInterface, pushState: boolean = false): void {
+function morphResponse (response: FetchResponseInterface, element: HTMLElement, pushState: boolean = false): void {
   // Dont pass go if its not HTML.
   if (!response.isHtml) return
 
   response.html()
     .then((html: string) => {
-      morphHtml(html)
+      const morphdomId = element.dataset.morphdomId
+      if (morphdomId !== null && morphdomId !== undefined && morphdomId !== '') {
+        morphById(html, morphdomId)
+      } else {
+        morphHtml(html)
+      }
 
       if (pushState) {
         // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
@@ -227,6 +232,17 @@ function morphHtml (html: string): void {
   const template = document.createElement('template')
   template.innerHTML = String(html).trim()
   morphdom(document.body, template.content, { childrenOnly: true })
+}
+
+function morphById (html: string, morphdomId: string): void {
+  const mrphdomElement = document.getElementById(morphdomId)
+  const domparser = new DOMParser()
+  const htmlParsed = domparser.parseFromString(html, 'text/html')
+  const htmlElement = htmlParsed.getElementById(morphdomId)
+  if ((mrphdomElement == null) || (htmlElement == null)) {
+    return console.error('Element for morphdom does not exist')
+  }
+  morphdom(mrphdomElement, htmlElement, { childrenOnly: true })
 }
 
 function determineAction (element: HTMLElement): VisitAction {
