@@ -7,7 +7,10 @@
     <meta name="csrf-token" content="1234">
     <script type="module">
       import mrujs from '../src/index';
-      window.mrujs = mrujs.start()
+      import { AsyncConfirm }  from '../plugins/src/asyncConfirm';
+      window.mrujs = mrujs.start({ plugins: [ AsyncConfirm() ] })
+
+      document.querySelector("button").addEventListener("click", () => console.log("hi"))
     </script>
   </head>
   <body>
@@ -74,5 +77,8 @@
     </form>
 
     <a href="/" data-method="delete">DELETE</a>
+    <button data-async-confirm="Hi">
+      Yo
+    </button>
   </body>
 </html>

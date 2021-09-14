@@ -143,7 +143,7 @@ function connect (): void {
   window.addEventListener('pageshow', reEnableDisabledElements)
 
   window.mrujs.allPlugins.forEach((plugin: MrujsPluginInterface) => {
-    plugin.connect()
+    plugin?.connect()
   })
 
   window.mrujs.connected = true
@@ -153,7 +153,7 @@ function disconnect (): void {
   window.removeEventListener('pageshow', reEnableDisabledElements)
 
   window.mrujs.allPlugins.forEach((plugin: MrujsPluginInterface) => {
-    plugin.disconnect()
+    plugin?.disconnect()
   })
 
   window.mrujs.connected = false

@@ -19,15 +19,13 @@ function initialize (): void {
 function connect (): void { }
 function disconnect (): void { }
 
-async function handleAsyncConfirm (event: Event): Promise<void> {
+function handleAsyncConfirm (event: Event): void {
   let element = event.currentTarget as HTMLElement
 
-  if (event.currentTarget == null) return
+  if (element == null) return
 
   // @ts-expect-error
-  if (element.dataset.asyncSkipConfirm === 'true' || event?.submitter?.asyncSkipConfirm === 'true') {
-    return
-  }
+  if (element.dataset.asyncConfirmSkip === 'true' || event.submitter?.dataset?.asyncConfirmSkip === 'true') return
 
   const message = element.dataset.asyncConfirm
 
@@ -41,29 +39,27 @@ async function handleAsyncConfirm (event: Event): Promise<void> {
   const mrujs = window.mrujs
   mrujs.stopEverything(event)
 
-  let answer = false
+  asyncConfirm(message, element).then((answer) => {
+    if (answer) {
+      mrujs.dispatch.call(element, 'confirm:complete', { detail: { answer } })
 
-  answer = await asyncConfirm(message, element)
+      // if (eventType === "click")
+      if (eventType === 'submit') {
+        // @ts-expect-error
+        element = event.submitter
+      }
 
-  if (answer) {
-    mrujs.dispatch.call(element, 'confirm:complete', { detail: { answer } })
+      element.dataset.asyncConfirmSkip = 'true'
+      element.click()
+      element.removeAttribute('data-async-confirm-skip')
 
-    // if (eventType === "click")
-    if (eventType === 'submit') {
-      // @ts-expect-error
-      element = event.submitter
+      // Need to think through change events.
+      // if (eventType === 'change') { element.addEventListener(eventType, handleAsyncConfirm as EventListener) }
+      return
     }
 
-    element.dataset.asyncConfirmSkip = 'true'
-    element.click()
-
-    setTimeout(() => {
-      element.removeAttribute('data-async-confirm-skip')
-    }, 50)
-
-    // Need to think through change events.
-    // if (eventType === 'change') { element.addEventListener(eventType, handleAsyncConfirm as EventListener) }
-  }
+    mrujs.stopEverything(event)
+  }).catch((_) => mrujs.stopEverything(event))
 }
 
 async function asyncConfirm (message: string, element?: HTMLElement): Promise<boolean> {
