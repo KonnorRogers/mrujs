@@ -8,6 +8,7 @@ import mrujs from '../../../src/index'
 describe('Ajax', (): void => {
   afterEach((): void => {
     sinon.restore()
+    window.mrujs.stop()
   })
 
   describe('Remote Disabled Forms', (): void => {
@@ -103,7 +104,7 @@ describe('Ajax', (): void => {
   })
 
   describe('Ajax data-method links work on nested elements', () => {
-    const events = [...ALWAYS_SENT_EVENTS, 'ajax:response:error', 'ajax:error']
+    const events = ALWAYS_SENT_EVENTS
 
     const deleteLink = (): void => {
       window.mrujs = mrujs.start();
