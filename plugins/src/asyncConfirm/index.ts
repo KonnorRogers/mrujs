@@ -12,7 +12,6 @@ export function AsyncConfirm (): Record<string, unknown> {
 function initialize (): void {
   window.customElements.define('mrujs-confirm', MrujsConfirmElement)
 
-  // @ts-expect-error
   window.mrujs.registerConfirm('data-async-confirm', handleAsyncConfirm)
 }
 
@@ -35,7 +34,6 @@ function handleAsyncConfirm (event: Event): void {
   const eventType = event.type
   if (eventType === 'change') return
 
-  // @ts-expect-error
   const mrujs = window.mrujs
   mrujs.stopEverything(event)
 

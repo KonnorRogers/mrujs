@@ -1,15 +1,17 @@
-import { expandUrl, urlsAreEqual } from './utils/url'
 import morphdom from 'morphdom'
 
-import { MrujsPluginInterface, SnapshotCacheInterface, Locateable, FetchRequestInterface, FetchResponseInterface } from './types'
+import { expandUrl, urlsAreEqual } from './utils/url'
+import {
+  Adapter, MrujsPluginInterface, SnapshotCacheInterface,
+  Locateable, FetchRequestInterface, FetchResponseInterface,
+  VisitAction
+} from './types'
 
 const ALLOWABLE_ACTIONS = [
   'advance',
   'replace',
   'restore'
 ]
-
-export type VisitAction = 'advance' | 'replace' | 'restore'
 
 export interface NavigationAdapterInterface extends MrujsPluginInterface {
   cacheContains: (url: Locateable) => boolean
@@ -237,28 +239,4 @@ function determineAction (element: HTMLElement): VisitAction {
   }
 
   return action as VisitAction
-}
-
-export interface Adapter {
-  visit: (location: Locateable, { action }: { action: VisitAction }) => void
-  clearCache: () => void
-
-  // Turbolinks
-  supported?: boolean
-  Snapshot: {
-    wrap: (str: string) => string
-  }
-  controller: {
-    cache: SnapshotCacheInterface
-  }
-
-  // Turbo
-  PageSnapshot?: {
-    fromHTMLString: (str: string) => string
-  }
-  navigator: {
-    view: {
-      snapshotCache: SnapshotCacheInterface
-    }
-  }
 }

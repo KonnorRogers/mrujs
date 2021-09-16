@@ -21,12 +21,19 @@ export class CableCar {
     return 'CableCar'
   }
 
+  initialize (): void {
+    const anyHeader = window.mrujs.config.mimeTypes.any
+    window.mrujs.registerMimeTypes([
+      { shortcut: 'any', header: `${this.mimeType}, ${anyHeader}` }
+    ])
+  }
+
   connect (): void {
-    document.addEventListener("ajax:complete", this.boundPerform)
+    document.addEventListener('ajax:complete', this.boundPerform)
   }
 
   disconnect (): void {
-    document.removeEventListener("ajax:complete", this.boundPerform)
+    document.removeEventListener('ajax:complete', this.boundPerform)
   }
 
   perform (event: CustomEvent): void {
