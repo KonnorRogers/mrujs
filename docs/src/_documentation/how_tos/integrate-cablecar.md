@@ -33,24 +33,25 @@ mrujs.start({
 })
 ```
 
-Now, any element with `data-cable-car` will get `data-remote="true"` and
-`data-type="json"` which means that anything with `data-cable-car` will
-perform an AJAX request, return JSON, and then automatically performs
-CableReady operations on the JSON payload.
+Now, any link or form with `data-method="<method>"` or `data-remote="true"` will have the following `Accept` header:
 
-## [Example](#example)
-
-```html
-<a href="/url" data-method="patch" data-cable-car>
-  I get used by CableCar!
-</a>
+```js
+"text/vnd.cablecar.json, */*"
 ```
 
-Turns into:
+which means any link or form with `data-method="<method>"` or `data-remote="true"` will
+perform an AJAX request, return JSON if it finds a cablecar response on your Rails server,
+and then automatically performs CableCar operations defined in the JSON payload return.
+
+## [Examples](#examples)
 
 ```html
-<a href="/url" data-method="patch" data-remote="true" data-type="json" data-cable-car="">
-  Click me
+<a href="/url" data-method="patch">
+  I get used by CableCar!
 </a>
+
+<form data-remote="true">
+ <input type="submit" value="Submit me and get CableCar JSON back!">
+</form>
 ```
 
