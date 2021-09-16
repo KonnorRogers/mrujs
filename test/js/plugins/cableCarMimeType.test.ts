@@ -13,7 +13,7 @@ describe('CableCar with custom config', () => {
     })
 
     assert(window.mrujs.mimeTypes.any.includes(mimeType))
-    assert(window.mrujs.mimeTypes.any.includes("*/*"))
+    assert(window.mrujs.mimeTypes.any.includes('*/*'))
 
     mrujs.stop()
   })
