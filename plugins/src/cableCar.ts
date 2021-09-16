@@ -22,7 +22,7 @@ export class CableCar {
   }
 
   initialize (): void {
-    const anyHeader = window.mrujs.config.mimeTypes.any
+    const anyHeader = window.mrujs.mimeTypes.any
     window.mrujs.registerMimeTypes([
       { shortcut: 'any', header: `${this.mimeType}, ${anyHeader}` }
     ])
