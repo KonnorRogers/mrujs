@@ -22,14 +22,14 @@ export function FetchResponse (response: Response): FetchResponseInterface {
   async function text (): Promise<string> {
     if (_text != null) return _text
 
-    _text = await response.text()
+    _text = await response.clone().text()
     return _text
   }
 
   async function html (): Promise<string> {
     if (isHtml) return await text()
 
-    return await Promise.reject(response)
+    return Promise.reject(response)
   }
 
   async function json (): Promise<JSON> {
@@ -40,7 +40,7 @@ export function FetchResponse (response: Response): FetchResponseInterface {
       return _json
     }
 
-    return await Promise.reject(response)
+    return Promise.reject(response)
   }
 
   function getHeader (name: string): string | null {
