@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0-beta.2](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.1...v0.5.0-beta.2) (2021-09-17)
+
+
+### Bug Fixes
+
+* use response.clone() ([#124](https://github.com/ParamagicDev/mrujs/issues/124)) ([d3ef19d](https://github.com/ParamagicDev/mrujs/commit/d3ef19dbf2d4c38cf90425bc672a4becb01b9dcf))
+
 ## [0.5.0-beta.1](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.0...v0.5.0-beta.1) (2021-09-17)
 
 ## [0.5.0-beta.0](https://github.com/ParamagicDev/mrujs/compare/v0.4.21...v0.5.0-beta.0) (2021-09-17)
