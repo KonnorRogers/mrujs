@@ -22,7 +22,7 @@ export function FetchResponse (response: Response): FetchResponseInterface {
   async function text (): Promise<string> {
     if (_text != null) return _text
 
-    _text = await response.text()
+    _text = await response.clone().text()
     return _text
   }
 
