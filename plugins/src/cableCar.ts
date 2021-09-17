@@ -39,6 +39,7 @@ export class CableCar {
   perform (event: CustomEvent): void {
     const fetchResponse = event.detail.fetchResponse
 
+    if (fetchResponse.failed) return
     if (fetchResponse?.contentType == null) return
     if (!this.isCableReadyResponse(fetchResponse.contentType)) return
 
@@ -50,8 +51,6 @@ export class CableCar {
   }
 
   isCableReadyResponse (contentType: string): boolean {
-    const responseWithoutEncoding = contentType.split(/;\s+/)[0]
-    const responseRegex = new RegExp(responseWithoutEncoding)
-    return Boolean(this.mimeType.match(responseRegex))
+    return Boolean(contentType.includes(this.mimeType))
   }
 }

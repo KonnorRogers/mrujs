@@ -36,7 +36,7 @@ export function FetchResponse (response: Response): FetchResponseInterface {
     if (isJson) {
       if (_json != null) return _json
 
-      _json = await response.json()
+      _json = JSON.parse(await text())
       return _json
     }
 
