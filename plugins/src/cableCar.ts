@@ -39,7 +39,6 @@ export class CableCar {
   perform (event: CustomEvent): void {
     const fetchResponse = event.detail.fetchResponse
 
-    if (fetchResponse.failed) return
     if (fetchResponse?.contentType == null) return
     if (!this.isCableReadyResponse(fetchResponse.contentType)) return
 
