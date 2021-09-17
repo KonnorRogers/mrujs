@@ -12,10 +12,8 @@ describe('CableCar with custom config', () => {
       plugins: [cableCar]
     })
 
-    const link = document.querySelector('#cable-car-link') as HTMLElement
-
-    assert.equal(link.dataset.type, mimeType)
-    assert.equal(link.dataset.remote, 'true')
+    assert(window.mrujs.mimeTypes.any.includes(mimeType))
+    assert(window.mrujs.mimeTypes.any.includes('*/*'))
 
     mrujs.stop()
   })

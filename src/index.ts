@@ -4,8 +4,7 @@ import './polyfills'
 import { Mrujs } from './mrujs'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
-import { Adapter } from './navigationAdapter'
-import { MrujsInterface } from './types'
+import { Adapter, MrujsInterface } from './types'
 
 // This is required for typescript checking in tests
 declare global {

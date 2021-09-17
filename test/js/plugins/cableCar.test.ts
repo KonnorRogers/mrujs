@@ -14,14 +14,6 @@ describe('CableCar with standard config', () => {
     window.mrujs.stop()
   })
 
-  it('Should automatically add data-type and data-remote to data-cable-car elements', () => {
-    mrujs.start({ plugins: [cableCar] })
-    const link = document.querySelector('#cable-car-link') as HTMLElement
-    assert.equal(link.dataset.type, cableCar.mimeType)
-    assert.equal(link.dataset.remote, 'true')
-    window.mrujs.stop()
-  })
-
   it('Should return true for the given content type', () => {
     assert(cableCar.isCableReadyResponse("application/vnd.cable-ready.json; charset='utf-8'"))
   })

@@ -29,7 +29,6 @@ function injectScriptIntoHead (event: CustomEvent): void {
 
   if (csp != null) script.setAttribute('nonce', csp)
 
-  // @ts-expect-error
   window.mrujs.enableElement(event)
 
   event.detail?.fetchResponse?.text().then((html: string) => {

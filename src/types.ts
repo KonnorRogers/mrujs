@@ -158,3 +158,29 @@ export interface FetchRequestInterface {
   isGetRequest: boolean
   cancel: (event?: CustomEvent) => void
 }
+
+export interface Adapter {
+  visit: (location: Locateable, { action }: { action: VisitAction }) => void
+  clearCache: () => void
+
+  // Turbolinks
+  supported?: boolean
+  Snapshot: {
+    wrap: (str: string) => string
+  }
+  controller: {
+    cache: SnapshotCacheInterface
+  }
+
+  // Turbo
+  PageSnapshot?: {
+    fromHTMLString: (str: string) => string
+  }
+  navigator: {
+    view: {
+      snapshotCache: SnapshotCacheInterface
+    }
+  }
+}
+
+export type VisitAction = 'advance' | 'replace' | 'restore'
