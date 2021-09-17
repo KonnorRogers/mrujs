@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [](https://github.com/ParamagicDev/mrujs/compare/v0.4.21...v) (2021-09-17)
+
+
+### Bug Fixes
+
+* CableCar refactor ([#123](https://github.com/ParamagicDev/mrujs/issues/123)) ([40bc622](https://github.com/ParamagicDev/mrujs/commit/40bc622d97af0739686340ea4cbcdabb4b545e0d))
+
 ### [0.4.21](https://github.com/ParamagicDev/mrujs/compare/v0.4.20...v0.4.21) (2021-09-14)
 
 ### [0.4.20](https://github.com/ParamagicDev/mrujs/compare/v0.4.18...v0.4.20) (2021-09-14)
