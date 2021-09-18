@@ -36,6 +36,8 @@ export function getCookieValue (cookieName?: string): string | undefined {
 }
 
 export function getMetaContent (str: string): string | undefined {
-  const element: HTMLMetaElement | null = document.querySelector(`meta[name="${str}"]`)
+  const elements = document.querySelectorAll(`meta[name="${str}"]`)
+
+  const element = elements[elements.length - 1] as HTMLMetaElement | undefined
   return element?.content ?? undefined
 }
