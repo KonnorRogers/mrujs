@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0-beta.3](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.2...v0.5.0-beta.3) (2021-09-18)
+
+
+### Bug Fixes
+
+* invalid authenticity token crap ([#125](https://github.com/ParamagicDev/mrujs/issues/125)) ([a397d85](https://github.com/ParamagicDev/mrujs/commit/a397d8595ebbc307c6a3c2b78b58f586dc94c08d))
+
 ## [0.5.0-beta.2](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.1...v0.5.0-beta.2) (2021-09-17)
 
 
