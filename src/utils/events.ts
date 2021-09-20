@@ -29,7 +29,6 @@ export const AJAX_EVENTS = {
 
   /**
    * Just prior to sending the fetch request
-   * @TODO not currently implemented
    */
   ajaxBeforeSend: `${prefix}:beforeSend`,
 

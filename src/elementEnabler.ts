@@ -12,11 +12,12 @@ export function ElementEnabler (): MrujsPluginInterface {
 }
 
 function queries (): EventQueryInterface[] {
-  const { buttonDisableSelector, linkDisableSelector } = window.mrujs.querySelectors
+  const { formSubmitSelector, buttonDisableSelector, linkDisableSelector } = window.mrujs.querySelectors
 
+  const selectors = [linkDisableSelector.selector, buttonDisableSelector.selector, formSubmitSelector.selector]
   return [
-    { event: AJAX_EVENTS.ajaxComplete, selectors: [linkDisableSelector.selector, buttonDisableSelector.selector] },
-    { event: AJAX_EVENTS.ajaxStopped, selectors: [linkDisableSelector.selector, buttonDisableSelector.selector] }
+    { event: AJAX_EVENTS.ajaxComplete, selectors: selectors },
+    { event: AJAX_EVENTS.ajaxStopped, selectors: selectors }
   ]
 }
 
@@ -75,15 +76,13 @@ function enableLinkElement (element: HTMLElement): void {
  *  - Replaces element text with cached value from 'ujs-enable-with' data store (created in `disableFormElements`)
  *  - Sets disabled property to false
  */
-function enableFormElements (form: HTMLFormElement): void {
+export function enableFormElements (form: HTMLFormElement): void {
   const elements = findFormElements(form, window.mrujs.querySelectors.formEnableSelector.selector) as HTMLElement[]
 
-  elements.forEach((el: HTMLElement) => {
-    enableFormElement(el)
-  })
+  elements.forEach(enableFormElement)
 }
 
-function enableFormElement (element: HTMLElement): void {
+export function enableFormElement (element: HTMLElement): void {
   const originalText = element.dataset.ujsEnableWith
 
   if (originalText != null) {

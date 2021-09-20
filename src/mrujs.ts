@@ -7,7 +7,7 @@ import { Confirm } from './confirm'
 import { Method } from './method'
 import { NavigationAdapter } from './navigationAdapter'
 import { DisabledElementChecker } from './disabledElementChecker'
-import { ElementEnabler, enableElement } from './elementEnabler'
+import { ElementEnabler, enableElement, enableFormElements, enableFormElement } from './elementEnabler'
 import { ElementDisabler, disableElement } from './elementDisabler'
 import { AddedNodesObserver } from './addedNodesObserver'
 import { urlEncodeFormData } from './utils/form'
@@ -79,6 +79,8 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.urlEncodeFormData = urlEncodeFormData
   obj.registerMimeTypes = registerMimeTypes
   obj.enableElement = enableElement
+  obj.enableFormElements = enableFormElements
+  obj.enableFormElement = enableFormElement
   obj.disableElement = disableElement
   obj.stopEverything = stopEverything
   obj.dispatch = dispatch

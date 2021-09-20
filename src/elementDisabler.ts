@@ -13,10 +13,11 @@ export function ElementDisabler (): MrujsPluginInterface {
 }
 
 function queries (): EventQueryInterface[] {
-  const { linkClickSelector, buttonClickSelector } = window.mrujs.querySelectors
+  const { formSubmitSelector, linkClickSelector, buttonClickSelector } = window.mrujs.querySelectors
 
   return [
-    { event: 'click', selectors: [buttonClickSelector.selector, linkClickSelector.selector] }
+    { event: 'click', selectors: [buttonClickSelector.selector, linkClickSelector.selector] },
+    { event: 'ajax:send', selectors: [formSubmitSelector.selector] }
   ]
 }
 
