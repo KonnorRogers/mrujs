@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0-beta.5](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.4...v0.5.0-beta.5) (2021-09-20)
+
+
+### Bug Fixes
+
+* element disabling aligned with rails-ujs ([#129](https://github.com/ParamagicDev/mrujs/issues/129)) ([81b7da1](https://github.com/ParamagicDev/mrujs/commit/81b7da10aed16255c7e1b99fb2c0630778db4706))
+
 ## [0.5.0-beta.4](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.3...v0.5.0-beta.4) (2021-09-20)
 
 
