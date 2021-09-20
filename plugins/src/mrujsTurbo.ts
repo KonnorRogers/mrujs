@@ -20,11 +20,11 @@ function initialize (): void {
 }
 
 function connect (): void {
-  document.addEventListener('ajax:beforeNavigation', handleTurboStream)
+  document.addEventListener('ajax:beforeNavigation', handleTurboStream as EventListener)
 }
 
 function disconnect (): void {
-  document.removeEventListener('ajax:beforeNavigation', handleTurboStream)
+  document.removeEventListener('ajax:beforeNavigation', handleTurboStream as EventListener)
 }
 
 function handleTurboStream (event: CustomEvent): void {
