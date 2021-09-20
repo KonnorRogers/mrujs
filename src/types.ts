@@ -115,6 +115,8 @@ export interface MrujsInterface {
   urlEncodeFormData: (formData: FormData) => URLSearchParams
   registerMimeTypes: (mimeTypes: CustomMimeTypeInterface[]) => MimeTypeInterface
   enableElement: (trigger: Event | HTMLElement) => void
+  enableFormElements: (element: HTMLFormElement) => void
+  enableFormElement: (element: HTMLFormElement) => void
   disableElement: (event: Event | HTMLFormElement | Submitter) => void
   addListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
   removeListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
