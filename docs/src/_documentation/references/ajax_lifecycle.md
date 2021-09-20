@@ -26,6 +26,7 @@ ajax:response:error # => 404s, 500s, etc
 ajax:error # => will catch both request and response errors.
 ajax:success
 ajax:complete
+ajax:beforeNavigation # => fires before the navigation adapter, can be stopped.
 ajax:stopped # => when event.preventDefault() is called or event.detail.fetchRequest.cancel(event) is called.
 ```
 
