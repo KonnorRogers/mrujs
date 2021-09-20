@@ -1,4 +1,4 @@
-import { dispatch } from "./utils/events"
+import { dispatch } from './utils/events'
 import morphdom from 'morphdom'
 
 import { expandUrl, urlsAreEqual } from './utils/url'
@@ -40,7 +40,7 @@ export function NavigationAdapter (): NavigationAdapterInterface {
 
 function connect (): void {
   document.addEventListener('ajax:complete', beforeNavigation as EventListener)
-  document.addEventListener("ajax:beforeNavigation", navigateViaEvent as EventListener)
+  document.addEventListener('ajax:beforeNavigation', navigateViaEvent as EventListener)
 }
 
 function disconnect (): void {
@@ -51,7 +51,7 @@ function disconnect (): void {
 function beforeNavigation (event: CustomEvent): void {
   if (event.defaultPrevented) return
 
-  dispatch.call(event.detail.element, "ajax:beforeNavigation", {detail: { ...event.detail }})
+  dispatch.call(event.detail.element, 'ajax:beforeNavigation', { detail: { ...event.detail } })
 }
 
 function findAdapter (): Adapter | undefined {
