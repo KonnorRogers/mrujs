@@ -24,16 +24,17 @@ export class CableCar {
   initialize (): void {
     const anyHeader = window.mrujs.mimeTypes.any
     window.mrujs.registerMimeTypes([
-      { shortcut: 'any', header: `${this.mimeType}, ${anyHeader}` }
+      { shortcut: 'any', header: `${this.mimeType}, ${anyHeader}` },
+      { shortcut: 'cablecar', header: this.mimeType }
     ])
   }
 
   connect (): void {
-    document.addEventListener('ajax:complete', this.boundPerform)
+    document.addEventListener('ajax:beforeNavigation', this.boundPerform)
   }
 
   disconnect (): void {
-    document.removeEventListener('ajax:complete', this.boundPerform)
+    document.removeEventListener('ajax:beforeNavigation', this.boundPerform)
   }
 
   perform (event: CustomEvent): void {
@@ -42,6 +43,7 @@ export class CableCar {
     if (fetchResponse?.contentType == null) return
     if (!this.isCableReadyResponse(fetchResponse.contentType)) return
 
+    event.preventDefault()
     fetchResponse.json().then((response: JSON) => {
       this.cableReady.perform(response)
     }).catch((err: Error) => {

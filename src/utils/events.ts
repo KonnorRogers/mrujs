@@ -69,8 +69,9 @@ export const AJAX_EVENTS = {
    */
   ajaxComplete: `${prefix}:complete`,
 
-  ajaxStopped: `${prefix}:stopped`
+  ajaxStopped: `${prefix}:stopped`,
 
+  ajaxBeforeNavigation: `${prefix}:beforeNavigation`
   // NOT CURRENTLY IMPLEMENTED
   // /**
   //  * when there are blank required fields in a form, submits anyway if stopped
