@@ -73,7 +73,7 @@ function sendFetchRequest (event: CustomEvent): void {
 
   const { element, request } = event.detail
 
-  dispatch.call(element, AJAX_EVENTS.ajaxSend, {detail: {...event.detail}})
+  dispatch.call(element, AJAX_EVENTS.ajaxSend, { detail: { ...event.detail } })
 
   window.fetch(request).then((resp) => {
     const fetchResponse = FetchResponse(resp)
