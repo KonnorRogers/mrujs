@@ -36,7 +36,8 @@ function handleTurboStream (event: CustomEvent): void {
   event.preventDefault() // => stop the navigationAdapter from trying to handle it.
 
   fetchResponse.html().then((responseHtml: string) => {
-    this.turbo.renderStreamMessage(responseHtml)
+    // @ts-expect-error
+    window.Turbo.renderStreamMessage(responseHtml)
   }).catch((err: Error) => {
     console.error(err)
   })
