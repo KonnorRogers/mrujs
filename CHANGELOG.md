@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0-beta.4](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.3...v0.5.0-beta.4) (2021-09-20)
+
+
+### Features
+
+* add turbo stream integration ([#127](https://github.com/ParamagicDev/mrujs/issues/127)) ([32ea091](https://github.com/ParamagicDev/mrujs/commit/32ea091911d01effdf11676fee78704bfbb70278))
+
 ## [0.5.0-beta.3](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.2...v0.5.0-beta.3) (2021-09-18)
 
 
