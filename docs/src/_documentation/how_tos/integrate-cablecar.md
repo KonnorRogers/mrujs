@@ -6,14 +6,16 @@ doc_order: 10
 ## [CableCar](#cablecar)
 
 Mrujs has an official first class plugin for use with CableReady's JSON
-serializer called CableCar! If you do not already have CableReady in
-your `package.json`, you must add it. Mrujs does not ship CableReady, it
-is up to you to install it and pass it into the CableCar plugin.
+serializer called [CableCar](https://cableready.stimulusreflex.com/v/v5/cable-car)!
+If you do not already have CableReady in your `package.json`, you must add it.
+Mrujs does not ship CableReady, it is up to you to install it and pass it into
+the CableCar plugin.
 
 ## [Installing CableReady](#installing-cableready)
 
 ```base
-yarn add cable_ready
+bundle add cable_ready -v ">= 5.0.0.pre3"
+yarn add cable_ready@latest
 ```
 
 ## [Using CableCar](#using-cablecar)
@@ -36,12 +38,14 @@ mrujs.start({
 Now, any link or form with `data-method="<method>"` or `data-remote="true"` will have the following `Accept` header:
 
 ```js
-"text/vnd.cablecar.json, */*"
+"application/vnd.cable-ready.json, */*"
 ```
 
 which means any link or form with `data-method="<method>"` or `data-remote="true"` will
-perform an AJAX request, return JSON if it finds a cablecar response on your Rails server,
-and then automatically performs CableCar operations defined in the JSON payload return.
+perform an AJAX request, return JSON if it finds a CableCar response from your Rails
+server (or any Ruby server which provides a `Content-Type: application/vnd.cable-ready.json`
+header), and then automatically perform CableCar operations defined in the JSON payload
+return.
 
 ## [Examples](#examples)
 
@@ -50,7 +54,7 @@ and then automatically performs CableCar operations defined in the JSON payload 
   I get used by CableCar!
 </a>
 
-<form data-remote="true">
+<form method="POST" data-remote="true">
  <input type="submit" value="Submit me and get CableCar JSON back!">
 </form>
 ```
