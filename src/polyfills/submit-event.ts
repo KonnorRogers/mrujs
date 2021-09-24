@@ -25,15 +25,23 @@ function clickCaptured (event: Event): void {
 }
 
 (function () {
-  // No need to continue, polyfill not needed.
-  if ('SubmitEvent' in window) return
-
   // Polyfill has already been run, do not pass go.
   if ('submitter' in Event.prototype) return
 
+  let prototype = Event.prototype
+
+  // Safari 15 has a bug with submitters, this is a check for that.
+  const isSafari = navigator.vendor.includes('Apple Computer')
+
+  // No need to continue, polyfill not needed.
+  if ('SubmitEvent' in window && !isSafari) return
+
+  // We have to attach to the SubmitEvent prototype in Safari instead of Event prototype.
+  if (isSafari) prototype = window.SubmitEvent.prototype
+
   addEventListener('click', clickCaptured, true)
 
-  Object.defineProperty(Event.prototype, 'submitter', {
+  Object.defineProperty(prototype, 'submitter', {
     get (): HTMLElement | undefined {
       if (this.type === 'submit' && this.target instanceof HTMLFormElement) {
         return submittersByForm.get(this.target)
