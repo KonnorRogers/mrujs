@@ -9,6 +9,7 @@ import { Adapter, MrujsInterface } from './types'
 // This is required for typescript checking in tests
 declare global {
   interface Window {
+    SubmitEvent: typeof Event
     mrujs: MrujsInterface
     Rails: MrujsInterface
     Turbolinks?: Adapter
