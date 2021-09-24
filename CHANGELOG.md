@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.5...v0.5.0) (2021-09-24)
+
+
+### Bug Fixes
+
+* submit-event-polyfill ([#132](https://github.com/ParamagicDev/mrujs/issues/132)) ([5fdc3d7](https://github.com/ParamagicDev/mrujs/commit/5fdc3d790992a20b52d77b06e52ef8ee611b3239))
+
 ## [0.5.0-beta.5](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.4...v0.5.0-beta.5) (2021-09-20)
 
 
