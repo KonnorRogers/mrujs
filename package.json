@@ -57,7 +57,7 @@
     "start:watch": "web-dev-server --watch",
     "build": "yarn clean && yarn fix && rollup -c",
     "build:watch": "yarn clean && yarn fix && rollup -wc",
-    "changelog": "standard-changelog",
+    "deploy": "yarn build && standard-version --release-as",
     "deploy:beta": "yarn build && standard-version --prerelease beta",
     "deploy:patch": "yarn build && standard-version --release-as patch",
     "deploy:minor": "yarn build && standard-version --release-as minor",
