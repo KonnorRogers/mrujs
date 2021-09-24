@@ -12,9 +12,10 @@ export function ElementEnabler (): MrujsPluginInterface {
 }
 
 function queries (): EventQueryInterface[] {
-  const { formSubmitSelector, buttonDisableSelector, linkDisableSelector } = window.mrujs.querySelectors
+  const { formSubmitSelector, buttonDisableSelector, linkDisableSelector, inputChangeSelector } = window.mrujs.querySelectors
 
-  const selectors = [linkDisableSelector.selector, buttonDisableSelector.selector, formSubmitSelector.selector]
+  const selectors = [linkDisableSelector.selector, buttonDisableSelector.selector,
+                     formSubmitSelector.selector, inputChangeSelector.selector]
   return [
     { event: AJAX_EVENTS.ajaxComplete, selectors: selectors },
     { event: AJAX_EVENTS.ajaxStopped, selectors: selectors }
