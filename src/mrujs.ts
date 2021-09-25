@@ -175,10 +175,13 @@ function addedNodesCallback (this: MrujsInterface, mutationList: MutationRecord[
       addedNodes = Array.from(mutation.addedNodes)
     }
 
-    window.mrujs.allPlugins.forEach((plugin: MrujsPluginInterface) => {
-      if (typeof plugin.observerCallback === 'function') {
-        plugin.observerCallback(addedNodes)
-      }
+    // kick it into an animation frame so we dont delay rendering
+    window.requestAnimationFrame(() => {
+      window.mrujs.allPlugins.forEach((plugin: MrujsPluginInterface) => {
+        if (typeof plugin.observerCallback === 'function') {
+          plugin.observerCallback(addedNodes)
+        }
+      })
     })
   }
 }
