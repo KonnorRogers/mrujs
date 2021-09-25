@@ -1,13 +1,11 @@
 import { assert } from '@esm-bundle/chai'
+import { nextFrame } from '@open-wc/testing'
 import mrujs from '../../../src'
-
-async function nextEventLoopTick (): Promise<void> {
-  return await new Promise<void>(resolve => setTimeout(() => resolve(), 0))
-}
 
 describe('RemoteWatcher', () => {
   it('Should auto attach to remote forms + links', async () => {
     mrujs.start()
+    await nextFrame()
     const remoteForm = document.createElement('form')
     remoteForm.classList.add('remote')
     remoteForm.setAttribute('data-remote', 'true')
@@ -24,7 +22,8 @@ describe('RemoteWatcher', () => {
     remoteLink.setAttribute('data-remote', 'true')
 
     // We need to wait for next event loop to be able to let the mutation observer fire.
-    await nextEventLoopTick()
+    await nextFrame()
+    await nextFrame()
 
     document.querySelectorAll('.remote').forEach((el) => assert(el.getAttribute('data-turbo') === 'false'))
     document.querySelectorAll('.not-remote').forEach((el) => assert(el.getAttribute('data-turbo') == null))
