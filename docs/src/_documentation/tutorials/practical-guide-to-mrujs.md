@@ -78,7 +78,7 @@ disable the element without showing new text. Not a problem.
 
 ```html
 <button id="disable-example"
-        data-disable-with="Now I'm disabled...">
+        data-disable="true">
   I'm enabled!
 </button>
 
