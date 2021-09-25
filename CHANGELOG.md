@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/ParamagicDev/mrujs/compare/v0.5.0...v0.5.1) (2021-09-25)
+
+
+### Features
+
+* disable <select> elements on change ([#133](https://github.com/ParamagicDev/mrujs/issues/133)) ([fccbb00](https://github.com/ParamagicDev/mrujs/commit/fccbb006304629d35f6561c844651a7d0ee01a32))
+
+
+### Bug Fixes
+
+* use animation frames when nodes are added ([#135](https://github.com/ParamagicDev/mrujs/issues/135)) ([a2e5a10](https://github.com/ParamagicDev/mrujs/commit/a2e5a1023760d6c6ef165ff7f88925d2c3149eed))
+
 ## [0.5.0](https://github.com/ParamagicDev/mrujs/compare/v0.5.0-beta.5...v0.5.0) (2021-09-24)
 
 
