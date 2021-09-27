@@ -3,15 +3,36 @@ import { stopEverything, AJAX_EVENTS } from './utils/events'
 import { EventQueryInterface, MrujsPluginInterface } from './types'
 
 export function ElementEnabler (): MrujsPluginInterface {
+  const callbacks = [enableElement] as EventListener[]
+  let queries: EventQueryInterface[] = []
+
+  function initialize (): void {
+    queries = getQueries()
+  }
+
+  function connect (): void {
+    addListeners(queries, callbacks)
+  }
+
+  function disconnect (): void {
+    removeListeners(queries, callbacks)
+  }
+
+  function observerCallback (nodeList: Node[]): void {
+    attachObserverCallback(queries, nodeList, callbacks)
+  }
+
   return {
     name: 'ElementEnabler',
+    initialize,
     connect,
     disconnect,
-    observerCallback
+    observerCallback,
+    callbacks
   }
 }
 
-function queries (): EventQueryInterface[] {
+function getQueries (): EventQueryInterface[] {
   const { formSubmitSelector, buttonDisableSelector, linkDisableSelector, inputChangeSelector } = window.mrujs.querySelectors
 
   const selectors = [linkDisableSelector.selector, buttonDisableSelector.selector,
@@ -20,18 +41,6 @@ function queries (): EventQueryInterface[] {
     { event: AJAX_EVENTS.ajaxComplete, selectors: selectors },
     { event: AJAX_EVENTS.ajaxStopped, selectors: selectors }
   ]
-}
-
-function connect (): void {
-  addListeners(queries(), [enableElement])
-}
-
-function disconnect (): void {
-  removeListeners(queries(), [enableElement])
-}
-
-function observerCallback (nodeList: Node[]): void {
-  attachObserverCallback(queries(), nodeList, [enableElement])
 }
 
 // Unified function to enable an element (link, button and form)

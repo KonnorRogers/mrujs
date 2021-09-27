@@ -3,8 +3,28 @@ import { attachObserverCallback, addListeners, removeListeners, findFormElements
 import { stopEverything } from './utils/events'
 
 export function ElementDisabler (): MrujsPluginInterface {
+  const callbacks = [disableElement] as EventListener[]
+  let queries: EventQueryInterface[] = []
+
+  function initialize (): void {
+    queries = getQueries()
+  }
+
+  function connect (): void {
+    addListeners(queries, callbacks)
+  }
+
+  function disconnect (): void {
+    removeListeners(queries, callbacks)
+  }
+
+  function observerCallback (nodeList: Node[]): void {
+    attachObserverCallback(queries, nodeList, callbacks)
+  }
+
   return {
     name: 'ElementDisabler',
+    initialize,
     connect,
     disconnect,
     observerCallback,
@@ -12,7 +32,7 @@ export function ElementDisabler (): MrujsPluginInterface {
   }
 }
 
-function queries (): EventQueryInterface[] {
+function getQueries (): EventQueryInterface[] {
   const { formSubmitSelector, linkClickSelector, buttonClickSelector, inputChangeSelector } = window.mrujs.querySelectors
 
   return [
@@ -20,18 +40,6 @@ function queries (): EventQueryInterface[] {
     { event: 'ajax:send', selectors: [formSubmitSelector.selector] },
     { event: 'change', selectors: [inputChangeSelector.selector] }
   ]
-}
-
-function connect (): void {
-  addListeners(queries(), [disableElement])
-}
-
-function disconnect (): void {
-  removeListeners(queries(), [disableElement])
-}
-
-function observerCallback (nodeList: Node[]): void {
-  attachObserverCallback(queries(), nodeList, [disableElement])
 }
 
 /**

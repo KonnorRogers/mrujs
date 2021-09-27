@@ -3,27 +3,34 @@ import { addListeners, removeListeners, attachObserverCallback } from './utils/d
 import { EventQueryInterface, MrujsPluginInterface } from './types'
 
 export function Confirm (): MrujsPluginInterface {
-  const callbacks = [handleConfirm]
+  const callbacks = [handleConfirm] as EventListener[]
+  let queries: EventQueryInterface[] = []
+
+  function initialize (): void {
+    queries = getQueries()
+  }
+
+  function connect (): void {
+    addListeners(queries, callbacks)
+  }
+
+  function disconnect (): void {
+    removeListeners(queries, callbacks)
+  }
+
+  function observerCallback (nodeList: Node[]): void {
+    attachObserverCallback(queries, nodeList, callbacks)
+  }
+
   return {
     name: 'Confirm',
+    initialize,
     connect,
     disconnect,
     observerCallback,
     queries,
     callbacks
   }
-}
-
-function connect (): void {
-  addListeners(queries(), window.mrujs.confirmClass.callbacks as EventListener[])
-}
-
-function disconnect (): void {
-  removeListeners(queries(), window.mrujs.confirmClass.callbacks as EventListener[])
-}
-
-function observerCallback (nodeList: Node[]): void {
-  attachObserverCallback(queries(), nodeList, window.mrujs.confirmClass.callbacks as EventListener[])
 }
 
 function handleConfirm (event: Event | CustomEvent): void {
@@ -50,7 +57,7 @@ function handleConfirm (event: Event | CustomEvent): void {
   stopEverything(event)
 }
 
-function queries (): EventQueryInterface[] {
+function getQueries (): EventQueryInterface[] {
   const { querySelectors } = window.mrujs
   return [
     {

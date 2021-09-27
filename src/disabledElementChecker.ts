@@ -3,28 +3,37 @@ import { addListeners, removeListeners, attachObserverCallback } from './utils/d
 import { stopEverything } from './utils/events'
 
 export function DisabledElementChecker (): MrujsPluginInterface {
+  const callbacks = [handleDisabledElement] as EventListener[]
+  let queries: EventQueryInterface[] = []
+
+  function initialize (): void {
+    queries = getQueries()
+  }
+
+  function connect (): void {
+    addListeners(queries, callbacks)
+  }
+
+  function disconnect (): void {
+    removeListeners(queries, callbacks)
+  }
+
+  function observerCallback (nodeList: Node[]): void {
+    attachObserverCallback(queries, nodeList, callbacks)
+  }
+
   return {
     name: 'DisabledElementChecker',
+    initialize,
     connect,
     disconnect,
     observerCallback,
-    queries
+    queries,
+    callbacks
   }
 }
 
-function connect (): void {
-  addListeners(queries(), [handleDisabledElement])
-}
-
-function disconnect (): void {
-  removeListeners(queries(), [handleDisabledElement])
-}
-
-function observerCallback (nodeList: Node[]): void {
-  attachObserverCallback(queries(), nodeList, [handleDisabledElement])
-}
-
-function queries (): EventQueryInterface[] {
+function getQueries (): EventQueryInterface[] {
   const { linkClickSelector, buttonClickSelector, inputChangeSelector, formSubmitSelector, formInputClickSelector } = window.mrujs.querySelectors
 
   return [

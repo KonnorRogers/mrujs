@@ -58,10 +58,10 @@ export interface MimeTypeInterface {
 export interface MrujsPluginInterface {
   name: string
   initialize?: () => void
-  connect: () => void
-  disconnect: () => void
+  connect?: () => void
+  disconnect?: () => void
   observerCallback?: (addedNodes: Node[]) => void
-  queries?: () => EventQueryInterface[]
+  queries?: EventQueryInterface[]
   callbacks?: Function[]
 }
 

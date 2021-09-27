@@ -16,7 +16,6 @@ import { FetchRequest } from './http/fetchRequest'
 import { addListeners, removeListeners, attachObserverCallback, BASE_SELECTORS } from './utils/dom'
 import { BASE_ACCEPT_HEADERS } from './utils/headers'
 import {
-  MrujsPluginInterface,
   MrujsConfigInterface,
   QuerySelectorInterface,
   MimeTypeInterface,
@@ -116,11 +115,10 @@ function start (this: MrujsInterface, config: Partial<MrujsConfigInterface> = {}
   this.plugins = this.config.plugins
   this.allPlugins = this.corePlugins.concat(this.plugins)
 
-  this.allPlugins.forEach((plugin) => {
-    if (typeof plugin.initialize === 'function') {
-      plugin.initialize()
-    }
-  })
+  for (let i = 0; i < this.allPlugins.length; i++) {
+    const plugin = this.allPlugins[i]
+    plugin.initialize?.()
+  }
 
   connect()
 
@@ -144,9 +142,10 @@ function connect (): void {
   reEnableDisabledElements()
   window.addEventListener('pageshow', reEnableDisabledElements)
 
-  window.mrujs.allPlugins.forEach((plugin: MrujsPluginInterface) => {
-    plugin?.connect()
-  })
+  for (let i = 0; i < window.mrujs.allPlugins.length; i++) {
+    const plugin = window.mrujs.allPlugins[i]
+    plugin.connect?.()
+  }
 
   window.mrujs.connected = true
 }
@@ -154,9 +153,10 @@ function connect (): void {
 function disconnect (): void {
   window.removeEventListener('pageshow', reEnableDisabledElements)
 
-  window.mrujs.allPlugins.forEach((plugin: MrujsPluginInterface) => {
-    plugin?.disconnect()
-  })
+  for (let i = 0; i < window.mrujs.allPlugins.length; i++) {
+    const plugin = window.mrujs.allPlugins[i]
+    plugin.disconnect?.()
+  }
 
   window.mrujs.connected = false
 }
@@ -176,13 +176,12 @@ function addedNodesCallback (this: MrujsInterface, mutationList: MutationRecord[
     }
 
     // kick it into an animation frame so we dont delay rendering
-    window.requestAnimationFrame(() => {
-      window.mrujs.allPlugins.forEach((plugin: MrujsPluginInterface) => {
-        if (typeof plugin.observerCallback === 'function') {
-          plugin.observerCallback(addedNodes)
-        }
-      })
-    })
+    window.setTimeout(() => {
+      for (let i = 0; i < window.mrujs.allPlugins.length; i++) {
+        const plugin = window.mrujs.allPlugins[i]
+        plugin.observerCallback?.(addedNodes)
+      }
+    }, 0)
   }
 }
 

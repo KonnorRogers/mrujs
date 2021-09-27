@@ -18,11 +18,9 @@ function connect (): void {
 function disconnect (): void {}
 
 function observerCallback (nodeList: Node[]): void {
-  nodeList.forEach((node) => {
-    if (isCsrfToken(node)) {
-      refresh()
-    }
-  })
+  for (const node of Array.from(nodeList)) {
+    if (isCsrfToken(node)) refresh()
+  }
 }
 
 // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
@@ -41,11 +39,7 @@ function refresh (): void {
 }
 
 function isCsrfToken (node: Node): boolean {
-  if (node instanceof HTMLMetaElement) {
-    return node.matches('meta[name="csrf-token]"')
-  }
-
-  return false
+  return (node as Element)?.matches('meta[name="csrf-token]"') ?? false
 }
 
 // Up-to-date Cross-Site Request Forgery token
