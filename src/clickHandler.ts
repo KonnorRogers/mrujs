@@ -3,28 +3,37 @@ import { preventInsignificantClick } from './utils/misc'
 import { EventQueryInterface, MrujsPluginInterface } from './types'
 
 export function ClickHandler (): MrujsPluginInterface {
+  const callbacks = [preventInsignificantClick] as EventListener[]
+  let queries: EventQueryInterface[] = []
+
+  function initialize (): void {
+    queries = getQueries()
+  }
+
+  function connect (): void {
+    addListeners(queries, callbacks)
+  }
+
+  function disconnect (): void {
+    removeListeners(queries, callbacks)
+  }
+
+  function observerCallback (nodeList: Node[]): void {
+    attachObserverCallback(queries, nodeList, callbacks)
+  }
+
   return {
     name: 'ClickHandler',
+    initialize,
     connect,
     disconnect,
     observerCallback,
-    queries
+    queries,
+    callbacks
   }
 }
 
-function connect (): void {
-  addListeners(queries(), [preventInsignificantClick] as EventListener[])
-}
-
-function disconnect (): void {
-  removeListeners(queries(), [preventInsignificantClick] as EventListener[])
-}
-
-function observerCallback (nodeList: Node[]): void {
-  attachObserverCallback(queries(), nodeList, [preventInsignificantClick] as EventListener[])
-}
-
-function queries (): EventQueryInterface[] {
+function getQueries (): EventQueryInterface[] {
   const { querySelectors } = window.mrujs
   return [
     {
