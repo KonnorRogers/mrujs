@@ -2,7 +2,10 @@ import { MrujsPluginInterface } from './types'
 import { match } from './utils/dom'
 
 export function RemoteWatcher (): MrujsPluginInterface {
-  const query = window.mrujs.querySelectors.remoteSelector.selector
+  let query: string
+  function initialize (): void {
+    query = window.mrujs.querySelectors.remoteSelector.selector
+  }
 
   function connect (): void {
     document.querySelectorAll(query).forEach((el): void => {
@@ -28,6 +31,7 @@ export function RemoteWatcher (): MrujsPluginInterface {
 
   return {
     name: 'RemoteWatcher',
+    initialize,
     connect,
     disconnect,
     observerCallback
