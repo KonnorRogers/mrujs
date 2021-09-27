@@ -18,8 +18,11 @@ function connect (): void {
 function disconnect (): void {}
 
 function observerCallback (nodeList: Node[]): void {
-  for (const node of Array.from(nodeList)) {
-    if (isCsrfToken(node)) refresh()
+  for (let i = 0; i < nodeList.length; i++) {
+    const node = nodeList[i]
+    if (isCsrfToken(node)) {
+      refresh()
+    }
   }
 }
 
@@ -39,7 +42,11 @@ function refresh (): void {
 }
 
 function isCsrfToken (node: Node): boolean {
-  return (node as Element)?.matches('meta[name="csrf-token]"') ?? false
+  if (node instanceof HTMLMetaElement) {
+    return node.matches('meta[name="csrf-token]"')
+  }
+
+  return false
 }
 
 // Up-to-date Cross-Site Request Forgery token
