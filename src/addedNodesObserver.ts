@@ -1,4 +1,4 @@
-import { MrujsPluginInterface } from './types'
+import { MrujsPluginInterface } from '../types'
 
 /**
  * Mutation observer for added nodes.

@@ -1,10 +1,11 @@
 {
-  "include": ["./src"],
+  "include": ["./types.ts", "./src"],
   "exclude": ["./dist"],
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
     "declarationMap": true,
+    "declarationDir": ".",
     "esModuleInterop": true,
     "importHelpers": true,
     "experimentalDecorators": true,

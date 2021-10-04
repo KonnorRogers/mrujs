@@ -1,4 +1,4 @@
-import { Adapter, MrujsInterface } from '../../src/types'
+import { Adapter, MrujsInterface } from '../../types'
 
 declare global {
   interface Window {

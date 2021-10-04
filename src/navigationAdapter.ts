@@ -6,7 +6,7 @@ import {
   Adapter, MrujsPluginInterface, SnapshotCacheInterface,
   Locateable, FetchRequestInterface, FetchResponseInterface,
   VisitAction
-} from './types'
+} from '../types'
 
 const ALLOWABLE_ACTIONS = [
   'advance',

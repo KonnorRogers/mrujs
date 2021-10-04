@@ -1,5 +1,5 @@
 import { expandUrl } from '../utils/url'
-import { FetchResponseInterface } from '../types'
+import { FetchResponseInterface } from '../../types'
 
 // Shamelessly stolen from Turbo.
 // https://github.com/hotwired/turbo/blob/main/src/http/fetch_response.ts

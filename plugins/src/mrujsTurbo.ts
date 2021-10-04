@@ -1,4 +1,4 @@
-import { MrujsPluginInterface } from '../../src/types'
+import { MrujsPluginInterface } from '../../types'
 
 export function MrujsTurbo (): MrujsPluginInterface {
   return {

@@ -1,5 +1,5 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
-import { MrujsPluginInterface } from './types'
+import { MrujsPluginInterface } from '../types'
 import { match } from './utils/dom'
 import { LinkSubmission } from './linkSubmission'
 

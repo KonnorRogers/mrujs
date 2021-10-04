@@ -1,6 +1,6 @@
 import { dispatch, stopEverything } from './utils/events'
 import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
-import { EventQueryInterface, MrujsPluginInterface } from './types'
+import { EventQueryInterface, MrujsPluginInterface } from '../types'
 
 export function Confirm (): MrujsPluginInterface {
   const callbacks = [handleConfirm] as EventListener[]

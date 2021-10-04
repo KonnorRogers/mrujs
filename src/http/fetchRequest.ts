@@ -1,7 +1,7 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from '../utils/events'
 import { isGetRequest, mergeHeaders, expandUrl } from '../utils/url'
 import { getToken } from '../csrf'
-import { RequestInfo, FetchRequestBody, FetchRequestInterface, Locateable } from '../types'
+import { RequestInfo, FetchRequestBody, FetchRequestInterface, Locateable } from '../../types'
 
 /**
  * Fetch Request is essentially an "proxy" class meant to wrap a standard Request

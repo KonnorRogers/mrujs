@@ -1,6 +1,6 @@
 import { buildFormElementFormData, formEnctypeFromString, FormEncType, FormEncTypes, urlEncodeFormData } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
-import { FetchRequestInterface, Submitter } from './types'
+import { FetchRequestInterface, Submitter } from '../types'
 import { FetchRequest } from './http/fetchRequest'
 import { isGetRequest, expandUrl } from './utils/url'
 

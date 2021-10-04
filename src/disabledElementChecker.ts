@@ -1,4 +1,4 @@
-import { MrujsPluginInterface, EventQueryInterface } from './types'
+import { MrujsPluginInterface, EventQueryInterface } from '../types'
 import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
 import { stopEverything } from './utils/events'
 

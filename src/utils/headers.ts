@@ -1,4 +1,4 @@
-import { MimeTypeInterface } from '../types'
+import { MimeTypeInterface } from '../../types'
 
 export const BASE_ACCEPT_HEADERS: MimeTypeInterface = {
   '*': '*/*',
