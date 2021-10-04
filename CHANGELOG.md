@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.4](https://github.com/ParamagicDev/mrujs/compare/v0.5.3...v0.5.4) (2021-10-04)
+
+
+### Bug Fixes
+
+* typings should now work properly ([#140](https://github.com/ParamagicDev/mrujs/issues/140)) ([b428d67](https://github.com/ParamagicDev/mrujs/commit/b428d67b59405fd825f1413b6fcfb3ae18e9e114))
+
 ### [0.5.3](https://github.com/ParamagicDev/mrujs/compare/v0.5.2...v0.5.3) (2021-09-27)
 
 ### [0.5.2](https://github.com/ParamagicDev/mrujs/compare/v0.5.1...v0.5.2) (2021-09-27)
