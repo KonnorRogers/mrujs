@@ -9,6 +9,7 @@
   "module": "./dist/mrujs.module.js",
   "umd:main": "./dist/mrujs.umd.js",
   "license": "MIT",
+  "types": "./dist/types.d.ts",
   "peerDependencies": {
     "mrujs": ">= 0.4.6"
   }
