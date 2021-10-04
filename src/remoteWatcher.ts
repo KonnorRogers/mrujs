@@ -1,4 +1,4 @@
-import { MrujsPluginInterface } from './types'
+import { MrujsPluginInterface } from '../types'
 import { match } from './utils/dom'
 
 export function RemoteWatcher (): MrujsPluginInterface {

@@ -1,6 +1,6 @@
 // This file is copied from:
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/dom.coffee
-import { EventQueryInterface, QuerySelectorInterface, SelectorInterface } from '../types'
+import { EventQueryInterface, QuerySelectorInterface, SelectorInterface } from '../../types'
 
 const m =
   Element.prototype.matches ??

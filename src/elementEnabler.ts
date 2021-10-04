@@ -1,6 +1,6 @@
 import { attachObserverCallback, match, addListeners, removeListeners, findFormElements } from './utils/dom'
 import { stopEverything, AJAX_EVENTS } from './utils/events'
-import { EventQueryInterface, MrujsPluginInterface } from './types'
+import { EventQueryInterface, MrujsPluginInterface } from '../types'
 
 export function ElementEnabler (): MrujsPluginInterface {
   const callbacks = [enableElement] as EventListener[]

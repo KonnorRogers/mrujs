@@ -5,14 +5,14 @@ import { terser } from "rollup-plugin-terser";
 import { brotliCompressSync } from 'zlib'
 import gzipPlugin from 'rollup-plugin-gzip'
 
-function basePlugins(tsconfig = "tsconfig.json") {
+function basePlugins(tsconfig = "./tsconfig.json") {
   return [
     resolve(),
     typescript({ tsconfig }),
   ]
 }
 
-function compressionPlugins(tsconfig = "tsconfig.json") {
+function compressionPlugins(tsconfig = "./tsconfig.json") {
   return [
     ...basePlugins(tsconfig),
     terser({
@@ -69,7 +69,7 @@ export default [
         sourcemap: true,
       }
     ],
-    plugins: basePlugins("tsconfig-plugins.json")
+    plugins: basePlugins("./tsconfig-plugins.json")
   },
 
 
@@ -109,6 +109,6 @@ export default [
         sourcemap: true,
       }
     ],
-    plugins: compressionPlugins("tsconfig-plugins.json")
+    plugins: compressionPlugins("./tsconfig-plugins.json")
   },
 ]

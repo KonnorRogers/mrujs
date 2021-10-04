@@ -1,7 +1,7 @@
 import { urlEncodeFormData } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
 import { FetchRequest } from './http/fetchRequest'
-import { FetchRequestInterface } from './types'
+import { FetchRequestInterface } from '../types'
 import { isGetRequest } from './utils/url'
 
 export interface LinkSubmissionInterface {

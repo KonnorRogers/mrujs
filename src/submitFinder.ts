@@ -1,4 +1,4 @@
-import { Submitter } from './types'
+import { Submitter } from '../types'
 
 export interface ExtendedSubmitEvent extends CustomEvent {
   submitter: Submitter
