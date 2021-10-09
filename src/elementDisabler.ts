@@ -33,11 +33,12 @@ export function ElementDisabler (): MrujsPluginInterface {
 }
 
 function getQueries (): EventQueryInterface[] {
-  const { formInputClickSelector, formSubmitSelector, linkClickSelector, buttonClickSelector, inputChangeSelector } = window.mrujs.querySelectors
+  const { formSubmitSelector, linkClickSelector, buttonClickSelector, inputChangeSelector } = window.mrujs.querySelectors
 
   return [
-    { event: 'click', selectors: [buttonClickSelector.selector, linkClickSelector.selector, formInputClickSelector.selector] },
+    { event: 'click', selectors: [buttonClickSelector.selector, linkClickSelector.selector] },
     { event: 'ajax:send', selectors: [formSubmitSelector.selector] },
+    { event: 'turbo:submit-start', selectors: ['form'] },
     { event: 'change', selectors: [inputChangeSelector.selector] }
   ]
 }
