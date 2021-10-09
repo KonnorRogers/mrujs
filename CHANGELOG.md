@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.5](https://github.com/ParamagicDev/mrujs/compare/v0.5.4...v0.5.5) (2021-10-09)
+
+
+### Bug Fixes
+
+* disable form submits from Turbo ([#142](https://github.com/ParamagicDev/mrujs/issues/142)) ([ded156b](https://github.com/ParamagicDev/mrujs/commit/ded156b40a504e187ddd626e1fe92fa44feb8783))
+
 ### [0.5.4](https://github.com/ParamagicDev/mrujs/compare/v0.5.3...v0.5.4) (2021-10-04)
 
 
