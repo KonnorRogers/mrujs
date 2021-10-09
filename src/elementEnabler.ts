@@ -39,7 +39,8 @@ function getQueries (): EventQueryInterface[] {
     formSubmitSelector.selector, inputChangeSelector.selector]
   return [
     { event: AJAX_EVENTS.ajaxComplete, selectors: selectors },
-    { event: AJAX_EVENTS.ajaxStopped, selectors: selectors }
+    { event: AJAX_EVENTS.ajaxStopped, selectors: selectors },
+    { event: 'turbo:submit-end', selectors: selectors }
   ]
 }
 

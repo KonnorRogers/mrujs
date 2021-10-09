@@ -38,6 +38,7 @@ function getQueries (): EventQueryInterface[] {
   return [
     { event: 'click', selectors: [buttonClickSelector.selector, linkClickSelector.selector] },
     { event: 'ajax:send', selectors: [formSubmitSelector.selector] },
+    { event: 'turbo:submit-start', selectors: ['form'] },
     { event: 'change', selectors: [inputChangeSelector.selector] }
   ]
 }
