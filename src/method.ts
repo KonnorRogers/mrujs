@@ -80,7 +80,8 @@ function getQueries (): EventQueryInterface[] {
     {
       event: 'click',
       selectors: [
-        querySelectors.linkClickSelector.selector
+        querySelectors.linkClickSelector.selector,
+        querySelectors.buttonClickSelector.selector
       ]
     },
     {
