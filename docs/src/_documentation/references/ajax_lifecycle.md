@@ -45,7 +45,7 @@ request // => Request
 fetchResponse // => FetchResponse (wrapper around Response)
 response // => Response
 submitter // => The button clicked to initiate the submit. Button / Link element
-submission // => Either FormSubmission or LinkSubmission.
+submission // => Either FormSubmission or MethodSubmission.
 status // => available for ajax:success, ajax:complete, ajax:response:error, ajax:error
 ```
 
