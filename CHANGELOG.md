@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.6](https://github.com/ParamagicDev/mrujs/compare/v0.5.5...v0.5.6) (2021-10-15)
+
+
+### Bug Fixes
+
+* allow remote submissions on formInputSelectors ([#145](https://github.com/ParamagicDev/mrujs/issues/145)) ([fb57a39](https://github.com/ParamagicDev/mrujs/commit/fb57a391350a17ad1a6696e25f34a69b5ed40b6d))
+
 ### [0.5.5](https://github.com/ParamagicDev/mrujs/compare/v0.5.4...v0.5.5) (2021-10-09)
 
 
