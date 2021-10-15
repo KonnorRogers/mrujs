@@ -2,17 +2,17 @@ import { urlEncodeFormData } from './utils/form'
 import { findResponseTypeHeader } from './utils/headers'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchRequestInterface } from '../types'
-import { isGetRequest } from './utils/url'
+import { expandUrl, isGetRequest } from './utils/url'
 
-export interface LinkSubmissionInterface {
+export interface MethodSubmissionInterface {
   request: Request
   fetchRequest: FetchRequestInterface
 }
 
 /**
- * This class handles LinkSubmissions (<a data-remote"true">)
+ * This class handles data-method / data-remote submissions (<a data-remote"true">)
   */
-export function LinkSubmission (element: HTMLAnchorElement): LinkSubmissionInterface {
+export function MethodSubmission (element: HTMLElement): MethodSubmissionInterface {
   const method = getElementMethod(element)
   let maskedMethod
 
@@ -20,15 +20,20 @@ export function LinkSubmission (element: HTMLAnchorElement): LinkSubmissionInter
     maskedMethod = getMaskedMethod(method)
   }
 
-  const href = element.href
-  const url = new URL(href)
+  const href = element.getAttribute('href') ?? element.dataset.url
+
+  if (href == null) {
+    throw Error(`No 'href' or 'data-url' found on ${JSON.stringify(element)}`)
+  }
+
+  const url = expandUrl(href)
 
   const options: RequestInit = {
     headers: getHeaders(element)
   }
 
   options.method = maskedMethod ?? method
-  if (!isGetRequest(method)) options.body = getBody(method)
+  if (!isGetRequest(method)) options.body = getBody(method, element.getAttribute('data-params'))
 
   const fetchRequest = FetchRequest(url, options)
 
@@ -86,10 +91,21 @@ function getMaskedMethod (method: string): string {
   return isGetRequest(method) ? 'get' : 'post'
 }
 
-function getBody (method: string): URLSearchParams | FormData {
-  if (isGetRequest(method)) {
-    return urlEncodeFormData(getFormData(method))
-  } else {
-    return getFormData(method)
+function getBody (method: string, additionalParams?: string | null): URLSearchParams {
+  const encodedFormData = urlEncodeFormData(getFormData(method))
+
+  if (additionalParams == null) return encodedFormData
+
+  const parsedParams = JSON.parse(additionalParams)
+  for (const [key, value] of Object.entries(parsedParams)) {
+    // @ts-expect-error
+    const val = value.toString()
+
+    // Only strings can be added to UrlSearchParams
+    if (!(val instanceof String) || typeof val !== 'string') continue
+
+    encodedFormData.append(key, val)
   }
+
+  return encodedFormData
 }

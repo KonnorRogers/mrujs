@@ -1,45 +1,40 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
-import { MrujsPluginInterface } from '../types'
-import { match } from './utils/dom'
-import { LinkSubmission } from './linkSubmission'
+import { EventQueryInterface, MrujsPluginInterface } from '../types'
+import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
+import { MethodSubmission } from './methodSubmission'
 
 /**
  * Handles `data-method="method"` submissions.
  */
 export function Method (): MrujsPluginInterface {
+  const callbacks = [handleMethod] as EventListener[]
+  let queries: EventQueryInterface[] = []
+
+  function initialize (): void {
+    queries = getQueries()
+  }
+
+  function connect (): void {
+    addListeners(queries, callbacks)
+  }
+
+  function disconnect (): void {
+    removeListeners(queries, callbacks)
+  }
+
+  function observerCallback (nodeList: Node[]): void {
+    attachObserverCallback(queries, nodeList, callbacks)
+  }
+
   return {
     name: 'Method',
+    initialize,
     connect,
     disconnect,
-    observerCallback
+    observerCallback,
+    queries,
+    callbacks
   }
-}
-
-function connect (): void {
-  allLinks().forEach((link: HTMLAnchorElement): void => {
-    link.addEventListener('click', handle)
-  })
-}
-
-function disconnect (): void {
-  allLinks().forEach((link: HTMLAnchorElement) => {
-    link.removeEventListener('click', handle)
-  })
-}
-
-function observerCallback (nodeList: Node[]): void {
-  const { linkClickSelector } = window.mrujs.querySelectors
-  nodeList.forEach((node) => {
-    if (match(node, linkClickSelector)) {
-      node.addEventListener('click', handle)
-    }
-
-    if (node instanceof Element) {
-      node.querySelectorAll(linkClickSelector.selector).forEach((el) => {
-        el.addEventListener('click', handle)
-      })
-    }
-  })
 }
 
 /**
@@ -51,19 +46,21 @@ function observerCallback (nodeList: Node[]): void {
   *   // Implemented!
   *   <a href="/users/5" data-method="delete" rel="nofollow">Delete</a>
   */
-function handle (event: Event): void {
-  const link = event.currentTarget as HTMLAnchorElement
+function handleMethod (event: Event): void {
+  const element = event.currentTarget as HTMLElement
 
-  if (link.dataset.remote === 'false') return
-  if (link.dataset.method == null && link.dataset.remote !== 'true') return
+  if (element.dataset.remote === 'false') return
+  if (element.dataset.method == null && element.dataset.remote !== 'true') return
 
-  // no href? Do not pass go.
-  if (link.href == null) return
+  // no href or url? Do not pass go.
+  const href = element.getAttribute('href') ?? element.dataset.url
+
+  if (href == null) return
 
   stopEverything(event)
   const submitter = event.target
 
-  const linkSubmission = LinkSubmission(link)
+  const linkSubmission = MethodSubmission(element)
 
   const { fetchRequest, request } = linkSubmission
 
@@ -71,11 +68,26 @@ function handle (event: Event): void {
     * Send it through the event chain. use ajax:beforeSend because submit auto
     * populates fields that we dont want.
     */
-  dispatch.call(link, AJAX_EVENTS.ajaxBeforeSend, {
-    detail: { element: link, fetchRequest, request, submitter }
+  dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
+    detail: { element, fetchRequest, request, submitter }
   })
 }
 
-function allLinks (): HTMLAnchorElement[] {
-  return Array.from(document.querySelectorAll(window.mrujs.querySelectors.linkClickSelector.selector))
+function getQueries (): EventQueryInterface[] {
+  const { querySelectors } = window.mrujs
+
+  return [
+    {
+      event: 'click',
+      selectors: [
+        querySelectors.linkClickSelector.selector
+      ]
+    },
+    {
+      event: 'change',
+      selectors: [
+        querySelectors.inputChangeSelector.selector
+      ]
+    }
+  ]
 }
