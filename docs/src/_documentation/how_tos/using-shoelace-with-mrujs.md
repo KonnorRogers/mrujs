@@ -45,6 +45,8 @@ Shoelace with Rails form helpers:
 
 <https://github.com/yuki24/shoelace-rails>
 
-Shoelace-Rails also has a frontend package which may possibly clobber
-some mrujs behavior, but the ViewHelpers should work fine.
+Shoelace-Rails also has a frontend package which clobbers
+a lot of mrujs behavior and is not recommended, but the ViewHelpers should work fine.
 
+If you would prefer to not use the ViewHelpers, thats fine too. They
+aren't required to use Shoelace with Rails.
