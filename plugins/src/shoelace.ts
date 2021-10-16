@@ -16,7 +16,7 @@ function disconnect (): void {
   document.removeEventListener('sl-submit', shoelaceFormListener as EventListener)
 }
 
-function shoelaceFormListener (event: CustomEvent): Promise<void> {
+async function shoelaceFormListener (event: CustomEvent): Promise<void> {
   const form = event.currentTarget as HTMLFormElement
   const formData = event.detail.formData
 
@@ -30,7 +30,7 @@ function shoelaceFormListener (event: CustomEvent): Promise<void> {
 
   if (method == null) method = 'get'
 
-  window.mrujs.fetch(action, {
+  return await window.mrujs.fetch(action, {
     element: form,
     dispatchEvents: true,
     method: method,
