@@ -1,1 +1,3 @@
 console.log("Hi friends!")
+
+document.body.insertAdjacentHTML("beforeend", "<%= escape_javascript(render(partial: "posts/success")) %>");
