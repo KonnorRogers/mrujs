@@ -102,7 +102,7 @@ function getBody (method: string, additionalParams?: string | null): URLSearchPa
     const val = value.toString()
 
     // Only strings can be added to UrlSearchParams
-    const isString = (val instanceof String || typeof val === "string")
+    const isString = (val instanceof String || typeof val === 'string')
     if (!isString) continue
 
     encodedFormData.append(key, val)
