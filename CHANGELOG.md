@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.7](https://github.com/ParamagicDev/mrujs/compare/v0.5.6...v0.5.7) (2021-10-16)
+
+
+### Features
+
+* add shoelace-plugin ([#147](https://github.com/ParamagicDev/mrujs/issues/147)) ([5222887](https://github.com/ParamagicDev/mrujs/commit/52228872f04e694a23431ba4b6c8763758931861))
+
+
+### Bug Fixes
+
+* conditional operator on formdata ([#148](https://github.com/ParamagicDev/mrujs/issues/148)) ([2c6c031](https://github.com/ParamagicDev/mrujs/commit/2c6c0314a07acf158eb44277b010d507ab70f108))
+
 ### [0.5.6](https://github.com/ParamagicDev/mrujs/compare/v0.5.5...v0.5.6) (2021-10-15)
 
 
