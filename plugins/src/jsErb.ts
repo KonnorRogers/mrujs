@@ -2,9 +2,17 @@ export function JsErb (): Record<string, unknown> {
   const name = 'JsErb'
   return {
     name,
+    initialize,
     connect,
     disconnect
   }
+}
+
+function initialize (): void {
+  const { script, any } = window.mrujs.mimeTypes
+  window.mrujs.registerMimeTypes([
+    { shortcut: 'any', header: `${script}, ${any}` }
+  ])
 }
 
 function connect (): void {
