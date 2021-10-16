@@ -35,4 +35,16 @@ mrujs.start({
 })
 ```
 
+## Usage with Rails view helpers
+
+Currently there is a PR sitting for changing the wrapper_tag of
+`form_with`. <https://github.com/rails/rails/pull/42964>
+
+In the meantime, here are some ViewHelpers created by @yuki to help use
+Shoelace with Rails form helpers:
+
+<https://github.com/yuki24/shoelace-rails>
+
+Shoelace-Rails also has a frontend package which may possibly clobber
+some mrujs behavior, but the ViewHelpers should work fine.
 
