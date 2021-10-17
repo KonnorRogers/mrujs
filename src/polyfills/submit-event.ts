@@ -40,8 +40,9 @@ function clickCaptured (event: Event): void {
 
     // We have to attach to the SubmitEvent prototype in Safari instead of Event prototype.
     prototype = window.SubmitEvent.prototype
-    addEventListener('click', clickCaptured, true)
   }
+
+  addEventListener('click', clickCaptured, true)
 
   Object.defineProperty(prototype, 'submitter', {
     get (): HTMLElement | undefined {
