@@ -31,7 +31,7 @@ function clickCaptured (event: Event): void {
   const isSafari = navigator.vendor.includes('Apple Computer')
 
   if ('SubmitEvent' in window) {
-      // No need to continue, polyfill not needed. Safari 15 has a bug with submitters.
+    // No need to continue, polyfill not needed. Safari 15 has a bug with submitters.
     if (!isSafari) return
 
     // We have to attach to the SubmitEvent prototype in Safari instead of Event prototype.
