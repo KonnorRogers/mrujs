@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.9](https://github.com/ParamagicDev/mrujs/compare/v0.5.8...v0.5.9) (2021-10-17)
+
+
+### Bug Fixes
+
+* jsErb headers and submit-event polyfill ([#154](https://github.com/ParamagicDev/mrujs/issues/154)) ([a9a7ea0](https://github.com/ParamagicDev/mrujs/commit/a9a7ea04e0dd39e150cbdf415ca94eec32678a1c))
+
 ### [0.5.8](https://github.com/ParamagicDev/mrujs/compare/v0.5.7...v0.5.8) (2021-10-16)
 
 ### [0.5.7](https://github.com/ParamagicDev/mrujs/compare/v0.5.6...v0.5.7) (2021-10-16)
