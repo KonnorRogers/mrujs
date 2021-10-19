@@ -1,6 +1,6 @@
 ---
 title: Comparison to UJS
-doc_order: 10
+permalink: /comparison-to-ujs
 ---
 
 Before we start comparing, let's start with why.

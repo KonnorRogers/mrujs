@@ -1,6 +1,6 @@
 ---
 title: The Fetch API
-doc_order: 50
+permalink: /fetch
 ---
 
 ## [Fetch](#fetch)

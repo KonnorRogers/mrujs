@@ -1,6 +1,6 @@
 ---
 title: (Experimental) Plugins
-doc_order: 60
+permalink: /plugins
 ---
 
 ## [Plugin Interface](#plugin-interface)

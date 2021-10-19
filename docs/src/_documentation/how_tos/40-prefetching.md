@@ -1,6 +1,6 @@
 ---
 title: Prefetching
-doc_order: 20
+permalink: /prefetching
 ---
 
 ## [Why should I prefetch?](#why-should-i-prefetch)

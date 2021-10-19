@@ -1,6 +1,6 @@
 ---
 title: Integrations
-doc_order: 90
+permalink: /integrations
 ---
 
 ## [Navigation](#navigation)

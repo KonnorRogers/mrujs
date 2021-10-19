@@ -1,6 +1,6 @@
 ---
 title: (Experimental) MimeTypes
-doc_order: 80
+permalink: /mime-types
 ---
 
 mrujs comes with a set of predefined MimeTypes for `AcceptHeaders`.
