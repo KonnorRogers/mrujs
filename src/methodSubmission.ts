@@ -33,7 +33,7 @@ export function MethodSubmission (element: HTMLElement): MethodSubmissionInterfa
   }
 
   options.method = maskedMethod ?? method
-  if (!isGetRequest(method)) options.body = getBody(method, element.getAttribute('data-params'))
+  if (!isGetRequest(method)) options.body = getBody(method, element)
 
   const fetchRequest = FetchRequest(url, options)
 
@@ -91,12 +91,15 @@ function getMaskedMethod (method: string): string {
   return isGetRequest(method) ? 'get' : 'post'
 }
 
-function getBody (method: string, additionalParams?: string | null): URLSearchParams {
+function getBody (method: string, element: HTMLElement): URLSearchParams {
   const encodedFormData = urlEncodeFormData(getFormData(method))
 
+  // add input's name and value to submission
+  encodedFormData.append(element.getAttribute('name'), element.getAttribute('value'))
+
+  const additionalParams = parseParamFormats(element.getAttribute('data-params'))
   if (additionalParams == null) return encodedFormData
 
-  const parsedParams = JSON.parse(additionalParams)
   for (const [key, value] of Object.entries(parsedParams)) {
     // @ts-expect-error
     const val = value.toString()
@@ -109,4 +112,27 @@ function getBody (method: string, additionalParams?: string | null): URLSearchPa
   }
 
   return encodedFormData
+}
+
+function parseParamFormats (params: any): Object | null {
+  let result = null
+
+  // json format
+  try { result = JSON.parse(params) } catch { }
+  if (result) return result
+
+  // escaped json format
+  try { result = JSON.parse(unescape(params)) } catch { }
+
+  // param string format
+  try {
+    const entries = (new URLSearchParams(params)).keys()
+    result = {}
+
+    for (const entry of entries) {
+      result[entry[0]] = entry[1]
+    }
+  } catch { result = null }
+
+  return result
 }
