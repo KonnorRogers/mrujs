@@ -1,7 +1,14 @@
 ---
-title: (Experimental) Async Confirm Dialogs
-doc_order: 120
+title: (Deprecated) Async Confirm Dialogs
+permalink: /async-confirms
 ---
+
+<%= render(Alert.new(title: "Warning:", type: :warning)) do %>
+  <p>
+    Async confirms in their current state are deprecated until a more
+    stable API is put into place.
+  </p>
+<% end %>
 
 Mrujs offers an alternative to `window.confirm()` dialogs in the form of
 `data-async-confirm="<text>"` which will display a modal which will not block the

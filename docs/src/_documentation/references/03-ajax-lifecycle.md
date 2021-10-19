@@ -1,6 +1,6 @@
 ---
 title: Ajax Lifecycle
-doc_order: 30
+permalink: /ajax-lifecycle
 ---
 
 ## Events

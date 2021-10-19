@@ -1,6 +1,6 @@
 ---
 title: Practical Guide to mrujs
-doc_order: 20
+permalink: /practical-guide-to-mrujs
 ---
 
 If you're new to the concept of UJS, or want a practical example of what

@@ -1,5 +1,6 @@
 ---
 title: Programmatically Fetch with events
+permalink: /programmatic-fetching-with-events
 ---
 
 Remember how I said earlier its just fetch? Well there are 3 additional

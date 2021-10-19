@@ -1,6 +1,6 @@
 ---
 title: Integrate CableCar
-doc_order: 10
+permalink: /integrate-cablecar
 ---
 
 ## [CableCar](#cablecar)

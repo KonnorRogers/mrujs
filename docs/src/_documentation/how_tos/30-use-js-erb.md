@@ -1,6 +1,6 @@
 ---
 title: Using .js.erb
-doc_order: 40
+permalink: /use-js-erb
 ---
 
 ## [Rails Configuration](#rails-configuration)

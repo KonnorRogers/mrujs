@@ -61,7 +61,7 @@ class Helpers < SiteBuilder
   end
 
   def indexed_docs_by_category(category)
-    docs_in_category(category).sort_by { |doc| doc.data.doc_order }
+    docs_in_category(category).sort_by { |doc| doc.data.slug }
   end
 
   def on_github(page)

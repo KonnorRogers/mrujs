@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-doc_order: 10
+permalink: /getting-started
 ---
 
 ## [1. Install Mrujs](#1-install-mrujs)
