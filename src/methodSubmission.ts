@@ -123,6 +123,7 @@ function parseParamFormats (params: any): Object | null {
 
   // escaped json format
   try { result = JSON.parse(unescape(params)) } catch { }
+  if (result) return result
 
   // param string format
   try {
