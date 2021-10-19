@@ -115,25 +115,22 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
 }
 
 function parseParamFormats (params: any): Object | null {
-  let result = null
-
   // json format
-  try { result = JSON.parse(params) } catch { }
-  if (result) return result
+  try { return JSON.parse(params) } catch { }
 
   // escaped json format
-  try { result = JSON.parse(unescape(params)) } catch { }
-  if (result) return result
+  try { return JSON.parse(unescape(params)) } catch { }
 
   // param string format
   try {
     const entries = (new URLSearchParams(params)).keys()
-    result = {}
+    const result = {}
 
     for (const entry of entries) {
       result[entry[0]] = entry[1]
     }
-  } catch { result = null }
+    return result
+  } catch { }
 
-  return result
+  return null
 }
