@@ -123,7 +123,7 @@ function parseParamFormats (params: any): Object | null {
 
   // param string format
   try {
-    const entries = (new URLSearchParams(params)).keys()
+    const entries = (new URLSearchParams(params)).entries()
     const result = {}
 
     for (const entry of entries) {
