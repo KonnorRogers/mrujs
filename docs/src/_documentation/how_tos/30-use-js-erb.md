@@ -1,6 +1,6 @@
 ---
 title: Using .js.erb
-permalink: /use-js-erb
+permalink: /how-tos/use-js-erb
 ---
 
 ## [Rails Configuration](#rails-configuration)

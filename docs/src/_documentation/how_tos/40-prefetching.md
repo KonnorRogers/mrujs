@@ -1,6 +1,6 @@
 ---
 title: Prefetching
-permalink: /prefetching
+permalink: /how-tos/prefetching
 ---
 
 ## [Why should I prefetch?](#why-should-i-prefetch)

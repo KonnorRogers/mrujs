@@ -1,6 +1,6 @@
 ---
 title: Integrate CableCar
-permalink: /integrate-cablecar
+permalink: /how-tos/integrate-cablecar
 ---
 
 ## [CableCar](#cablecar)

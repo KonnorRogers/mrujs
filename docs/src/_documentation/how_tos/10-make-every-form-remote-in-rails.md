@@ -1,6 +1,6 @@
 ---
 title: Make Every Form a Remote Form in Rails
-permalink: /make-every-form-remote-in-rails
+permalink: /how-tos/make-every-form-remote-in-rails
 ---
 
 Rails has a special configuration for remote forms as of `v6.1` that

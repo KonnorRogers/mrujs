@@ -1,6 +1,6 @@
 ---
 title: (Experimental) QuerySelectors
-permalink: /query-selectors
+permalink: /references/query-selectors
 ---
 
 mrujs comes with a number of preconstructed querySelectors. These can be

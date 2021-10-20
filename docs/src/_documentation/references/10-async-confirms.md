@@ -1,6 +1,6 @@
 ---
 title: (Deprecated) Async Confirm Dialogs
-permalink: /async-confirms
+permalink: /references/async-confirms
 ---
 
 <%= render(Alert.new(title: "Warning:", type: :warning)) do %>

@@ -1,6 +1,6 @@
 ---
 title: (Experimental) Plugins
-permalink: /plugins
+permalink: /references/plugins
 ---
 
 ## [Plugin Interface](#plugin-interface)

@@ -1,6 +1,6 @@
 ---
 title: Integrate Turbo with mrujs
-permalink: /integrate-turbo
+permalink: /how-tos/integrate-turbo
 ---
 
 Mrujs ships with a plugin to automatically handle TurboStream responses.

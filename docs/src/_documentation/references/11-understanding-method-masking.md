@@ -1,6 +1,6 @@
 ---
 title: Understanding Method Masking
-permalink: /understanding-method-masking
+permalink: /references/understanding-method-masking
 ---
 
 Mrujs has a special technique it uses for all links to use

@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-permalink: /getting-started
+permalink: /tutorials/getting-started
 ---
 
 ## [1. Install Mrujs](#1-install-mrujs)
