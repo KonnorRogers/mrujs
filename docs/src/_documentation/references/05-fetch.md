@@ -1,6 +1,6 @@
 ---
 title: The Fetch API
-permalink: /fetch
+permalink: /references/fetch
 ---
 
 ## [Fetch](#fetch)

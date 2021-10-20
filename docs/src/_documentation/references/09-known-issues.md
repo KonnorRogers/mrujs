@@ -1,6 +1,6 @@
 ---
 title: Known Issues
-permalink: /known-issues
+permalink: /references/known-issues
 ---
 
 ## [Turbolinks Gem](#turbolinks-gem)

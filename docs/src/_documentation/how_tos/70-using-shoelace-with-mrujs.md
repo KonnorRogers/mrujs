@@ -1,6 +1,6 @@
 ---
 title: Using Shoelace with mrujs
-permalink: /using-shoelace-with-mrujs
+permalink: /how-tos/using-shoelace-with-mrujs
 ---
 
 Mrujs ships with a Shoelace plugin. Currently this plugin is fairly minimal. At its

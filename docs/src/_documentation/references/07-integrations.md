@@ -1,6 +1,6 @@
 ---
 title: Integrations
-permalink: /integrations
+permalink: /references/integrations
 ---
 
 ## [Navigation](#navigation)

@@ -1,6 +1,6 @@
 ---
 title: Ajax Lifecycle
-permalink: /ajax-lifecycle
+permalink: /references/ajax-lifecycle
 ---
 
 ## Events

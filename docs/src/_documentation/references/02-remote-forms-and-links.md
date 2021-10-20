@@ -1,6 +1,6 @@
 ---
 title: Understanding Remote Forms and Links
-permalink: /remote-forms-and-links
+permalink: /references/remote-forms-and-links
 ---
 What are remote forms and links? When you see the word "Remote" referencing forms or links,
 it means the element is submitting its contents via "AJAX".
