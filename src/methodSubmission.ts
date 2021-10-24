@@ -119,11 +119,13 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
 }
 
 function parseParamFormats (params: string | null | undefined): Record<string, unknown> | void {
+  // convert encoded params to decoded params
+  if (containsEncodedComponents(params)) {
+    params = decodeURIComponent(params)
+  }
+
   // json format
   try { return JSON.parse(params) } catch { }
-
-  // escaped json format
-  try { return JSON.parse(unescape(params)) } catch { }
 
   // param string format
   try {
@@ -137,4 +139,9 @@ function parseParamFormats (params: string | null | undefined): Record<string, u
   } catch { }
 
   return undefined
+}
+
+function containsEncodedComponents (x: any): boolean {
+  // ie ?,=,&,/ etc
+  return (decodeURI(x) !== decodeURIComponent(x))
 }
