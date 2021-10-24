@@ -136,5 +136,5 @@ function parseParamFormats (params: any): Object | null {
     return result
   } catch { }
 
-  return null
+  return undefined
 }
