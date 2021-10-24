@@ -118,7 +118,7 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
   return encodedFormData
 }
 
-function parseParamFormats (params: any): Object | null {
+function parseParamFormats (params: string | null | undefined): Record<string, unknown> | void {
   // json format
   try { return JSON.parse(params) } catch { }
 
