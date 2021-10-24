@@ -118,7 +118,7 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
   return encodedFormData
 }
 
-function parseParamFormats (params: string | null | undefined): Record<string, unknown> | void {
+function parseParamFormats (params: string | null | undefined): Object | URLSearchParams | void {
   // convert encoded params to decoded params
   if (containsEncodedComponents(params)) {
     params = decodeURIComponent(params)
@@ -128,15 +128,7 @@ function parseParamFormats (params: string | null | undefined): Record<string, u
   try { return JSON.parse(params) } catch { }
 
   // param string format
-  try {
-    const entries = (new URLSearchParams(params)).entries()
-    const result = {}
-
-    for (const [key, value] of entries) {
-      result[key] = value
-    }
-    return result
-  } catch { }
+  try { return new URLSearchParams(params) } catch { }
 
   return undefined
 }
