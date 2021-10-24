@@ -130,8 +130,8 @@ function parseParamFormats (params: string | null | undefined): Record<string, u
     const entries = (new URLSearchParams(params)).entries()
     const result = {}
 
-    for (const entry of entries) {
-      result[entry[0]] = entry[1]
+    for (const [key, value] of entries) {
+      result[key] = value
     }
     return result
   } catch { }
