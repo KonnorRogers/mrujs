@@ -33,7 +33,7 @@ export function MethodSubmission (element: HTMLElement): MethodSubmissionInterfa
   }
 
   options.method = maskedMethod ?? method
-  if (!isGetRequest(method)) options.body = getBody(method, element.getAttribute('data-params'))
+  if (!isGetRequest(method)) options.body = getBody(method, element)
 
   const fetchRequest = FetchRequest(url, options)
 
@@ -91,12 +91,19 @@ function getMaskedMethod (method: string): string {
   return isGetRequest(method) ? 'get' : 'post'
 }
 
-function getBody (method: string, additionalParams?: string | null): URLSearchParams {
+function getBody (method: string, element: HTMLElement): URLSearchParams {
   const encodedFormData = urlEncodeFormData(getFormData(method))
 
+  // add input's name and value to submission
+  const elName = element.getAttribute('name')
+  const elValue = element.getAttribute('value')
+  if (elName != null && elValue != null) {
+    encodedFormData.append(elName, elValue)
+  }
+
+  const additionalParams = parseParamFormats(element.getAttribute('data-params'))
   if (additionalParams == null) return encodedFormData
 
-  const parsedParams = JSON.parse(additionalParams)
   for (const [key, value] of Object.entries(parsedParams)) {
     // @ts-expect-error
     const val = value.toString()
@@ -109,4 +116,24 @@ function getBody (method: string, additionalParams?: string | null): URLSearchPa
   }
 
   return encodedFormData
+}
+
+function parseParamFormats (params: string | null | undefined): Object | URLSearchParams | void {
+  // convert encoded params to decoded params
+  if (containsEncodedComponents(params)) {
+    params = decodeURIComponent(params)
+  }
+
+  // json format
+  try { return JSON.parse(params) } catch { }
+
+  // param string format
+  try { return new URLSearchParams(params) } catch { }
+
+  return undefined
+}
+
+function containsEncodedComponents (x: any): boolean {
+  // ie ?,=,&,/ etc
+  return (decodeURI(x) !== decodeURIComponent(x))
 }
