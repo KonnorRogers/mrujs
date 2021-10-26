@@ -16,7 +16,7 @@ export function MethodSubmission (element: HTMLElement): MethodSubmissionInterfa
   const method = getElementMethod(element)
   let maskedMethod
 
-  if (window.mrujs.config.maskLinkMethods) {
+  if (window.mrujs?.config?.maskLinkMethods) {
     maskedMethod = getMaskedMethod(method)
   }
 
@@ -68,7 +68,7 @@ function getHeaders (element: HTMLElement | undefined): Headers {
 function getFormData (method: string): FormData {
   const formData = new FormData()
 
-  if (window.mrujs.config.maskLinkMethods) {
+  if (window.mrujs?.config?.maskLinkMethods) {
     formData.append('_method', method)
   }
 
@@ -97,19 +97,18 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
   // add input's name and value to submission
   const elName = element.getAttribute('name')
   const elValue = element.getAttribute('value')
-  if (elName != null && elValue != null) {
-    encodedFormData.append(elName, elValue)
-  }
+  if (elName != null && elValue != null) encodedFormData.append(elName, elValue)
 
-  const additionalParams = parseParamFormats(element.getAttribute('data-params'))
+  const additionalParams = parseParams(element.getAttribute('data-params'))
   if (additionalParams == null) return encodedFormData
 
-  for (const [key, value] of Object.entries(parsedParams)) {
-    // @ts-expect-error
-    const val = value.toString()
+  for (const [key, value] of additionalParams) {
+    if (value == null) continue
+
+    const val = (value as any).toString()
 
     // Only strings can be added to UrlSearchParams
-    const isString = (val instanceof String || typeof val === 'string')
+    const isString = (typeof val === 'string' || val instanceof String)
     if (!isString) continue
 
     encodedFormData.append(key, val)
@@ -118,21 +117,24 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
   return encodedFormData
 }
 
-function parseParamFormats (params: string | null | undefined): Object | URLSearchParams | void {
+function parseParams (params: string | null | undefined): IterableIterator<[string, string]> | Array<[string, unknown]> | undefined {
+  if (params == null) return undefined
+
   // convert encoded params to decoded params
   if (containsEncodedComponents(params)) {
     params = decodeURIComponent(params)
   }
 
   // json format
-  try { return JSON.parse(params) } catch { }
+  try { return Object.entries(JSON.parse(params)) } catch { }
 
   // param string format
-  try { return new URLSearchParams(params) } catch { }
+  try { return new URLSearchParams(params).entries() } catch { }
 
   return undefined
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent
 function containsEncodedComponents (x: any): boolean {
   // ie ?,=,&,/ etc
   return (decodeURI(x) !== decodeURIComponent(x))

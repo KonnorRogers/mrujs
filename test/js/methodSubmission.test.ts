@@ -1,0 +1,68 @@
+import { html, fixture, assert } from '@open-wc/testing'
+
+import { MethodSubmission } from '../../src/methodSubmission'
+
+describe('MethodSubmission', () => {
+  it('Should append its name / value to the formData object', async () => {
+    const el: HTMLElement = await fixture(html`
+      <button name="blah" value="duh" data-method="post" data-remote="true" data-url="https://blah.com">
+      </button>`)
+
+    const submission = MethodSubmission(el)
+
+    const body = submission.fetchRequest.body as URLSearchParams
+    assert.equal('duh', body.get('blah'))
+  })
+
+  it('Should should account for extra JSON params', async () => {
+    const el: HTMLElement = await fixture(html`
+      <button name="blah" value="duh" data-method="post" data-remote="true" data-url="https://blah.com" data-params='{"myKey": "myValue", "myKey2": "myValue2"}'>
+      </button>`)
+
+    const submission = MethodSubmission(el)
+
+    const body = submission.fetchRequest.body as URLSearchParams
+    assert.equal('duh', body.get('blah'))
+    assert.equal('myValue', body.get('myKey'))
+    assert.equal('myValue2', body.get('myKey2'))
+  })
+
+  it('Should account for extra unescaped params', async () => {
+    const el: HTMLElement = await fixture(html`
+      <button name="blah" value="duh" data-method="post" data-remote="true" data-url="https://blah.com" data-params='myKey=myValue'>
+      </button>`)
+
+    const submission = MethodSubmission(el)
+
+    const body = submission.fetchRequest.body as URLSearchParams
+    assert.equal('duh', body.get('blah'))
+    assert.equal('myValue', body.get('myKey'))
+  })
+
+  it('Should account for extra multiple params', async () => {
+    const el: HTMLElement = await fixture(html`
+      <button name="blah" value="duh" data-method="post" data-remote="true" data-url="https://blah.com" data-params='myKey=myValue&myKey2=myValue2'>
+      </button>`)
+
+    const submission = MethodSubmission(el)
+
+    const body = submission.fetchRequest.body as URLSearchParams
+    assert.equal('duh', body.get('blah'))
+    assert.equal('myValue', body.get('myKey'))
+    assert.equal('myValue2', body.get('myKey2'))
+  })
+
+  it('Should account for escaped values', async () => {
+    const valueToBeEscaped = 'шеллы'
+    const el: HTMLElement = await fixture(html`
+      <button name="blah" value="duh" data-method="post" data-remote="true" data-url="https://blah.com" data-params='myKey=${encodeURIComponent(valueToBeEscaped)}&myKey2=myValue2'>
+      </button>`)
+
+    const submission = MethodSubmission(el)
+
+    const body = submission.fetchRequest.body as URLSearchParams
+    assert.equal('duh', body.get('blah'))
+    assert.equal(valueToBeEscaped, body.get('myKey'))
+    assert.equal('myValue2', body.get('myKey2'))
+  })
+})
