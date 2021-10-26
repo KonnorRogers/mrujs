@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.10](https://github.com/ParamagicDev/mrujs/compare/v0.5.9...v0.5.10) (2021-10-26)
+
+
+### Bug Fixes
+
+* Better support for data-params ([#157](https://github.com/ParamagicDev/mrujs/issues/157)) ([89b7a35](https://github.com/ParamagicDev/mrujs/commit/89b7a351b00b94a2617c4f11577ab491a5645fc5))
+
 ### [0.5.9](https://github.com/ParamagicDev/mrujs/compare/v0.5.8...v0.5.9) (2021-10-17)
 
 
