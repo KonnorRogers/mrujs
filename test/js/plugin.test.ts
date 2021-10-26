@@ -29,6 +29,8 @@ describe('plugins', () => {
 
     assert(consoleSpy.calledWith(`${name} connecting`))
     assert(consoleSpy.calledWith(`${name} disconnecting`))
+
+    consoleSpy.restore()
   })
 
   it('Should allow adding plugins as classes', () => {

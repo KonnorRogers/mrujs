@@ -41,7 +41,7 @@ jobs:
       - name: lint, and test
         run: |
           yarn lint
-          yarn test
+          yarn test:ci
 
   ruby-test:
     runs-on: ubuntu-latest

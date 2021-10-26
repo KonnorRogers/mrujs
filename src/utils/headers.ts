@@ -11,17 +11,18 @@ export const BASE_ACCEPT_HEADERS: MimeTypeInterface = {
 }
 
 export function findResponseTypeHeader (responseType: string | undefined): string {
+  const mimeTypes = window.mrujs?.mimeTypes ?? BASE_ACCEPT_HEADERS
   const acceptHeaders = {
-    ...window.mrujs.mimeTypes
+    ...mimeTypes
   }
 
   if (responseType == null) {
-    return acceptHeaders.any
+    return acceptHeaders?.any ?? '*/*'
   }
 
   responseType = responseType.trim()
 
-  if (Object.keys(acceptHeaders).includes(responseType)) {
+  if ((acceptHeaders != null) && Object.keys(acceptHeaders).includes(responseType)) {
     responseType = acceptHeaders[responseType]
   }
 
