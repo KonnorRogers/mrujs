@@ -28,6 +28,28 @@ describe('MethodSubmission', () => {
     assert.equal('haha', body.get('blah'))
   })
 
+  it('Should not append name / value to the formData object when no name', async () => {
+    const el: HTMLElement = await fixture(html`
+      <button value="duh" data-method="post" data-remote="true" data-url="https://blah.com">
+      </button>`)
+
+    const submission = MethodSubmission(el)
+
+    const body = submission.fetchRequest.body as URLSearchParams
+    assert.equal(0, Array.from(body.keys()).length)
+  })
+
+  it('Should not append name / value to the formData object when no value', async () => {
+    const el: HTMLElement = await fixture(html`
+      <button name="haha" data-method="post" data-remote="true" data-url="https://blah.com">
+      </button>`)
+
+    const submission = MethodSubmission(el)
+
+    const body = submission.fetchRequest.body as URLSearchParams
+    assert.equal(0, Array.from(body.keys()).length)
+  })
+
   it('Should should account for extra JSON params', async () => {
     const el: HTMLElement = await fixture(html`
       <button name="blah" value="duh" data-method="post" data-remote="true" data-url="https://blah.com" data-params='{"myKey": "myValue", "myKey2": "myValue2"}'>
