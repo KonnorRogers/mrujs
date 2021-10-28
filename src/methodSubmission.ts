@@ -96,7 +96,9 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
 
   // add input's name and value to submission
   const elName = element.getAttribute('name')
-  const elValue = element.value
+
+  // cast to HTMLInputElement to make TS happy.
+  const elValue = (element as HTMLInputElement).value
   if (elName != null && elValue != null) encodedFormData.append(elName, elValue)
 
   const additionalParams = parseParams(element.getAttribute('data-params'))
