@@ -39,7 +39,7 @@ describe('MethodSubmission', () => {
     assert.equal(0, Array.from(body.keys()).length)
   })
 
-  it('Should not append name / value to the formData object when no value', async () => {
+  it('Should append name / value to the formData object when empty string value', async () => {
     const el: HTMLElement = await fixture(html`
       <button name="haha" data-method="post" data-remote="true" data-url="https://blah.com">
       </button>`)
@@ -47,7 +47,7 @@ describe('MethodSubmission', () => {
     const submission = MethodSubmission(el)
 
     const body = submission.fetchRequest.body as URLSearchParams
-    assert.equal(0, Array.from(body.keys()).length)
+    assert.equal('', body.get('haha'))
   })
 
   it('Should should account for extra JSON params', async () => {
