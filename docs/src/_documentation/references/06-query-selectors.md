@@ -10,7 +10,7 @@ extended with the following API:
 import mrujs from "mrujs"
 
 // Append it to a known querySelector
-window.mrujs.appendToQuerySelector("linkDisableSelector", { selector: "my-custom-element", exclude: "other-element" })
+window.mrujs.linkDisableSelector += ", my-anchor"
 
 // Now start!
 mrujs.start()

@@ -1,6 +1,6 @@
-import { attachObserverCallback, match, addListeners, removeListeners, findFormElements } from './utils/dom'
+import { attachObserverCallback, matches, addListeners, removeListeners, formElements } from './utils/dom'
 import { stopEverything, AJAX_EVENTS } from './utils/events'
-import { EventQueryInterface, MrujsPluginInterface } from '../types'
+import { SelectorType, EventQueryInterface, MrujsPluginInterface } from '../types'
 
 export function ElementEnabler (): MrujsPluginInterface {
   const callbacks = [enableElement] as EventListener[]
@@ -33,10 +33,10 @@ export function ElementEnabler (): MrujsPluginInterface {
 }
 
 function getQueries (): EventQueryInterface[] {
-  const { formSubmitSelector, buttonDisableSelector, linkDisableSelector, inputChangeSelector } = window.mrujs.querySelectors
+  const { formSubmitSelector, buttonDisableSelector, linkDisableSelector, inputChangeSelector } = window.mrujs
 
-  const selectors = [linkDisableSelector.selector, buttonDisableSelector.selector,
-    formSubmitSelector.selector, inputChangeSelector.selector]
+  const selectors: SelectorType[] = [linkDisableSelector, buttonDisableSelector,
+    formSubmitSelector, inputChangeSelector]
   return [
     { event: AJAX_EVENTS.ajaxComplete, selectors: selectors },
     { event: AJAX_EVENTS.ajaxStopped, selectors: selectors },
@@ -50,19 +50,19 @@ export function enableElement (trigger: Event | HTMLElement): void {
 
   if (trigger instanceof Event) element = trigger.target as HTMLElement
 
-  const { querySelectors } = window.mrujs
+  const { linkDisableSelector, buttonDisableSelector, formEnableSelector, formSubmitSelector } = window.mrujs
 
-  if (match(element, querySelectors.linkDisableSelector)) {
+  if (matches(element, linkDisableSelector)) {
     enableLinkElement(element)
     return
   }
 
-  if (match(element, querySelectors.buttonDisableSelector) || match(element, querySelectors.formEnableSelector)) {
+  if (matches(element, buttonDisableSelector) || matches(element, formEnableSelector)) {
     enableFormElement(element)
     return
   }
 
-  if (match(element, querySelectors.formSubmitSelector)) {
+  if (matches(element, formSubmitSelector)) {
     enableFormElements(element as HTMLFormElement)
   }
 }
@@ -88,7 +88,7 @@ function enableLinkElement (element: HTMLElement): void {
  *  - Sets disabled property to false
  */
 export function enableFormElements (form: HTMLFormElement): void {
-  const elements = findFormElements(form, window.mrujs.querySelectors.formEnableSelector.selector) as HTMLElement[]
+  const elements = formElements(form, window.mrujs.formEnableSelector) as HTMLElement[]
 
   elements.forEach(enableFormElement)
 }
@@ -97,7 +97,7 @@ export function enableFormElement (element: HTMLElement): void {
   const originalText = element.dataset.ujsEnableWith
 
   if (originalText != null) {
-    if (match(element, { selector: 'button' })) {
+    if (matches(element, 'button')) {
       element.innerHTML = originalText
     } else {
       (element as HTMLFormElement).value = originalText

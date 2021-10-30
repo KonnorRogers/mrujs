@@ -1,14 +1,14 @@
-import { MrujsPluginInterface } from '../types'
-import { match } from './utils/dom'
+import { SelectorType, MrujsPluginInterface } from '../types'
+import { $, matches } from './utils/dom'
 
 export function RemoteWatcher (): MrujsPluginInterface {
-  let query: string
+  let query: SelectorType
   function initialize (): void {
-    query = window.mrujs.querySelectors.remoteSelector.selector
+    query = window.mrujs.remoteSelector
   }
 
   function connect (): void {
-    document.querySelectorAll(query).forEach((el): void => {
+    $(query as string).forEach((el): void => {
       addTurboFalse(el)
     })
   }
@@ -17,12 +17,12 @@ export function RemoteWatcher (): MrujsPluginInterface {
 
   function observerCallback (nodeList: Node[]): void {
     nodeList.forEach((node) => {
-      if (match(node, window.mrujs.querySelectors.remoteSelector)) {
+      if (matches(node, window.mrujs.remoteSelector)) {
         addTurboFalse(node as Element)
       }
 
       if (node instanceof Element) {
-        node.querySelectorAll(query).forEach((el) => {
+        node.querySelectorAll(query as string).forEach((el) => {
           addTurboFalse(el)
         })
       }

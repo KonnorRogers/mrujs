@@ -225,7 +225,6 @@ function morphResponse (response: FetchResponseInterface, pushState: boolean = f
 
       if (pushState) {
         // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
-        // @ts-expect-error pushState accepts URL | string, but TS complains about URL.
         window.history.pushState({}, '', response.location)
       }
     })

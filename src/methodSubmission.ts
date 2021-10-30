@@ -16,7 +16,7 @@ export function MethodSubmission (element: HTMLElement): MethodSubmissionInterfa
   const method = getElementMethod(element)
   let maskedMethod
 
-  if (window.mrujs?.config?.maskLinkMethods) {
+  if (window.mrujs?.maskLinkMethods) {
     maskedMethod = getMaskedMethod(method)
   }
 
@@ -68,7 +68,7 @@ function getHeaders (element: HTMLElement | undefined): Headers {
 function getFormData (method: string): FormData {
   const formData = new FormData()
 
-  if (window.mrujs?.config?.maskLinkMethods) {
+  if (window.mrujs?.maskLinkMethods) {
     formData.append('_method', method)
   }
 
@@ -113,7 +113,7 @@ function getBody (method: string, element: HTMLElement): URLSearchParams {
     const isString = (typeof val === 'string' || val instanceof String)
     if (!isString) continue
 
-    encodedFormData.append(key, val)
+    encodedFormData.append(key, val.toString())
   }
 
   return encodedFormData

@@ -23,17 +23,13 @@ function disconnect (): void {
   document.removeEventListener('ajax:complete', injectScriptIntoHead as EventListener)
 }
 
-function cspNonce (): string | undefined {
-  return ((document.querySelector('meta[name=csp-nonce]') as HTMLMetaElement)?.content)
-}
-
 function injectScriptIntoHead (event: CustomEvent): void {
   if (!isJavascriptResponse(event.detail?.fetchResponse?.contentType)) return
 
   // https://github.com/rails/rails/blob/fa1a4b657c7167a8671a359a55de3f9b37f4330b/actionview/app/assets/javascripts/rails-ujs/utils/ajax.coffee#L13
   const script = document.createElement('script')
 
-  const csp = cspNonce()
+  const csp = window.mrujs.cspNonce()
 
   if (csp != null) script.setAttribute('nonce', csp)
 

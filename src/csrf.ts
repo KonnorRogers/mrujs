@@ -1,6 +1,7 @@
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/csrf.coffee
 import { getCookieValue, getMetaContent } from './utils/misc'
 import { MrujsPluginInterface } from '../types'
+import { $ } from './utils/dom'
 
 export function Csrf (): MrujsPluginInterface {
   return {
@@ -12,7 +13,7 @@ export function Csrf (): MrujsPluginInterface {
 }
 
 function connect (): void {
-  refresh()
+  refreshCSRFTokens()
 }
 
 function disconnect (): void {}
@@ -21,23 +22,21 @@ function observerCallback (nodeList: Node[]): void {
   for (let i = 0; i < nodeList.length; i++) {
     const node = nodeList[i]
     if (isCsrfToken(node)) {
-      refresh()
+      refreshCSRFTokens()
     }
   }
 }
 
 // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
-function refresh (): void {
-  const token = getToken()
-  const param = getParam()
+export function refreshCSRFTokens (): void {
+  const token = csrfToken()
+  const param = csrfParam()
 
   if (token != null && param != null) {
-    document
-      .querySelectorAll(`form input[name="${param}"]`)
-      .forEach(input => {
-        const inputEl = input as HTMLInputElement
-        inputEl.value = token
-      })
+    $(`form input[name="${param}"]`).forEach(input => {
+      const inputEl = input as HTMLInputElement
+      inputEl.value = token
+    })
   }
 }
 
@@ -50,11 +49,17 @@ function isCsrfToken (node: Node): boolean {
 }
 
 // Up-to-date Cross-Site Request Forgery token
-export function getToken (): string | undefined {
-  return getCookieValue(getParam()) ?? getMetaContent('csrf-token')
+export function csrfToken (): string | undefined {
+  return getCookieValue(csrfParam()) ?? getMetaContent('csrf-token')
 }
 
 // URL param that must contain the CSRF token
-export function getParam (): string | undefined {
+export function csrfParam (): string | undefined {
   return getMetaContent('csrf-param')
+}
+
+export function CSRFProtection (request: Request): void {
+  const token = csrfToken()
+  const str = 'X-CSRF-TOKEN'
+  if (token != null && request.headers.get(str) == null) request.headers.set('X-CSRF-TOKEN', token)
 }

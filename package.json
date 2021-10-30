@@ -75,11 +75,13 @@
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
+    "@typescript-eslint/parser": "^4.0.0",
     "@web/dev-server": "^0.1.8",
     "@web/dev-server-esbuild": "^0.2.11",
     "@web/test-runner": "^0.12.15",
     "@web/test-runner-playwright": "^0.8.4",
     "cable_ready": "*",
+    "eslint": "^7.0.0",
     "playwright": "^1.12.2",
     "rollup": "^2.56.3",
     "rollup-plugin-gzip": "^2.5.0",
@@ -88,7 +90,7 @@
     "standard-version": "^9.3.0",
     "ts-standard": "^10.0.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.2.3",
+    "typescript": "^4.3.0",
     "zlib": "^1.0.5"
   },
   "ts-standard": {

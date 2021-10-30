@@ -4,7 +4,7 @@ export type Submitter = HTMLInputElement | HTMLButtonElement
 
 export interface EventQueryInterface {
   event: string
-  selectors: string[]
+  selectors: SelectorType[]
 }
 
 export interface AjaxEvent extends CustomEvent, Event {
@@ -21,30 +21,26 @@ export interface AjaxEventDetail {
   error?: Error
 }
 
-export interface MrujsConfigInterface {
-  maskLinkMethods: boolean
-  querySelectors: QuerySelectorInterface
-  mimeTypes: MimeTypeInterface
-  plugins: MrujsPluginInterface[]
-}
-
 export interface QuerySelectorInterface {
-  remoteSelector: SelectorInterface
-  linkClickSelector: SelectorInterface
-  buttonClickSelector: SelectorInterface
-  inputChangeSelector: SelectorInterface
-  formSubmitSelector: SelectorInterface
-  formInputClickSelector: SelectorInterface
-  formDisableSelector: SelectorInterface
-  formEnableSelector: SelectorInterface
-  linkDisableSelector: SelectorInterface
-  buttonDisableSelector: SelectorInterface
+  remoteSelector: SelectorType
+  linkClickSelector: SelectorType
+  buttonClickSelector: SelectorType
+  inputChangeSelector: SelectorType
+  formSubmitSelector: SelectorType
+  formInputClickSelector: SelectorType
+  formDisableSelector: SelectorType
+  formEnableSelector: SelectorType
+  linkDisableSelector: SelectorType
+  buttonDisableSelector: SelectorType
+  fileInputSelector: SelectorType
 }
 
 export interface SelectorInterface {
   selector: string
-  exclude?: string
+  exclude: string
 }
+
+export type SelectorType = string | SelectorInterface
 
 export interface CustomMimeTypeInterface {
   shortcut: string
@@ -80,9 +76,36 @@ export interface ExtendedRequestInit extends RequestInit {
   dispatchEvents?: boolean
 }
 
-export interface MrujsInterface {
+export interface MrujsInterface extends QuerySelectorInterface {
+  // From Rails-UJS
+  ['$']: (selector: string) => Element[]
+  csrfToken: () => string | undefined
+  csrfParam: () => string | undefined
+  CSRFProtection: (request: Request) => void
+  cspNonce: () => string | undefined
+  disableElement: (event: Event | HTMLFormElement | Submitter) => void
+  delegate: (element: Element, selector: SelectorType, eventType: string, handler: Function) => void
+  fire: (element: EventTarget, name: string, options: CustomEventInit) => boolean
+  enableElement: (trigger: Event | HTMLElement) => void
+  enableFormElements: (element: HTMLFormElement) => void
+  enableFormElement: (element: HTMLFormElement) => void
+  stopEverything: (event: Event) => void
+  start: (this: MrujsInterface, config: Partial<MrujsInterface>) => MrujsInterface
+  confirm: (message: string) => boolean
+  preventInsignificantClick: (event: MouseEvent) => void
+  handleConfirm: (event: Event) => void
+  handleDisabledElement: (this: HTMLFormElement, event: Event) => void
+  handleMethod: (event: Event) => void
+  refreshCSRFTokens: () => void
+  formElements: (form: HTMLElement, selector: SelectorType) => HTMLFormElement[]
+  matches: (element: Node | Element, selector: SelectorType) => boolean
+
+  // New fields
+  FetchResponse: (response: Response) => FetchResponseInterface
+  FetchRequest: (input: Request | Locateable, options: RequestInit) => FetchRequestInterface
+  maskLinkMethods: boolean
+  mimeTypes: MimeTypeInterface
   connected: boolean
-  config: MrujsConfigInterface
 
   corePlugins: MrujsPluginInterface[]
   plugins: MrujsPluginInterface[]
@@ -101,30 +124,17 @@ export interface MrujsInterface {
   method: MrujsPluginInterface
   formSubmitDispatcher: MrujsPluginInterface
 
-  querySelectors: QuerySelectorInterface
-  mimeTypes: MimeTypeInterface
-  csrfToken?: string
-  csrfParam?: string
-
   // Functions
-  start: (this: MrujsInterface, config: Partial<MrujsConfigInterface>) => MrujsInterface
-  confirm: (message: string) => boolean
   stop: () => void
   fetch: (input: Request | Locateable, options: ExtendedRequestInit) => undefined | Promise<Response>
   restart: () => void
   urlEncodeFormData: (formData: FormData) => URLSearchParams
   registerMimeTypes: (mimeTypes: CustomMimeTypeInterface[]) => MimeTypeInterface
-  enableElement: (trigger: Event | HTMLElement) => void
-  enableFormElements: (element: HTMLFormElement) => void
-  enableFormElement: (element: HTMLFormElement) => void
-  disableElement: (event: Event | HTMLFormElement | Submitter) => void
   addListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
   removeListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
   attachObserverCallback: (conditions: EventQueryInterface[], nodeList: Node[], callbacks: EventListener[]) => void
-  stopEverything: (event: Event) => void
-  dispatch: (this: Node, name: string, options: CustomEventInit) => CustomEvent
-  appendToQuerySelector: (key: string, { selector, exclude }: { selector?: string, exclude?: string }) => void
-  registerConfirm: (attribute: string, callback: Function) => void
+
+  dispatch: (this: Node | EventTarget, name: string, options: CustomEventInit) => CustomEvent
 }
 
 export interface FetchResponseInterface {

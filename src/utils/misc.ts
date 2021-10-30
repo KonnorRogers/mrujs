@@ -1,4 +1,5 @@
 import { stopEverything } from '../utils/events'
+import { $ } from './dom'
 
 export function isInsignificantClick (event: MouseEvent): boolean {
   return (
@@ -36,8 +37,7 @@ export function getCookieValue (cookieName?: string): string | undefined {
 }
 
 export function getMetaContent (str: string): string | undefined {
-  const elements = document.querySelectorAll(`meta[name="${str}"]`)
-
+  const elements = $(`meta[name="${str}"]`)
   const element = elements[elements.length - 1] as HTMLMetaElement | undefined
   return element?.content ?? undefined
 }

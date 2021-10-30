@@ -46,7 +46,7 @@ export function Method (): MrujsPluginInterface {
   *   // Implemented!
   *   <a href="/users/5" data-method="delete" rel="nofollow">Delete</a>
   */
-function handleMethod (event: Event): void {
+export function handleMethod (event: Event): void {
   const element = event.currentTarget as HTMLElement
 
   if (element.dataset.remote === 'false') return
@@ -74,20 +74,20 @@ function handleMethod (event: Event): void {
 }
 
 function getQueries (): EventQueryInterface[] {
-  const { querySelectors } = window.mrujs
+  const { linkClickSelector, inputChangeSelector, buttonClickSelector } = window.mrujs
 
   return [
     {
       event: 'click',
       selectors: [
-        querySelectors.linkClickSelector.selector,
-        querySelectors.buttonClickSelector.selector
+        linkClickSelector,
+        buttonClickSelector
       ]
     },
     {
       event: 'change',
       selectors: [
-        querySelectors.inputChangeSelector.selector
+        inputChangeSelector
       ]
     }
   ]

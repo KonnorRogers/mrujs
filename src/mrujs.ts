@@ -1,23 +1,23 @@
-import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
+import { AJAX_EVENTS, dispatch, stopEverything, delegate, fire } from './utils/events'
 import { FormSubmitDispatcher } from './formSubmitDispatcher'
 import { RemoteWatcher } from './remoteWatcher'
 import { ClickHandler } from './clickHandler'
-import { Csrf, getToken, getParam } from './csrf'
-import { Confirm } from './confirm'
-import { Method } from './method'
+import { CSRFProtection, Csrf, csrfParam, csrfToken, refreshCSRFTokens } from './csrf'
+import { handleConfirm, Confirm } from './confirm'
+import { Method, handleMethod } from './method'
 import { NavigationAdapter } from './navigationAdapter'
-import { DisabledElementChecker } from './disabledElementChecker'
+import { handleDisabledElement, DisabledElementChecker } from './disabledElementChecker'
 import { ElementEnabler, enableElement, enableFormElements, enableFormElement } from './elementEnabler'
 import { ElementDisabler, disableElement } from './elementDisabler'
 import { AddedNodesObserver } from './addedNodesObserver'
 import { urlEncodeFormData } from './utils/form'
 
+import { getMetaContent, preventInsignificantClick } from './utils/misc'
 import { FetchRequest } from './http/fetchRequest'
-import { addListeners, removeListeners, attachObserverCallback, BASE_SELECTORS } from './utils/dom'
+import { FetchResponse } from './http/fetchResponse'
+import { $, addListeners, removeListeners, attachObserverCallback, BASE_SELECTORS, formElements, matches } from './utils/dom'
 import { BASE_ACCEPT_HEADERS } from './utils/headers'
 import {
-  MrujsConfigInterface,
-  QuerySelectorInterface,
   MimeTypeInterface,
   CustomMimeTypeInterface,
   Locateable,
@@ -27,6 +27,10 @@ import {
 
 export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.connected = false
+
+  obj = { ...BASE_SELECTORS }
+  obj.FetchResponse = FetchResponse
+  obj.FetchRequest = FetchRequest
 
   obj.addedNodesObserver = AddedNodesObserver(addedNodesCallback)
   obj.remoteWatcher = RemoteWatcher()
@@ -63,15 +67,9 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   const allPlugins = corePlugins.concat(plugins)
   obj.allPlugins = allPlugins
 
-  obj.config = {
-    maskLinkMethods: true,
-    querySelectors: { ...BASE_SELECTORS },
-    mimeTypes: { ...BASE_ACCEPT_HEADERS },
-    plugins
-  }
+  obj.maskLinkMethods = true
+  obj.mimeTypes = { ...BASE_ACCEPT_HEADERS }
 
-  obj.confirm = confirm
-  obj.start = start
   obj.stop = stop
   obj.restart = restart
   obj.fetch = fetch
@@ -86,24 +84,29 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.addListeners = addListeners
   obj.removeListeners = removeListeners
   obj.attachObserverCallback = attachObserverCallback
-  obj.appendToQuerySelector = appendToQuerySelector
-  obj.registerConfirm = registerConfirm
 
-  Object.defineProperties(obj, {
-    csrfToken: { get: function (): string | undefined { return getToken() } },
-    csrfParam: { get: function (): string | undefined { return getParam() } },
-    querySelectors: {
-      get: function (): QuerySelectorInterface { return this.config.querySelectors }
-    },
-    mimeTypes: {
-      get: function (): MimeTypeInterface { return this.config.mimeTypes }
-    }
-  })
+  // a wrapper for document.querySelectorAll
+  obj.$ = $
+  obj.CSRFProtection = CSRFProtection
+  obj.csrfParam = csrfParam
+  obj.csrfToken = csrfToken
+  obj.cspNonce = cspNonce
+  obj.confirm = confirm
+  obj.handleConfirm = handleConfirm
+  obj.handleDisabledElement = handleDisabledElement
+  obj.handleMethod = handleMethod
+  obj.start = start
+  obj.preventInsignificantClick = preventInsignificantClick
+  obj.refreshCSRFTokens = refreshCSRFTokens
+  obj.delegate = delegate
+  obj.fire = fire
+  obj.formElements = formElements
+  obj.matches = matches
 
   return obj as MrujsInterface
 }
 
-function start (this: MrujsInterface, config: Partial<MrujsConfigInterface> = {}): MrujsInterface {
+function start (this: MrujsInterface, options: Partial<MrujsInterface> = {}): MrujsInterface {
   window.Rails = window.mrujs = this
 
   // Dont start twice!
@@ -111,8 +114,8 @@ function start (this: MrujsInterface, config: Partial<MrujsConfigInterface> = {}
     return window.mrujs
   }
 
-  this.config = { ...this.config, ...config }
-  this.plugins = this.config.plugins
+  Object.assign(this, options)
+
   this.allPlugins = this.corePlugins.concat(this.plugins)
 
   for (let i = 0; i < this.allPlugins.length; i++) {
@@ -175,7 +178,7 @@ function addedNodesCallback (this: MrujsInterface, mutationList: MutationRecord[
       addedNodes = Array.from(mutation.addedNodes)
     }
 
-    // kick it into an animation frame so we dont delay rendering
+    // kick it into setTimeout so we dont delay rendering
     window.setTimeout(() => {
       for (let i = 0; i < window.mrujs.allPlugins.length; i++) {
         const plugin = window.mrujs.allPlugins[i]
@@ -185,7 +188,7 @@ function addedNodesCallback (this: MrujsInterface, mutationList: MutationRecord[
   }
 }
 
-function fetch (input: Request | Locateable, options: ExtendedRequestInit = {}): undefined | Promise<Response> {
+export function fetch (input: Request | Locateable, options: ExtendedRequestInit = {}): undefined | Promise<Response> {
   let { element, submitter, dispatchEvents } = options
   delete options.element
   delete options.submitter
@@ -205,61 +208,26 @@ function fetch (input: Request | Locateable, options: ExtendedRequestInit = {}):
   return window.fetch(fetchRequest.request)
 }
 
-function registerMimeTypes (mimeTypes: CustomMimeTypeInterface[]): MimeTypeInterface {
-  const customMimeTypes: MimeTypeInterface = {}
-
+export function registerMimeTypes (mimeTypes: CustomMimeTypeInterface[]): MimeTypeInterface {
   mimeTypes.forEach((mimeType) => {
     const { shortcut, header } = mimeType
-    customMimeTypes[shortcut] = header
+    window.mrujs.mimeTypes[shortcut] = header
   })
 
-  window.mrujs.config.mimeTypes = {
-    ...window.mrujs.config.mimeTypes,
-    ...customMimeTypes
-  }
-
-  return window.mrujs.config.mimeTypes
-}
-
-function appendToQuerySelector (key: string, { selector, exclude }: { selector?: string, exclude?: string }): void {
-  const { querySelectors } = window.mrujs
-  if (Object.keys(querySelectors).includes(key)) {
-    if (selector != null) {
-      // @ts-expect-error
-      // @eslint-ignore
-      querySelectors[key].selector += `, ${selector}` // eslint-disable-line
-    }
-    if (exclude != null) {
-      // @ts-expect-error
-      querySelectors[key].exclude += `, ${exclude}` // eslint-disable-line
-    }
-  }
-}
-
-function registerConfirm (attribute: string, callback: Function): void {
-  // click selectors
-  appendToQuerySelector('buttonClickSelector', { selector: `a[${attribute}]` })
-  appendToQuerySelector('linkClickSelector', { selector: `button[${attribute}]:not([form])` })
-
-  // change selectors. Original only requires "[data-remote]" not sure about this.
-  // const inputChangeSelector = ['select', 'input', 'textarea'].map((el) => `${el}[${attribute}]`).join(", ")
-  // appendToQuerySelector('inputChangeSelector', { selector: inputChangeSelector })
-
-  // submit selectors. Original only requires "form" not sure about this.
-  // const formSubmitSelector = `form[${attribute}]`
-  // appendToQuerySelector('formSubmitSelector', { selector: formSubmitSelector })
-
-  window.mrujs?.confirmClass?.callbacks?.push(callback)
+  return window.mrujs.mimeTypes
 }
 
 function reEnableDisabledElements (): void {
-  const { formEnableSelector, linkDisableSelector } = window.mrujs.querySelectors
+  const { formEnableSelector, linkDisableSelector } = window.mrujs
 
-  document
-    .querySelectorAll(`${formEnableSelector.selector}, ${linkDisableSelector.selector}`)
+  $(`${formEnableSelector as string}, ${linkDisableSelector as string}`)
     .forEach(element => {
       const el = element as HTMLInputElement
       // Reenable any elements previously disabled
       enableElement(el)
     })
+}
+
+function cspNonce (): string | undefined {
+  return getMetaContent('csp-nonce')
 }

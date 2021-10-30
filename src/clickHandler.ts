@@ -34,14 +34,15 @@ export function ClickHandler (): MrujsPluginInterface {
 }
 
 function getQueries (): EventQueryInterface[] {
-  const { querySelectors } = window.mrujs
+  const { linkClickSelector, buttonClickSelector, formInputClickSelector } = window.mrujs
+
   return [
     {
       event: 'click',
       selectors: [
-        querySelectors.linkClickSelector.selector,
-        querySelectors.buttonClickSelector.selector,
-        querySelectors.formInputClickSelector.selector
+        linkClickSelector,
+        buttonClickSelector,
+        formInputClickSelector
       ]
     }
   ]

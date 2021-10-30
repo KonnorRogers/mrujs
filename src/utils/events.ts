@@ -1,3 +1,6 @@
+import { matches } from './dom'
+import { SelectorType } from '../../types'
+
 export const EVENT_DEFAULTS = {
   bubbles: true,
   cancelable: true
@@ -6,13 +9,22 @@ export const EVENT_DEFAULTS = {
 /**
  * Thin wrapper around element.dispatchEvent and new CustomEvent
  */
-export function dispatch (this: Node, name: string, options: CustomEventInit = {}): CustomEvent {
+export function dispatch (this: Node | EventTarget, name: string, options: CustomEventInit = {}): CustomEvent {
   const event = new CustomEvent(name, { ...EVENT_DEFAULTS, ...options })
   this.dispatchEvent(event)
   return event
 }
 
+/**
+ * Backwards compatibility function that hooks into dispatch.
+ */
+export function fire (element: EventTarget, name: string, options: CustomEventInit = {}): boolean {
+  const event = dispatch.call(element, name, options)
+  return !event.defaultPrevented
+}
+
 export function stopEverything (event: Event | CustomEvent): void {
+  if (event.target != null) fire(event.target, 'ujs:everythingStopped')
   event.stopPropagation()
   event.stopImmediatePropagation()
   event.preventDefault()
@@ -82,3 +94,29 @@ export const AJAX_EVENTS = {
   //  */
   // ajaxAbortedFile: `${prefix}:aborted:file`
 }
+
+/**
+ * Delegates events
+ * to a specified parent `element`, which fires event `handler`
+ * for the specified `selector` when an event of `eventType` is triggered
+ * element::
+ *   parent element that will listen for events e.g. document
+ * selector::
+ *   css selector; or an object that has `selector` and `exclude` properties (see: Rails.matches)
+ * eventType::
+ *   string representing the event e.g. 'submit', 'click'
+ * handler::
+ *   the event handler to be called
+ */
+export function delegate (element: Element, selector: SelectorType, eventType: string, handler: Function): void {
+  element.addEventListener(eventType, (event) => {
+    let target = event.target
+    while (!(!(target instanceof Element) || matches(target, selector))) {
+      target = target.parentNode
+    }
+    if (target instanceof Element && handler.call(target, event) === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+  })
+};
