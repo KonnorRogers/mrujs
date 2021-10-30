@@ -4,6 +4,42 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [0.6.0](https://github.com/ParamagicDev/mrujs/compare/v0.5.11...v0.6.0) (2021-10-30)
 
+- Changed
+  - match => matches
+  - findFormElements => formElements
+  - refresh => refreshCSRFTokens()
+  - getToken => csrfToken()
+  - getParam => csrfParam()
+  - querySelectors got a revamp and now are the same as in
+  Rails-UJS
+
+- Removed
+  - ajax()
+  - serializeElement()
+  - getData()
+  - setData()
+  - handleRemote()
+  - href()
+  - isCrossDomain()
+  - loadCSPNonce()
+  - formSubmitButtonClick()
+  - AsyncConfirm()
+  - config object (querySelectors removed, mimeType now top level on the Mrujs object)
+
+- Modified
+  - CSRFProtection takes a Request object instead of an
+  XmlHttpRequest
+
+- Added
+  - toArray
+  - $ (document.querySelectorAll)
+  - delegate (backwards compatibility)
+  - fileInputSelector
+
+- Aliases
+  - fire === dispatch (dispatch returns the event, fire
+  returns if it was prevented)
+
 ### [0.5.11](https://github.com/ParamagicDev/mrujs/compare/v0.5.10...v0.5.11) (2021-10-28)
 
 ### [0.5.10](https://github.com/ParamagicDev/mrujs/compare/v0.5.9...v0.5.10) (2021-10-26)
