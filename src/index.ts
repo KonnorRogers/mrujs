@@ -50,3 +50,5 @@ export const preventInsignificantClick = mrujs.preventInsignificantClick
 export const refreshCSRFTokens = mrujs.refreshCSRFTokens
 export const start = mrujs.start
 export const stopEverything = mrujs.stopEverything
+export const FetchResponse = mrujs.FetchResponse
+export const FetchRequest = mrujs.FetchRequest
