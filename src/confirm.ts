@@ -33,7 +33,7 @@ export function Confirm (): MrujsPluginInterface {
   }
 }
 
-function handleConfirm (event: Event | CustomEvent): void {
+export function handleConfirm (event: Event | CustomEvent): void {
   if (event.currentTarget == null) return
 
   const element = event.currentTarget as HTMLElement
@@ -58,26 +58,26 @@ function handleConfirm (event: Event | CustomEvent): void {
 }
 
 function getQueries (): EventQueryInterface[] {
-  const { querySelectors } = window.mrujs
+  const { linkClickSelector, buttonClickSelector, formInputClickSelector, inputChangeSelector, formSubmitSelector } = window.mrujs
   return [
     {
       event: 'click',
       selectors: [
-        querySelectors.linkClickSelector.selector,
-        querySelectors.buttonClickSelector.selector,
-        querySelectors.formInputClickSelector.selector
+        linkClickSelector,
+        buttonClickSelector,
+        formInputClickSelector
       ]
     },
     {
       event: 'change',
       selectors: [
-        querySelectors.inputChangeSelector.selector
+        inputChangeSelector
       ]
     },
     {
       event: 'submit',
       selectors: [
-        querySelectors.formSubmitSelector.selector
+        formSubmitSelector
       ]
     }
   ]

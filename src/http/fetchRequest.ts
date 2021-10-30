@@ -1,6 +1,6 @@
 import { AJAX_EVENTS, dispatch, stopEverything } from '../utils/events'
 import { isGetRequest, mergeHeaders, expandUrl } from '../utils/url'
-import { getToken } from '../csrf'
+import { CSRFProtection } from '../csrf'
 import { RequestInfo, FetchRequestBody, FetchRequestInterface, Locateable } from '../../types'
 
 /**
@@ -51,6 +51,7 @@ export function FetchRequest (input: Request | Locateable, options: RequestInit 
     request = new Request(url, mergedOptions)
   }
 
+  CSRFProtection(request)
   headers = request.headers
   const params = url.searchParams
 
@@ -71,12 +72,6 @@ export function FetchRequest (input: Request | Locateable, options: RequestInit 
       Accept: '*/*',
       'X-REQUESTED-WITH': 'XmlHttpRequest'
     })
-
-    const token = getToken()
-
-    if (token != null) {
-      headers.set('X-CSRF-TOKEN', token)
-    }
 
     return headers
   }

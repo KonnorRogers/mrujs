@@ -1,5 +1,5 @@
 import { MrujsPluginInterface, EventQueryInterface, Submitter } from '../types'
-import { attachObserverCallback, addListeners, removeListeners, findFormElements, match } from './utils/dom'
+import { attachObserverCallback, addListeners, removeListeners, formElements, matches } from './utils/dom'
 import { stopEverything } from './utils/events'
 
 export function ElementDisabler (): MrujsPluginInterface {
@@ -33,13 +33,13 @@ export function ElementDisabler (): MrujsPluginInterface {
 }
 
 function getQueries (): EventQueryInterface[] {
-  const { formSubmitSelector, linkClickSelector, buttonClickSelector, inputChangeSelector } = window.mrujs.querySelectors
+  const { formSubmitSelector, linkClickSelector, buttonClickSelector, inputChangeSelector } = window.mrujs
 
   return [
-    { event: 'click', selectors: [buttonClickSelector.selector, linkClickSelector.selector] },
-    { event: 'ajax:send', selectors: [formSubmitSelector.selector] },
+    { event: 'click', selectors: [buttonClickSelector, linkClickSelector] },
+    { event: 'ajax:send', selectors: [formSubmitSelector] },
     { event: 'turbo:submit-start', selectors: ['form'] },
-    { event: 'change', selectors: [inputChangeSelector.selector] }
+    { event: 'change', selectors: [inputChangeSelector] }
   ]
 }
 
@@ -55,11 +55,12 @@ export function disableElement (event: Event | HTMLFormElement | Submitter): voi
     element = event
   }
 
-  if (match(element, window.mrujs.querySelectors.linkDisableSelector)) {
+  const { linkDisableSelector, buttonDisableSelector, formDisableSelector, formSubmitSelector } = window.mrujs
+  if (matches(element, linkDisableSelector)) {
     disableLinkElement(element)
-  } else if (match(element, window.mrujs.querySelectors.buttonDisableSelector) || match(element, window.mrujs.querySelectors.formDisableSelector)) {
+  } else if (matches(element, buttonDisableSelector) || matches(element, formDisableSelector)) {
     disableFormElement(element as HTMLFormElement)
-  } else if (match(element, window.mrujs.querySelectors.formSubmitSelector)) {
+  } else if (matches(element, formSubmitSelector)) {
     disableFormElements(element as HTMLFormElement)
   }
 }
@@ -71,7 +72,7 @@ export function disableElement (event: Event | HTMLFormElement | Submitter): voi
   *   - Sets disabled property to true
   */
 function disableFormElements (form: HTMLFormElement): void {
-  findFormElements(form, window.mrujs.querySelectors.formDisableSelector.selector).forEach((el) => disableFormElement(el))
+  formElements(form, window.mrujs.formDisableSelector).forEach((el) => disableFormElement(el))
 }
 
 function disableFormElement (element: HTMLFormElement): void {
@@ -80,7 +81,7 @@ function disableFormElement (element: HTMLFormElement): void {
   const replacement = element.getAttribute('data-disable-with')
 
   if (replacement != null) {
-    if (match(element, { selector: 'button' })) {
+    if (matches(element, 'button')) {
       element.dataset.ujsEnableWith = element.innerHTML
       element.innerHTML = replacement
     } else {

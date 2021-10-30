@@ -9,7 +9,6 @@ declare global {
   }
 }
 
-export * from './asyncConfirm'
 export * from './cableCar'
 export * from './jsErb'
 export * from './mrujsTurbo'

@@ -34,15 +34,15 @@ export function DisabledElementChecker (): MrujsPluginInterface {
 }
 
 function getQueries (): EventQueryInterface[] {
-  const { linkClickSelector, buttonClickSelector, inputChangeSelector, formSubmitSelector, formInputClickSelector } = window.mrujs.querySelectors
+  const { linkClickSelector, buttonClickSelector, inputChangeSelector, formSubmitSelector, formInputClickSelector } = window.mrujs
 
   return [
-    { event: 'click', selectors: [buttonClickSelector.selector, linkClickSelector.selector, formInputClickSelector.selector] },
-    { event: 'change', selectors: [inputChangeSelector.selector] },
-    { event: 'submit', selectors: [formSubmitSelector.selector] }
+    { event: 'click', selectors: [buttonClickSelector, linkClickSelector, formInputClickSelector] },
+    { event: 'change', selectors: [inputChangeSelector] },
+    { event: 'submit', selectors: [formSubmitSelector] }
   ]
 }
 
-function handleDisabledElement (this: HTMLFormElement, event: Event): void {
+export function handleDisabledElement (this: HTMLFormElement, event: Event): void {
   if (this.disabled === true) stopEverything(event)
 }
