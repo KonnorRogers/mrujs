@@ -1,5 +1,5 @@
 import Rails from 'mrujs'
-import { JsErb, AsyncConfirm } from "mrujs/plugins"
+import { JsErb } from "mrujs/plugins"
 
 (async () => {
   if (window.useTurbo === true) {
@@ -13,7 +13,6 @@ import { JsErb, AsyncConfirm } from "mrujs/plugins"
 
 Rails.start({
   plugins: [
-    AsyncConfirm(),
     JsErb()
   ]
 })
