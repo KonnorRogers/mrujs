@@ -9,7 +9,7 @@ export function expandUrl (locateable: Locateable): URL {
 }
 
 function urlExpanded (locateable: Locateable): boolean {
-  return /^http/.test(locateable.toString())
+  return /^https?:/.test(locateable.toString())
 }
 
 export function urlsAreEqual (left: Locateable, right: Locateable): boolean {
