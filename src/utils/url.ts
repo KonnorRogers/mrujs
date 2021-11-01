@@ -1,15 +1,7 @@
 import { Locateable } from '../../types'
 
 export function expandUrl (locateable: Locateable): URL {
-  if (urlExpanded(locateable)) {
-    return new URL(locateable.toString())
-  }
-
   return new URL(locateable.toString(), document.baseURI)
-}
-
-function urlExpanded (locateable: Locateable): boolean {
-  return /^https?:/.test(locateable.toString())
 }
 
 export function urlsAreEqual (left: Locateable, right: Locateable): boolean {
