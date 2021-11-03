@@ -2,8 +2,14 @@
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/dom.coffee
 import { EventQueryInterface, QuerySelectorInterface, SelectorType } from '../../types'
 
-function toArray<T> (e: any): T[] {
-  return Array.prototype.slice.call(e)
+export function toArray<T> (value: any): T[] {
+  if (Array.isArray(value)) {
+    return value
+  } else if (Array.from != null) {
+    return Array.from(value)
+  } else {
+    return [].slice.call(value)
+  }
 }
 
 const m =

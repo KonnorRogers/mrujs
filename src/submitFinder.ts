@@ -1,11 +1,4 @@
-import { Submitter } from '../types'
-
-export interface ExtendedSubmitEvent extends CustomEvent {
-  submitter: Submitter
-  detail: {
-    submitter?: Submitter
-  }
-}
+import { ExtendedSubmitEvent, Submitter } from '../types'
 
 export function findSubmitter (event: ExtendedSubmitEvent): Submitter | undefined {
   // Not supported by webkit

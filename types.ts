@@ -90,7 +90,7 @@ export interface MrujsInterface extends QuerySelectorInterface {
   enableFormElements: (element: HTMLFormElement) => void
   enableFormElement: (element: HTMLFormElement) => void
   stopEverything: (event: Event) => void
-  start: (this: MrujsInterface, config: Partial<MrujsInterface>) => MrujsInterface
+  start: (this: MrujsInterface, config?: Partial<MrujsInterface>) => MrujsInterface
   confirm: (message: string) => boolean
   preventInsignificantClick: (event: MouseEvent) => void
   handleConfirm: (event: Event) => void
@@ -99,6 +99,7 @@ export interface MrujsInterface extends QuerySelectorInterface {
   refreshCSRFTokens: () => void
   formElements: (form: HTMLElement, selector: SelectorType) => HTMLFormElement[]
   matches: (element: Node | Element, selector: SelectorType) => boolean
+  toArray: <T> (value: any) => T[]
 
   // New fields
   FetchResponse: (response: Response) => FetchResponseInterface
@@ -106,6 +107,7 @@ export interface MrujsInterface extends QuerySelectorInterface {
   maskLinkMethods: boolean
   mimeTypes: MimeTypeInterface
   connected: boolean
+  findSubmitter: (event: ExtendedSubmitEvent) => Submitter | undefined
 
   corePlugins: MrujsPluginInterface[]
   plugins: MrujsPluginInterface[]
@@ -126,13 +128,14 @@ export interface MrujsInterface extends QuerySelectorInterface {
 
   // Functions
   stop: () => void
-  fetch: (input: Request | Locateable, options: ExtendedRequestInit) => undefined | Promise<Response>
+  fetch: (input: Request | Locateable, options?: ExtendedRequestInit) => undefined | Promise<Response>
   restart: () => void
   urlEncodeFormData: (formData: FormData) => URLSearchParams
   registerMimeTypes: (mimeTypes: CustomMimeTypeInterface[]) => MimeTypeInterface
   addListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
   removeListeners: (conditions: EventQueryInterface[], callbacks: EventListener[]) => void
   attachObserverCallback: (conditions: EventQueryInterface[], nodeList: Node[], callbacks: EventListener[]) => void
+  expandUrl: (locateable: Locateable) => URL
 
   dispatch: (this: Node | EventTarget, name: string, options: CustomEventInit) => CustomEvent
 }
@@ -153,11 +156,13 @@ export interface FetchResponseInterface {
   getHeader: (name: string) => string | null
   text: () => Promise<string>
   html: () => Promise<string>
-  json: () => Promise<JSON>
+  json: () => Promise<Record<string, unknown>>
 }
 
 export type RequestInfo = Request | string | URL
-export type FetchRequestBody = URLSearchParams | ReadableStream<Uint8Array>
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Request
+export type FetchRequestBody = Blob | BufferSource | FormData | URLSearchParams | ReadableStream | undefined
 
 export interface FetchRequestInterface {
   request: Request
@@ -196,3 +201,11 @@ export interface Adapter {
 }
 
 export type VisitAction = 'advance' | 'replace' | 'restore'
+
+export interface ExtendedSubmitEvent extends CustomEvent {
+  submitter: Submitter
+  detail: {
+    submitter?: Submitter
+  }
+}
+

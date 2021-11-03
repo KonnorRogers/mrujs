@@ -13,3 +13,27 @@
     <%= form.submit nil, data: {"disable-with" => "Submitting..."} %>
   </div>
 <% end %>
+
+<br><br>
+
+<%= form_with id: "single-image", model: post, data: { remote: "true", "ujs-navigate": "false" } do |form| %>
+  <div class="field">
+    <%= form.label :primary_image, "Primary Image" %>
+    <%= form.file_field :primary_image, multiple: false, direct_upload: true %>
+  </div>
+
+  <%= form.submit %>
+<% end %>
+
+<br><br>
+
+<%= form_with id: "multiple-images", model: post, data: { remote: "true", "ujs-navigate": "false" } do |form| %>
+  <div class="field">
+    <%= form.label :secondary_images, "Secondary Images" %>
+    <%= form.file_field :secondary_images, multiple: true, direct_upload: true %>
+  </div>
+
+  <%= form.submit %>
+<% end %>
+
+<br><br>

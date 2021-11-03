@@ -53,6 +53,8 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    # Give us time to show we're destroying.
+    sleep(1) if Rails.env.test?
     @post.destroy
 
     respond_to do |format|
@@ -64,12 +66,11 @@ class PostsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    sleep(1) if Rails.env.test?
     @post = Post.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :primary_image, secondary_images: [])
   end
 end

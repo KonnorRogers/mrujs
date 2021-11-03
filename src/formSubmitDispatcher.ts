@@ -1,7 +1,7 @@
 import { AJAX_EVENTS, dispatch } from './utils/events'
-import { findSubmitter, ExtendedSubmitEvent } from './submitFinder'
+import { findSubmitter } from './submitFinder'
 import { FetchResponse } from './http/fetchResponse'
-import { MrujsPluginInterface, AddOrRemoveListeners, AjaxEventDetail } from '../types'
+import { MrujsPluginInterface, AddOrRemoveListeners, AjaxEventDetail, ExtendedSubmitEvent } from '../types'
 import { FormSubmission } from './formSubmission'
 import { disableElement } from './elementDisabler'
 
@@ -28,18 +28,23 @@ function disconnect (): void {
   * @fires `ajax:before`
   */
 function startFormSubmission (event: ExtendedSubmitEvent): void {
+  if (event.defaultPrevented) {
+    return
+  }
+
   // If it doesnt have remote="true"...forget about it!
   const element = findTarget(event)
+  const submitter = findSubmitter(event)
 
   if (element.dataset.remote !== 'true') return
-
-  event.preventDefault()
-
-  const submitter = findSubmitter(event)
+  if (shouldNotSubmit(element)) return
+  if (shouldNotSubmit(submitter)) return
 
   if (submitter != null) {
     disableElement(submitter)
   }
+
+  event.preventDefault()
 
   const { fetchRequest, request } = FormSubmission(element, submitter)
   const detail: AjaxEventDetail = { element, fetchRequest, request, submitter }
@@ -53,12 +58,12 @@ function startFormSubmission (event: ExtendedSubmitEvent): void {
   * The request can be found via `event.detail.request`
   */
 function startFetchRequest (event: CustomEvent): void {
-  if (event.defaultPrevented) {
+  const { element, fetchRequest, request, submitter }: AjaxEventDetail = event.detail
+
+  if (event.defaultPrevented || shouldNotSubmit(element) || shouldNotSubmit(submitter)) {
     dispatchStopped(event)
     return
   }
-
-  const { element, fetchRequest, request, submitter }: AjaxEventDetail = event.detail
 
   dispatch.call(element, AJAX_EVENTS.ajaxBeforeSend, {
     detail: { element, fetchRequest, request, submitter }
@@ -66,12 +71,12 @@ function startFetchRequest (event: CustomEvent): void {
 }
 
 function sendFetchRequest (event: CustomEvent): void {
-  if (event.defaultPrevented) {
+  const { element, request, submitter }: AjaxEventDetail = event.detail
+
+  if (event.defaultPrevented || shouldNotSubmit(element) || shouldNotSubmit(submitter)) {
     dispatchStopped(event)
     return
   }
-
-  const { element, request } = event.detail
 
   dispatch.call(element, AJAX_EVENTS.ajaxSend, { detail: { ...event.detail } })
 
@@ -174,4 +179,8 @@ function attachListeners (fn: AddOrRemoveListeners): void {
 
 function findTarget (event: CustomEvent): HTMLFormElement {
   return event.target as HTMLFormElement
+}
+
+function shouldNotSubmit (element?: HTMLElement): boolean {
+  return element?.dataset.ujsSubmit === 'false'
 }

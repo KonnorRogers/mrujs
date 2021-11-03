@@ -38,6 +38,7 @@ jobs:
       - name: Install via yarn
         run: |
           yarn install --frozen-lockfile
+          cd plugins && yarn install --frozen-lockfile
       - name: lint, and test
         run: |
           yarn lint

@@ -6,10 +6,8 @@ class TurboRemoteFormsTest < TurboTestCase
   include ::RemoteFormTests
 
   setup do
-    before_visit
     @post = posts(:one)
-    visit posts_path
-    after_visit
+    turbo_visit posts_path
   end
 end
 

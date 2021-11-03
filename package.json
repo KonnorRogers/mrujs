@@ -21,7 +21,7 @@
       "require": "./plugins/dist/mrujs.js"
     }
   },
-  "types": "dist/types.d.ts",
+  "types": "./dist/types.d.ts",
   "repository": "git@github.com:ParamagicDev/mrujs.git",
   "homepage": "https://mrujs.com",
   "author": "ParamagicDev <konnor5456@gmail.com>",
@@ -71,6 +71,7 @@
   "devDependencies": {
     "@esm-bundle/chai": "^4.3.0",
     "@open-wc/testing": "^3.0.0-next.2",
+    "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/sinon": "^9.0.11",

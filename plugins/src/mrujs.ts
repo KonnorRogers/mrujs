@@ -9,8 +9,4 @@ declare global {
   }
 }
 
-export * from './cableCar'
-export * from './jsErb'
-export * from './mrujsTurbo'
-export * from './shoelace'
-export * from './activeStorage'
+export const mrujs = (): MrujsInterface => window.mrujs
