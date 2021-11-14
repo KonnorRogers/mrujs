@@ -2,5 +2,19 @@
 
 <%= render 'form', post: @post %>
 
+<div>
+  primary image
+  <%= image_tag @post.primary_image, height: 50, width: 50 unless @post.primary_image.blank? %>
+</div>
+
+<div>
+  secondary_images
+  <% @post.secondary_images&.each do |secondary_image| %>
+    <div>
+      <%= image_tag secondary_image unless secondary_image.blank? %>
+    </div>
+  <% end %>
+</div>
+
 <%= link_to 'Show', @post %> |
 <%= link_to 'Back', posts_path %>

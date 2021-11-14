@@ -1,6 +1,6 @@
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
-
+import commonjs from '@rollup/plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
 import { brotliCompressSync } from 'zlib'
 import gzipPlugin from 'rollup-plugin-gzip'
@@ -8,6 +8,7 @@ import gzipPlugin from 'rollup-plugin-gzip'
 function basePlugins(tsconfig = "./tsconfig.json") {
   return [
     resolve(),
+    commonjs(),
     typescript({ tsconfig }),
   ]
 }
@@ -54,6 +55,7 @@ export default [
 
   // Plugins
   {
+    external: ["SparkMD5"],
     input: "plugins/src/index.ts",
     output: [
       {
@@ -94,6 +96,7 @@ export default [
   },
 
   {
+    external: ["SparkMD5"],
     input: "plugins/src/index.ts",
     output: [
       {

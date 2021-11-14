@@ -5,7 +5,7 @@ import { FetchResponseInterface } from '../../types'
 // https://github.com/hotwired/turbo/blob/main/src/http/fetch_response.ts
 export function FetchResponse (response: Response): FetchResponseInterface {
   let _text: string
-  let _json: JSON
+  let _json: Record<string, unknown>
 
   const succeeded = response.ok
   const status = response.status
@@ -32,7 +32,7 @@ export function FetchResponse (response: Response): FetchResponseInterface {
     return await Promise.reject(response)
   }
 
-  async function json (): Promise<JSON> {
+  async function json (): Promise<Record<string, unknown>> {
     if (isJson) {
       if (_json != null) return _json
 

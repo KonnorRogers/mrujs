@@ -11,11 +11,13 @@ import { ElementEnabler, enableElement, enableFormElements, enableFormElement } 
 import { ElementDisabler, disableElement } from './elementDisabler'
 import { AddedNodesObserver } from './addedNodesObserver'
 import { urlEncodeFormData } from './utils/form'
+import { findSubmitter } from './submitFinder'
+import { expandUrl } from './utils/url'
 
 import { getMetaContent, preventInsignificantClick } from './utils/misc'
 import { FetchRequest } from './http/fetchRequest'
 import { FetchResponse } from './http/fetchResponse'
-import { $, addListeners, removeListeners, attachObserverCallback, BASE_SELECTORS, formElements, matches } from './utils/dom'
+import { $, addListeners, removeListeners, attachObserverCallback, BASE_SELECTORS, formElements, matches, toArray } from './utils/dom'
 import { BASE_ACCEPT_HEADERS } from './utils/headers'
 import {
   MimeTypeInterface,
@@ -84,6 +86,9 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.addListeners = addListeners
   obj.removeListeners = removeListeners
   obj.attachObserverCallback = attachObserverCallback
+  obj.expandUrl = expandUrl
+
+  obj.findSubmitter = findSubmitter
 
   // a wrapper for document.querySelectorAll
   obj.$ = $
@@ -102,6 +107,7 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.fire = fire
   obj.formElements = formElements
   obj.matches = matches
+  obj.toArray = toArray
 
   return obj as MrujsInterface
 }

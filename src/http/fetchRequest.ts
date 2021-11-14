@@ -16,42 +16,26 @@ export function FetchRequest (input: Request | Locateable, options: RequestInit 
   const abortSignal = abortController.signal
 
   let headers: Headers
-  let url
-  let body: FetchRequestBody | undefined
+  let url: URL
   let method = 'get'
   let request
 
   let _isGetRequest = false
 
+  method = getMethod(options)
+  _isGetRequest = isGetRequest(method)
+  const body = getBody(options)
+
   if (input instanceof Request) {
-    method = getMethod(input)
-    _isGetRequest = isGetRequest(method)
-    body = getBody(input)
     url = getUrl(input.url, _isGetRequest, body)
-    headers = mergeHeaders(defaultHeaders(), input.headers)
-    const mergedOptions: RequestInfo = { ...defaultRequestOptions(), ...input }
-
-    // @ts-expect-error
-    if (_isGetRequest) delete mergedOptions.body
-
-    // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
-    request = new Request(url, mergedOptions)
+    request = createRequestFromRequest(input)
   } else {
-    method = getMethod(options)
-    _isGetRequest = isGetRequest(method)
-    body = getBody(options)
     url = getUrl(input, _isGetRequest, body)
-    headers = mergeHeaders(defaultHeaders(), new Headers(options.headers))
-    const mergedOptions = { ...defaultRequestOptions(), ...options }
-    mergedOptions.headers = headers
-
-    if (_isGetRequest) delete mergedOptions.body
-
-    // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
-    request = new Request(url, mergedOptions)
+    request = createRequestFromLocateable()
   }
 
-  CSRFProtection(request)
+  if (_isGetRequest) CSRFProtection(request)
+
   headers = request.headers
   const params = url.searchParams
 
@@ -91,6 +75,27 @@ export function FetchRequest (input: Request | Locateable, options: RequestInit 
     }
   }
 
+  function createRequestFromRequest (input: Request): Request {
+    headers = mergeHeaders(defaultHeaders(), input.headers)
+    const mergedOptions: RequestInfo = { ...defaultRequestOptions(), ...input }
+
+    // @ts-expect-error
+    if (_isGetRequest) delete mergedOptions.body
+
+    // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
+    return new Request(url, mergedOptions)
+  }
+
+  function createRequestFromLocateable (): Request {
+    headers = mergeHeaders(defaultHeaders(), new Headers(options.headers))
+    const mergedOptions = { ...defaultRequestOptions(), ...options }
+    mergedOptions.headers = headers
+    if (_isGetRequest) delete mergedOptions.body
+
+    // @ts-expect-error this.url is really a URL, but typescript seems to think Request cant handle it.
+    return new Request(url, mergedOptions)
+  }
+
   function defaultRequestOptions (): RequestInit {
     const options: RequestInit = {
       method,
@@ -112,7 +117,7 @@ export function FetchRequest (input: Request | Locateable, options: RequestInit 
 function getUrl (url: Locateable, getRequest: boolean, body: FetchRequestBody): URL {
   const location = expandUrl(url)
 
-  if (getRequest) return location
+  if (!getRequest) return location
 
   // Append params to the Url.
   return mergeFormDataEntries(location, entries(body))
@@ -135,6 +140,9 @@ function mergeFormDataEntries (url: URL, entries: Array<[string, FormDataEntryVa
 
   for (const [name, value] of entries) {
     if (value instanceof File) continue
+
+    // Only happens on GET requests, not needed.
+    if (name === 'authenticity_token') continue
 
     if (currentSearchParams.has(name)) {
       currentSearchParams.delete(name)

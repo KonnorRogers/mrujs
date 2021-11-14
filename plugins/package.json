@@ -12,5 +12,11 @@
   "types": "./dist/types.d.ts",
   "peerDependencies": {
     "mrujs": ">= 0.4.6"
+  },
+  "dependencies": {
+    "spark-md5": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/spark-md5": "^3.0.2"
   }
 }

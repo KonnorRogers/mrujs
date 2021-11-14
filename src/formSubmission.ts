@@ -39,7 +39,8 @@ function getOptions (element: HTMLFormElement, submitter?: Submitter): RequestIn
     headers
   }
 
-  if (!isGetRequest(method)) options.body = getBody(element, method, submitter)
+  // Will get stripped out by FetchRequest if its a GET request.
+  options.body = getBody(element, method, submitter)
 
   return options
 }

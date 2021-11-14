@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-const mrujs = Mrujs()
+const mrujs: MrujsInterface = Mrujs()
 
 export { mrujs, Mrujs }
 export default mrujs

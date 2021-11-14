@@ -122,3 +122,10 @@ mrujs has a built in navigation adapter which will navigate a user from
 page to page using Morphdom or Turbo(links) if it receives an HTML
 response. If you would like to opt out of the navigation, you can
 specify a `data-ujs-navigate="false"` on the element.
+
+## Submissions
+
+Perhaps you have a form or a link that you dont want to
+submit for some reason. You can add
+`data-ujs-submit="false"` to it and it wont submit. This
+technique is leveraged by the ActiveStorage plugin.
