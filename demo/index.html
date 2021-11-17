@@ -7,8 +7,7 @@
     <meta name="csrf-token" content="1234">
     <script type="module">
       import mrujs from '../src/index';
-      import { AsyncConfirm }  from '../plugins/src/asyncConfirm';
-      window.mrujs = mrujs.start({ plugins: [ AsyncConfirm() ] })
+      window.mrujs = mrujs.start()
 
       document.querySelector("button").addEventListener("click", () => console.log("hi"))
     </script>

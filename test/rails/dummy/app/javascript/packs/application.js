@@ -1,8 +1,8 @@
-import Rails from 'mrujs'
+import mrujs from 'mrujs'
 import { ActiveStorage, JsErb } from "mrujs/plugins"
 // import { JsErb } from "mrujs/plugins"
 // import * as ActiveStorage from "@rails/activestorage"
-import "stylesheets/application.css"
+import "../stylesheets/application.css"
 
 (async () => {
   if (window.useTurbo === true) {
@@ -14,8 +14,7 @@ import "stylesheets/application.css"
   }
 })()
 
-
-Rails.start({
+mrujs.start({
   plugins: [
     JsErb(),
     ActiveStorage()

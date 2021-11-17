@@ -1,5 +1,5 @@
 ---
-title: (Deprecated) Async Confirm Dialogs
+title: (Removed) Async Confirm Dialogs
 permalink: /references/async-confirms
 ---
 

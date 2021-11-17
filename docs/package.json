@@ -6,7 +6,7 @@
     "build:src": "NODE_ENV=production BRIDGETOWN_ENV=production bin/bridgetown build",
     "deploy": "NODE_ENV=production BRIDGETOWN_ENV=production snowpack build",
     "clean:src": "bundle exec bridgetown clean",
-    "restart": "yarn clean:src && yarn start --reload",
+    "restart": "pnpm clean:src && pnpm start --reload",
     "start": "NODE_ENV=development BRIDGETOWN_ENV=development snowpack dev"
   },
   "devDependencies": {},
@@ -18,7 +18,7 @@
     "bridgetown-quick-search": "1.1.0",
     "lit": "^2.0.0-rc.2",
     "lunr": "^2.3.9",
-    "mrujs": "*",
+    "mrujs": "link:../",
     "postcss": "^8.2.4",
     "postcss-cli": "^8.3.1",
     "prettier": "^2.2.1",

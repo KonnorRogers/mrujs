@@ -5,7 +5,6 @@
   "description": "UJS for modern javascript.",
   "source": "src/index.ts",
   "main": "./dist/mrujs.js",
-  "umd:main": "./dist/mrujs.umd.js",
   "module": "./dist/mrujs.module.js",
   "exports": {
     ".": {
@@ -21,7 +20,8 @@
       "require": "./plugins/dist/mrujs.js"
     }
   },
-  "types": "./dist/types.d.ts",
+  "types": "dist/types/src/index.d.ts",
+  "typings": "dist/types/src/index.d.ts",
   "repository": "git@github.com:ParamagicDev/mrujs.git",
   "homepage": "https://mrujs.com",
   "author": "ParamagicDev <konnor5456@gmail.com>",
@@ -51,19 +51,20 @@
     "clean": "rm -rf dist plugins/dist",
     "lint": "ts-standard plugins/ src/ test/js",
     "fix": "ts-standard plugins/ src/ test/js --fix",
+    "check": "tsc",
     "test": "web-test-runner",
-    "test:ci": "yarn fix && yarn build && web-test-runner",
+    "test:ci": "pnpm check && pnpm lint && pnpm build && web-test-runner",
     "test:watch": "web-test-runner --watch",
-    "start": "yarn clean && web-dev-server",
+    "start": "pnpm clean && web-dev-server",
     "start:watch": "web-dev-server --watch",
-    "build": "yarn clean && yarn fix && rollup -c",
-    "build:watch": "yarn clean && yarn fix && rollup -wc",
-    "deploy": "yarn build && standard-version --release-as",
-    "deploy:beta": "yarn build && standard-version --prerelease beta",
-    "deploy:patch": "yarn build && standard-version --release-as patch",
-    "deploy:minor": "yarn build && standard-version --release-as minor",
-    "deploy:major": "yarn build && standard-version --release-as major",
-    "push": "git push --follow-tags origin main && yarn publish"
+    "build": "pnpm clean && pnpm fix && rollup -c",
+    "build:watch": "pnpm clean && pnpm fix && rollup -wc",
+    "deploy": "pnpm build && standard-version --release-as",
+    "deploy:beta": "pnpm build && standard-version --prerelease beta",
+    "deploy:patch": "pnpm build && standard-version --release-as patch",
+    "deploy:minor": "pnpm build && standard-version --release-as minor",
+    "deploy:major": "pnpm build && standard-version --release-as major",
+    "push": "git push --follow-tags origin main && pnpm publish"
   },
   "dependencies": {
     "morphdom": ">=2.6.0 <3.0.0"
@@ -80,6 +81,7 @@
     "@web/dev-server": "^0.1.8",
     "@web/dev-server-esbuild": "^0.2.11",
     "@web/test-runner": "^0.12.15",
+    "@web/test-runner-mocha": "^0.7.5",
     "@web/test-runner-playwright": "^0.8.4",
     "cable_ready": "*",
     "eslint": "^7.0.0",

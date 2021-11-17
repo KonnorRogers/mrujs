@@ -116,7 +116,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bridgetown (~> 0.21.0)
+  bridgetown (~> 0.21)
   bridgetown-quick-search (~> 1.1)
   nokogiri
 
