@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://github.com/ParamagicDev/mrujs/compare/v0.6.0...v0.6.1) (2021-11-21)
+
+
+### Features
+
+* integrate AS into mrujs ([#162](https://github.com/ParamagicDev/mrujs/issues/162)) ([ac8a2d4](https://github.com/ParamagicDev/mrujs/commit/ac8a2d4c4324ff571f9e7ae62295c4c9f4760f03))
+
 ## [0.6.0](https://github.com/ParamagicDev/mrujs/compare/v0.5.11...v0.6.0) (2021-10-30)
 
 - Changed
