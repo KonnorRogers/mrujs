@@ -1,4 +1,5 @@
-import mrujs from 'mrujs'
+// import Racks from "@rails/ujs"
+import Rails from 'mrujs'
 import { ActiveStorage, JsErb } from "mrujs/plugins"
 // import { JsErb } from "mrujs/plugins"
 // import * as ActiveStorage from "@rails/activestorage"
@@ -14,12 +15,15 @@ import "../stylesheets/application.css"
   }
 })()
 
-mrujs.start({
+Rails.start({
   plugins: [
     JsErb(),
     ActiveStorage()
   ]
 })
+
+// window.Racks = Racks
+// Racks.start()
 // ActiveStorage.start()
 
 document.addEventListener("direct-upload:initialize", event => {
