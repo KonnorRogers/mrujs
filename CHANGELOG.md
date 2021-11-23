@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [0.7.0](https://github.com/ParamagicDev/mrujs/compare/v0.6.1...v0.7.0) (2021-11-23)
 
+### Changed
+
+* align selectors off rails-ujs ([#165](https://github.com/ParamagicDev/mrujs/issues/165)) ([917d362](https://github.com/ParamagicDev/mrujs/commit/917d362376973e2679e2eaef6597c0ab36888f69))
+* no longer stopEverything on link clicks ([#165](https://github.com/ParamagicDev/mrujs/issues/165)) ([917d362](https://github.com/ParamagicDev/mrujs/commit/917d362376973e2679e2eaef6597c0ab36888f69))
 
 ### Bug Fixes
 
