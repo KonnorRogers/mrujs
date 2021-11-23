@@ -80,7 +80,7 @@ export const BASE_SELECTORS: QuerySelectorInterface = {
   linkDisableSelector: `a[${disableWith}], a[${disable}]`,
 
   // Button onClick disable selector with possible reenable after remote submission
-  buttonDisableSelector: `button[${disableWith}], button[${disable}]`,
+  buttonDisableSelector: `button[data-remote][${disableWith}], button[data-remote][${disable}]`,
   fileInputSelector: 'fileInputSelector: \'input[name][type=file]:not([disabled])\''
 }
 

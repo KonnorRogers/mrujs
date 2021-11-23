@@ -1,4 +1,4 @@
-import { AJAX_EVENTS, dispatch, stopEverything } from './utils/events'
+import { AJAX_EVENTS, dispatch } from './utils/events'
 import { EventQueryInterface, MrujsPluginInterface } from '../types'
 import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
 import { MethodSubmission } from './methodSubmission'
@@ -57,7 +57,7 @@ export function handleMethod (event: Event): void {
 
   if (href == null) return
 
-  stopEverything(event)
+  event.preventDefault()
   const submitter = event.target
 
   const linkSubmission = MethodSubmission(element)

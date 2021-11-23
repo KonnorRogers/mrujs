@@ -10,7 +10,8 @@
   <%= render partial: "posts/form_body", locals: {form: form, post: post} %>
 
   <div class="actions">
-    <%= form.submit nil, data: {"disable-with" => "Submitting..."} %>
+    <%# <%= form.submit nil, data: {"disable-with" => "Submitting..."} %1> %>
+    <%= form.button nil, data: {"disable-with" => "Submitting..."} %>
   </div>
 <% end %>
 

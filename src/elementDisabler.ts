@@ -90,8 +90,11 @@ function disableFormElement (element: HTMLFormElement): void {
     }
   }
 
-  element.disabled = true
   element.dataset.ujsDisabled = 'true'
+
+  // Due to how FormSubmissions work in Chrome, if the button is disabled prior
+  // to submitting the form, then form "submit" event will never trigger.
+  setTimeout(() => { element.disabled = true })
 }
 
 /**
