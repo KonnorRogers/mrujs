@@ -34,7 +34,7 @@ export function FetchRequest (input: Request | Locateable, options: RequestInit 
     request = createRequestFromLocateable()
   }
 
-  if (_isGetRequest === false) CSRFProtection(request)
+  if (!_isGetRequest) CSRFProtection(request)
 
   headers = request.headers
   const params = url.searchParams
@@ -48,6 +48,7 @@ export function FetchRequest (input: Request | Locateable, options: RequestInit 
     abortController,
     abortSignal,
     cancel,
+    headers,
     isGetRequest: _isGetRequest
   }
 

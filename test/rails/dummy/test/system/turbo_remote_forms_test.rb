@@ -1,4 +1,4 @@
-require "application_system_test_case"
+require "turbo_test_case"
 
 require_relative "./remote_form_tests"
 
