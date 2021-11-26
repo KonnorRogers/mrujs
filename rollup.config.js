@@ -43,6 +43,7 @@ export default [
         format: "umd",
         sourcemap: true,
         exports: "named",
+        globals: { morphdom: "morphdom" }
       },
       {
         file: "dist/mrujs.module.js",
@@ -64,6 +65,7 @@ export default [
         format: "umd",
         sourcemap: true,
         exports: "named",
+        globals: {SparkMD5: "SparkMD5"}
       },
       {
         file: "plugins/dist/mrujs.module.js",
@@ -77,6 +79,7 @@ export default [
 
   // Compressed
   {
+    external: ["morphdom"],
     input: "src/index.ts",
     output: [
       {
@@ -84,7 +87,8 @@ export default [
         file: "dist/mrujs.umd.min.js",
         format: "umd",
         sourcemap: true,
-        exports: "named"
+        exports: "named",
+        globals: {morphdom: "morphdom"},
       },
       {
         file: "dist/mrujs.module.min.js",
@@ -104,7 +108,8 @@ export default [
         file: "plugins/dist/mrujs.umd.min.js",
         format: "umd",
         sourcemap: true,
-        exports: "named"
+        exports: "named",
+        globals: {SparkMD5: "SparkMD5"}
       },
       {
         file: "plugins/dist/mrujs.module.min.js",
