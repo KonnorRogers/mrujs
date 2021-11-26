@@ -174,6 +174,7 @@ export interface FetchRequestInterface {
   abortSignal: AbortSignal
   isGetRequest: boolean
   cancel: (event?: CustomEvent) => void
+  headers: Headers
 }
 
 export interface Adapter {
