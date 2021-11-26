@@ -5,13 +5,8 @@ require_relative "config/application"
 
 Rails.application.load_tasks
 
-Rake::Task['yarn:install'].clear if Rake::Task.task_defined?('yarn:install')
-Rake::Task['webpacker:yarn_install'].clear
-Rake::Task['webpacker:check_yarn'].clear
-Rake::Task['webpacker:verify_install'].clear
-
 bin_path = ENV["BUNDLE_BIN"] || Rails.root.join("bin")
 
-Rake::Task.define_task("webpacker:yarn_install") do
+Rake::Task.define_task("pnpm:install") do
   Rake.sh("#{bin_path}/pnpm install")
 end
