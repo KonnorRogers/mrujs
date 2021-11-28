@@ -78,9 +78,8 @@ module RemoteFormTests
         click_on "Ajax Destroy", match: :first
       end
 
-      assert_link "Destroying..."
+      assert_text /Destroying/
 
-      # known bug with Turbo
       assert_text ::PostsController::DESTROYED
     end
 
