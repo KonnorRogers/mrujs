@@ -22,3 +22,8 @@ Beta versions of Turbo (`v7.0.0-beta-8` and below) will show pages twice on succ
 form submission that redirects causing notifications to disappear. This is fixed in
 `v7.0.0-rc1` and above.
 
+## [Disable Rails-UJS](#disable-rails-ujs)
+
+Rails-UJS and mrujs are entirely incompatible. If for some
+reason nothing is working as expected, make sure Rails-UJS
+is not in your app.
