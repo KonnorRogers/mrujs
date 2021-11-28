@@ -1,5 +1,5 @@
 ---
-title: Integrate Turbo with mrujs
+title: Integrate ActiveStorage with mrujs
 permalink: /how-tos/integrate-activestorage
 ---
 
