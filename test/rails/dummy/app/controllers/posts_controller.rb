@@ -54,7 +54,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1 or /posts/1.json
   def destroy
     # Give us time to show we're destroying.
-    sleep(1) if Rails.env.test?
+    sleep(2) if Rails.env.test?
     @post.destroy
 
     respond_to do |format|
