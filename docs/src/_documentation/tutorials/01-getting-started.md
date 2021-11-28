@@ -56,8 +56,8 @@ Turbolinks.start();
   <%%= form.label :name %>
   <%%= form.text_field :name %>
 
-  <%%= form.submit "Submit", data-disable-with: "Submitting..." %>
-<%%= end %>
+  <%%= form.submit "Submit", data: { "disable-with": "Submitting..." } %>
+<%% end %>
 ```
 
 ### [With regular HTML](#with-regular-html)

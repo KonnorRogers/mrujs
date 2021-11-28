@@ -55,7 +55,7 @@ example:
 <!--
   This re-enables the element after 3 seconds
   since regular buttons have no concept of when
-  to re-enable themselves if theyre not part of a
+  to re-enable themselves if they're not part of a
   form.
 -->
 <script>
@@ -166,7 +166,7 @@ it is implied
 ## Making a request expect a certain response.
 
 If you're familiar with `Accept` headers, mrujs provides a way to
-expect a certain response. For example, if I want JSON to be return I
+expect a certain response. For example, if I want JSON to be returned I
 could do this:
 
 ```html
