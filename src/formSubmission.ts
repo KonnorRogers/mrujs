@@ -75,12 +75,12 @@ function getFormData (element: HTMLFormElement, submitter?: Submitter): FormData
   * Finds how to send the fetch request
   * get, post, put, patch, etc
   */
-function getMethod (element: HTMLFormElement, submitter?: HTMLElement): string {
+function getMethod (element: HTMLFormElement, submitter?: Submitter): string {
   const method = submitter?.getAttribute('formmethod') ?? element.getAttribute('method') ?? 'get'
   return method.toLowerCase()
 }
 
-function getAction (element: HTMLElement, submitter?: HTMLElement): string {
+function getAction (element: HTMLElement, submitter?: Submitter): string {
   const action = submitter?.getAttribute('formaction') ?? element.getAttribute('action') ?? ''
   return action
 }

@@ -55,6 +55,8 @@ export function disableElement (event: Event | HTMLFormElement | Submitter): voi
     element = event
   }
 
+  if (element == null) return
+
   const { linkDisableSelector, buttonDisableSelector, formDisableSelector, formSubmitSelector } = window.mrujs
   if (matches(element, linkDisableSelector)) {
     disableLinkElement(element)
