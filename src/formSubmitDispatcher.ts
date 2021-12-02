@@ -181,6 +181,6 @@ function findTarget (event: CustomEvent): HTMLFormElement {
   return event.target as HTMLFormElement
 }
 
-function shouldNotSubmit (element?: HTMLElement): boolean {
+function shouldNotSubmit (element?: HTMLElement | null): boolean {
   return element?.dataset.ujsSubmit === 'false'
 }
