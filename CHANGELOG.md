@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.3](https://github.com/ParamagicDev/mrujs/compare/v0.7.2...v0.7.3) (2021-12-26)
+
+
+### Bug Fixes
+
+* shoelace plugin uses target instead of currentTarget" ([17eeb36](https://github.com/ParamagicDev/mrujs/commit/17eeb36e312153c25093997e56cb24705e96896b))
+
 ### [0.7.2](https://github.com/ParamagicDev/mrujs/compare/v0.7.1...v0.7.2) (2021-12-02)
 
 
