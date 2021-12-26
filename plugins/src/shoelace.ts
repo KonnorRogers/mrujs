@@ -1,14 +1,14 @@
-import { MrujsPluginInterface } from '../../types'
+import { MrujsPluginInterface, MrujsInterface } from '../../types'
 
 export function Shoelace (): MrujsPluginInterface {
   return {
     name: 'Shoelace',
-    initialize,
+    connect,
     disconnect
   }
 }
 
-function initialize (): void {
+function connect (): void {
   document.addEventListener('sl-submit', shoelaceFormListener as EventListener)
 }
 
@@ -30,7 +30,6 @@ function shoelaceFormListener (event: CustomEvent): void {
 
   if (method == null) method = 'get'
 
-  // @ts-expect-error
   window.mrujs.fetch(action, {
     element: form,
     dispatchEvents: true,
