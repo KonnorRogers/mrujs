@@ -30,10 +30,11 @@ function shoelaceFormListener (event: CustomEvent): void {
 
   if (method == null) method = 'get'
 
-  window.mrujs.fetch(action, {
+  const mrujs = (): MrujsInterface => window.mrujs
+  mrujs().fetch(action, {
     element: form,
     dispatchEvents: true,
     method: method,
-    body: window.mrujs.urlEncodeFormData(formData)
+    body: mrujs().urlEncodeFormData(formData)
   }).then(() => {}).catch((err: string) => console.warn(err))
 }
