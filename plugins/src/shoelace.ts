@@ -17,7 +17,7 @@ function disconnect (): void {
 }
 
 function shoelaceFormListener (event: CustomEvent): void {
-  const form = event.currentTarget as HTMLFormElement
+  const form = event.target as HTMLFormElement
   const formData = event.detail.formData
 
   const action = form.getAttribute('action')
