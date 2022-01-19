@@ -385,8 +385,7 @@ bridgetown-search-results::part(inner) {
   border-bottom: 1px solid transparent;
 }
 
-.call-to-action:hover,
-.call-to-action:focus {
+.call-to-action:is(:hover, :focus) {
   color: white;
   border-bottom: 1px solid transparent;
 }
@@ -395,8 +394,7 @@ bridgetown-search-results::part(inner) {
   background: var(--primary-color);
 }
 
-.call-to-action--primary:hover,
-.call-to-action--primary:focus {
+.call-to-action--primary:is(:hover, :focus) {
   background: var(--primary-color-darker);
 }
 

@@ -35,9 +35,9 @@ To see an example, heres a basic button:
 ```
 
 <p align="middle">
-  <button class="btn btn--primary" data-confirm="Hey! You clicked me!">
+  <sl-button class="btn btn--primary" data-confirm="Hey! You clicked me!">
     Click me and I'll show a confirm dialog.
-  </button>
+  </sl-button>
 </p>
 
 ## Disabling Elements

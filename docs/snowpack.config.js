@@ -3,6 +3,7 @@
 
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
+  workspaceRoot: "../",
   mount: {
     frontend: "/dist",
     ".bridgetown": { url: "/", static: true },
@@ -29,6 +30,7 @@ module.exports = {
   },
   packageOptions: {
     NODE_ENV: true,
+    knownEntrypoints: ["mrujs"]
   },
   optimize: {
     bundle: false,
