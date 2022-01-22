@@ -8,7 +8,7 @@ class Alert < Bridgetown::Component
   }.freeze
 
   def initialize(type: :info, title: nil)
-    @type = type
+    @type = type.to_sym
     @title = title
 
     raise ArgumentError("#{@type} is not a valid type.") unless ICONS.key?(@type)

@@ -3,6 +3,10 @@ title: Integrate ActiveStorage with mrujs
 permalink: /how-tos/integrate-activestorage
 ---
 
+<%= render Alert.new(type: :danger, title: "[Removed]") do %>
+  The ActiveStorage plugin has been removed as of 0.8.0
+<% end %>
+
 Mrujs comes with an in-built ActiveStorage plugin. In it's
 current form its very similar to the current ActiveStorage
 you see in Rails. There are plans to differentiate from the

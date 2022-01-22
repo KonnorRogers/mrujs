@@ -35,9 +35,9 @@ To see an example, heres a basic button:
 ```
 
 <p align="middle">
-  <sl-button class="btn btn--primary" data-confirm="Hey! You clicked me!">
+  <button class="btn btn--primary" data-confirm="Hey! You clicked me!">
     Click me and I'll show a confirm dialog.
-  </sl-button>
+  </button>
 </p>
 
 ## Disabling Elements
@@ -112,14 +112,14 @@ To trigger an ajax request on a link, add the
 `data-remote="true"` property to the `<a>` tag like so:
 
 ```html
-<a href="/" data-remote="true">
+<a href="/" data-ujs-navigate="false" data-remote="true">
   I send a GET request to this server in the background. <br>
   Check your network tab!
 </a>
 ```
 
 <p align="middle">
-  <a href="/" data-remote="true" style="text-align: center;">
+  <a href="/" data-ujs-navigate="false" data-remote="true" style="text-align: center;">
     I send a GET request to this server in the background.
     <br>
     Check your network tab!

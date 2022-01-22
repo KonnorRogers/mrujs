@@ -21,12 +21,64 @@
 <!-- Fonts -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 
-<!-- Shoelace -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.45/dist/themes/base.css">
-<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.45/dist/shoelace.js"></script>
-
 <!-- App CSS -->
-<link rel="stylesheet" data-turbolinks-track="reload" type="text/css" href="/dist/styles/index.css">
+<link rel="stylesheet" data-turbolinks-track="reload" type="text/css" href="/frontend/styles/index.css">
+
+<!-- Importmaps must come first -->
+<%= render "importmaps" %>
+
+<!-- Shoelace -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/shoelace.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@0.12.8/dist/es-module-shims.min.js" crossorigin="anonymous"></script>
 
 <!-- App JS -->
-<script type="module" data-turbolinks-track="reload" src="/dist/javascript/index.js"></script>
+<script type="module" data-turbolinks-track="reload">
+  import { Controller, Application } from "stimulus"
+  import "bridgetown-quick-search"
+  import mrujs from "mrujs"
+  import Turbolinks from "turbolinks"
+
+  class SearchController extends Controller {
+    static get targets() {
+      return ["container"]
+    }
+
+    show() {
+      this.containerTarget.removeAttribute("hidden");
+    }
+
+    hide() {
+      this.containerTarget.setAttribute("hidden", "")
+    }
+  }
+
+  class SideNavController extends Controller {
+    open() {
+      this.drawer.show()
+    }
+
+    close() {
+      this.drawer.hide()
+    }
+
+    toggle() {
+      if (this.drawer.open) {
+        this.open()
+      } else {
+        this.close()
+      }
+    }
+
+    get drawer() {
+      return document.querySelector("#side-nav-drawer")
+    }
+  }
+
+  mrujs.start()
+  Turbolinks.start()
+
+  const application = Application.start()
+  application.register("side-nav", SideNavController)
+  application.register("search", SearchController)
+</script>

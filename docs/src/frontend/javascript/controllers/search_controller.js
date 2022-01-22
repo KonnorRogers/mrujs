@@ -1,0 +1,2 @@
+import { Controller } from "stimulus"
+

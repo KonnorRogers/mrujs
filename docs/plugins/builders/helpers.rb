@@ -70,6 +70,6 @@ class Helpers < SiteBuilder
 
   def version_number
     package_json = File.read(File.join(File.expand_path("../../../", __dir__), "package.json"))
-    "v#{JSON.parse(package_json)["version"]}"
+    "#{JSON.parse(package_json)["version"]}"
   end
 end

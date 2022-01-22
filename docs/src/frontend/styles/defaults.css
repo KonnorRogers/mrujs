@@ -11,6 +11,10 @@ body {
   margin: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 main {
   margin: 0 var(--spacing-medium);
   overflow-x: hidden;
@@ -41,7 +45,7 @@ img {
 
 h1,h2,h3,h4 {
   font-weight: bold;
-  scroll-margin-top: 1.5em;
+  scroll-margin-top: calc(80px + 2em);
 }
 
 h1 > a,
@@ -206,4 +210,3 @@ code.highlighter-rouge {
 code.highlight {
   margin: var(--spacing-xx-small) 0;
 }
-

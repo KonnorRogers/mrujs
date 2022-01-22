@@ -488,8 +488,7 @@ bridgetown-search-results::part(inner) {
 
   .side-nav--desktop {
     display: flex;
-    width: 35%;
-    min-width: 25vw;
+    width: clamp(225px, 25vw, 300px);
     border-right: 1px solid var(--light-gray);
     padding-right: 2rem;
     overflow-y: auto;
