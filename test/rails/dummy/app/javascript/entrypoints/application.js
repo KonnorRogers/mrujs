@@ -14,6 +14,8 @@ import "../stylesheets/application.css"
   }
 })()
 
+ActiveStorage.start()
+
 Rails.start({
   plugins: [
     JsErb(),
