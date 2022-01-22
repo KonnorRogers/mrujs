@@ -112,14 +112,14 @@ To trigger an ajax request on a link, add the
 `data-remote="true"` property to the `<a>` tag like so:
 
 ```html
-<a href="/" data-remote="true">
+<a href="/" data-ujs-navigate="false" data-remote="true">
   I send a GET request to this server in the background. <br>
   Check your network tab!
 </a>
 ```
 
 <p align="middle">
-  <a href="/" data-remote="true" style="text-align: center;">
+  <a href="/" data-ujs-navigate="false" data-remote="true" style="text-align: center;">
     I send a GET request to this server in the background.
     <br>
     Check your network tab!

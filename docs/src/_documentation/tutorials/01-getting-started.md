@@ -37,17 +37,15 @@ Turbolinks.start();
 
 ## [3. Ajax Form submissions](#3-ajax-form-submissions)
 
-<sl-alert type="warning" open>
-  <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-  <strong>Warning:</strong>
-  If using Turbo, make sure to set <code>data-turbo="false"</code> to avoid any event
-  conflicts.
+<%= render(Alert.new(type: :warning, title: "Warning:")) do %>
+  If using Turbo, make sure to set <code class="highlight">data-turbo="false"</code> on
+  elements to avoid any event conflicts.
 
   <br>
 
-  As of <code>v0.4.2</code>, <code>data-turbo="false"</code> will automatically be
-  set for you.
-</sl-alert>
+  As of <code class="highlight">v0.4.2</code>, <code class="highlight">data-turbo="false"</code> will automatically be
+  set for you on any element that has <code class="highlight">data-remote="true"</code>
+<% end %>
 
 ### [With Rails form helpers](#with-rails-form-helpers)
 
@@ -72,6 +70,13 @@ Turbolinks.start();
   <button type="submit" data-disable-with="Submitting...">
 </form>
 ```
+
+<%= render Alert.new(type: :warning, title: "Warning") do %>
+  Mrujs hooks into the responses on every form. If you want
+  Mrujs to morph in errors sent from the server,
+  ensure that you send back a 4xx status code.
+<% end %>
+
 
 ## [4. Sending an Ajax `DELETE` request from a link](#4-sending-an-ajax-delete-request-from-a-link)
 

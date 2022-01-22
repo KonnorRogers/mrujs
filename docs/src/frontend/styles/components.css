@@ -385,8 +385,7 @@ bridgetown-search-results::part(inner) {
   border-bottom: 1px solid transparent;
 }
 
-.call-to-action:hover,
-.call-to-action:focus {
+.call-to-action:is(:hover, :focus) {
   color: white;
   border-bottom: 1px solid transparent;
 }
@@ -395,8 +394,7 @@ bridgetown-search-results::part(inner) {
   background: var(--primary-color);
 }
 
-.call-to-action--primary:hover,
-.call-to-action--primary:focus {
+.call-to-action--primary:is(:hover, :focus) {
   background: var(--primary-color-darker);
 }
 
@@ -490,8 +488,7 @@ bridgetown-search-results::part(inner) {
 
   .side-nav--desktop {
     display: flex;
-    width: 35%;
-    min-width: 25vw;
+    width: clamp(225px, 25vw, 300px);
     border-right: 1px solid var(--light-gray);
     padding-right: 2rem;
     overflow-y: auto;

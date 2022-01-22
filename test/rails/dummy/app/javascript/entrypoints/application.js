@@ -1,8 +1,7 @@
 // import Racks from "@rails/ujs"
 import Rails from 'mrujs'
-import { ActiveStorage, JsErb } from "mrujs/plugins"
-// import { JsErb } from "mrujs/plugins"
-// import * as ActiveStorage from "@rails/activestorage"
+import { JsErb } from "mrujs/plugins"
+import * as ActiveStorage from "@rails/activestorage"
 import "../stylesheets/application.css"
 
 (async () => {
@@ -15,10 +14,11 @@ import "../stylesheets/application.css"
   }
 })()
 
+ActiveStorage.start()
+
 Rails.start({
   plugins: [
     JsErb(),
-    ActiveStorage()
   ]
 })
 

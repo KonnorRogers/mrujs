@@ -15,7 +15,7 @@ If you're using `Turbolinks`, feel free to jump ahead to
 If you're using `Turbo`, please read below about the current issues with
 Snapshot caching.
 
-<%= render Alert.new(type: :warning, title: "Warning: Turbo users") do %>
+<%= render(Alert.new(type: :warning, title: "Warning: Turbo users")) do %>
   Turbo recently merged the ability to prefetch into the main branch. Mrujs will
   throw a warning if prefetching is not enabled. To use the latest
   version of Turbo add the following to your <code class="highlight">package.json</code>.
@@ -55,7 +55,7 @@ using an AJAX request.
 
 ## [Prefetching with fetch](#prefetching-with-fetch)
 
-<%= render Alert.new do %>
+<%= render(Alert.new(type: :primary)) do %>
   All of the below can be run in the devTools console since this site
   uses mrujs! So feel free to open up the console and run the following
   commands!

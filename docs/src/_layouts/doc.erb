@@ -5,7 +5,7 @@ layout: default
 <div style="display: flex;">
   <%= render "side_nav" %>
 
-  <main class="container">
+  <main class="container container--md">
     <% title_id = page.data.title.downcase.split(" ").join("-") %>
     <h1 id="<%= title_id %>">
       <a href="<%= "##{title_id}" %>">

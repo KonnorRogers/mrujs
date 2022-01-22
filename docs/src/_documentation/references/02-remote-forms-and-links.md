@@ -95,8 +95,9 @@ link or form.
 ### [Attributes that need `data-turbo="false"`](#attributes-that-need-data-turbofalse)
 
 <%= render(Alert.new(title: "Note:", type: :primary)) do %>
-  As of `v0.4.2`, mrujs will automatically attach `data-turbo="false"` on
-  these elements if `data-turbo` is not already set.
+  As of <code class="highlight">v0.4.2</code>, mrujs will automatically attach
+  <code class="highlight">data-turbo="false"</code> on
+  these elements if <code class="highlight">data-turbo</code> is not already set.
 <% end %>
 
 ```
