@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "dependencies": {
-    "@hotwired/turbo": "^7.0.1",
+    "@hotwired/turbo": "^7.1.0",
     "@rails/activestorage": "^6.1.4-1",
     "@rails/ujs": "^6.1.4-1",
     "autoprefixer": "^10.4.0",

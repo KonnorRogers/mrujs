@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@hotwired/turbo': ^7.0.1
+  '@hotwired/turbo': ^7.1.0
   '@rails/activestorage': ^6.1.4-1
   '@rails/ujs': ^6.1.4-1
   autoprefixer: ^10.4.0
@@ -15,7 +15,7 @@ specifiers:
   vite-plugin-ruby: ^3.0.2
 
 dependencies:
-  '@hotwired/turbo': 7.0.1
+  '@hotwired/turbo': 7.1.0
   '@rails/activestorage': 6.1.4-1
   '@rails/ujs': 6.1.4-1
   autoprefixer: 10.4.0_postcss@8.3.11
@@ -37,8 +37,8 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /@hotwired/turbo/7.0.1:
-    resolution: {integrity: sha512-awqraytYXbHV2NT0WAOnDDDGJeHHnFtnztdXvRuIqgsStUtPKM8B9H7ISm77SwbHemEjxEOB8Ku4RfNbEEXsPQ==}
+  /@hotwired/turbo/7.1.0:
+    resolution: {integrity: sha512-Q8kGjqwPqER+CtpQudbH+3Zgs2X4zb6pBAlr6NsKTXadg45pAOvxI9i4QpuHbwSzR2+x87HUm+rot9F/Pe8rxA==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
