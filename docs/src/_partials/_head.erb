@@ -19,22 +19,28 @@
 <meta property="twitter:title" content="<%= site.metadata.title %>">
 
 <!-- Fonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<%= render "font_loader" %>
 
 <!-- App CSS -->
-<link rel="stylesheet" data-turbolinks-track="reload" type="text/css" href="/frontend/styles/index.css">
-
-<!-- Importmaps must come first -->
-<%= render "importmaps" %>
+<link rel="preload" data-turbolinks-track="reload" href="/frontend/styles/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" data-turbolinks-track="reload" href="/frontend/styles/index.css"></noscript>
 
 <!-- Shoelace -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css">
-<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/shoelace.js"></script>
-<script async src="https://ga.jspm.io/npm:es-module-shims@0.12.8/dist/es-module-shims.min.js" crossorigin="anonymous"></script>
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css"></noscript>
+
+<%= render "importmaps" %>
 
 <!-- App JS -->
-<script type="module" data-turbolinks-track="reload">
+<script type="module" defer data-turbolinks-track="reload">
   import { Controller, Application } from "stimulus"
+  import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/utilities/base-path.js';
+  setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/');
+  import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/components/icon/icon.js"
+  import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/components/button/button.js"
+  import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/components/alert/alert.js"
+  import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/components/drawer/drawer.js"
+  import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/components/icon-button/icon-button.js"
   import "bridgetown-quick-search"
   import mrujs from "mrujs"
   import Turbolinks from "turbolinks"
@@ -82,3 +88,4 @@
   application.register("side-nav", SideNavController)
   application.register("search", SearchController)
 </script>
+
