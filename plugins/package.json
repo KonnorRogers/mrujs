@@ -9,8 +9,8 @@
   "module": "./dist/plugins.module.js",
   "umd:main": "./dist/plugins.umd.js",
   "license": "MIT",
-  "types": "dist/types/plugins/src/index.d.ts",
-  "typings": "dist/types/plugins/src/index.d.ts",
+  "types": "dist/plugins/src/index.d.ts",
+  "typings": "dist/plugins/src/index.d.ts",
   "peerDependencies": {
     "mrujs": ">= 0.4.6"
   }
