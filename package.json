@@ -1,7 +1,7 @@
 {
   "name": "mrujs",
   "amdName": "mrujs",
-  "version": "0.8.3-beta.5",
+  "version": "0.8.3-beta.6",
   "description": "UJS for modern javascript.",
   "source": "src/index.ts",
   "main": "./dist/index.js",
