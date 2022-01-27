@@ -20,8 +20,8 @@
       "require": "./dist/plugins.umd.js"
     }
   },
-  "types": "dist/types/src/index.d.ts",
-  "typings": "dist/types/src/index.d.ts",
+  "types": "dist/types/index.d.ts",
+  "typings": "dist/types/index.d.ts",
   "repository": "git@github.com:ParamagicDev/mrujs.git",
   "homepage": "https://mrujs.com",
   "author": "ParamagicDev <konnor5456@gmail.com>",
