@@ -14,10 +14,10 @@
       "require": "./dist/mrujs.umd.js"
     },
     "./plugins": {
-      "browser": "./dist/plugins/index.module.js",
-      "umd": "./dist/plugins/index.umd.js",
-      "import": "./dist/plugins/index.module.js",
-      "require": "./dist/plugins/index.umd.js"
+      "browser": "./dist/plugins.module.js",
+      "umd": "./dist/plugins.umd.js",
+      "import": "./dist/plugins.module.js",
+      "require": "./dist/plugins.umd.js"
     }
   },
   "types": "dist/types/index.d.ts",
