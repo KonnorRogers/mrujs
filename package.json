@@ -35,7 +35,9 @@
   },
   "files": [
     "src",
-    "dist"
+    "dist",
+    "plugins",
+    "types.ts"
   ],
   "sideEffects": [
     "./src/index.ts",
