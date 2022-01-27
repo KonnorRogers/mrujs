@@ -4,23 +4,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.8.3](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.8...v0.8.3) (2022-01-27)
 
-### [0.8.3-beta.8](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.7...v0.8.3-beta.8) (2022-01-27)
-
-### [0.8.3-beta.7](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.6...v0.8.3-beta.7) (2022-01-27)
-
-### [0.8.3-beta.6](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.5...v0.8.3-beta.6) (2022-01-27)
-
-### [0.8.3-beta.5](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.4...v0.8.3-beta.5) (2022-01-27)
-
-### [0.8.3-beta.4](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.3...v0.8.3-beta.4) (2022-01-27)
-
-### [0.8.3-beta.3](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.2...v0.8.3-beta.3) (2022-01-27)
-
-### [0.8.3-beta.2](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.1...v0.8.3-beta.2) (2022-01-27)
-
-### [0.8.3-beta.1](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.0...v0.8.3-beta.1) (2022-01-27)
-
-### [0.8.3-beta.0](https://github.com/ParamagicDev/mrujs/compare/v0.8.2...v0.8.3-beta.0) (2022-01-27)
+* Fix typings for main entrypoint and plugins entrypoint
 
 ### [0.8.2](https://github.com/ParamagicDev/mrujs/compare/v0.8.1...v0.8.2) (2022-01-27)
 
