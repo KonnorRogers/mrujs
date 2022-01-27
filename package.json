@@ -4,14 +4,14 @@
   "version": "0.8.3-beta.3",
   "description": "UJS for modern javascript.",
   "source": "src/index.ts",
-  "main": "./dist/mrujs.js",
-  "module": "./dist/mrujs.module.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.module.js",
   "exports": {
     ".": {
-      "browser": "./dist/mrujs.module.js",
-      "umd": "./dist/mrujs.umd.js",
-      "import": "./dist/mrujs.module.js",
-      "require": "./dist/mrujs.umd.js"
+      "browser": "./dist/index.module.js",
+      "umd": "./dist/index.umd.js",
+      "import": "./dist/index.module.js",
+      "require": "./dist/index.umd.js"
     },
     "./plugins": {
       "browser": "./dist/plugins.module.js",

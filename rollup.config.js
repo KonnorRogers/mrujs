@@ -37,7 +37,7 @@ export default [
     input: "src/index.ts",
     output: [{
       name: "mrujs",
-      file: "dist/mrujs.umd.js",
+      file: "dist/index.umd.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
@@ -48,7 +48,7 @@ export default [
     input: "src/index.ts",
     external: ["morphdom"],
     output: [{
-      file: "dist/mrujs.module.js",
+      file: "dist/index.module.js",
       format: "es",
       sourcemap: true,
     }],
@@ -82,7 +82,7 @@ export default [
     input: "src/index.ts",
     output: [{
       name: "mrujs",
-      file: "dist/mrujs.umd.min.js",
+      file: "dist/index.umd.min.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
@@ -93,7 +93,7 @@ export default [
     input: "src/index.ts",
     external: ["morphdom"],
     output: [{
-      file: "dist/mrujs.module.min.js",
+      file: "dist/index.module.min.js",
       format: "es",
       sourcemap: true,
     }],
