@@ -1,4 +1,4 @@
-import { MrujsPluginInterface, MrujsInterface } from '../types'
+import { MrujsPluginInterface, MrujsInterface } from '../../types'
 
 export function Shoelace (): MrujsPluginInterface {
   return {

@@ -1,4 +1,4 @@
-import { SelectorType, MrujsPluginInterface } from './types'
+import { SelectorType, MrujsPluginInterface } from '../types'
 import { $, matches } from './utils/dom'
 
 export function RemoteWatcher (): MrujsPluginInterface {

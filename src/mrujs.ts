@@ -25,7 +25,7 @@ import {
   Locateable,
   ExtendedRequestInit,
   MrujsInterface
-} from './types'
+} from '../types'
 
 export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.connected = false
@@ -109,7 +109,7 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.matches = matches
   obj.toArray = toArray
 
-  return obj as MrujsInterface
+  return obj
 }
 
 function start (this: MrujsInterface, options: Partial<MrujsInterface> = {}): MrujsInterface {

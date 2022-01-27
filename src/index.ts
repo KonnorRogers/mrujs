@@ -2,7 +2,7 @@
 import './polyfills'
 
 import { Mrujs } from './mrujs'
-import { Adapter, MrujsInterface } from './types'
+import { Adapter, MrujsInterface } from '../types'
 
 // This is required for typescript checking in tests
 declare global {

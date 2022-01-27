@@ -1,4 +1,4 @@
-import { Submitter } from '../types'
+import { Submitter } from '../../types'
 
 export function buildFormElementFormData (element: HTMLFormElement, submitter?: Submitter): FormData {
   const formData = new FormData(element)

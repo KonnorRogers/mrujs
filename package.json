@@ -46,8 +46,8 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "lint": "ts-standard src/ test/js",
-    "fix": "ts-standard src/ test/js --fix",
+    "lint": "ts-standard plugins/ src/ test/js",
+    "fix": "ts-standard plugins/ src/ test/js --fix",
     "test": "web-test-runner",
     "test:ci": "pnpm lint && pnpm build && web-test-runner",
     "test:watch": "web-test-runner --watch",

@@ -1,7 +1,7 @@
 import { assert } from '@esm-bundle/chai'
 import CableReady from 'cable_ready'
 import mrujs from '../../../src'
-import { CableCar } from '../../../src/plugins'
+import { CableCar } from '../../../plugins'
 
 describe('CableCar with custom config', () => {
   it('should allow custom mimetypes', () => {

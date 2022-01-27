@@ -1,4 +1,4 @@
-import { MrujsPluginInterface, EventQueryInterface, Submitter } from './types'
+import { MrujsPluginInterface, EventQueryInterface, Submitter } from '../types'
 import { attachObserverCallback, addListeners, removeListeners, formElements, matches } from './utils/dom'
 import { stopEverything } from './utils/events'
 
