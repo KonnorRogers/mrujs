@@ -45,7 +45,7 @@
     "url": "https://github.com/paramagicdev/mrujs/issues"
   },
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist plugins/dist",
     "lint": "ts-standard plugins/ src/ test/js",
     "fix": "ts-standard plugins/ src/ test/js --fix",
     "test": "web-test-runner",

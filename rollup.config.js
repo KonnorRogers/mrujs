@@ -119,6 +119,6 @@ export default [
       sourcemap: true,
       exports: "named",
     }],
-    plugins: compressionPlugins("./tsconfig-lint.json")
+    plugins: compressionPlugins("./tsconfig-plugins.json")
   },
 ]

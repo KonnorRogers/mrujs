@@ -109,7 +109,7 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.matches = matches
   obj.toArray = toArray
 
-  return obj
+  return obj as MrujsInterface
 }
 
 function start (this: MrujsInterface, options: Partial<MrujsInterface> = {}): MrujsInterface {
