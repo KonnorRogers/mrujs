@@ -59,7 +59,7 @@ export default [
   {
     input: "src/plugins/index.ts",
     output: [{
-      file: "dist/plugins.module.js",
+      file: "dist/plugins/index.module.js",
       format: "es",
       sourcemap: true,
     }],
@@ -69,7 +69,7 @@ export default [
     input: "src/plugins/index.ts",
     output: [{
       name: "mrujsPlugins",
-      file: "dist/plugins.umd.js",
+      file: "dist/plugins/index.umd.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
@@ -104,7 +104,7 @@ export default [
   {
     input: "src/plugins/index.ts",
     output: [{
-      file: "dist/plugins.module.min.js",
+      file: "dist/plugins/index.module.min.js",
       format: "es",
       sourcemap: true,
     }],
@@ -114,7 +114,7 @@ export default [
     input: "src/plugins/index.ts",
     output: [{
       name: "mrujsPlugins",
-      file: "dist/plugins.umd.min.js",
+      file: "dist/plugins/index.umd.min.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
