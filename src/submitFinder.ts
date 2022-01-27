@@ -1,4 +1,4 @@
-import { ExtendedSubmitEvent, Submitter } from './types'
+import { ExtendedSubmitEvent, Submitter } from '../types'
 
 export function findSubmitter (event: ExtendedSubmitEvent): Submitter {
   // Not supported by webkit

@@ -57,24 +57,24 @@ export default [
 
   // Plugins
   {
-    input: "src/plugins.ts",
+    input: "plugins/src/index.ts",
     output: [{
-      file: "dist/plugins.module.js",
+      file: "plugins/dist/plugins.module.js",
       format: "es",
       sourcemap: true,
     }],
-    plugins: basePlugins()
+    plugins: basePlugins("./tsconfig-plugins.json")
   },
   {
-    input: "src/plugins.ts",
+    input: "plugins/src/index.ts",
     output: [{
       name: "mrujsPlugins",
-      file: "dist/plugins.umd.js",
+      file: "plugins/dist/plugins.umd.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
     }],
-    plugins: basePlugins()
+    plugins: basePlugins("./tsconfig-plugins.json")
   },
 
   // Compressed
@@ -102,23 +102,23 @@ export default [
 
   // Plugins
   {
-    input: "src/plugins.ts",
+    input: "plugins/src/index.ts",
     output: [{
-      file: "dist/plugins.module.min.js",
+      file: "plugins/dist/plugins.module.min.js",
       format: "es",
       sourcemap: true,
     }],
-    plugins: compressionPlugins()
+    plugins: compressionPlugins("./tsconfig-plugins.json")
   },
   {
-    input: "src/plugins.ts",
+    input: "plugins/src/index.ts",
     output: [{
-      name: "mrujsPlugins",
-      file: "dist/plugins.umd.min.js",
+      name: "mrujs",
+      file: "plugins/dist/plugins.umd.min.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
     }],
-    plugins: compressionPlugins()
+    plugins: compressionPlugins("./tsconfig-plugins.json")
   },
 ]

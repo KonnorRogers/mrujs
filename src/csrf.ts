@@ -1,6 +1,6 @@
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/csrf.coffee
 import { getCookieValue, getMetaContent } from './utils/misc'
-import { MrujsPluginInterface } from './types'
+import { MrujsPluginInterface } from '../types'
 import { $ } from './utils/dom'
 
 export function Csrf (): MrujsPluginInterface {

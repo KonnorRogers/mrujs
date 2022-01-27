@@ -1,5 +1,5 @@
 import { AJAX_EVENTS, dispatch } from './utils/events'
-import { EventQueryInterface, MrujsPluginInterface } from './types'
+import { EventQueryInterface, MrujsPluginInterface } from '../types'
 import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
 import { MethodSubmission } from './methodSubmission'
 
