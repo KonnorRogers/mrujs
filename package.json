@@ -14,10 +14,10 @@
       "require": "./dist/index.umd.js"
     },
     "./plugins": {
-      "browser": "./dist/plugins.module.js",
-      "umd": "./dist/plugins.umd.js",
-      "import": "./dist/plugins.module.js",
-      "require": "./dist/plugins.umd.js"
+      "browser": "./plugins/dist/plugins.module.js",
+      "umd": "./plugins/dist/plugins.umd.js",
+      "import": "./plugins/dist/plugins.module.js",
+      "require": "./plugins/dist/plugins.js"
     }
   },
   "types": "dist/index.d.ts",
