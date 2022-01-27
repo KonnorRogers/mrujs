@@ -11,13 +11,13 @@
       "browser": "./dist/mrujs.module.js",
       "umd": "./dist/mrujs.umd.js",
       "import": "./dist/mrujs.module.js",
-      "require": "./dist/mrujs.js"
+      "require": "./dist/mrujs.umd.js"
     },
     "./plugins": {
       "browser": "./dist/plugins.module.js",
       "umd": "./dist/plugins.umd.js",
       "import": "./dist/plugins.module.js",
-      "require": "./dist/plugins.js"
+      "require": "./dist/plugins.umd.js"
     }
   },
   "types": "dist/types/src/index.d.ts",
