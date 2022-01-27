@@ -1,5 +1,5 @@
 import { matches } from './dom'
-import { SelectorType } from '../../types'
+import { SelectorType } from '../types'
 
 export const EVENT_DEFAULTS = {
   bubbles: true,

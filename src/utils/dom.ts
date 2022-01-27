@@ -1,6 +1,6 @@
 // This file is copied from:
 // https://github.com/rails/rails/blob/main/actionview/app/assets/javascripts/rails-ujs/utils/dom.coffee
-import { EventQueryInterface, QuerySelectorInterface, SelectorType } from '../../types'
+import { EventQueryInterface, QuerySelectorInterface, SelectorType } from '../types'
 
 export function toArray<T> (value: any): T[] {
   if (Array.isArray(value)) {

@@ -1,6 +1,6 @@
 import { addListeners, attachObserverCallback, removeListeners } from './utils/dom'
 import { preventInsignificantClick } from './utils/misc'
-import { EventQueryInterface, MrujsPluginInterface } from '../types'
+import { EventQueryInterface, MrujsPluginInterface } from './types'
 
 export function ClickHandler (): MrujsPluginInterface {
   const callbacks = [preventInsignificantClick] as EventListener[]

@@ -1,7 +1,7 @@
 import { AJAX_EVENTS, dispatch } from './utils/events'
 import { findSubmitter } from './submitFinder'
 import { FetchResponse } from './http/fetchResponse'
-import { MrujsPluginInterface, AddOrRemoveListeners, AjaxEventDetail, ExtendedSubmitEvent } from '../types'
+import { MrujsPluginInterface, AddOrRemoveListeners, AjaxEventDetail, ExtendedSubmitEvent } from './types'
 import { FormSubmission } from './formSubmission'
 import { disableElement } from './elementDisabler'
 

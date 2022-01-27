@@ -14,10 +14,10 @@
       "require": "./dist/mrujs.js"
     },
     "./plugins": {
-      "browser": "./plugins/dist/mrujs.module.js",
-      "umd": "./plugins/dist/mrujs.umd.js",
-      "import": "./plugins/dist/mrujs.module.js",
-      "require": "./plugins/dist/mrujs.js"
+      "browser": "./dist/plugins.module.js",
+      "umd": "./dist/plugins.umd.js",
+      "import": "./dist/plugins.module.js",
+      "require": "./dist/plugins.js"
     }
   },
   "types": "dist/types/src/index.d.ts",
@@ -35,10 +35,7 @@
   },
   "files": [
     "src",
-    "dist",
-    "plugins/src",
-    "plugins/dist",
-    "plugins/package.json"
+    "dist"
   ],
   "sideEffects": [
     "./src/index.ts",
@@ -48,9 +45,9 @@
     "url": "https://github.com/paramagicdev/mrujs/issues"
   },
   "scripts": {
-    "clean": "rm -rf dist plugins/dist",
-    "lint": "ts-standard plugins/ src/ test/js",
-    "fix": "ts-standard plugins/ src/ test/js --fix",
+    "clean": "rm -rf dist",
+    "lint": "ts-standard src/ test/js",
+    "fix": "ts-standard src/ test/js --fix",
     "test": "web-test-runner",
     "test:ci": "pnpm lint && pnpm build && web-test-runner",
     "test:watch": "web-test-runner --watch",
