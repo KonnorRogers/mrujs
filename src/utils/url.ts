@@ -1,4 +1,4 @@
-import { Locateable } from '../../types'
+import { Locateable } from '../types'
 
 export function expandUrl (locateable: Locateable): URL {
   return new URL(locateable.toString(), document.baseURI)

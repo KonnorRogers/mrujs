@@ -31,10 +31,9 @@ jobs:
             pnpm-lock.yaml
             plugins/pnpm-lock.yaml
 
-      - name: Install via yarn
+      - name: Install via pnpm
         run: |
           pnpm install
-          cd plugins && pnpm install
       - name: lint, and test
         run: |
           pnpm lint
@@ -72,13 +71,9 @@ jobs:
           pnpm-lock.yaml
           plugins/pnpm-lock.yaml
 
-    - name: Install via yarn
-      run: |
-
-    - name: Install via yarn
+    - name: Install via pnpm
       run: |
         pnpm install
-        cd plugins && pnpm install && cd -
         pnpm build
         cd test/rails/dummy
         pnpm install

@@ -57,25 +57,24 @@ export default [
 
   // Plugins
   {
-    external: ["SparkMD5"],
-    input: "plugins/src/index.ts",
+    input: "src/plugins/index.ts",
     output: [{
-      file: "plugins/dist/mrujs.module.js",
+      file: "dist/plugins.module.js",
       format: "es",
       sourcemap: true,
     }],
-    plugins: basePlugins("./tsconfig-plugins.json")
+    plugins: basePlugins()
   },
   {
-    input: "plugins/src/index.ts",
+    input: "src/plugins/index.ts",
     output: [{
-      name: "mrujs",
-      file: "plugins/dist/mrujs.umd.js",
+      name: "mrujsPlugins",
+      file: "dist/plugins.umd.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
     }],
-    plugins: basePlugins("./tsconfig-plugins.json")
+    plugins: basePlugins()
   },
 
   // Compressed
@@ -103,24 +102,23 @@ export default [
 
   // Plugins
   {
-    external: ["SparkMD5"],
-    input: "plugins/src/index.ts",
+    input: "src/plugins/index.ts",
     output: [{
-      file: "plugins/dist/mrujs.module.min.js",
+      file: "dist/plugins.module.min.js",
       format: "es",
       sourcemap: true,
     }],
-    plugins: compressionPlugins("./tsconfig-plugins.json")
+    plugins: compressionPlugins()
   },
   {
-    input: "plugins/src/index.ts",
+    input: "src/plugins/index.ts",
     output: [{
-      name: "mrujs",
-      file: "plugins/dist/mrujs.umd.min.js",
+      name: "mrujsPlugins",
+      file: "dist/plugins.umd.min.js",
       format: "umd",
       sourcemap: true,
       exports: "named",
     }],
-    plugins: compressionPlugins("./tsconfig-plugins.json")
+    plugins: compressionPlugins()
   },
 ]
