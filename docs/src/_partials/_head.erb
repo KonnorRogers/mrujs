@@ -18,74 +18,16 @@
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:title" content="<%= site.metadata.title %>">
 
-<!-- Fonts -->
-<%= render "font_loader" %>
-
-<!-- Critical CSS -->
-<style>
-  html {
-    height: 100%;
-  }
-
-  body {
-    font-family: var(--font-sans);
-    min-height: 100%;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    grid-template-columns: 100%;
-    margin: 0;
-  }
-
-  :where(:not(:defined)) {
-    display: none;
-  }
-
-  /* layout components */
-  :root {
-    --container-min-width: 0px;
-    --container-relative-width: 75%;
-    --container-max-width: var(--xl2);
-  }
-
-  .container {
-    width: clamp(var(--container-min-width), var(--container-relative-width), var(--container-max-width));
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .container--xs {
-    --container-max-width: var(--xs);
-  }
-
-  .container--sm {
-    --container-max-width: var(--sm);
-  }
-
-  .container--md {
-    --container-max-width: var(--md);
-  }
-
-  .container--lg {
-    --container-max-width: var(--lg);
-  }
-
-  .container--xl {
-    --container-max-width: var(--xl);
-  }
-</style>
-
 <!-- App CSS -->
-<link rel="preload" data-turbolinks-track="reload" href="/frontend/styles/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" data-turbolinks-track="reload" href="/frontend/styles/index.css"></noscript>
+<link rel="stylesheet" data-turbolinks-track="reload" href="/frontend/styles/index.css">
 
 <!-- Shoelace -->
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css"></noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css">
 
 <%= render "importmaps" %>
 
 <!-- App JS -->
-<script type="module" defer data-turbolinks-track="reload">
+<script type="module" data-turbolinks-track="reload">
   import { Controller, Application } from "stimulus"
   import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/utilities/base-path.js';
   setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/');
