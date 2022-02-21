@@ -34,27 +34,31 @@ export function Confirm (): MrujsPluginInterface {
 }
 
 export function handleConfirm (event: Event | CustomEvent): void {
-  if (event.currentTarget == null) return
+  if (!allowAction(event)) {
+    stopEverything(event)
+  }
+}
+
+function allowAction (event: Event | CustomEvent): boolean {
+  if (event.currentTarget == null) return true
 
   const element = event.currentTarget as HTMLElement
   const message = element.dataset.confirm
 
-  if (message == null) return
+  if (message == null) return true
 
   let answer = false
 
   try {
     answer = window.mrujs.confirm(message)
   } catch (e) {
-    console.warn('there was an error with mrujs.confirm')
+    console.warn('The following error was encountered when calling: "mrujs.confirm"\n\n')
+    console.error(e)
   }
 
-  if (answer) {
-    dispatch.call(element, 'confirm:complete', { detail: { answer } })
-    return
-  }
+  const firedEvent = dispatch.call(element, 'confirm:complete', { detail: { answer } })
 
-  stopEverything(event)
+  return answer && !firedEvent.defaultPrevented
 }
 
 function getQueries (): EventQueryInterface[] {
