@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.8.4](https://github.com/ParamagicDev/mrujs/compare/v0.8.3...v0.8.4) (2022-02-21)
+
+
+### Bug Fixes
+
+* confirm:complete now fires appropriately ([#183](https://github.com/ParamagicDev/mrujs/issues/183)) ([322b209](https://github.com/ParamagicDev/mrujs/commit/322b209f2d6c2f3c6ec41a2ecc9ad6bff1053dec))
+
 ### [0.8.3](https://github.com/ParamagicDev/mrujs/compare/v0.8.3-beta.8...v0.8.3) (2022-01-27)
 
 * Fix typings for main entrypoint and plugins entrypoint
