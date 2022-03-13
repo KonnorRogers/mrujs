@@ -5,7 +5,7 @@ import { expandUrl, urlsAreEqual } from './utils/url'
 import {
   Adapter, MrujsPluginInterface, SnapshotCacheInterface,
   Locateable, FetchRequestInterface, FetchResponseInterface,
-  VisitAction
+  VisitAction, ErrorRenderer
 } from '../types'
 
 const ALLOWABLE_ACTIONS = [
@@ -137,16 +137,22 @@ function navigate (element: HTMLElement, request: FetchRequestInterface, respons
   const currentLocation = window.location.href
   const isSamePage = urlsAreEqual(location, currentLocation)
 
+  let errorRenderer: ErrorRenderer = 'morphdom'
+
+  if (window.mrujs.errorRenderer === 'turbo' || element.getAttribute('data-ujs-error-renderer') === 'turbo') {
+    errorRenderer = 'turbo'
+  }
+
   if (response.failed || isSamePage) {
     // Use morphdom to dom diff the response if the response is HTML.
-    morphResponse(response, !isSamePage)
+    morphResponse(response, !isSamePage, errorRenderer)
     return
   }
 
   const adapter = findAdapter()
 
   if (adapter == null) {
-    morphResponse(response, isSamePage)
+    morphResponse(response, isSamePage, errorRenderer)
     return
   }
 
@@ -215,13 +221,17 @@ function preventDoubleVisit (response: FetchResponseInterface, location: Locatea
   }).catch((error) => console.error(error))
 }
 
-function morphResponse (response: FetchResponseInterface, pushState: boolean = false): void {
+function morphResponse (response: FetchResponseInterface, pushState: boolean = false, errorRenderer: ErrorRenderer = 'morphdom'): void {
   // Dont pass go if its not HTML.
   if (!response.isHtml) return
 
   response.html()
     .then((html: string) => {
-      morphHtml(html)
+      if (errorRenderer === 'turbo') {
+        renderError(html)
+      } else if (errorRenderer === 'morphdom') {
+        morphHtml(html)
+      }
 
       if (pushState) {
         // https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
@@ -237,6 +247,11 @@ function morphHtml (html: string): void {
   const template = document.createElement('template')
   template.innerHTML = String(html).trim()
   morphdom(document.body, template.content, { childrenOnly: true })
+}
+
+function renderError (html: string): void {
+  const adapter = findAdapter()
+  adapter?.navigator.view.renderError(generateSnapshotFromHtml(html))
 }
 
 function determineAction (element: HTMLElement): VisitAction {

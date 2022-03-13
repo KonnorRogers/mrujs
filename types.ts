@@ -108,6 +108,7 @@ export interface MrujsInterface extends QuerySelectorInterface {
   mimeTypes: MimeTypeInterface
   connected: boolean
   findSubmitter: (event: ExtendedSubmitEvent) => Submitter | undefined
+  errorRenderer: ErrorRenderer
 
   corePlugins: MrujsPluginInterface[]
   plugins: MrujsPluginInterface[]
@@ -197,6 +198,7 @@ export interface Adapter {
   navigator: {
     view: {
       snapshotCache: SnapshotCacheInterface
+      renderError: (snapshot: string) => string
     }
   }
 }
@@ -209,3 +211,4 @@ export interface ExtendedSubmitEvent extends CustomEvent {
     submitter?: Submitter
   }
 }
+export type ErrorRenderer = "turbo" | "morphdom"
