@@ -8,31 +8,33 @@
   </bridgetown-search-form>
 </div>
 
-<nav class="top-nav container" aria-label="Main">
-  <div style="background: white; width: calc(100vw - env(safe-area-inset-right, 0) - env(safe-area-inset-left, 0)); position: absolute; left: -5vw; top: 0; height: 100%; z-index: -1;"></div>
+<kpc-container style="--relative-width: 90%;" size="xx-large">
+  <nav class="top-nav" aria-label="Main">
+    <div style="background: white; width: calc(100vw - env(safe-area-inset-right, 0) - env(safe-area-inset-left, 0)); position: absolute; left: -5vw; top: 0; height: 100%; z-index: -1;"></div>
 
-  <sl-icon-button data-controller="side-nav" data-action="click->side-nav#open" class="top-nav__hamburger__button" name="list" label="Navigation"></sl-icon-button>
+    <sl-icon-button data-controller="side-nav" data-action="click->side-nav#open" class="top-nav__hamburger__button" name="list" label="Navigation"></sl-icon-button>
 
-  <div class="top-nav__go-home">
-    <%= render "logo" %>
+    <div class="top-nav__go-home">
+      <%= render "logo" %>
 
-    <%= render "version_number" %>
-  </div>
-
-  <div class="top-nav__search">
-    <sl-icon-button class="top-nav__search__button" name="search" label="Search"
-                    data-action="click->search#show">
-    </sl-icon-button>
-
-    <%= liquid_render "bridgetown_quick_search/search", placeholder: "Search...", input_class: "input top-nav__search__input" %>
-  </div>
-
-  <div class="top-nav__links">
-    <div class="top-nav__categories">
-      <%= render "categories" %>
+      <%= render "version_number" %>
     </div>
-    <a target="_blank" rel="noreferrer noopener" href="<%= site.metadata.github_url %>" class="nav-link top-nav__github">
-      <sl-icon name="github" label="Link to GitHub"></sl-icon>
-    </a>
-  </div>
-</nav>
+
+    <div class="top-nav__search">
+      <sl-icon-button class="top-nav__search__button" name="search" label="Search"
+                      data-action="click->search#show">
+      </sl-icon-button>
+
+      <%= liquid_render "bridgetown_quick_search/search", placeholder: "Search...", input_class: "input top-nav__search__input" %>
+    </div>
+
+    <div class="top-nav__links">
+      <div class="top-nav__categories">
+        <%= render "categories" %>
+      </div>
+      <a target="_blank" rel="noreferrer noopener" href="<%= site.metadata.github_url %>" class="nav-link top-nav__github">
+        <sl-icon name="github" label="Link to GitHub"></sl-icon>
+      </a>
+    </div>
+  </nav>
+</kpc-container>

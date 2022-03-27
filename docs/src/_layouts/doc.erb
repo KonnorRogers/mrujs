@@ -5,14 +5,16 @@ layout: default
 <div style="display: flex;">
   <%= render "side_nav" %>
 
-  <main class="container container--md">
-    <% title_id = page.data.title.downcase.split(" ").join("-") %>
-    <h1 id="<%= title_id %>">
-      <a href="<%= "##{title_id}" %>">
-        <%= page.data.title %>
-      </a>
-    </h1>
+  <kpc-container size="medium">
+    <main>
+      <% title_id = page.data.title.downcase.split(" ").join("-") %>
+      <h1 id="<%= title_id %>">
+        <a href="<%= "##{title_id}" %>">
+          <%= page.data.title %>
+        </a>
+      </h1>
 
-    <%= yield %>
-  </main>
+      <%= yield %>
+    </main>
+  </kpc-container>
 </div>

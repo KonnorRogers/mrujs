@@ -128,19 +128,6 @@ ul > li {
   padding-left: var(--spacing-medium);
 }
 
-@media screen and (min-width: var(--sm)) {
-  pre {
-    overflow-x: hidden;
-  }
-}
-
-@media screen and (min-width: var(--lg)) {
-  .nav-search {
-    margin: 0 auto 0 18rem;
-  }
-}
-
-
 /* code blocks */
 /* inline code highlights */
 a > code,

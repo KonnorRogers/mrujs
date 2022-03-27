@@ -1,35 +1,3 @@
-  /* layout components */
-  :root {
-    --container-min-width: 0px;
-    --container-relative-width: 75%;
-    --container-max-width: var(--xl2);
-  }
-
-  .container {
-    width: clamp(var(--container-min-width), var(--container-relative-width), var(--container-max-width));
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .container--xs {
-    --container-max-width: var(--xs);
-  }
-
-  .container--sm {
-    --container-max-width: var(--sm);
-  }
-
-  .container--md {
-    --container-max-width: var(--md);
-  }
-
-  .container--lg {
-    --container-max-width: var(--lg);
-  }
-
-  .container--xl {
-    --container-max-width: var(--xl);
-  }
 .btn {
   display: inline-flex;
   align-items: stretch;
@@ -100,10 +68,9 @@ a:hover > .logo__image {
   color: var(--secondary-color);
 }
 
-
 .top-nav,
 .footer {
-  --container-relative-width: 90%;
+  width: 100%;
 }
 
 .top-nav,
