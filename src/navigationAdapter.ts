@@ -145,14 +145,14 @@ function navigate (element: HTMLElement, request: FetchRequestInterface, respons
 
   if (response.failed || isSamePage) {
     // Use morphdom to dom diff the response if the response is HTML.
-    morphResponse(response, !isSamePage, errorRenderer)
+    morphResponse(element, response, !isSamePage, errorRenderer)
     return
   }
 
   const adapter = findAdapter()
 
   if (adapter == null) {
-    morphResponse(response, isSamePage, errorRenderer)
+    morphResponse(element, response, isSamePage, errorRenderer)
     return
   }
 
@@ -221,7 +221,7 @@ function preventDoubleVisit (response: FetchResponseInterface, location: Locatea
   }).catch((error) => console.error(error))
 }
 
-function morphResponse (response: FetchResponseInterface, pushState: boolean = false, errorRenderer: ErrorRenderer = 'morphdom'): void {
+function morphResponse (element: HTMLElement, response: FetchResponseInterface, pushState: boolean = false, errorRenderer: ErrorRenderer = 'morphdom'): void {
   // Dont pass go if its not HTML.
   if (!response.isHtml) return
 
@@ -230,7 +230,18 @@ function morphResponse (response: FetchResponseInterface, pushState: boolean = f
       if (errorRenderer === 'turbo') {
         renderError(html)
       } else if (errorRenderer === 'morphdom') {
-        morphHtml(html)
+        const selectorString = element.getAttribute('data-ujs-morph-root')
+        let selector
+
+        //  query for selectorString, if none fall back to document.body
+        if (selectorString != null) {
+          selector = document.querySelector(selectorString)
+        }
+
+        // if queryselect failed, fall back to document.body
+        selector = selector == null ? document.body : selector
+
+        morphHtml(html, selector)
       }
 
       if (pushState) {
@@ -243,10 +254,10 @@ function morphResponse (response: FetchResponseInterface, pushState: boolean = f
     })
 }
 
-function morphHtml (html: string): void {
+function morphHtml (html: string, selector: Element = document.body): void {
   const template = document.createElement('template')
   template.innerHTML = String(html).trim()
-  morphdom(document.body, template.content, { childrenOnly: true })
+  morphdom(selector, template.content, { childrenOnly: true })
 }
 
 function renderError (html: string): void {
