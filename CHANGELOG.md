@@ -2,13 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.9.1](https://github.com/ParamagicDev/mrujs/compare/v0.9.0...v0.9.1) (2022-04-06)
-
-
-### Features
-
-* Add `data-ujs-morph-root` for morphdom rendering ([#187](https://github.com/ParamagicDev/mrujs/issues/187)) ([cdf47da](https://github.com/ParamagicDev/mrujs/commit/cdf47da6884af354e88d6c979a5b91aeef6a0d92))
-
 ## [0.9.0](https://github.com/ParamagicDev/mrujs/compare/v0.8.4...v0.9.0) (2022-03-13)
 
 
