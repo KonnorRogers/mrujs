@@ -230,7 +230,7 @@ function morphResponse (element: HTMLElement, response: FetchResponseInterface, 
       if (errorRenderer === 'turbo') {
         renderError(html)
       } else if (errorRenderer === 'morphdom') {
-        const selectorString = element.getAttribute('data-ujs-selector')
+        const selectorString = element.getAttribute('data-ujs-morph-root')
         let selector
 
         //  query for selectorString, if none fall back to document.body
