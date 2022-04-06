@@ -231,15 +231,16 @@ function morphResponse (element: HTMLElement, response: FetchResponseInterface, 
         renderError(html)
       } else if (errorRenderer === 'morphdom') {
         const selectorString = element.getAttribute('data-ujs-morph-root')
-        let selector
 
-        //  query for selectorString, if none fall back to document.body
+        let selector = document.body
+
         if (selectorString != null) {
-          selector = document.querySelector(selectorString)
+          if (selectorString.trim() === '') {
+            selector = element
+          } else {
+            selector = document.querySelector(selectorString) ?? document.body
+          }
         }
-
-        // if queryselect failed, fall back to document.body
-        selector = selector == null ? document.body : selector
 
         morphHtml(html, selector)
       }
