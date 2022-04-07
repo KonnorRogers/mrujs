@@ -1,0 +1,14 @@
+name: Netlify Deploy
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger our build webhook on Netlify
+      run: curl -s -X POST "https://api.netlify.com/build_hooks/${TOKEN}"
+      env:
+        TOKEN: ${{ secrets.NETLIFY_BUILD_HOOK_TOKEN }}
+
