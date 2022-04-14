@@ -5,7 +5,7 @@ layout: default
 <div style="display: flex;">
   <%= render "side_nav" %>
 
-  <kpc-container size="medium">
+  <kpc-container size="medium" style="--relative-width: 90%;">
     <main>
       <% title_id = page.data.title.downcase.split(" ").join("-") %>
       <h1 id="<%= title_id %>">
