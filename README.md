@@ -8,7 +8,7 @@ modern features like MutationObservers and fetch.
 
 The official docs can be found here:
 
-<https://mrujs.com>
+<https://mrujs.netlify.app>
 
 ## Working on mrujs locally
 
