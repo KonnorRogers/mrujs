@@ -148,7 +148,11 @@ a:hover > .logo__image {
   margin: 0 var(--spacing-medium);
 }
 
-.top-nav__search__input,
+.top-nav__search__input {
+  padding: 0.15rem 0.75rem;
+  margin-left: var(--spacing-medium);
+}
+
 .top-nav__github {
   padding-top: var(--spacing-xx-small);
   margin-left: var(--spacing-medium);
