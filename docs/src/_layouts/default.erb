@@ -6,8 +6,10 @@
   <body class='<%= "#{page[:layout]} #{page[:page_class]}" %>' data-controller="search">
     <%= render "top_nav", metadata: site.metadata, page: page %>
 
-    <%= yield %>
+    <div style="max-height: calc(100vh - 100px); overflow: auto;">
+      <%= yield %>
 
-    <%= render "footer", metadata: site.metadata %>
+      <%= render "footer", metadata: site.metadata %>
+    </div>
   </body>
 </html>
