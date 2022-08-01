@@ -468,6 +468,8 @@ bridgetown-search-results::part(inner) {
     flex-direction: column;
     align-items: flex-end;
     max-height: calc(100vh - 100px);
+    position: sticky;
+    top: 0;
   }
 
   .side-nav__drawer {
