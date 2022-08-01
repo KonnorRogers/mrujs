@@ -467,6 +467,7 @@ bridgetown-search-results::part(inner) {
     overflow-y: auto;
     flex-direction: column;
     align-items: flex-end;
+    max-height: calc(100vh - 100px);
   }
 
   .side-nav__drawer {
