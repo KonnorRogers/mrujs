@@ -21,6 +21,16 @@
 <!-- App CSS -->
 <link rel="stylesheet" data-turbolinks-track="reload" href="/frontend/styles/index.css">
 
+<style>
+  :where(:not(:defined)) {
+    opacity: 0;
+    transition: opacity 25ms;
+  }
+  :where(:defined) {
+    opacity: 1;
+  }
+</style>
+
 <!-- Shoelace -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.64/dist/themes/light.css">
 
@@ -48,10 +58,14 @@
 
     show() {
       this.containerTarget.removeAttribute("hidden");
+      document.querySelector("kpc-container").setAttribute("hidden", "")
+      document.querySelector("body").style.overflow = "hidden"
     }
 
     hide() {
       this.containerTarget.setAttribute("hidden", "")
+      document.querySelector("kpc-container").removeAttribute("hidden")
+      document.querySelector("body").style.overflow = "auto"
     }
   }
 

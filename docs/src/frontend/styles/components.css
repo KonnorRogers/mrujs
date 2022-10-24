@@ -279,14 +279,15 @@ bridgetown-search-results::part(inner) {
 }
 
 .search-modal__form {
-  margin: 1.5rem 5vw 2.5rem 5vw;
   position: relative;
+  padding: 1rem;
+  width: 95%;
 }
 
 .search-modal__close {
-  top: 1em;
-  left: 0.5em;
   position: absolute;
+  top: calc(50% - 1em);
+  left: 1.25em;
 }
 
 .search-modal__input {
@@ -306,10 +307,10 @@ bridgetown-search-results::part(inner) {
   position: absolute;
   padding-top: 1em;
   top: 125%;
-  left: 0;
+  left: 5%;
   height: 100%;
   max-width: unset;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
 }
 
