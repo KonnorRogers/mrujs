@@ -76,23 +76,22 @@ function useTurbo (): boolean {
   return true
 }
 
-
 /**
  * @example
  *   window.mrujs.prefetch("/blah") // This will automatically put a string or URL into the cache.
  */
 async function prefetch (url: Locateable): Promise<void> {
-	const expandedUrl = expandUrl(url)
-	const response = await window.mrujs.fetch(expandedUrl, { method: "get" })
+  const expandedUrl = expandUrl(url)
+  const response = await window.mrujs.fetch(expandedUrl, { method: 'get' })
 
-	if (response == null) return
+  if (response == null) return
 
-	const fetchResponse = FetchResponse(response)
+  const fetchResponse = FetchResponse(response)
 
-	if (!fetchResponse.isHtml) return
+  if (!fetchResponse.isHtml) return
 
-	const html = await fetchResponse.html()
-	cacheHTML({ html, url })
+  const html = await fetchResponse.html()
+  cacheHTML({ html, url })
 }
 
 // This used to be prefetch.
@@ -166,10 +165,10 @@ function navigate (element: HTMLElement, request: FetchRequestInterface, respons
     errorRenderer = 'turbo'
   }
 
-	const shouldMorph = element.getAttribute("data-ujs-morph")
+  const shouldMorph = element.getAttribute('data-ujs-morph')
   const adapter = findAdapter()
 
-  if (response.failed || isSamePage || adapter == null || shouldMorph === "true") {
+  if (response.failed || isSamePage || adapter == null || shouldMorph === 'true') {
     // Use morphdom to dom diff the response if the response is HTML.
     morphResponse(element, response, !isSamePage, errorRenderer)
     return
