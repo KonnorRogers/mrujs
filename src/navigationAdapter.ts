@@ -82,7 +82,7 @@ function useTurbo (): boolean {
  */
 async function prefetch (url: Locateable): Promise<void> {
   const expandedUrl = expandUrl(url)
-  const response = await window.mrujs.fetch(expandedUrl.toString(), { method: 'get' })
+  const response = await window.mrujs.fetch(expandedUrl, { method: 'get' })
 
   if (response == null) return
 
