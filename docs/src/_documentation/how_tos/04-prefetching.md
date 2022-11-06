@@ -3,6 +3,14 @@ title: Prefetching
 permalink: /how-tos/prefetching
 ---
 
+<%= render(Alert.new(type: :danger)) do %>
+	Prefetching has changed in v1.0.0
+	It is now much smarter and doesn't require an HTML
+	string. If you're using the old "prefetch", the new
+	function is
+	<code class="highlight">mrujs.navigationAdapter.cacheHTML({html, url})</code>
+<% end %>
+
 ## [Why should I prefetch?](#why-should-i-prefetch)
 
 Because who doesn't love a nice warm cache on a cold winter day?
@@ -15,32 +23,15 @@ If you're using `Turbolinks`, feel free to jump ahead to
 If you're using `Turbo`, please read below about the current issues with
 Snapshot caching.
 
-<%= render(Alert.new(type: :warning, title: "Warning: Turbo users")) do %>
-  Turbo recently merged the ability to prefetch into the main branch. Mrujs will
-  throw a warning if prefetching is not enabled. To use the latest
-  version of Turbo add the following to your <code class="highlight">package.json</code>.
-<% end %>
-
-```json
-  {
-    "dependencies": {
-      "@hotwired/turbo": "https://github.com/hotwired/dev-builds/archive/@hotwired/turbo/latest.tar.gz"
-    }
-  }
-```
-
-
 ## [How do I prefetch?](#how-do-i-prefetch)
 
 Prefetching in mrujs leverages Turbo(links) snapshot cache.
 
-Prefetching expects two things, a string of HTML, and a url.
+Prefetching expects a string or a URL.
 
 ```js
-window.mrujs.navigationAdapter.prefetch({
-  url: "/how-tos",
-  html: "<div>Hi</div>"
-})
+window.mrujs.navigationAdapter.prefetch("/how-tos")
+window.mrujs.navigationAdapter.prefetch(new URL("/how-tos", document.baseURI))
 ```
 
 <%= render(Alert.new(type: :danger)) do %>
@@ -67,10 +58,7 @@ Lets look at an example:
 
 ```js
 const url = "/how-tos"
-window.mrujs.fetch(url, { method: "get" })
-  .then((response) => response.text())
-  .then((html) => window.mrujs.navigationAdapter.prefetch({ url, html }))
-  .catch((err) => console.error(err))
+window.prefetch(url)
 ```
 
 ## [Inspecting the cache](#inspecting-the-cache)
@@ -112,10 +100,7 @@ const url = "/how-tos"
 
 // If the url is not in the cache, go out and fetch it.
 if (navigationAdapter.cacheContains(url) === false) {
-  window.mrujs.fetch(url, { method: "get" })
-    .then((response) => response.text())
-    .then((html) => navigationAdapter.prefetch({ url, html }))
-    .catch((err) => console.error(err))
+  window.mrujs.prefetch(url)
 }
 ```
 

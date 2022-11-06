@@ -109,6 +109,8 @@ export function Mrujs (obj: Partial<MrujsInterface> = {}): MrujsInterface {
   obj.matches = matches
   obj.toArray = toArray
 
+  obj.prefetch = obj.navigationAdapter.prefetch
+
   return obj as MrujsInterface
 }
 

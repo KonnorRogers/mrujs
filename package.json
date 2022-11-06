@@ -22,9 +22,9 @@
   },
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
-  "repository": "git@github.com:ParamagicDev/mrujs.git",
+  "repository": "git@github.com:KonnorRogers/mrujs.git",
   "homepage": "https://mrujs.com",
-  "author": "ParamagicDev <konnor5456@gmail.com>",
+  "author": "KonnorRogers <konnor5456@gmail.com>",
   "license": "MIT",
   "keywords": [
     "ujs",

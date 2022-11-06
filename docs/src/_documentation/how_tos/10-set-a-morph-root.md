@@ -36,3 +36,22 @@ Do note, `data-ujs-morph-root` only applies to error
 handling. Successful form submissions are expected to
 redirect and their HTML / navigation will be piped through
 Turbo[links].
+
+However, if you want to render successful form submissions
+via morphdom, you can specify a 2nd property.
+
+`data-ujs-morph="true"`
+
+So at full speed you would do the following:
+
+```html
+<!-- full page morph -->
+<form data-ujs-morph="true"></form>
+
+<!-- With a morph root -->
+<div id="form-errors"></div>
+<form data-ujs-morph-root="#form-errors" data-ujs-morph="true"></form>
+
+<!-- Only morph the form on success -->
+<form data-ujs-morph-root data-ujs-morph="true"></form>
+```

@@ -1,3 +1,5 @@
+import { NavigationAdapterInterface } from "src/navigationAdapter"
+
 export type Locateable = URL | string
 export type AddOrRemoveListeners = 'addEventListener' | 'removeEventListener'
 export type Submitter = HTMLInputElement | HTMLButtonElement | null | undefined
@@ -120,7 +122,7 @@ export interface MrujsInterface extends QuerySelectorInterface {
   elementEnabler: MrujsPluginInterface
   elementDisabler: MrujsPluginInterface
   disabledElementChecker: MrujsPluginInterface
-  navigationAdapter: MrujsPluginInterface
+  navigationAdapter: MrujsPluginInterface & NavigationAdapterInterface
   clickHandler: MrujsPluginInterface
   confirmClass: MrujsPluginInterface
   csrf: MrujsPluginInterface
@@ -130,6 +132,7 @@ export interface MrujsInterface extends QuerySelectorInterface {
   // Functions
   stop: () => void
   fetch: (input: Request | Locateable, options?: ExtendedRequestInit) => undefined | Promise<Response>
+  prefetch: (url: Locateable) => Promise<void>
   restart: () => void
   urlEncodeFormData: (formData: FormData) => URLSearchParams
   registerMimeTypes: (mimeTypes: CustomMimeTypeInterface[]) => MimeTypeInterface
