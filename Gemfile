@@ -33,7 +33,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
   gem "evil_systems", "~> 0.2"
-  gem "webdrivers", "~> 4.0", require: false
+  gem 'webdrivers', '~> 5.0', require: false
   gem "selenium-webdriver", "~> 4.1"
 end
 

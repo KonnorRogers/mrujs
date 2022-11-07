@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@hotwired/turbo': ^7.1.0
@@ -23,7 +23,7 @@ dependencies:
   postcss: 8.3.11
   postcss-flexbugs-fixes: 5.0.2_postcss@8.3.11
   postcss-import: 14.0.2_postcss@8.3.11
-  postcss-preset-env: 7.0.1
+  postcss-preset-env: 7.0.1_postcss@8.3.11
   turbolinks: 5.2.0
 
 devDependencies:
@@ -704,9 +704,11 @@ packages:
       postcss-values-parser: 6.0.1_postcss@8.3.11
     dev: false
 
-  /postcss-preset-env/7.0.1:
+  /postcss-preset-env/7.0.1_postcss@8.3.11:
     resolution: {integrity: sha512-oB7IJGwLBEwnao823mS2b9hqbp5Brm0EZKWRVROayjGwyPQVjY9gZpPZk/ItFakdx7GAPgv3ya+9R3KrUqCwYA==}
     engines: {node: '>=12'}
+    peerDependencies:
+      postcss: ^8.3
     dependencies:
       autoprefixer: 10.4.0_postcss@8.3.11
       browserslist: 4.18.1
