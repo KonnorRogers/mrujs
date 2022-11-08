@@ -1,6 +1,7 @@
 require "test_helper"
 
 # 'capybara' and 'capybara/cuprite' need to be defined for EvilSystems to work properly.
+require "webdrivers"
 require 'capybara'
 require 'selenium-webdriver'
 require 'evil_systems'

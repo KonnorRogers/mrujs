@@ -7,6 +7,7 @@ import {
   Locateable, FetchRequestInterface, FetchResponseInterface,
   VisitAction, ErrorRenderer
 } from '../types'
+import { FetchResponse } from './http/fetchResponse'
 
 const ALLOWABLE_ACTIONS = [
   'advance',
@@ -16,7 +17,8 @@ const ALLOWABLE_ACTIONS = [
 
 export interface NavigationAdapterInterface extends MrujsPluginInterface {
   cacheContains: (url: Locateable) => boolean
-  prefetch: ({ html, url }: {html: string, url: Locateable}) => void
+  prefetch: (url: Locateable) => Promise<void>
+  cacheHTML: ({ html, url }: { html: string, url: Locateable }) => void
   navigate: (element: HTMLElement, request: FetchRequestInterface, response: FetchResponseInterface, action?: VisitAction) => void
 }
 
@@ -26,6 +28,7 @@ export function NavigationAdapter (): NavigationAdapterInterface {
     connect,
     disconnect,
     cacheContains,
+    cacheHTML,
     prefetch,
     navigate
   }
@@ -73,7 +76,26 @@ function useTurbo (): boolean {
   return true
 }
 
-function prefetch ({ html, url }: {html: string, url: Locateable}): void {
+/**
+ * @example
+ *   window.mrujs.prefetch("/blah") // This will automatically put a string or URL into the cache.
+ */
+async function prefetch (url: Locateable): Promise<void> {
+  const expandedUrl = expandUrl(url)
+  const response = await window.mrujs.fetch(expandedUrl, { method: 'get' })
+
+  if (response == null) return
+
+  const fetchResponse = FetchResponse(response)
+
+  if (!fetchResponse.isHtml) return
+
+  const html = await fetchResponse.html()
+  cacheHTML({ html, url })
+}
+
+// This used to be prefetch.
+function cacheHTML ({ html, url }: {html: string, url: Locateable}): void {
   const expandedUrl = expandUrl(url)
   const snapshot = generateSnapshotFromHtml(html)
   putSnapshotInCache(expandedUrl, snapshot)
@@ -143,16 +165,12 @@ function navigate (element: HTMLElement, request: FetchRequestInterface, respons
     errorRenderer = 'turbo'
   }
 
-  if (response.failed || isSamePage) {
-    // Use morphdom to dom diff the response if the response is HTML.
-    morphResponse(element, response, !isSamePage, errorRenderer)
-    return
-  }
-
+  const shouldMorph = element.getAttribute('data-ujs-morph')
   const adapter = findAdapter()
 
-  if (adapter == null) {
-    morphResponse(element, response, isSamePage, errorRenderer)
+  if (response.failed || isSamePage || adapter == null || shouldMorph === 'true') {
+    // Use morphdom to dom diff the response if the response is HTML.
+    morphResponse(element, response, !isSamePage, errorRenderer)
     return
   }
 
@@ -215,7 +233,7 @@ function preventDoubleVisit (response: FetchResponseInterface, location: Locatea
 
   // This is a fun wrapper to avoid double visits with Turbolinks
   response.html().then((html) => {
-    prefetch({ html, url: location })
+    cacheHTML({ html, url: location })
     action = 'restore'
     adapter.visit(location, { action })
   }).catch((error) => console.error(error))

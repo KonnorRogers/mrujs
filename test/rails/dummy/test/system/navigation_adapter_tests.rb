@@ -5,7 +5,7 @@ module NavigationAdapterTests
     test "Should add /posts to the snapshot cache" do
       pre_fetch_count = evaluate_script("window.mrujs.navigationAdapter.snapshotCache.keys.length")
 
-      execute_script("window.mrujs.navigationAdapter.prefetch({ url: '/posts', html: '<div>Hi</div>' })")
+      execute_script("window.mrujs.navigationAdapter.cacheHTML({ url: '/posts', html: '<div></div>' })")
 
       post_fetch_count = evaluate_script("window.mrujs.navigationAdapter.snapshotCache.keys.length")
 
