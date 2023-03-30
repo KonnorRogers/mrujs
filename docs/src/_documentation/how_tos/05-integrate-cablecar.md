@@ -47,6 +47,16 @@ server (or any Ruby server which provides a `Content-Type: text/vnd.cable-ready.
 header), and then automatically perform CableCar operations defined in the JSON payload
 return.
 
+Note that you can also configure the `Accept` header, by using the `mimeType` option:
+
+```js
+mrujs.start({
+  plugins: [
+    new CableCar(CableReady, { mimeType: "application/vnd.cable-ready.json" })
+  ]
+})
+```
+
 ## [Examples](#examples)
 
 ```html
