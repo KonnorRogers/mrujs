@@ -277,6 +277,7 @@ function morphHtml (html: string, selector: Element = document.body): void {
   const template = document.createElement('template')
   template.innerHTML = String(html).trim()
   morphdom(selector, template.content, { childrenOnly: true })
+  document.dispatchEvent(new CustomEvent("mrujs:afterMorph"))
 }
 
 function renderError (html: string): void {
