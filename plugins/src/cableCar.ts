@@ -13,7 +13,7 @@ export class CableCar {
 
   constructor (cableReady: CableReady, { mimeType }: CableCarConfig = {}) {
     this.cableReady = cableReady
-    this.mimeType = mimeType ?? "text/vnd.cable-ready.json";
+    this.mimeType = mimeType ?? 'text/vnd.cable-ready.json'
     this.boundPerform = this.perform.bind(this) as EventListener
   }
 

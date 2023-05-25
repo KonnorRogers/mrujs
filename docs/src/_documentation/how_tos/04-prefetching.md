@@ -39,6 +39,10 @@ window.mrujs.navigationAdapter.prefetch(new URL("/how-tos", document.baseURI))
   the url. This is prefilled for you by mrujs. If you're prefetching a
   different location with a baseURI different from the current baseURI, make sure to pass in
   an instance of URL with the proper domain.
+
+  IE:
+
+  <code class="highlight">window.mrujs.navigationAdapter.prefetch(new URL("/how-tos", "https://my-custom-domain.com"))</code>
 <% end %>
 
 The above is kind of a contrived example. Lets look at how we would prefetch
@@ -58,7 +62,7 @@ Lets look at an example:
 
 ```js
 const url = "/how-tos"
-window.prefetch(url)
+window.mrujs.prefetch(url)
 ```
 
 ## [Inspecting the cache](#inspecting-the-cache)
