@@ -9,18 +9,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 * prefetch now only takes a url
 
-* format
-
-* toString()
-
-* fix: tests run the real nav adapter
-
-* fix: tests run the real nav adapter
-
-* fix tests
-
-* Update navigation_adapter_tests.rb
-
 ### Features
 
 * add ujs:beforeMorph and ujs:afterMorph ([69bb10c](https://github.com/KonnorRogers/mrujs/commit/69bb10c01e1a2bb50e76bb5804156cf1d1a4d506))
