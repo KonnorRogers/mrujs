@@ -51,7 +51,7 @@
     "lint": "ts-standard plugins/ src/ test/js",
     "fix": "ts-standard plugins/ src/ test/js --fix",
     "test": "web-test-runner",
-    "test:ci": "pnpm lint && pnpm build && web-test-runner",
+    "test:ci": "pnpm lint && playwright install --with-deps && pnpm build && web-test-runner",
     "test:watch": "web-test-runner --watch",
     "start": "pnpm clean && web-dev-server",
     "start:watch": "web-dev-server --watch",
