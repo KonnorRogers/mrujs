@@ -277,7 +277,9 @@ function morphHtml (html: string, selector: Element = document.documentElement):
   const template = document.createElement('template')
   template.innerHTML = String(html).trim()
   const content = (selector === document.documentElement) ? template.innerHTML : template.content
+  document.dispatchEvent(new CustomEvent("ujs:beforeMorph"))
   morphdom(selector, content, { childrenOnly: true })
+  document.dispatchEvent(new CustomEvent("ujs:afterMorph"))
 }
 
 function renderError (html: string): void {

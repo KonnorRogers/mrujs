@@ -15,7 +15,7 @@ describe('CableCar with standard config', () => {
   })
 
   it('Should return true for the given content type', () => {
-    assert(cableCar.isCableReadyResponse("application/vnd.cable-ready.json; charset='utf-8'"))
+    assert(cableCar.isCableReadyResponse("text/vnd.cable-ready.json; charset='utf-8'"))
   })
 
   it('Should return true for the given content type', () => {

@@ -38,14 +38,24 @@ mrujs.start({
 Now, any link or form with `data-method="<method>"` or `data-remote="true"` will have the following `Accept` header:
 
 ```js
-"application/vnd.cable-ready.json, */*"
+"text/vnd.cable-ready.json, */*"
 ```
 
 which means any link or form with `data-method="<method>"` or `data-remote="true"` will
 perform an AJAX request, return JSON if it finds a CableCar response from your Rails
-server (or any Ruby server which provides a `Content-Type: application/vnd.cable-ready.json`
+server (or any Ruby server which provides a `Content-Type: text/vnd.cable-ready.json`
 header), and then automatically perform CableCar operations defined in the JSON payload
 return.
+
+Note that you can also configure the `Accept` header, by using the `mimeType` option:
+
+```js
+mrujs.start({
+  plugins: [
+    new CableCar(CableReady, { mimeType: "application/vnd.cable-ready.json" })
+  ]
+})
+```
 
 ## [Examples](#examples)
 
