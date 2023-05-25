@@ -37,6 +37,7 @@ jobs:
         run: |
           pnpm lint
           pnpm exec playwright install --with-deps
+          sudo apt-get install gstreamer1.0-libav
           pnpm test:ci
 
   ruby-test:
@@ -76,7 +77,6 @@ jobs:
     - name: Install via pnpm
       run: |
         pnpm install
-        pnpm exec playwright install --with-deps
         pnpm build
         cd test/rails/dummy
         pnpm install
