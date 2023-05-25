@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/KonnorRogers/mrujs/compare/v0.10.1...v1.0.0) (2023-05-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* prefetch now only takes a url
+
+* format
+
+* toString()
+
+* fix: tests run the real nav adapter
+
+* fix: tests run the real nav adapter
+
+* fix tests
+
+* Update navigation_adapter_tests.rb
+
+### Features
+
+* add ujs:beforeMorph and ujs:afterMorph ([69bb10c](https://github.com/KonnorRogers/mrujs/commit/69bb10c01e1a2bb50e76bb5804156cf1d1a4d506))
+
+
+### Bug Fixes
+
+* update default `Content-Type` to reflect the one used by `cable_ready`: `text/vnd.cable-ready.json` ([#209](https://github.com/KonnorRogers/mrujs/issues/209)) ([3826981](https://github.com/KonnorRogers/mrujs/commit/3826981245151118d6a71b042e9276c344f843a3))
+
+
+* BREAKING CHANGE: prefetch now only takes a url (#200) ([86ec3dd](https://github.com/KonnorRogers/mrujs/commit/86ec3ddea227c5125b2aa946af8e27837d4dae36)), closes [#200](https://github.com/KonnorRogers/mrujs/issues/200)
+
 ### [0.10.1](https://github.com/KonnorRogers/mrujs/compare/v0.10.0...v0.10.1) (2022-04-06)
 
 ## [0.10.0](https://github.com/KonnorRogers/mrujs/compare/v0.9.0...v0.10.0) (2022-04-06)
