@@ -83,7 +83,7 @@
     "@web/test-runner-playwright": "^0.8.4",
     "cable_ready": "*",
     "eslint": "^7.0.0",
-    "playwright": "^1.12.2",
+    "playwright": "^1.34.3",
     "rollup": "^2.56.3",
     "rollup-plugin-gzip": "^2.5.0",
     "rollup-plugin-terser": "^7.0.2",
