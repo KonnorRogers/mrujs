@@ -5,4 +5,5 @@ Rails.application.routes.draw do
 
   resources :posts
   resources :remote_links
+  resources :morphs
 end

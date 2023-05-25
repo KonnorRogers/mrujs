@@ -250,13 +250,13 @@ function morphResponse (element: HTMLElement, response: FetchResponseInterface, 
       } else if (errorRenderer === 'morphdom') {
         const selectorString = element.getAttribute('data-ujs-morph-root')
 
-        let selector = document.body
+        let selector = document.documentElement
 
         if (selectorString != null) {
           if (selectorString.trim() === '') {
             selector = element
           } else {
-            selector = document.querySelector(selectorString) ?? document.body
+            selector = document.querySelector(selectorString) ?? document.documentElement
           }
         }
 
@@ -273,11 +273,13 @@ function morphResponse (element: HTMLElement, response: FetchResponseInterface, 
     })
 }
 
-function morphHtml (html: string, selector: Element = document.body): void {
+function morphHtml (html: string, selector: Element = document.documentElement): void {
   const template = document.createElement('template')
   template.innerHTML = String(html).trim()
-  morphdom(selector, template.content, { childrenOnly: true })
-  document.dispatchEvent(new CustomEvent("mrujs:afterMorph"))
+  const content = (selector === document.documentElement) ? template.innerHTML : template.content
+  document.dispatchEvent(new CustomEvent("ujs:beforeMorph"))
+  morphdom(selector, content, { childrenOnly: true })
+  document.dispatchEvent(new CustomEvent("ujs:afterMorph"))
 }
 
 function renderError (html: string): void {
