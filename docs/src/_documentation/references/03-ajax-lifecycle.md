@@ -28,6 +28,9 @@ ajax:success
 ajax:complete
 ajax:beforeNavigation # => fires before the navigation adapter, can be stopped.
 ajax:stopped # => when event.preventDefault() is called or event.detail.fetchRequest.cancel(event) is called.
+
+ujs:beforeMorph
+ujs:afterMorph
 ```
 
 * Diagram of Ajax form submissions
