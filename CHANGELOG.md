@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### ⚠ BREAKING CHANGES
 
 * prefetch now only takes a url
+* morph now affects the full `<html>` document and not just `document.body`
 
 ### Features
 
