@@ -23,7 +23,7 @@
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
   "repository": "git@github.com:KonnorRogers/mrujs.git",
-  "homepage": "https://mrujs.com",
+  "homepage": "https://mrujs.netlify.app",
   "author": "KonnorRogers <konnor5456@gmail.com>",
   "license": "MIT",
   "keywords": [
