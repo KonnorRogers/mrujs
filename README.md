@@ -22,19 +22,19 @@ cd mrujs
 2. Install packages
 
 ```bash
-yarn install
+pnpm install
 ```
 
 ### View Dev Server
 
 ```bash
-yarn start
+pnpm run start
 ```
 
 ### Run tests
 
 ```bash
-yarn test
+pnpm test
 ```
 
 ## Rails
@@ -65,5 +65,5 @@ Docs are located in `/docs` and use Bridgetown + Netlify.
 
 To start the docs server do the following:
 
-`cd docs && yarn install && bundle install && yarn start`
+`cd docs && bundle install && bin/bridgetown start`
 
