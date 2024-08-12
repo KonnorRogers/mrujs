@@ -2,6 +2,7 @@ import { AJAX_EVENTS, dispatch } from './utils/events'
 import { EventQueryInterface, MrujsPluginInterface } from '../types'
 import { addListeners, removeListeners, attachObserverCallback } from './utils/dom'
 import { MethodSubmission } from './methodSubmission'
+import { isInsignificantClick } from './utils/misc'
 
 /**
  * Handles `data-method="method"` submissions.
@@ -46,9 +47,11 @@ export function Method (): MrujsPluginInterface {
   *   // Implemented!
   *   <a href="/users/5" data-method="delete" rel="nofollow">Delete</a>
   */
-export function handleMethod (event: Event): void {
+export function handleMethod (event: MouseEvent | Event): void {
   const element = event.currentTarget as HTMLElement
 
+  // Make sure we dont fire on ctrl clicks.
+  if (event instanceof MouseEvent && isInsignificantClick(event)) { return }
   if (element.dataset.remote === 'false') return
   if (element.dataset.method == null && element.dataset.remote !== 'true') return
 

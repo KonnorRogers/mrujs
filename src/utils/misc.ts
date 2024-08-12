@@ -1,6 +1,9 @@
 import { stopEverything } from '../utils/events'
 import { $ } from './dom'
 
+/**
+ * Any click that we shouldn't handle.
+ */
 export function isInsignificantClick (event: MouseEvent): boolean {
   return (
     ((event.target != null) && (event.target as HTMLElement).isContentEditable) ||
