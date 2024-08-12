@@ -49,22 +49,17 @@ jobs:
     strategy:
       matrix:
         ruby: ['2.7', '3.0']
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [20.x, 22.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: ruby/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v2
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
 
-
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 7.x.x
-        run_install: false
     - name: use node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
@@ -72,6 +67,11 @@ jobs:
           pnpm-lock.yaml
           plugins/pnpm-lock.yaml
           test/rails/dummy/pnpm-lock.yaml
+
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9.x.x
+        run_install: false
 
     - name: Install via pnpm
       run: |
