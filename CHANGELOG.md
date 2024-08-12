@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/KonnorRogers/mrujs/compare/v1.0.0...v1.0.1) (2024-08-12)
+
+
+### Bug Fixes
+
+* dont try to submit links that are alt / ctrl clicked ([#217](https://github.com/KonnorRogers/mrujs/issues/217)) ([7aea28b](https://github.com/KonnorRogers/mrujs/commit/7aea28b82b8dbb5addc74696a7a3f5baabce9388))
+
 ## [1.0.0](https://github.com/KonnorRogers/mrujs/compare/v0.10.1...v1.0.0) (2023-05-25)
 
 
