@@ -80,7 +80,8 @@ function getFormData (method: string): FormData {
   * get, post, put, patch, etc
   */
 function getElementMethod (element: HTMLElement): string {
-  const method = element.dataset.method ?? 'get'
+  // eslint-disable-next-line
+  const method = element.dataset.method || 'get'
   return method.toLowerCase()
 }
 

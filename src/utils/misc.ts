@@ -21,9 +21,15 @@ export function isSignificantClick (event: MouseEvent): boolean {
 }
 
 export function preventInsignificantClick (event: MouseEvent): void {
-  if (isSignificantClick(event)) return
+  // eslint-disable-next-line
+  const method = (event.target?.getAttribute?.('data-method') || event.target?.form?.method || 'get').toLowerCase()
 
-  stopEverything(event)
+  // Always let "get" pass through. They should be "idempotent"
+  if (method === 'get') { return }
+
+  if (isInsignificantClick(event)) {
+    stopEverything(event)
+  }
 }
 
 export function getCookieValue (cookieName?: string): string | undefined {
