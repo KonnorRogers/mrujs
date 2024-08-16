@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.0.2](https://github.com/KonnorRogers/mrujs/compare/v1.0.1...v1.0.2) (2024-08-16)
 
+
+### Bug Fixes
+
+* dont try to submit links that are alt / ctrl clicked (for real this time) ([#217](https://github.com/KonnorRogers/mrujs/issues/218))
+
+
 ### [1.0.1](https://github.com/KonnorRogers/mrujs/compare/v1.0.0...v1.0.1) (2024-08-12)
 
 
