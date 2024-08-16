@@ -21,10 +21,11 @@ export function isSignificantClick (event: MouseEvent): boolean {
 }
 
 export function preventInsignificantClick (event: MouseEvent): void {
-  let method = (event.target?.getAttribute?.("data-method") || event.target?.form?.method || "get").toLowerCase()
+  // eslint-disable-next-line
+  const method = (event.target?.getAttribute?.('data-method') || event.target?.form?.method || 'get').toLowerCase()
 
   // Always let "get" pass through. They should be "idempotent"
-  if (method === "get") { return }
+  if (method === 'get') { return }
 
   if (isInsignificantClick(event)) {
     stopEverything(event)
