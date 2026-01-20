@@ -86,13 +86,13 @@ export const BASE_SELECTORS: QuerySelectorInterface = {
 
 export function addListeners (conditions: EventQueryInterface[], callbacks: EventListener[]): void {
   conditions.forEach((condition) => {
-    const { selectors, event } = condition
+    const { selectors, event, eventOptions } = condition
     const selectorString = selectors.map(selectorToString).join(', ')
 
     $(selectorString).forEach((el: Element) => {
       selectors.forEach((selector) => {
         if (matches(el, selector)) {
-          callbacks.forEach((callback) => el.addEventListener(event, callback))
+          callbacks.forEach((callback) => el.addEventListener(event, callback, eventOptions || {}))
         }
       })
     })
