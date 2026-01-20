@@ -41,6 +41,7 @@ function getQueries (): EventQueryInterface[] {
     { event: AJAX_EVENTS.ajaxComplete, selectors: selectors },
     { event: AJAX_EVENTS.ajaxStopped, selectors: selectors },
     { event: 'turbo:submit-end', selectors: selectors }
+    { event: 'invalid', selectors: ['form'], eventOptions: { capture: true } }
   ]
 }
 
@@ -48,7 +49,16 @@ function getQueries (): EventQueryInterface[] {
 export function enableElement (trigger: Event | HTMLElement): void {
   let element = trigger as HTMLElement
 
-  if (trigger instanceof Event) element = trigger.target as HTMLElement
+  if (trigger instanceof Event) {
+    element = trigger.target as HTMLElement
+
+    if (trigger.type === "invalid") {
+      element = event.currentTarget
+      // Because this relies on "capture", we need a `setTimeout` to make it happen _after_ the event loop has finished.
+      setTimeout(() => enableElement(element))
+      return
+    }
+  }
 
   const { linkDisableSelector, buttonDisableSelector, formEnableSelector, formSubmitSelector } = window.mrujs
 

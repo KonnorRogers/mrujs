@@ -6,6 +6,7 @@ export type Submitter = HTMLInputElement | HTMLButtonElement | null | undefined
 
 export interface EventQueryInterface {
   event: string
+  eventOptions?: EventInit
   selectors: SelectorType[]
 }
 
