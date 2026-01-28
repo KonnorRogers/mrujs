@@ -34,7 +34,7 @@ function shoelaceFormListener (event: CustomEvent): void {
   mrujs()?.fetch(action, {
     element: form,
     dispatchEvents: true,
-    method: method,
+    method,
     body: mrujs().urlEncodeFormData(formData)
   })?.then(() => {})?.catch((err: string) => console.warn(err))
 }

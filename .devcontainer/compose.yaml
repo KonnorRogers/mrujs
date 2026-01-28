@@ -1,0 +1,12 @@
+name: "mrujs_devcontainer"
+
+services:
+  dev-environment:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../../mrujs:/workspaces/mrujs:cached
+    
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity

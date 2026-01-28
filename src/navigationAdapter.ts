@@ -95,7 +95,7 @@ async function prefetch (url: Locateable): Promise<void> {
 }
 
 // This used to be prefetch.
-function cacheHTML ({ html, url }: {html: string, url: Locateable}): void {
+function cacheHTML ({ html, url }: { html: string, url: Locateable }): void {
   const expandedUrl = expandUrl(url)
   const snapshot = generateSnapshotFromHtml(html)
   putSnapshotInCache(expandedUrl, snapshot)

@@ -1,7 +1,7 @@
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
 import commonjs from '@rollup/plugin-commonjs';
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import { brotliCompressSync } from 'zlib'
 import gzipPlugin from 'rollup-plugin-gzip'
 

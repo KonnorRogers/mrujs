@@ -38,9 +38,9 @@ function getQueries (): EventQueryInterface[] {
   const selectors: SelectorType[] = [linkDisableSelector, buttonDisableSelector,
     formSubmitSelector, inputChangeSelector]
   return [
-    { event: AJAX_EVENTS.ajaxComplete, selectors: selectors },
-    { event: AJAX_EVENTS.ajaxStopped, selectors: selectors },
-    { event: 'turbo:submit-end', selectors: selectors }
+    { event: AJAX_EVENTS.ajaxComplete, selectors },
+    { event: AJAX_EVENTS.ajaxStopped, selectors },
+    { event: 'turbo:submit-end', selectors }
   ]
 }
 

@@ -15,7 +15,7 @@ The official docs can be found here:
 1. Clone the repo
 
 ```bash
-git clone https://github.com/ParamagicDev/mrujs
+git clone https://github.com/KonnorRogers/mrujs
 cd mrujs
 ```
 
