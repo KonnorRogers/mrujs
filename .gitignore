@@ -157,3 +157,6 @@ docs/public
 # nodenv version file
 .node-version
 .pnpm-lock.yaml
+
+
+.pnpm-store/

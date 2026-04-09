@@ -75,6 +75,43 @@
       <input type="submit" value="Submit" />
     </form>
 
+    <form
+      data-testid="GET-200-constraint"
+      method="GET"
+      action="/demo/index.html"
+      data-remote="true"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">GET 200 with constraint validation (button)</label>
+      <input type="text" name="user[name]" required />
+      <button type="submit" data-disable-with="Submitting...">Submit</button>
+    </form>
+
+    <form
+      data-testid="GET-200-constraint-novalidate"
+      method="GET"
+      action="/demo/index.html"
+      data-remote="true"
+      novalidate
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">GET 200 with required attribute, but `novalidate` (will submit)</label>
+      <input type="text" name="user[name]" required />
+      <button type="submit" data-disable-with="Submitting...">Submit</button>
+    </form>
+
+    <form
+      data-testid="GET-200-constraint-input"
+      method="GET"
+      action="/demo/index.html"
+      data-remote="true"
+    >
+      <input type="hidden" name="authenticity_token">
+      <label for="user[name]">GET 200 with constraint validation & input type=submit</label>
+      <input type="text" name="user[name]" required />
+      <input type="submit" value="Submit" data-disable-with="Submitting..." />
+    </form>
+
     <a href="/" data-method="delete">DELETE</a>
     <button data-async-confirm="Hi">
       Yo
